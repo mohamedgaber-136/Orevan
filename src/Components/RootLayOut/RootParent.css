@@ -1,0 +1,13 @@
+[alt="NavArrow" ]{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    border-radius: 50%;
+    display: none;
+}
+@media(max-width:768px){
+[alt="NavArrow" ]{
+    display: block !important;
+    z-index: 5;
+}
+}

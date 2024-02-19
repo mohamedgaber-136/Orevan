@@ -1,0 +1,41 @@
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root fieldset{
+    border-radius: 5px !important;
+    border: 1px solid grey !important;
+}
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root input{
+    padding: 10px !important;
+}
+.FormDataParent{
+    border-radius: 8px !important;
+    position: relative;
+}
+.EditPen{
+    position: absolute;
+    top: -35%;
+    right: 5%;
+    cursor: pointer;
+}
+.SaveBtn{
+    position: absolute;
+    bottom: 15%;
+    right: 7%;
+
+}
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root{
+    color: grey !important;
+}
+[ type='password']::placeholder{
+    color: red;
+}
+.goToMyEventsBtn,.SaveBtn{
+    padding:8px 16px ;
+    border-radius: 4px;
+    background-color: #1367B1;
+    color: white;
+    border: none;
+}
+@media(max-width:767px){
+    .goToMyEventsBtn,.SaveBtn{
+        padding: 4px;
+    }
+}

@@ -1,0 +1,61 @@
+.PrivateNotchedOutline-root-1{
+    border-radius: 5px !important;
+}
+.MuiOutlinedInput-adornedEnd{
+    padding: 0 5px !important;
+}
+.css-1h51icj-MuiAutocomplete-root .MuiAutocomplete-tag {
+    background-color: var(--Deeb-blu) !important;
+    border-radius: 5px !important;
+
+    color:white !important;
+}
+.css-1h51icj-MuiAutocomplete-root .MuiAutocomplete-tag span {
+    color:white !important;
+}
+.css-1h51icj-MuiAutocomplete-root .MuiAutocomplete-tag svg {
+    color:white !important;
+}
+.MuiStack-root {
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
+.css-cqw1hc-MuiStack-root {
+    width: auto !important;
+}
+.timePickerBorder{
+    border: 1px solid gray;
+    width: 100% !important;
+    cursor: pointer;
+}
+.errorMsg{
+    position: absolute;
+    left: 0px;
+    background-color: white;
+    top: -25px;
+    font-size: 0.75rem;
+}
+.errorParent{
+    position: relative;
+}
+.errorBorder{
+    border: 1px solid red !important;
+}
+@media(max-width:1095px){
+    .SingleDelegate{
+        left: 20%;
+        top: 72% !important;
+        font-size: 0.6rem;
+    }
+}
+.SingleDelegate{
+    position: absolute;
+    top: -10px;
+    left: 60% ;
+    z-index: 3;
+    background-color: white;
+    font-weight: 600;
+}
+.franchiseDropDown{
+    border:1px solid grey !important;
+}

@@ -1,0 +1,23 @@
+.AccpetAllTermsBox{
+    justify-self: flex-start;
+}
+.StepTwoParent{
+    position:relative;
+}
+.css-1vgzwi7-MuiFormControl-root{
+    position:static !important;
+}
+.StepTwoContent{
+    width: 50%;
+}
+
+@media(max-width:768px){
+    .StepTwoContent{
+        width: 100%;
+    }
+    .AccpetAllTerms{
+        position:absolute;
+        right:5% !important;
+        bottom:-3%;
+    }
+}

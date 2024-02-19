@@ -1,0 +1,13 @@
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+    color: black !important;
+    margin: 0 !important;
+    cursor: pointer;
+    padding: 8px !important;
+}
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+    outline: none !important;
+    border:  none !important;
+}
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root fieldset {
+    border: none !important; 
+}

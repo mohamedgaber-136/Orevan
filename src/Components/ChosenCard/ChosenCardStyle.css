@@ -1,0 +1,36 @@
+.EventDetailTitle{
+    position: relative;
+}
+.EventDetailTitle::after{
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 5px;
+    background-color: var(--Deeb-blu);
+    bottom: -4px;
+    left: 0;
+    border-radius: 10px;
+}
+.choosenCard{
+    width:75%;
+}
+@media(max-width:960px){
+    .choosenCard{
+        width:100%;
+    }
+    .EventDetailsContent{
+        flex-direction: column;
+    }
+    
+}
+@media(max-width:768px){
+    .EventDetailsContent{
+        height: auto !important;
+    }
+    .choosenCard{
+        width:80%;
+    }
+}
+.EventDetailsContent{
+    height: 200px ;
+}

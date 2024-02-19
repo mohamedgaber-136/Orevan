@@ -1,0 +1,55 @@
+.MainNav{
+    width:270px ;
+    border: 2px solid rgb(255, 255, 255);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    background-color: var(--DashBoard-BG);  
+    box-shadow: 4px 0 20px 0px rgba(0, 0, 0,0.15) !important;
+    z-index: 2;
+    transition: 0.5s;
+}
+.MainNav ul li {
+    cursor: pointer;
+    color: #454545;
+}
+.MainNav ul li:hover{
+   background-color: var(--Deeb-blu );
+   color: white;
+   font-weight: 700;
+
+   
+}
+.selectedBtn {
+    background-color:  var(--Deeb-blu );
+    color: white !important;
+    font-weight: 700;
+}
+.MainNav ul div {
+    width: 100px;
+}
+.MainNav ul li i {
+    width: 20px;
+}
+
+.MainNav ul li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.SecondMenuLogo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+@media(max-width:768px){
+.MainNav{
+    left:-500px
+}
+.appearNav{
+    left: 0;
+    z-index: 100;
+    background-color: white;
+}
+}

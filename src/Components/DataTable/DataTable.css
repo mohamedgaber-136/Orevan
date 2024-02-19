@@ -1,0 +1,8 @@
+@media(max-width:768px) {
+    .dateTableTitle span {
+        font-size: 2.7vw;
+    }
+}
+.exportExcel{
+    cursor: pointer;
+}

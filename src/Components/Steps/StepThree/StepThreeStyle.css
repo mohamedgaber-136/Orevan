@@ -1,0 +1,47 @@
+.StepThreeBg {
+width: 500px;
+     position: relative;
+     border-radius: 40px;
+     border: none;
+}
+.StepThreeContent   {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    top: 48%;
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+    background-color: white !important;
+}
+@media(max-width:525px){
+    .StepThreeContent img {
+        width: 100% !important;
+    }
+    .StepThreeBg {
+        width: 300px;
+            }
+         
+}
+/* color picker  */
+.makeStyles-root-230{
+    align-items: center;
+}
+.css-gga68z-MuiInputBase-input{
+    padding: 4px !important;
+}
+.makeStyles-colorpickerButton-7{
+    margin: 0 4px !important;
+}
+.colorPickerParent{
+    position: relative;
+    flex-grow: 1;
+} 
+.ColorPickerTitle{
+    position: absolute;
+    font-size: 12px;
+    top: -10px;
+    color: grey !important;
+    left: 0;
+    z-index: 1;
+    background-color: white;
+}

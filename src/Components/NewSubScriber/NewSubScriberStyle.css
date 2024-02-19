@@ -1,0 +1,12 @@
+.NewSubScriberForm button{
+background-color: var(--Deeb-blu);
+}
+.NewSubScriberForm{
+    position: relative;
+}
+.CloseNewSub{
+    position: absolute;
+    right: 1%;
+    cursor: pointer;
+    top: 2%;
+}

@@ -1,0 +1,17 @@
+
+.WeekEeventsCard{
+    height: 70px;
+    flex-grow: 1;
+    border-radius: 10px;
+}
+@media(max-width:768px){
+    .WeekEeventsCard{
+        width: 33%;
+        height: auto;
+    }
+}
+@media(max-width:900px) {
+    .WeekEeventsCard{
+        width: 33%;
+    }
+}

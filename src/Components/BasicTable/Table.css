@@ -1,0 +1,39 @@
+/* WidthForTable */
+.basicTableHeight{
+    max-height: 465px !important ;
+
+}
+/* TablePosition */
+.MuiTableHead-root{
+    position: sticky !important;
+    top: 0;
+    background-color: white;
+}
+.MuiTableCell-root{
+    color: #5E5C5C !important;
+    border-bottom: none!important;
+}
+tr{
+    border-bottom: 2px solid rgba(0, 0, 0, 0.4) !important;
+}
+tr:last-child{
+border: none !important;
+}
+.MuiTableCell-root:nth-child(2){
+    color: black !important;
+    font-weight: 700 !important;
+}
+.MuiInputBase-root,.MuiPaper-rounded{
+    border-radius: 20px !important;
+}
+.TableTitle{
+    font-size: 24px;
+    font-weight:500 ;
+}
+.BasicTableParent{
+    box-shadow: 0px 0px 10px 5px rgba(235, 234, 234, 0.2) !important;
+}
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+    padding:8px 32px !important;
+    
+}

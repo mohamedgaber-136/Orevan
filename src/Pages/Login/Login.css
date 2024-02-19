@@ -1,0 +1,60 @@
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+    padding: 0 !important;
+}
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
+    border-radius: 5px !important;
+}
+.LoginTitle,.css-u4tvz2-MuiFormLabel-root{
+    font-weight: 700;
+}
+.LoginBtn{
+    background: var(--linear-orange);
+}
+.OrangeGradient{
+    color:#F1606B!important;
+}
+.RememberMeLabel{
+color:black !important;
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input,.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+    padding: 10px !important;
+    color: grey !important;
+    outline: none !important;
+}
+.LoginBorder{
+    border-right: 2px solid var(--Deeb-blu);
+}
+.loginImgParent img {
+    width: 100%;
+    object-fit: cover;
+}
+.LoginBorder,.loginImgParent{
+    width: 50%;
+}
+@media(max-width:767px){
+    .LoginBorder{
+        width: 100%;
+        border: 2px solid var(--Deeb-blu);
+        padding: 10px  !important;
+        border-radius: 20px !important;
+    } 
+    .loginImgParent{
+        display: none !important;
+    }
+    .ForgotContent{
+        font-size: 10px !important;
+    }
+    .LeftLogo {
+        height: 40px !important;
+    }
+    .LeftLogo img {
+        height: 100% !important;
+    }
+}
+.LeftLogo img ,.RighLogo img{
+width: 100%;
+}
+
+.LoginFooter{
+height: 60px ;
+}
