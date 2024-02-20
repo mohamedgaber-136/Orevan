@@ -5,9 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import ExportEventsExcel from '../ExportEventsExcel/ExportEventsExcel'
 import ExportSfda from "../ExportSfda/ExportSfda";
-export default function ExportDropDown({rows,sub}) {
-  console.log(sub, 'combined export dropdown')
-
+export default function ExportDropDown({rows}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -51,7 +49,7 @@ export default function ExportDropDown({rows,sub}) {
         <ExportSfda
          filename="exported_data"
          sheetname="Sheet 1"
-         data={sub}
+         data={rows}
        /> 
      </MenuItem>   
       </Menu>

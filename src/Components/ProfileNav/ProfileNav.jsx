@@ -1,9 +1,7 @@
 import {useNavigate} from 'react-router-dom'
 import AlertBadge from '../AlertBage/AlertBadge'
-
 import { BinBadge } from '../binBadge/BinBadge'
 import  ProfileMenu  from '../ProfileMenu/ProfileMenu'
-import ModalProfileData from '../ModalProfileData/ModalProfileData'
 export const ProfileNav = () => {
   const navigate = useNavigate()
   

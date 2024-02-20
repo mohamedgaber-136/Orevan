@@ -40,13 +40,11 @@ export const Dashboard = () => {
     if (currentUserRole) {
       getData(eventsQueryAccordingToUserRole(), setData);
     }
-    // getData(EventRefrence, setData);
   }, [currentUserRole]);
 
   useEffect(() => {
     if (data.length !== 0) {
       setEventsAccordingToRole(data);
-      // setEventsAccordingToRole([...setEventsListDataAccordingToUserRole(data)]);
     }
   }, [data]);
   return (

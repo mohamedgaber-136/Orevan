@@ -20,7 +20,7 @@ export const ChosenCard = () => {
 
   return (
     // Dashboard Events Counts Card ----------------------------------
-    <>
+    <div className="w-100">
       {ResultData ? (
         <div className=" choosenCard bg-white px-3 py-2 rounded-2 rounded">
           <h2 className="EventDetailTitle">Event Details</h2>
@@ -164,6 +164,6 @@ export const ChosenCard = () => {
           </div>
         </div>
       )} 
-    </>
+    </div>
   );
 };

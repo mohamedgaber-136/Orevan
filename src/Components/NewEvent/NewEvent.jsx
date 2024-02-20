@@ -10,23 +10,21 @@ import { StepTwo } from "../Steps/StepTwo/StepTwo";
 import { StepThree } from "../Steps/StepThree/StepThree";
 import { StepFour } from "../Steps/StepFour/StepFour";
 import { FireBaseContext } from "../../Context/FireBase";
-import { addDoc, setDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc } from "firebase/firestore";
 import { SearchContext } from "../../Context/SearchContext";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 export default function NewEvent() {
   const [activeStep, setActiveStep] = useState(0);
   const navigation = useNavigate();
   const {
     TeamsRefrence,
-    setTriggerNum,
-    triggerNum,
     newEvent,
     EventRefrence,
     setNewEvent,
     IdIncluded,
     setId,
     currentUsr,
-    database,
     saveNotificationToFirebase
   } = useContext(FireBaseContext);
   const { setAccpetAll, AccpetAllTermss, } = useContext(SearchContext);
@@ -59,17 +57,17 @@ export default function NewEvent() {
   useEffect(() => {
     if (!activeStep) {
       if (
-        newEvent.EventName == "" ||
-        newEvent.PO == "" ||
-        newEvent.CostperDelegate == "" ||
-        newEvent.P3 == "" ||
-        newEvent.Franchise == "" ||
-        newEvent.DateFromHours == "" ||
-        newEvent.DateEndHours == "" ||
-        newEvent.EndDate == "" ||
-        newEvent.StartDate == "" ||
-        newEvent.City.length == 0 ||
-        newEvent.TransferOfValue.length == 0
+        newEvent.EventName === "" ||
+        newEvent.PO === "" ||
+        newEvent.CostperDelegate === "" ||
+        newEvent.P3 === "" ||
+        newEvent.Franchise === "" ||
+        newEvent.DateFromHours === "" ||
+        newEvent.DateEndHours === "" ||
+        newEvent.EndDate === "" ||
+        newEvent.StartDate === "" ||
+        newEvent.City.length === 0 ||
+        newEvent.TransferOfValue.length === 0
       ) {
         setOpen(true);
       } else {
@@ -78,7 +76,7 @@ export default function NewEvent() {
     }
   }, [newEvent]);
   useEffect(() => {
-    if (activeStep == 2) {
+    if (activeStep === 2) {
       if (newEvent.Id) {
         setId(false);
       } else {
@@ -105,27 +103,23 @@ export default function NewEvent() {
   };
   const SendDataToFireBase = async () => {
     const ref= doc(TeamsRefrence,newEvent.Franchise)
-    const refCollec = collection(ref,'Events')
-    await addDoc(refCollec, {
-      // ID: item,
-      CreatedByID: currentUsr,
-      ...newEvent,
-    });
-    await addDoc(EventRefrence, { ...newEvent, CreatedByID: currentUsr }).then(
-      async (snapshot) => {
-     
-
-       saveNotificationToFirebase(snapshot.id,)
-      }
-    );
-
-    // add notification for this event
-    console.log(ref)
-    
-    // const FranchiseRef = doc(TeamsRefrence,newEvent.Franchise);
-    // console.log(FranchiseRef)
-    // const collRef = collection(FranchiseRef, "Events");
-    // await addDoc(ref, { ...newEvent, UserID: currentUsr });
+    const refCollec = collection(ref,'Events')   
+    swal({
+      icon: "success",
+      title: `Event ${newEvent.Id} added`,
+    }).then( async ()=>{
+      await addDoc(refCollec, {
+        CreatedByID: currentUsr,
+        ...newEvent,
+      });
+      await addDoc(EventRefrence, { ...newEvent, CreatedByID: currentUsr }).then(
+        async (snapshot) => {
+         saveNotificationToFirebase(snapshot.id,)
+        }
+        );
+    })
+  
+      navigation("/app/events");
     setNewEvent({
       EventName: "",
       CostperDelegate: "",
@@ -145,8 +139,6 @@ export default function NewEvent() {
       ButtonColor: "#00F",
       AccpetAllTermss: false,
     });
-    // setTriggerNum(triggerNum + 1);
-    navigation("/app/events");
   };
   useEffect(() => {
     if (activeStep == 1) {
@@ -223,12 +215,12 @@ export default function NewEvent() {
                   className={`text-white " bg-secondary" ${
                     open ||
                     IdIncluded ||
-                    (activeStep == 1 && !newEvent.AccpetAllTermss)
+                    (activeStep === 1 && !newEvent.AccpetAllTermss)
                       ? " bg-secondary"
                       : "btn-DarkBlue"
                   }`}
                   disabled={
-                    (activeStep == 1 && !newEvent.AccpetAllTermss) ||
+                    (activeStep === 1 && !newEvent.AccpetAllTermss) ||
                     open ||
                     IdIncluded
                   }

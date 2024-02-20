@@ -125,7 +125,11 @@ export const UpdateSubscriberForm = ({ user ,handleClose}) => {
   }, []);
   if (updatedData) {
     return (
+     
+                
+<>  <h2>Edit SubScriber</h2>
       <Formik>
+
         {() => (
           <Form
             onSubmit={addNewSubScriber}
@@ -256,13 +260,14 @@ export const UpdateSubscriberForm = ({ user ,handleClose}) => {
                   Save
                 </button>
               </div>
-              <div className="w-50 d-flex justify-content-center">
+              {/* <div className="w-50 d-flex justify-content-center">
                 <UploadBtnSub id={user.ID} setImg={setDownloadUrl} />
-              </div>
+              </div> */}
             </div>
           </Form>
         )}
       </Formik>
+      </>
     );
   }else{
       return(<div className="w-100 d-flex justify-content-center" >

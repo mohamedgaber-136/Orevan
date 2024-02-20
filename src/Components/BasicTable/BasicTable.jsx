@@ -45,7 +45,6 @@ break;
   default:
 
 }
-
   },[date])
   return (
     <TableContainer

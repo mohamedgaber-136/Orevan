@@ -8,18 +8,18 @@ export const SelectComponent = ({setdate,date}) => {
   };
   return (
     <FormControl      
-    sx={{ m: 0, minWidth: 20 }}>
+    sx={{ m: 0, minWidth: 20 ,border:'1px solid grey' ,borderRadius:2,p:0}}>
     <Select
       value={date}
       onChange={handleChange}
       displayEmpty
       inputProps={{ 'aria-label': 'Without label' }} 
     >
-      <MenuItem value="This Month">
+      <MenuItem value="This Month" >
         <span>This Month</span>
       </MenuItem>
-      <MenuItem value="This Day">This Day</MenuItem>
-      <MenuItem value="This Week">This Week</MenuItem>
+      <MenuItem value="This Day"><span> This Day </span></MenuItem>
+      <MenuItem value="This Week"><span> This Week</span> </MenuItem>
     </Select>
   </FormControl>  )
 }

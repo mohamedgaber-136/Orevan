@@ -321,7 +321,7 @@ export default function TeamsTable({ row }) {
                           navigate("/app/MyEvents", { state: row })
                         }
                       >
-                        GO TO MY EVENTS
+                        Go To My Events
                       </button>
                     </TableCell>
                   </TableRow>

@@ -41,10 +41,6 @@ import SearchText from "../SearchText/SearchText";
 export default function SubScribersTable({ rows, refCollection }) {
   const {
     setUpdateUser,
-    database,
-    SubscribersRefrence,
-    setTriggerNum,
-    triggerNum,
     SubscribersDeletedRef,
   } = React.useContext(FireBaseContext);
   const [order, setOrder] = React.useState("asc");
@@ -81,30 +77,6 @@ export default function SubScribersTable({ rows, refCollection }) {
     });
     return stabilizedThis?.map((el) => el[0]);
   }
-  const removeSubscriber = async (id) => {
-    const ref = doc(refCollection, id);
-    const item = await getDoc(ref);
-    swal({
-      title: "Are you sure You want Delete this subscriber?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then(async (willDelete) => {
-      if (willDelete) {
-        swal({
-          icon: "success",
-        });
-        await deleteDoc(ref);
-        await setDoc(doc(SubscribersDeletedRef, id), {
-          event: dbID,
-          ID: id,
-          timing: serverTimestamp(),
-          ...item.data(),
-        });
-      }
-    });
-  };
-// Settings Options 
   // HeadTitles
   const headCells = [
     {
@@ -351,6 +323,7 @@ export default function SubScribersTable({ rows, refCollection }) {
                       key={row.ID}
                       selected={isItemSelected}
                       sx={{ cursor: "pointer" }}
+                      className="align-items-center"
                     >
                       <TableCell
                         padding="checkbox"
@@ -381,7 +354,7 @@ export default function SubScribersTable({ rows, refCollection }) {
                       <TableCell align="right">{row.City}</TableCell>
                       <TableCell
                         align="right"
-                        className="subRowImg d-flex ps-4 pe-0 gap-1 align-items-center"
+                        className="subRowImg d-flex ps-3 pe-0 pb-0 gap-1 align-items-center "
                       >
                         <UploadBtn id={row.ID} info={row.image && "d-none"} />
                         {row.image && (

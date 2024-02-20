@@ -86,8 +86,9 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
         <MenuItem onClick={() => removeSubscriber(rowId)}>
           <div className="d-flex   justify-content-center align-items-center w-75  gap-2 ">
             {" "}
-            <span className="   w-75 darkBlue">delete</span>
             <i className={`fa-solid fa-trash darkBlue w-25`}></i>
+            <span className="   w-75 darkBlue">delete</span>
+           
           </div>
         </MenuItem>
       </Menu>

@@ -37,17 +37,16 @@ import {
 import SearchText from "../SearchText/SearchText";
 import ImportExcel from "../ImportExcel/ImportExcel";
 import { SearchFormik } from "../SearchFormik/SearchFormik";
-export default function DataTable({ row, sub }) {
+export default function DataTable({ row }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
+  const [rows, setRows] = React.useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const {
     EventRefrence,
     EventsDeletedRef,
-    rows,
-    setRows,
     database,
   } = React.useContext(FireBaseContext);
   const navigate = useNavigate();
@@ -78,7 +77,7 @@ export default function DataTable({ row, sub }) {
   }
   React.useEffect(() => {
     setRows(row);
-  }, [row]);
+  }, [row,selected]);
   // HeadTitles ----------------------------------------------
   const headCells = [
     {
@@ -91,13 +90,13 @@ export default function DataTable({ row, sub }) {
       id: "EventName",
       numeric: true,
       disablePadding: false,
-      label: "NAME",
+      label: "Name",
     },
     {
       id: "CostperDelegate",
       numeric: true,
       disablePadding: false,
-      label: "COST / DELEGATE	",
+      label: "Cost / Delegate	",
     },
     {
       id: "EventCost",
@@ -267,6 +266,7 @@ export default function DataTable({ row, sub }) {
         swal({
           icon: "success",
         });
+        console.log(arr,'arr')
         arr.map(async (item) => {
           const ref = doc(EventRefrence, item);
           const info = await getDoc(ref);
@@ -286,14 +286,15 @@ export default function DataTable({ row, sub }) {
             });
           });
           await deleteDoc(ref);
-        });
+
+        }      
+        );
       }
     });
   };
   //  /-----------ToolBar
   function EnhancedTableToolbar(props) {
     const { numSelected } = props;
-
     return (
       <Toolbar
         sx={{
@@ -309,6 +310,7 @@ export default function DataTable({ row, sub }) {
         }}
       >
         {numSelected > 0 ? (
+          <>
           <Typography
             sx={{ flex: "1 1 100%" }}
             color="inherit"
@@ -317,6 +319,12 @@ export default function DataTable({ row, sub }) {
           >
             {numSelected} selected
           </Typography>
+            <Tooltip title="Delete">
+            <IconButton onClick={() => DeleteField(selected)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+            </>
         ) : (
           <Typography
             sx={{ flex: "0 1 100%" }}
@@ -329,13 +337,9 @@ export default function DataTable({ row, sub }) {
           </Typography>
         )}
 
-        {numSelected > 0 && (
-          <Tooltip title="Delete">
-            <IconButton onClick={() => DeleteField(selected)}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+   
+        
+        
       </Toolbar>
     );
   }
@@ -349,11 +353,11 @@ export default function DataTable({ row, sub }) {
       <div className=" d-flex align-items-center gap-2 p-3 d-flex justify-content-end ">
         <span className="d-flex gap-2 align-items-center">
           <span className="fs-6 exportExcel">
-            <ExportDropDown rows={rows} sub={sub} />{" "}
+            <ExportDropDown rows={rows}  />{" "}
           </span>
         </span>
         <ImportExcel />
-        <SearchText list={row} />
+        <SearchText list={rows} />
       </div>
       <EnhancedTableToolbar numSelected={selected.length} />
       <TableContainer>

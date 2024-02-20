@@ -11,9 +11,7 @@
     left: 0;
     border-radius: 10px;
 }
-.choosenCard{
-    width:75%;
-}
+
 @media(max-width:960px){
     .choosenCard{
         width:100%;

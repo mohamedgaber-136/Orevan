@@ -29,8 +29,8 @@ export default function UpdateSubModel({user}) {
   return (
     <>
       <Button  onClick={handleClickOpen} className=' darkBlue w-100  d-flex justify-content-start  p-0'>
-<div className="w-75 d-flex justify-content-between align-items-center">
-<span>edit</span> <i className={`fa-solid fa-pen w-25`}></i> 
+<div className="w-75 d-flex justify-content-start align-items-center gap-2">
+<i className={`fa-solid fa-pen w-25`}></i> <span>edit</span> 
 </div>
          
      </Button>

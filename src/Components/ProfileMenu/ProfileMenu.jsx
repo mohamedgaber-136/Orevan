@@ -7,11 +7,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import {  
-    doc,
-    getDoc,
-   
-  } from "firebase/firestore";
 import Logout from '@mui/icons-material/Logout';
 import { useContext } from 'react'
 import { FireBaseContext } from '../../Context/FireBase'
@@ -20,12 +15,11 @@ import ModalProfileData from '../ModalProfileData/ModalProfileData';
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate()
-  const [Current,setCurrent] = useState(null) 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const {auth,currentUsr,UserRef} = useContext(FireBaseContext)
+  const {auth} = useContext(FireBaseContext)
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -57,7 +51,6 @@ export default function ProfileMenu() {
         id="account-menu"
         open={open}
         onClose={handleClose}
-        // onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
