@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Orevan/static/css/main.0486e280.css",
+    "main.js": "/Orevan/static/js/main.9d61a2c5.js",
+    "static/css/616.b22f37eb.chunk.css": "/Orevan/static/css/616.b22f37eb.chunk.css",
+    "static/js/616.0fc0e101.chunk.js": "/Orevan/static/js/616.0fc0e101.chunk.js",
+    "static/js/592.addaf96d.chunk.js": "/Orevan/static/js/592.addaf96d.chunk.js",
+    "static/media/fast-forward.gif": "/Orevan/static/media/fast-forward.2d0db2c08622a43d3719.gif",
+    "static/media/LoginBg.png": "/Orevan/static/media/LoginBg.ff1ed884db7bfa966b86.png",
+    "static/media/LoadingLogo.png": "/Orevan/static/media/LoadingLogo.7604638c571841540ba8.png",
+    "index.html": "/Orevan/index.html",
+    "main.0486e280.css.map": "/Orevan/static/css/main.0486e280.css.map",
+    "main.9d61a2c5.js.map": "/Orevan/static/js/main.9d61a2c5.js.map",
+    "616.b22f37eb.chunk.css.map": "/Orevan/static/css/616.b22f37eb.chunk.css.map",
+    "616.0fc0e101.chunk.js.map": "/Orevan/static/js/616.0fc0e101.chunk.js.map",
+    "592.addaf96d.chunk.js.map": "/Orevan/static/js/592.addaf96d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0486e280.css",
+    "static/js/main.9d61a2c5.js"
+  ]
+}
