@@ -6,20 +6,24 @@ export const Protected = ({ children, nestedRoute }) => {
   const [isNotAuthorized, setIsNotAuthorized] = useState(false);
 
   useEffect(() => {
-    if (currentUserRole) console.log(currentUserRole, "role");
-    setIsNotAuthorized(currentUserRole.toLowerCase().includes("brand Manager"));
+    if (currentUserRole){
+      setIsNotAuthorized(currentUserRole.toLowerCase().includes("brand manager"));
+    }
+    
   }, [currentUserRole]);
 
   // const isNotAuthorized = currentUserRole.toLowerCase().includes("franchise");
   console.log(isNotAuthorized, "isNotAuthorized protected");
 
-  if (!currentUsr) {
-    return <Navigate to="/" replace />;
-  }
-  if (isNotAuthorized && nestedRoute && currentUsr) {
-    return <Navigate to="/app" replace />;
-  }
-  // } else {
-  return children;
+  // if (!currentUsr) {
+  //   return <Navigate to="/" replace />;
+  // }else{
+     return children;
+  // }
+  // if (isNotAuthorized && nestedRoute && currentUsr) {
+  //   return <Navigate to="/app" replace />;
+  // }
+  // // } else {
+  // return children;
   // }
 };

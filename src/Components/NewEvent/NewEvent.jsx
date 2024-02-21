@@ -112,12 +112,12 @@ export default function NewEvent() {
         CreatedByID: currentUsr,
         ...newEvent,
       });
-      await addDoc(EventRefrence, { ...newEvent, CreatedByID: currentUsr }).then(
-        async (snapshot) => {
-         saveNotificationToFirebase(snapshot.id,)
-        }
-        );
     })
+    await addDoc(EventRefrence, { ...newEvent, CreatedByID: currentUsr }).then(
+      async (snapshot) => {
+       saveNotificationToFirebase(snapshot.id,)
+      }
+      );
   
       navigation("/app/events");
     setNewEvent({

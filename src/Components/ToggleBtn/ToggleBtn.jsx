@@ -53,7 +53,7 @@ export default function ToggleBtn() {
     <FormGroup>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography>AmexNum</Typography>
-        <AntSwitch defaultChecked inputProps={{ 'ant design': 'aria-label' }} />
+        <AntSwitch defaultChecked inputProps={{ 'antdesign': 'aria-label' }} />
         <Typography>PO</Typography>
       </Stack>
     </FormGroup>

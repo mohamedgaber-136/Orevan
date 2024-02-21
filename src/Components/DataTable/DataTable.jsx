@@ -357,7 +357,7 @@ export default function DataTable({ row }) {
           </span>
         </span>
         <ImportExcel />
-        <SearchText list={rows} />
+        <SearchText list={rows} setRows={setRows} row={row} />
       </div>
       <EnhancedTableToolbar numSelected={selected.length} />
       <TableContainer>

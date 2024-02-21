@@ -137,7 +137,7 @@ export const SearchFormik = ({rows,setRows}) => {
         
             <div className="d-flex gap-2 h-100 align-items-start flex-column">
 
-<button type='button' onClick={onSubmit} className={`${disabledBtn?'d-none':'btn-DarkBlue text-white p-2 rounded'}`}>Search</button>
+<button type='button' onClick={onSubmit} className={'btn-DarkBlue text-white p-2 rounded'}>Search</button>
             </div>
           </div>
         </Form>

@@ -44,70 +44,73 @@ export default function AlertBadge() {
 
   const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    // Set up real-time listener for changes in the 'notifications' collection
-    const notificationsQuery = query(
-      collection(database, "notifications"),
-      where("CreatedByID", "!=", currentUsr)
-    );
-    const unsubscribe = onSnapshot(notificationsQuery, (snapshot) => {
-      console.log(triggerNum, "triggerNum");
+  // useEffect(() => {
+  //   // Set up real-time listener for changes in the 'notifications' collection
+  //   const notificationsQuery = query(
+  //     collection(database, "notifications"),
+  //     where("CreatedByID", "!=", currentUsr)
+  //   );
+  //   const unsubscribe = onSnapshot(notificationsQuery, (snapshot) => {
+  //     console.log(triggerNum, "triggerNum");
 
-      // setSanckBarConfig({ open: true, message: 'New Notification'});
+  //     // setSanckBarConfig({ open: true, message: 'New Notification'});
 
-      const newNotifications = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+  //     const newNotifications = snapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       ...doc.data(),
+  //     }));
 
-      const editedNotifications = newNotifications
-        .sort((x, y) =>
-          new Date(x.CreatedAt).getTime() < new Date(y.CreatedAt).getTime()
-            ? 1
-            : -1
-        )
-        .map((notify, index) => {
-          if (index == 0) {
-            console.log(new Date(notify.TimeStamp));
-            console.log(new Date(notify.TimeStamp).getTime());
-            const currentDate = new Date().getTime();
-            console.log(new Date());
-            console.log(currentDate, "current");
-            // check if the notification created during 1000 milliseconds
-            if (
-              notify.TimeStamp <= currentDate &&
-              notify.TimeStamp >= currentDate - 10000 &&
-              !notify.isReadUsersID.find((item) => item == currentUsr)
-            ) {
-              console.log("New Notification");
-              setSanckBarConfig({
-                open: true,
-                message: "You have new notification",
-              });
-            }
-            // console.log(new Date("Mon Feb 19 2024 15:41:00").getTime(), "test");
-            // console.log(new Date("Mon Feb 19 2024 15:42:00").getTime(), "test");
-            // one minute == 60000 miliseconds
-          }
-          const found = notify.isReadUsersID.find((item) => item == currentUsr);
-          if (found) {
-            return { ...notify, isRead: true };
-          }
-          return { ...notify, isRead: false };
-        });
-      // sort notify
-      console.log(triggerNum, "triggerNum");
-      setTriggerNum(
-        editedNotifications.slice(0, 5).filter(({ isRead }) => isRead == false)
-          .length
-      );
+  //     const editedNotifications = newNotifications
+  //       .sort((x, y) =>
+  //         new Date(x.CreatedAt).getTime() < new Date(y.CreatedAt).getTime()
+  //           ? 1
+  //           : -1
+  //       )
+  //       .map((notify, index) => {
+  //         if (index === 0) {
+  //           console.log(new Date(notify.TimeStamp));
+  //           console.log(new Date(notify.TimeStamp).getTime());
+  //           const currentDate = new Date().getTime();
+  //           console.log(new Date());
+  //           console.log(currentDate, "current");
+  //           // check if the notification created during 1000 milliseconds
+  //           if (
+  //             notify.TimeStamp <= currentDate &&
+  //             notify.TimeStamp >= currentDate - 10000 &&
+  //             !notify.isReadUsersID.find((item) => item === currentUsr)
+  //           ) {
+  //             console.log("New Notification");
+  //             setSanckBarConfig({
+  //               open: true,
+  //               message: "You have new notification",
+  //             });
+  //           }
+  //           // console.log(new Date("Mon Feb 19 2024 15:41:00").getTime(), "test");
+  //           // console.log(new Date("Mon Feb 19 2024 15:42:00").getTime(), "test");
+  //           // one minute == 60000 miliseconds
+  //         }
+  //         const found = notify.isReadUsersID.find((item) => item == currentUsr);
+  //         if (found) {
+  //           return { ...notify, isRead: true };
+  //         }
+  //         return { ...notify, isRead: false };
+  //       });
+  //     // sort notify
+  //     console.log(triggerNum, "triggerNum");
+  //     setTriggerNum(
+  //       editedNotifications.slice(0, 5).filter(({ isRead }) => isRead == false)
+  //         .length
+  //     );
 
-      setNotifications([...editedNotifications]);
-    });
+  //     setNotifications([...editedNotifications]);
+  //   });
 
-    // Clean up the listener when the component unmounts
-    return () => unsubscribe();
-  }, []); // Empty dependency array means this effect runs once when the component mounts
+  //   // Clean up the listener when the component unmounts
+  //   return () => unsubscribe();
+  // }, []); 
+  
+  
+  // Empty dependency array means this effect runs once when the component mounts
 
   // if (currentUserRole.toLowerCase().includes("manager")) {
   //   const notificationsQuery = query(

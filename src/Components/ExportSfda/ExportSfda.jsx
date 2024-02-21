@@ -42,6 +42,7 @@ const ExportSfda = ({ data, filename, sheetname }) => {
                 Organization: subItem.Organization,
                 "Phone Number": subItem.PhoneNumber,
                 "Event ID": item.Id,
+                "Signature":subItem.image
               };
             })
           );
@@ -72,6 +73,7 @@ const ExportSfda = ({ data, filename, sheetname }) => {
       "Organization",
       "Subscriber City",
       "Subscriber ID",
+      "Signature"
     ];
     worksheet.addRow([...headersList]);
 
@@ -111,12 +113,12 @@ const ExportSfda = ({ data, filename, sheetname }) => {
     // Add data rows
     finalDataToExport.map((rowItem, index) => {
       const holder = [
-        ...headersList.map((head) => {
-          const convertItem = isNaN(Number(rowItem[head]))
+        ...headersList.map((head) => {        
+            const convertItem = isNaN(Number(rowItem[head]))
             ? rowItem[head]
             : Number(rowItem[head]);
-          return rowItem[head] ? convertItem : "";
-        }),
+            return rowItem[head] ? convertItem : "";              
+          }),
       ];
       worksheet.addRow([...holder]);
  
@@ -131,7 +133,16 @@ const ExportSfda = ({ data, filename, sheetname }) => {
         cell.alignment = { horizontal: "center", vertical: "middle" };
       });
     });
+    finalDataToExport.map((item,ind)=>{
+  const data = item["Signature"] 
+  if(data){
+    worksheet.getCell(`U${ind+2}`).value = {
+      text: 'Signature',
+      hyperlink: data,
+    }
+  };
 
+    })
     // Set column widths to fit the content
     worksheet.columns.forEach((column, colIndex) => {
       let maxLength = 0;

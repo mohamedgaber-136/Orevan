@@ -5,19 +5,23 @@ import loginBg from "../../assets/LoginBg.png";
 import leftLogo from "../../assets/LoadingLogo.png";
 import rightlogo from "../../assets/Logo2.png";
 import "./Login.css";
+import bcrypt from 'bcryptjs';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { Formik, Form } from "formik";
 import { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 const Login = () => {
   const navigation = useNavigate();
   const [error, setError] = useState(false);
-  const { auth } = useContext(FireBaseContext);
+  const [errorRegist, seterrorRegist] = useState(false);
+  const { auth,database } = useContext(FireBaseContext);
   const [ShowSpinning, setShowSpinning] = useState(false);
+  
+  console.log('hi')
   const formData = [
     {
       type: "text",
@@ -29,29 +33,43 @@ const Login = () => {
     },
   ];
   let navigateTime;
-  const LoginFunc = async (e) => {
-    e.preventDefault();
+  const UsersRef = collection(database, "Users")
+  const LoginFunc = async (e)=>{
+        e.preventDefault();
+
     signInWithEmailAndPassword(auth, e.target[0].value, e.target[2].value)
-      .then(async (res) => {
-        // const currentUser = auth().currentUser;
-        // console.log(currentUser,'current');
-        // currentUser.getIdTokenResult().then(idTokenResult => {
-        //   currentUser.superAdmin = idTokenResult.claims.superAdmin;
-
-        //   if (!currentUser.superAdmin) {
-        //     console.log('is not admin');
-        //     // firebase.logout();
-        //   }
-        // });
-
-        setError(false);
-        setShowSpinning(true);
-        navigateTime = setTimeout(() => navigation(`/app`), 2000);
-      })
-      .catch((error) => setError(true));
-  };
+             .then(async (res) => {
+                 setError(false);
+                 setShowSpinning(true);
+                 navigateTime = setTimeout(() => navigation(`/app`), 2000);
+               })
+               .catch((error) => setError(true));       
+  }
+  // const LoginFunc = async (e) => {
+  //   e.preventDefault();
+  //    getDocs(query(UsersRef,where('Email','==',e.target[0].value))).then((res)=>{
+      
+  //        if(res.docs.length){
+  //       seterrorRegist(false)
+  //       setError(false);
+  //       createUserWithEmailAndPassword(auth,e.target[0].value, e.target[2].value).then(()=>  navigateTime = setTimeout(() => navigation(`/app`), 2000)).catch(()=>{
+  //         signInWithEmailAndPassword(auth, e.target[0].value, e.target[2].value)
+  //         .then(async (res) => {
+  //           seterrorRegist(false)
+  //             setError(false);
+  //             setShowSpinning(true);
+  //             navigateTime = setTimeout(() => navigation(`/app`), 2000);
+  //           })
+  //           .catch((error) => setError(true));
+  //       })    
+  //     }else{
+  //       seterrorRegist(true)
+  //     }
+  //    })
+   
+  // };
   useEffect(() => {
-    return clearTimeout(navigateTime);
+    return ()=> clearTimeout(navigateTime);
   }, []);
   return (
     <div className="d-flex justify-content-around vh-100 flex-column align-items-center flex-column ">
@@ -70,6 +88,7 @@ const Login = () => {
                   <FormControl className="p-3  ">
                     <span className="text-danger">
                       {error && "Invalid Email or Password"}
+                      {errorRegist && "This Email Not Registerd"}
                     </span>
                     {formData.map((item, indx) => (
                       <div className="d-flex flex-column gap-2 mb-4" key={indx}>

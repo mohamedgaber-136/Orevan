@@ -1,19 +1,19 @@
+import bcrypt from 'bcryptjs';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signOut } from "firebase/auth";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
-import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDoc, addDoc, getDocs, query, where } from "firebase/firestore";
 import swal from "sweetalert";
 import { RoleDropDown } from "../RoleDropDown/RoleDropDown";
 // import admin from "firebase-admin";
 export const CreateUser = () => {
-  const { app, database } = useContext(FireBaseContext);
+  const {  database } = useContext(FireBaseContext);
   const [error, setError] = useState(false);
-  const auth = getAuth(app);
-  const [user, SetUser] = useState("");
-  const [data, SetData] = useState({});
+
+  const [data, SetData] = useState(null);
   const NewSubScriberInputs = [
     {
       label: "Name",
@@ -44,6 +44,8 @@ export const CreateUser = () => {
     PhoneNumber: "",
     Role: "",
   };
+
+
   const validation = Yup.object().shape({
     Name: Yup.string().min(3, "too short").required("Required"),
     Email: Yup.string().email("Enter Valid Email").required("Required"),
@@ -55,27 +57,35 @@ export const CreateUser = () => {
       .required("Required"),
     Role: Yup.string().required("Required"),
   });
-  const UsersRef = collection(database, "Users");
+  const UsersRef = collection(database, "Users")
+  // const plainTextPassword = 'user123';
+const saltRounds = 10;
   const onsubmit = async (values, props) => {
-    await createUserWithEmailAndPassword(auth, values.Email, values.Password)
-      .then((res) => {
-        SetUser(res.user);
-        const passwordDATA = res.user.reloadUserInfo.passwordHash;
-        SetData({ ...values, Password: passwordDATA });
-        auth.setCustomUserClaims(res.user.uid, { admin: true });
-        setError(false);
-        swal({
-          icon: "success",
-          text: `${values.Email} Has been added succesfully`,
-        });
-      })
-      .catch((error) => setError(true));
+    // SetUser(values)
+    bcrypt.hash(values.Password, saltRounds, async (err, hash) => {
+      if (err) {
+        console.error('Error hashing password:', err);
+      } else {
+        console.log('Hashed password:', hash);
+        SetData({ ...values, Password: hash });
+        const checkEmail = await getDocs(query(UsersRef,where('Email','==',values.Email)))
+        if(!checkEmail.docs.length){
+          await addDoc(UsersRef,  data)
+          swal({
+            icon: "success",
+            text: `${values.Email} Has been added succesfully`,
+          });       
+        }else{
+          setError(true);
+        }
+        
+        // Send the hash to the server for storage
+      }
+    });
+      
+
   };
-  useEffect(() => {
-    if (user) {
-      (async () => await setDoc(doc(UsersRef, user.uid), data))();
-    }
-  }, [user]);
+
   const showErrors = () => {
     if (error) {
       return (
@@ -101,7 +111,7 @@ export const CreateUser = () => {
                   >
                     <div className="text-danger ps-5 align-self-start">
                       <ErrorMessage name={item.name} />
-                      {item.name == "Email" && showErrors()}
+                      {item.name === "Email" && showErrors()}
                     </div>
                     <Field
                       as={TextField}

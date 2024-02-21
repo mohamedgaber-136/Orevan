@@ -16,18 +16,15 @@ export const FireBaseContext = createContext();
 const FireBaseContextProvider = ({ children }) => {
   const [authorized, setAuthorized] = useState(false);
   const [IdIncluded, setId] = useState(false);
-  // const [userId, SetuserId] = useState("");
   const [rows, setRows] = useState([]);
   const [triggerNum, setTriggerNum] = useState(0);
   const [events, setEvents] = useState([]);
   const [teams, setTeams] = useState([]);
   const [filterdData, setFilterd] = useState([]);
-  // const [imgUrl, setImgUrl] = useState(null);
   const [updateUser, setUpdateUser] = useState(null);
   const [Subscribers, setSubscribers] = useState([]);
   const [roleCondition, setRole] = useState("");
   const [currentUserRole, setCurrentUserRole] = useState("");
-  // const [eventsQueryRole, setEventsQueryRole] = useState(null);
   const [newEvent, setNewEvent] = useState({
     EventName: "",
     CostperDelegate: "",
@@ -97,23 +94,28 @@ const FireBaseContextProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-    let unsubscribe;
-    unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setLoading(false);
+    setLoading(false);
+    console.log(currentUsr,'currentUsr')
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log(user,'firebaseUser')
       if (user) {
+        console.log('loggedin')
+        console.log(user,'userauth')
+        /* `setCurrentUser` is a function that is used to set the current user's ID in the component's
+        state. It is typically called when a user logs in or logs out to update the current user's
+        information in the application. */
         setCurrentUser(user.uid);
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
-        console.log(finaleUser.data(), "finaleUser");
         setCurrentUserRole(finaleUser.data().Role);
-        // eventsQueryAccordingToUserRole(finaleUser.data().Role, user.uid);
-
-        localStorage.setItem("REF", JSON.stringify(finaleUser.data().Role));
-        localStorage.setItem("User", JSON.stringify(finaleUser.data()));
-      } else {
-        setCurrentUser(null);
-        setCurrentUserRole(null);
-      }
+        eventsQueryAccordingToUserRole(finaleUser.data().Role, user.uid);
+        // localStorage.setItem("REF", JSON.stringify(finaleUser.data().Role));
+        // localStorage.setItem("User", JSON.stringify(user.data()));
+      } 
+      else {
+          setCurrentUser(null);
+          console.log(currentUsr,'loggedOut')
+        }
     });
     return () => {
       if (unsubscribe) {
@@ -121,7 +123,6 @@ const FireBaseContextProvider = ({ children }) => {
       }
     };
   }, []);
-
 
 
   const saveNotificationToFirebase = async (notifyID) => {

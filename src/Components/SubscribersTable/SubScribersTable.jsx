@@ -356,6 +356,7 @@ export default function SubScribersTable({ rows, refCollection }) {
                         align="right"
                         className="subRowImg d-flex ps-3 pe-0 pb-0 gap-1 align-items-center "
                       >
+                        {console.log(row.image)}
                         <UploadBtn id={row.ID} info={row.image && "d-none"} />
                         {row.image && (
                           <img src={row.image} alt="signature" width={"100%"} />

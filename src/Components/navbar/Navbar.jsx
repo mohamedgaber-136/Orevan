@@ -59,11 +59,11 @@ export const Navbar = ({ navAppear }) => {
     //   data: "Profile",
     //   nav: "Profile",
     // },
-    isAllowedUser && {
-      icon: "fa-solid fa-people-group",
-      data: "Users",
-      nav: "Users",
-    },
+    // isAllowedUser && {
+    //   icon: "fa-solid fa-people-group",
+    //   data: "Users",
+    //   nav: "Users",
+    // },
   ];
   return (
     <nav className={`MainNav ${navAppear && "appearNav"}`}>
