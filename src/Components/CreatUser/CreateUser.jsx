@@ -1,17 +1,32 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
-import { createUserWithEmailAndPassword, getAuth, signOut } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signOut,
+} from "firebase/auth";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
-import { collection, doc, setDoc, getDoc, addDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  addDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import swal from "sweetalert";
 import { RoleDropDown } from "../RoleDropDown/RoleDropDown";
+import { AdminAuth } from "../../Config/FirebaseAdminApp";
 // import admin from "firebase-admin";
 export const CreateUser = () => {
-  const {  database } = useContext(FireBaseContext);
+  const { database } = useContext(FireBaseContext);
   const [error, setError] = useState(false);
+  const [user, SetUser] = useState("");
 
   const [data, SetData] = useState(null);
   const NewSubScriberInputs = [
@@ -45,7 +60,6 @@ export const CreateUser = () => {
     Role: "",
   };
 
-
   const validation = Yup.object().shape({
     Name: Yup.string().min(3, "too short").required("Required"),
     Email: Yup.string().email("Enter Valid Email").required("Required"),
@@ -57,34 +71,74 @@ export const CreateUser = () => {
       .required("Required"),
     Role: Yup.string().required("Required"),
   });
-  const UsersRef = collection(database, "Users")
-  // const plainTextPassword = 'user123';
-const saltRounds = 10;
-  const onsubmit = async (values, props) => {
-    // SetUser(values)
-    bcrypt.hash(values.Password, saltRounds, async (err, hash) => {
-      if (err) {
-        console.error('Error hashing password:', err);
-      } else {
-        console.log('Hashed password:', hash);
-        SetData({ ...values, Password: hash });
-        const checkEmail = await getDocs(query(UsersRef,where('Email','==',values.Email)))
-        if(!checkEmail.docs.length){
-          await addDoc(UsersRef,  data)
-          swal({
-            icon: "success",
-            text: `${values.Email} Has been added succesfully`,
-          });       
-        }else{
-          setError(true);
-        }
-        
-        // Send the hash to the server for storage
-      }
-    });
-      
+  const UsersRef = collection(database, "Users");
 
+  // test on create user
+  const onsubmit = async (values, props) => {
+    await createUserWithEmailAndPassword(
+      AdminAuth,
+      values.Email,
+      values.Password
+    )
+      .then((res) => {
+        SetUser(res.user);
+        console.log(res.user, "user create");
+        const passwordDATA = res.user.reloadUserInfo.passwordHash;
+        console.log(values.Role, "Role");
+        SetData({
+          ...values,
+          Password: passwordDATA,
+          Role: {
+            admin: values.Role.includes("Brand"),
+            manager: values.Role.includes("Franchise Manager"),
+            user: values.Role.includes("User"),
+            franchiseType: values.Role.includes("Franchise Manager")
+              ? values.Role.split("-")[1]
+              : null,
+          },
+        });
+        setError(false);
+        swal({
+          icon: "success",
+          text: `${values.Email} Has been added succesfully`,
+        });
+      })
+      .catch((error) => setError(true));
   };
+
+  useEffect(() => {
+    if (user) {
+      console.log(data, "data user will save");
+      (async () => await setDoc(doc(UsersRef, user.uid), data))();
+    }
+  }, [user]);
+
+  // const plainTextPassword = 'user123';
+  // const saltRounds = 10;
+  //   const onsubmit = async (values, props) => {
+  //     // SetUser(values)
+  //     bcrypt.hash(values.Password, saltRounds, async (err, hash) => {
+  //       if (err) {
+  //         console.error('Error hashing password:', err);
+  //       } else {
+  //         console.log('Hashed password:', hash);
+  //         SetData({ ...values, Password: hash });
+  //         const checkEmail = await getDocs(query(UsersRef,where('Email','==',values.Email)))
+  //         if(!checkEmail.docs.length){
+  //           await addDoc(UsersRef,  data)
+  //           swal({
+  //             icon: "success",
+  //             text: `${values.Email} Has been added succesfully`,
+  //           });
+  //         }else{
+  //           setError(true);
+  //         }
+
+  //         // Send the hash to the server for storage
+  //       }
+  //     });
+
+  //   };
 
   const showErrors = () => {
     if (error) {

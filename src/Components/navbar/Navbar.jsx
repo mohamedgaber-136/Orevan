@@ -11,7 +11,7 @@ export const Navbar = ({ navAppear }) => {
   const { pathname } = useLocation();
   const [focusedButton, setFocusedButton] = useState(null);
   const [isAllowedUser, setIsAllowedUser] = useState(null);
-  console.log(isAllowedUser)
+  console.log(isAllowedUser);
   const handleFocus = (id) => {
     setFocusedButton(id);
   };
@@ -29,13 +29,15 @@ export const Navbar = ({ navAppear }) => {
       case "/app/teams":
         setFocusedButton(2);
         break;
-        default:
+      default:
     }
   }, [pathname]);
 
   useEffect(() => {
-    if (currentUserRole)
-      setIsAllowedUser(currentUserRole.toLowerCase().includes("brand manager"));
+    if (currentUserRole) {
+      setIsAllowedUser(currentUserRole.admin);
+      // setIsAllowedUser(currentUserRole.toLowerCase().includes("brand manager"));
+    }
   }, [currentUserRole]);
 
   const MenuData = [
