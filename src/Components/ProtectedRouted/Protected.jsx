@@ -13,7 +13,6 @@ export const Protected = ({ children, nestedRoute }) => {
   }, [currentUserRole]);
 
   // const isNotAuthorized = currentUserRole.toLowerCase().includes("franchise");
-  console.log(isNotAuthorized, "isNotAuthorized protected");
 
   // if (!currentUsr) {
   //   return <Navigate to="/" replace />;

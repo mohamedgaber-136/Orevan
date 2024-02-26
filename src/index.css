@@ -19,6 +19,12 @@
 h1,h3,h4,h5,h6,label,span{
   color:var(--Deeb-blu) !important; 
 }
+.css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input{
+  padding: 10px !important;
+}
+label{
+  background-color: white;
+}
 /* LazyLoadingAnimatation  */
 .lazy-loadingImg {
   animation: Lazy 5s linear normal;
@@ -264,6 +270,7 @@ color: white !important;
 }
 input{
   outline: none !important;
+  /* border: 1px solid black !important; */
 }
 .react-datepicker-ignore-onclickoutside:focus{
   border: 0 !important;
@@ -278,8 +285,15 @@ background-color: transparent !important;
   box-shadow:0 0 15px 2px rgb(234, 232, 232);
 } 
 input:-webkit-autofill{
-border-radius:0 !important;
+border-radius:5px !important;
 }
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+input{
+  border: 1px solid grey !important;
+  border-radius: 5px !important;
+}
+.css-1h51icj-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input,.css-gga68z-MuiInputBase-input{
+  border: none !important;
 }

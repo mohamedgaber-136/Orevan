@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import TeamsTable from '../../Components/TeamsTable/TeamsTable'
 import { FireBaseContext } from '../../Context/FireBase'
-import { collection, getDocs,query,onSnapshot,doc,getDoc ,where } from 'firebase/firestore'
-import { Navigate } from "react-router-dom";
+import {  getDocs,query,onSnapshot ,where } from 'firebase/firestore'
 export const Teams = () => {
-const {setTeams,TeamsRefrence,currentUserRole,EventRefrence} = useContext(FireBaseContext)
+const {TeamsRefrence,EventRefrence} = useContext(FireBaseContext)
 const [collectionKeys, setCollectionKeys] = useState([]);
 const getValue = async ()=>{
     const retinaRef = onSnapshot(TeamsRefrence,async (snapshot )=>setCollectionKeys(await Promise.all( snapshot.docs.map( async (item)=> {
@@ -19,7 +18,7 @@ const getValue = async ()=>{
 useEffect(()=>{
   getValue()
 },[])
-console.log(collectionKeys)
+console.log(collectionKeys,'collection')
 
     return (
       <div className='d-flex flex-column container gap-3 EventsPageParent '>

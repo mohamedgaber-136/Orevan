@@ -1,6 +1,5 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -16,22 +15,8 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
 import Checkbox from "@mui/material/Checkbox";
-import swal from "sweetalert";
-import { SearchContext } from "../../Context/SearchContext";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { FireBaseContext } from "../../Context/FireBase";
 import Typography from "@mui/material/Typography";
-import UpdateSubModel from '../UpdateSubModel/UpdateSubModel'
-import {
-  deleteDoc,
-  doc,
-  setDoc,
-  getDoc,
-  serverTimestamp,
-} from "firebase/firestore";
 import UploadBtn from "../UploadBtn/UploadBtn";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import ImportExcel from "../ImportExcel/ImportExcel";
 import ChangeEventModal from "../ChangeEventModal/ChangeEventModal";
@@ -39,19 +24,12 @@ import ExportToExcelButton from "../ExportBtn/ExportToExcelButton";
 import SettingsBtn from "../SettingsBtn/SettingsBtn";
 import SearchText from "../SearchText/SearchText";
 export default function SubScribersTable({ rows, refCollection }) {
-  const {
-    setUpdateUser,
-    SubscribersDeletedRef,
-  } = React.useContext(FireBaseContext);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const { dbID } = useParams();
-  const navigate = useNavigate();
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { setShowAddNeWSub, setShowUpdate } = React.useContext(SearchContext);
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -86,10 +64,10 @@ export default function SubScribersTable({ rows, refCollection }) {
       label: "ID",
     },
     {
-      id: "Name",
+      id: "FirstName",
       numeric: true,
       disablePadding: false,
-      label: "Name",
+      label: "FirstName",
     },
     {
       id: "Email",
@@ -208,7 +186,6 @@ export default function SubScribersTable({ rows, refCollection }) {
   };
   
   function EnhancedTableToolbar(props) {
-  console.log(selected,'selected')
     const { numSelected } = props;
     return (
       <Toolbar
@@ -244,7 +221,7 @@ export default function SubScribersTable({ rows, refCollection }) {
               data={rows}
             />
 {" "}
-<ImportExcel />
+{/* <ImportExcel /> */}
 {/* <SearchText list={rows}/> */}
 </div>
   <Tooltip title="AddNew">
@@ -271,10 +248,10 @@ export default function SubScribersTable({ rows, refCollection }) {
     [order, orderBy, page, rowsPerPage]
   );
 
-  const updateSup = (row) => {
-    setShowUpdate(true);
-    setUpdateUser(row);
-  };
+  // const updateSup = (row) => {
+  //   setShowUpdate(true);
+  //   setUpdateUser(row);
+  // };
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -345,7 +322,7 @@ export default function SubScribersTable({ rows, refCollection }) {
                       >
                         {row.id}
                       </TableCell>
-                      <TableCell align="right">{row.Name}</TableCell>
+                      <TableCell align="right">{row.FirstName}</TableCell>
                       <TableCell align="center">{row.Email}</TableCell>
                       <TableCell align="right">{row.PhoneNumber}</TableCell>
                       <TableCell align="right">{row.Organization}</TableCell>
@@ -356,7 +333,6 @@ export default function SubScribersTable({ rows, refCollection }) {
                         align="right"
                         className="subRowImg d-flex ps-3 pe-0 pb-0 gap-1 align-items-center "
                       >
-                        {console.log(row.image)}
                         <UploadBtn id={row.ID} info={row.image && "d-none"} />
                         {row.image && (
                           <img src={row.image} alt="signature" width={"100%"} />

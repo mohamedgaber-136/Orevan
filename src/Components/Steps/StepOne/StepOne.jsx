@@ -1,7 +1,6 @@
 import { Formik, Form } from "formik";
-import { FormData } from "../../../Pages/Profile/FormData/FormData";
 import DateByYMD from "../../DateByYMD/DateByYMD";
-import { DateByTime } from "../../DateByTime/DateByTime";
+import { City } from "../../../Json/sa";
 import TextField from "@mui/material/TextField";
 import "./StepOneStyle.css";
 import { useContext, useState } from "react";
@@ -10,15 +9,18 @@ import MultipleSelection from "../../MultipleSelection/MultipleSelection";
 import ToggleBtn from "../../ToggleBtn/ToggleBtn";
 import TimePicker from "../../timePicker/TimePicker";
 import { FranchisedropDown } from "./FranchisedropDown";
+import MultipleSelectionToV from "../../MultipleSelectionToV/MultipleSelectionToV";
+import Test from "../../test/test";
+import ModalTovData from "../../MultipleSelectionToV/ModalTovData";
 export const StepOne = () => {
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
   const [amexNumber, setAmexNumber] = useState(false);
   const [formErrors, setFormErrors] = useState({
     EventName:newEvent.EventName?'':'Required',
     CreatedAt: newEvent.StartDate?'':'Required',
-    City: newEvent.City.length!=0?'':'Required',
+    City: newEvent.City.length!==0?'':'Required',
     EndDate: newEvent.EndDate?'':'Required',
-    TransferOfValue: newEvent.TransferOfValue.length!=0?'':'Required',
+    TransferOfValue: newEvent.TransferOfValue.length!==0?'':'Required',
     P3: newEvent.P3?'':'Required',
     PO: newEvent.PO?'':'Required',
     Franchise: newEvent.Franchise?'':'Required',
@@ -31,7 +33,7 @@ export const StepOne = () => {
     { types: "chem" },
     { types: "phys" },
   ];
-  const City = [{ types: "egypt" }, { types: "saudi" }, { types: "frace" }];
+  // const City = [{ types: "egypt" }, { types: "saudi" }, { types: "frace" }];
   const getData = (e) => {
     console.log(e.target.name,'e')
     setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
@@ -61,7 +63,7 @@ export const StepOne = () => {
                       <div className="errorParent ">
                         <TextField
                           name={"EventName"}
-                          label={"Event Name"}
+                          label={<b>Event Name</b>}
                           focused
                           defaultValue={newEvent.EventName}
                           className={`w-100 `}
@@ -76,7 +78,7 @@ export const StepOne = () => {
 
                         <TextField
                           name={"CostperDelegate"}
-                          label={"Cost Per Delegate"}
+                          label={<b>Cost Per Delegate</b>}
                           focused
                           defaultValue={newEvent.CostperDelegate}
                           className="w-100"
@@ -106,7 +108,7 @@ export const StepOne = () => {
                       <div className="errorParent">
                         <TextField
                           name={"P3"}
-                          label={"P3"}
+                          label={<b>P3</b>}
                           focused
                           defaultValue={newEvent.P3}
                           className="w-100"
@@ -146,14 +148,15 @@ export const StepOne = () => {
                   </div> 
                 </div>
                  <div className="w-100 errorParent px-md-4 px-2  ">
-                  <MultipleSelection
+                  <Test/>
+                  {/* <MultipleSelectionToV
                     type="TransferOfValue"
                     label="Transfer of Value"
                     className="w-100"
                     list={Franchises}
                     SetError={setFormErrors}
                     formErrors={formErrors}
-                  />
+                  /> */}
                   <small className="text-danger errorMsg">
                     {" "}
                     {formErrors.TransferOfValue}

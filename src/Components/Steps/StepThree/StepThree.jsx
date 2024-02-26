@@ -4,33 +4,16 @@ import logo from "../../../assets/Novartis Logo RGB 2.png";
 import TextField from "@mui/material/TextField";
 import ColorPickers from "../../ColorPicker/ColorPicker";
 import { FireBaseContext } from "../../../Context/FireBase";
-import { useContext ,useState,useEffect} from "react";
+import { useContext ,useEffect} from "react";
 export const StepThree = () => {
-  const { newEvent, setNewEvent,EventRefrence,getData,setId,IdIncluded} = useContext(FireBaseContext);
-  const[y,setY]=useState(false)
-  const[checkId,setCheckId]= useState([])
-  useEffect(() => {
-    getData(EventRefrence,setCheckId)
-  }, [])
-        const setIdInfo = (e)=>{
-         const inputId = e.target.value
-         setNewEvent({ ...newEvent, Id: inputId})
-        const x = checkId.find(({Id})=>Id==inputId)
-        if(inputId==''){
-          setId(true)
-          setY(false)
-        }else 
-        if(x){
-          setY(true)
-          setId(true)
-        }else{
-          setY(false)
-          setId(false)
-         setNewEvent({ ...newEvent, Id: inputId})
-        }
+  const { newEvent, setNewEvent} = useContext(FireBaseContext);
+  function randomXToY(minVal, maxVal) {
+    let randVal = minVal + Math.random() * (maxVal - minVal);
+    return Math.round(randVal);
   }
-
- 
+  useEffect(() => {
+    setNewEvent({ ...newEvent, Id:   randomXToY(1, 1000000000)     })
+  }, [])
   return (
     <div className="d-flex justify-content-center flex-column gap-4 align-items-center container mt-5">
       <div className="d-flex justify-content-between flex-wrap  w-100 gap-5 align-items-center">
@@ -67,14 +50,13 @@ export const StepThree = () => {
           </p>
           <TextField
             className="px-5 py-0 rounded rounded-1"
-            value={newEvent.Id}
-            onChange={setIdInfo}
+            disabled
             type="number"
           />
-          {y&&<span style={{color:newEvent.FontColor}}>This ID Allready used</span>}
           <button
             className="w-50 rounded rounded-2 border-0  py-1 text-white"
             style={{ backgroundColor: newEvent.ButtonColor }}
+            disabled
           >
             Next
           </button>

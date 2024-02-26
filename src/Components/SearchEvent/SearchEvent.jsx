@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { FireBaseContext } from "../../Context/FireBase";
 import { useParams } from "react-router-dom";
 import {
-  addDoc,
+  
   collection,
   deleteDoc,
   doc,
@@ -23,15 +23,12 @@ export default function SearchEvent({newSelected,setSelected}) {
         getData(EventRefrence, setData);
       }, []);
       useEffect(() => {
-        let cartona ;
-        if (data.lenght != 0) {
-          const x = data.filter(({ Id }) => Id != id);
+        if (data.lenght !== 0) {
+          const x = data.filter(({ Id }) => Id !== id);
           setResult(x)
         }
       }, [data]);
-      console.log(value)
-      console.log(newSelected[0],'newSelected')
-      console.log(dbID)
+  
       const ChangeEvent =  () => {
         const eventRef = doc(EventRefrence, dbID);
         const collectionEvent = collection(eventRef, "Subscribers");     

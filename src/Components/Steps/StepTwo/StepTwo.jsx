@@ -27,7 +27,24 @@ export const StepTwo = () => {
   const handleBlur = () => {
     setEditMode(false);
   };
-
+  const openPDF = () => {
+    const pdfWindow = window.open("test");
+    const title = "Privacy Policy";
+    const URI = "Privacy Policy";
+    const html = `
+      <html>
+        <head>
+          <title>${title}</title>
+        </head>
+        <body style="margin:0">
+          <embed width="100%" height="100%" src="https://firebasestorage.googleapis.com/v0/b/novartis-f3745.appspot.com/o/pdf%2FHCPS_%20KSA%20updated%20Privacy%20Notice_%20Template_%2031%20Jan%202024.pdf?alt=media&token=ab6c0442-18fb-4aa4-8fa2-96cfea05844a" type="application/pdf">
+        </body>
+      </html>
+    `;
+    pdfWindow.document.write(html);
+    pdfWindow.document.close();
+    pdfWindow.history.pushState(null, null, URI);
+  };
   return (
     <div className="px-4 d-flex flex-md-row flex-column justify-content-center gap-3 align-items-center StepTwoParent ">
       <div className="w-50">
@@ -41,6 +58,7 @@ export const StepTwo = () => {
               <a
                 href="https://www.sfda.gov.sa/sites/default/files/2019-10/Payment-disclosure-en.pdf"
                 target="_blank"
+                rel="noreferrer"
               >
                 SFDA
               </a>{" "}
@@ -70,7 +88,7 @@ export const StepTwo = () => {
       )}
     </div>
             
-            <b><a href="https://firebasestorage.googleapis.com/v0/b/novartis-f3745.appspot.com/o/pdf%2FHCPS_%20KSA%20updated%20Privacy%20Notice_%20Template_%2031%20Jan%202024.pdf?alt=media&token=ab6c0442-18fb-4aa4-8fa2-96cfea05844a" target="_blank">Privacy Notice</a></b>.
+            <b><button style={{border:'none',backgroundColor:'white',color:'blue',fontWeight:'600',textAlign:'start',textDecoration:'underline'}} onClick={openPDF}>Privacy Notice</button></b>.
 
           </p>
         </div>

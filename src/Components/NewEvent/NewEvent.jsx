@@ -21,8 +21,7 @@ export default function NewEvent() {
     TeamsRefrence,
     newEvent,
     EventRefrence,
-    setNewEvent,
-    IdIncluded,
+    setNewEvent, 
     setId,
     currentUsr,
     saveNotificationToFirebase
@@ -106,7 +105,7 @@ export default function NewEvent() {
     const refCollec = collection(ref,'Events')   
     swal({
       icon: "success",
-      title: `Event ${newEvent.Id} added`,
+      title: `Event ${newEvent.EventName} added`,
     }).then( async ()=>{
       await addDoc(refCollec, {
         CreatedByID: currentUsr,
@@ -141,7 +140,7 @@ export default function NewEvent() {
     });
   };
   useEffect(() => {
-    if (activeStep == 1) {
+    if (activeStep === 1) {
       return setAccpetAll(true);
     }
     return setAccpetAll(false);
@@ -206,23 +205,18 @@ export default function NewEvent() {
                     Please Insert All Data{" "}
                   </small>
                 )}
-                {IdIncluded && (
-                  <small className="text-danger px-2 m-0">
-                    Please Insert valid Id{" "}
-                  </small>
-                )}
                 <Button
                   className={`text-white " bg-secondary" ${
-                    open ||
-                    IdIncluded ||
+                    open &&
+                  
                     (activeStep === 1 && !newEvent.AccpetAllTermss)
                       ? " bg-secondary"
                       : "btn-DarkBlue"
                   }`}
                   disabled={
                     (activeStep === 1 && !newEvent.AccpetAllTermss) ||
-                    open ||
-                    IdIncluded
+                    open 
+                    
                   }
                   onClick={handleNext}
                 >

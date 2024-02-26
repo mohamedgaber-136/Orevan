@@ -16,7 +16,6 @@ export const Events = () => {
   useEffect(() => {
     if (currentUserRole) {
       getData(eventsQueryAccordingToUserRole(), setInformations);
- 
     }
   }, [currentUserRole]);
 
@@ -49,6 +48,7 @@ export const Events = () => {
       fetchDataForItems();
     }
   }, [informations]);
+  console.log(informations)
   return (
     <div className="d-flex flex-column container gap-3 EventsPageParent ">
       <h2>Events</h2>

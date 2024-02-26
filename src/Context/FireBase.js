@@ -92,6 +92,7 @@ const FireBaseContextProvider = ({ children }) => {
       }
       default:
     }
+    // return EventRefrence;
   };
   useEffect(() => {
     setLoading(false);

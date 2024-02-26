@@ -3,12 +3,13 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import { FireBaseContext } from '../../Context/FireBase';
 import { useContext, useState } from 'react';
+import ModalTovData from './ModalTovData';
 
-export default function MultipleSelection({type,list,SetError,formErrors,label}) {
+export default function MultipleSelectionToV({type,list,SetError,formErrors,label}) {
   const {newEvent,setNewEvent}=useContext(FireBaseContext)
   const [valus,setValues]=useState(null)
    return (
-    <Stack spacing={3} sx={{ width: 500 }} className='errorParent  '>
+    <Stack spacing={3} sx={{ width: 500 }} className='errorParent '>
       <Autocomplete
         multiple
         id="tags-outlined"
@@ -17,7 +18,7 @@ export default function MultipleSelection({type,list,SetError,formErrors,label})
         value={newEvent[type]}
         filterSelectedOptions 
        onChange={(e,value)=>{
-        if(value.length!==0){
+        if(value.length!=0){
           SetError({...formErrors,[type]:''})
         }else{
           SetError({...formErrors,[type]:'Required'})
@@ -31,8 +32,8 @@ export default function MultipleSelection({type,list,SetError,formErrors,label})
           renderInput={(params) => (
           <TextField
             {...params}
-            label={<b>{`${label}`}</b>}
-            className='dropDownBorder '
+            label={`${label}`}
+            className='dropDownBorder'
           />
         )}
         

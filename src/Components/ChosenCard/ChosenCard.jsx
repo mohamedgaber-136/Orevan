@@ -4,9 +4,8 @@ import { getDoc, doc } from "firebase/firestore";
 import { FireBaseContext } from "../../Context/FireBase";
 import { useParams } from "react-router-dom";
 export const ChosenCard = () => {
-  const { id, dbID } = useParams();
+  const {  dbID } = useParams();
   const { EventRefrence } = useContext(FireBaseContext);
-  const [ChosenItem, setChosenItem] = useState(null);
   const [ResultData, setResultData] = useState(null);
   useEffect(() => {
     const itemRef = doc(EventRefrence, dbID);
@@ -16,7 +15,6 @@ export const ChosenCard = () => {
       setResultData(Result);
     })();
   }, [dbID]);
-  console.log(ResultData, "Result");
 
   return (
     // Dashboard Events Counts Card ----------------------------------

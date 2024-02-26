@@ -10,8 +10,8 @@ export const Navbar = ({ navAppear }) => {
   const { currentUserRole } = useContext(FireBaseContext);
   const { pathname } = useLocation();
   const [focusedButton, setFocusedButton] = useState(null);
-  const [isAllowedUser, setIsAllowedUser] = useState(null);
-  console.log(isAllowedUser)
+  // const [isAllowedUser, setIsAllowedUser] = useState(null);
+  // console.log(currentUserRole,'currentUserRole')
   const handleFocus = (id) => {
     setFocusedButton(id);
   };
@@ -33,10 +33,10 @@ export const Navbar = ({ navAppear }) => {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    if (currentUserRole)
-      setIsAllowedUser(currentUserRole.toLowerCase().includes("brand manager"));
-  }, [currentUserRole]);
+  // useEffect(() => {
+  //   if (currentUserRole)
+  //     setIsAllowedUser(currentUserRole.toLowerCase().includes("brand manager"));
+  // }, [currentUserRole]);
 
   const MenuData = [
     {
@@ -49,7 +49,8 @@ export const Navbar = ({ navAppear }) => {
       data: "Events",
       nav: "events",
     },
-    isAllowedUser && {
+    // isAllowedUser && {
+      {
       icon: "fa-solid fa-users",
       data: "Teams",
       nav: "teams",
@@ -76,7 +77,7 @@ export const Navbar = ({ navAppear }) => {
                 item && (
                   <li
                     className={` ${
-                      indx == focusedButton && "selectedBtn"
+                      indx === focusedButton && "selectedBtn"
                     } gap-2 d-flex align-items-center justify-content-center rounded-3 rounded px-5 py-2 `}
                     key={`${item?.icon}-${indx}`}
                     onClick={() => {

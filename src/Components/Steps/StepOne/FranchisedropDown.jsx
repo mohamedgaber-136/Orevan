@@ -22,7 +22,8 @@ export const FranchisedropDown = ({ SetError, formErrors }) => {
     <>
       <FormControl variant="standard" className=" w-100">
         <InputLabel id="demo-simple-select-standard-label">
-          Franchise
+          <b>          Franchise
+</b>
         </InputLabel>
         <Select
           labelId="demo-simple-select-standard-label"
@@ -30,7 +31,7 @@ export const FranchisedropDown = ({ SetError, formErrors }) => {
           name="Franchise"
           value={newEvent.Franchise}
           onChange={handleChange}
-          label="Age"
+          label="Franchise"
         >
           <MenuItem value="">
             <em>None</em>

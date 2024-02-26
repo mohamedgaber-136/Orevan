@@ -1,20 +1,14 @@
 import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import TextField from "@mui/material/TextField";
-import SearchRange from "../SearchRange/SearchRange";
-import FilterDropDown from "../FilterDropDown/FilterDropDown";
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 export const SearchFormik = ({rows,setRows}) => {
    const [startDateFilter, setStartDateFilter] = useState(null);
   const [endDateFilter, setEndDateFilter] = useState(null);
-  const [filteredData, setFilteredData] = useState('');
   const [search, setSearch] = useState('');
   const [filterType, setfilterType] = useState('StartDate');
-
   const [disabledBtn,setDisabledBtn] = useState(true)
   const intialValues = {
     StartDate: "",
@@ -23,7 +17,6 @@ export const SearchFormik = ({rows,setRows}) => {
   const handleChange = (event) => {
     setfilterType(event.target.value );
   };
-  console.log(filterType)
   const onSubmit = (values) => {
     // Filter data based on the selected date range
     const StartTimefilterdDate = new Date(startDateFilter)
@@ -61,8 +54,8 @@ export const SearchFormik = ({rows,setRows}) => {
     <Formik initialValues={intialValues} >
       {() => (
         <Form>
-          <div className="   d-flex gap-3 align-items-end gap-md-5 fs-6 text-primary dateTableTitle">
-            <span className="d-flex gap-2 align-items-start flex-column">
+          <div className="   d-flex gap-3 align-items-end  fs-6 text-primary dateTableTitle flex-wrap">
+            <span className="d-flex gap-2 align-items-start flex-column ">
               <b className="d-flex gap-2 align-items-center">
                 <i className="fa-solid fa-pause"></i>From
               </b>
@@ -79,7 +72,7 @@ export const SearchFormik = ({rows,setRows}) => {
                 />
               </span>
             </span>
-            <span className="d-flex gap-2 align-items-start flex-column">
+            <span className="d-flex gap-2 align-items-start flex-column ">
               <b className="d-flex gap-2 align-items-center">
                 {" "}
                 <i className="fa-solid fa-bars"></i>To
@@ -97,7 +90,7 @@ export const SearchFormik = ({rows,setRows}) => {
                 />
               </span>
             </span>
-            <span className="d-flex gap-2 align-items-start flex-column">         
+            <span className="d-flex gap-2 align-items-start flex-column h-100 ">         
             <b className="d-flex gap-2 align-items-center">
                 {" "}
                Filter type
@@ -120,7 +113,7 @@ export const SearchFormik = ({rows,setRows}) => {
         </Field>
       </FormControl>              </span>
             </span>
-            <span className="d-flex gap-2 align-items-start flex-column">           
+            <span className="d-flex gap-2 align-items-start flex-column ">           
             <span className="fs-6 d-flex align-items-end">
                 {" "}
                 <Field

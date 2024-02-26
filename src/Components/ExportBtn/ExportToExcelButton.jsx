@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import * as XLSX from 'xlsx';
 import Button from '@mui/material/Button';
 
 const ExportToExcelButton = ({ data, filename, sheetname }) => {
   const extractData = data.map((item)=>({
-    Name:item.Name,
+    FirstName:item.FirstName,
+    LastName:item.LastName,
     Speciality:item.Speciality,
     id:item.id,
     City:item.City,
@@ -19,6 +19,7 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
     const ws = XLSX.utils.json_to_sheet(extractData);
     const wb = XLSX.utils.book_new();
     var wscols = [
+      {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},

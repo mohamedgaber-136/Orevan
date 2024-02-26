@@ -27,7 +27,6 @@ import Button from '@mui/material/Button';
     reader.readAsBinaryString(file);
    
   };
-console.log(data)
   return (
   
   <Button   id="fade-button" className="d-flex flex-column "   >

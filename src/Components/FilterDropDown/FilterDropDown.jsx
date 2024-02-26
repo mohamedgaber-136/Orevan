@@ -1,6 +1,4 @@
-import {useState}from 'react';
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -11,7 +9,6 @@ export default function FilterDropDown({setfilterType,filterType}) {
   const handleChange = (event) => {
     setfilterType(event.target.value );
   };
-console.log(filterType)
   return (
     <Box sx={{ minWidth: 120 , border:'1px solid grey' ,borderRadius:2}}>
       <FormControl fullWidth>

@@ -7,12 +7,7 @@ export const PreviewCard = () => {
       <div className=" previewCardParent p-2  rounded-2 ">
         <h3 className="py-1">Preview Event Data</h3>
         <div className="d-flex gap-2 flex-column">
-          <div className="d-flex align-items-center gap-2">
-            <p className="m-0">
-              <b>ID:</b>
-            </p>
-            <p className="m-0">{newEvent.Id}</p>
-          </div>
+       
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
               <b>Event Name:</b>

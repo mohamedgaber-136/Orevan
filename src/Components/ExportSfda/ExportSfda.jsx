@@ -32,7 +32,8 @@ const ExportSfda = ({ data, filename, sheetname }) => {
             ...snapshot.docs.map((ele) => {
               const subItem = ele.data();
               return {
-                Name: subItem.Name,
+                FirstName: subItem.FirstName,
+                LastName: subItem.LastName,
                 Speciality: subItem.Speciality,
                 "Subscriber ID": subItem.id,
                 "Subscriber City": subItem.City,
@@ -64,7 +65,8 @@ const ExportSfda = ({ data, filename, sheetname }) => {
       "Created At",
       "Event ID",
 
-      "Name",
+      "FirstName",
+      "LastName",
       "Email",
       "Phone Number",
       "National ID",
@@ -111,7 +113,7 @@ const ExportSfda = ({ data, filename, sheetname }) => {
     });
 
     // Add data rows
-    finalDataToExport.map((rowItem, index) => {
+    finalDataToExport.map((rowItem, index) =>  {
       const holder = [
         ...headersList.map((head) => {        
             const convertItem = isNaN(Number(rowItem[head]))
@@ -136,7 +138,7 @@ const ExportSfda = ({ data, filename, sheetname }) => {
     finalDataToExport.map((item,ind)=>{
   const data = item["Signature"] 
   if(data){
-    worksheet.getCell(`U${ind+2}`).value = {
+    worksheet.getCell(`V${ind+2}`).value = {
       text: 'Signature',
       hyperlink: data,
     }

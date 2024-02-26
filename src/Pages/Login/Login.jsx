@@ -21,7 +21,6 @@ const Login = () => {
   const { auth,database } = useContext(FireBaseContext);
   const [ShowSpinning, setShowSpinning] = useState(false);
   
-  console.log('hi')
   const formData = [
     {
       type: "text",

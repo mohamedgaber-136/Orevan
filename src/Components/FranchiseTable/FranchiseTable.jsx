@@ -37,8 +37,9 @@ export default function FranchiseTable({ row ,sub}) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
+  const [rows, setRows] = React.useState([0]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { EventRefrence, EventsDeletedRef, rows, setRows } = React.useContext(
+  const { EventRefrence, EventsDeletedRef } = React.useContext(
     FireBaseContext
   );
   const navigate = useNavigate();
@@ -337,7 +338,7 @@ export default function FranchiseTable({ row ,sub}) {
           </span>
         </span>
         <ImportExcel />
-        <SearchText list={row} />
+        {/* <SearchText list={row} /> */}
       </div>
       <EnhancedTableToolbar numSelected={selected.length} />
       <TableContainer>

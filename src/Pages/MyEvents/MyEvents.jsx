@@ -7,26 +7,19 @@ export const MyEvents = () => {
     const {state} =  useLocation()
     const [sub, setSub] = useState([]);
     const [combinedData, setCombinedData] = useState([]);
-    const [informations, setInformations] = useState([]);
     const [data, setdata] = useState(state.data);
     const {
-        getData,
-        eventsQueryRole,
+        
+        
         EventRefrence,
       } = useContext(FireBaseContext);
       console.log(state.data)
     useEffect(() => {
       // query to filter evemts according to role
-      console.log(eventsQueryRole, "Events query role");
-      // if (eventsQueryRole) {
-        console.log(eventsQueryRole, "Events query role");
-        // getData(EventRefrence, setInformations);
+
         const fetchData = async () => {
-          // const eventObj = await getDocs(EventRefrence);
-        //   const eventObj = await getDocs(EventRefrence);
-        //   console.log(eventObj, "eventObj");
+  
           const EventDetails = await Promise.all( state.data.map(async (maidDoc) => {
-            // const mainDocData = { id: maidDoc.id,maidDoc};
             const ref = doc(EventRefrence, maidDoc.ID);
             const infoCollection = collection(ref, "Subscribers");
             const subObj = await getDocs(infoCollection);
@@ -70,7 +63,6 @@ export const MyEvents = () => {
             });
             const results = await Promise.all(promises);
             setdata(results);
-            // setEvents([...setEventsListDataAccordingToUserRole(results)]);
           };
           fetchDataForItems();
         }
@@ -83,7 +75,7 @@ export const MyEvents = () => {
         }));
         setSub(x);
       }, [combinedData]);
-      console.log(sub)
+ 
   return (
     <div className="d-flex flex-column container gap-3 EventsPageParent ">
     <h2>{state.name}</h2>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -155,7 +154,6 @@ export default function TeamsTable({ row }) {
   const handleClick = (event, id) => {
     let newSelected = [];
     const selectedIndex = selected.indexOf(id);
-    console.log(id);
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {

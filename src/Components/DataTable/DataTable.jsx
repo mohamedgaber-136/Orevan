@@ -194,9 +194,9 @@ export default function DataTable({ row }) {
     setOrderBy(property);
   };
   const statusCase = (status) => {
-    if (status == "Completed") {
+    if (status === "Completed") {
       return "bg-danger";
-    } else if (status == "Started") {
+    } else if (status === "Started") {
       return "bg-success";
     } else {
       return "bg-warning";
@@ -266,7 +266,6 @@ export default function DataTable({ row }) {
         swal({
           icon: "success",
         });
-        console.log(arr,'arr')
         arr.map(async (item) => {
           const ref = doc(EventRefrence, item);
           const info = await getDoc(ref);
@@ -356,7 +355,7 @@ export default function DataTable({ row }) {
             <ExportDropDown rows={rows}  />{" "}
           </span>
         </span>
-        <ImportExcel />
+        {/* <ImportExcel />  */}
         <SearchText list={rows} setRows={setRows} row={row} />
       </div>
       <EnhancedTableToolbar numSelected={selected.length} />

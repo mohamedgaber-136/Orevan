@@ -72,7 +72,6 @@ export const UpdateSubscriberForm = ({ user ,handleClose}) => {
   const ref = doc(EventRefrence, dbID);
   const subCollection = collection(ref, "Subscribers");
   const userData = doc(subCollection, user.ID);
-  console.log(userData);
   async function getdata() {
     const item = await getDoc(userData);
     setUpdated(item.data());

@@ -3,10 +3,9 @@ import BasicTable from "../../Components/BasicTable/BasicTable";
 import { WeekEeventsCard } from "../../Components/WeekEventsCard/WeekEeventsCard";
 import "./Dashboard.css";
 import { FireBaseContext } from "../../Context/FireBase";
-import { query } from "firebase/firestore";
-
+import Test from "../../Components/test/test";
 export const Dashboard = () => {
-  const [day, setDays] = useState(0);
+    const [day, setDays] = useState(0);
   const [Weeks, setWeeks] = useState(0);
   const [Months, setMonths] = useState(0);
   const [WeeksInfo, setWeeksInfo] = useState([
@@ -28,14 +27,11 @@ export const Dashboard = () => {
   ]);
   const {
     getData,
-    EventRefrence,
-    eventsQueryRole,
     currentUserRole,
     eventsQueryAccordingToUserRole,
   } = useContext(FireBaseContext);
   const [data, setData] = useState([]);
   const [eventsAccordingToRole, setEventsAccordingToRole] = useState([]);
-
   useEffect(() => {
     if (currentUserRole) {
       getData(eventsQueryAccordingToUserRole(), setData);
