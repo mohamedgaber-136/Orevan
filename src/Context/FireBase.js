@@ -78,45 +78,51 @@ const FireBaseContextProvider = ({ children }) => {
 
   const eventsQueryAccordingToUserRole = () => {
     switch (true) {
-      case currentUserRole.toLowerCase().includes("brand manager"): {   
+      case currentUserRole.admin: {
         return query(EventRefrence);
       }
-      case currentUserRole.toLowerCase().includes("franchise manager"): {
+      case currentUserRole.manager: {
         console.log("currentUserRole franchise manager case");
-        const franchiseType = currentUserRole.split("-")[1];
-        return query(EventRefrence, where("Franchise", "==", franchiseType));
+        console.log(currentUserRole.franchiseType, "type");
+        // const franchiseType = currentUserRole.split("-")[1];
+        return query(
+          EventRefrence,
+          where("Franchise", "==", currentUserRole.franchiseType)
+        );
       }
-      case currentUserRole.toLowerCase().includes("franchise user"): {
+      case currentUserRole.user: {
         console.log("currentUserRole user case");
         return query(EventRefrence, where("CreatedByID", "==", currentUsr));
       }
       default:
+        console.log("default");
+      //   return query(EventRefrence);
     }
     // return EventRefrence;
   };
   useEffect(() => {
     setLoading(false);
-    console.log(currentUsr,'currentUsr')
+    console.log(currentUsr, "currentUsr");
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log(user,'firebaseUser')
+      console.log(user, "firebaseUser");
       if (user) {
-        console.log('loggedin')
-        console.log(user,'userauth')
+        console.log("loggedin");
+        console.log(user, "userauth");
         /* `setCurrentUser` is a function that is used to set the current user's ID in the component's
         state. It is typically called when a user logs in or logs out to update the current user's
         information in the application. */
         setCurrentUser(user.uid);
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
+        console.log(finaleUser.data().Role, "Role on state change");
         setCurrentUserRole(finaleUser.data().Role);
         eventsQueryAccordingToUserRole(finaleUser.data().Role, user.uid);
         // localStorage.setItem("REF", JSON.stringify(finaleUser.data().Role));
-        // localStorage.setItem("User", JSON.stringify(user.data()));
-      } 
-      else {
-          setCurrentUser(null);
-          console.log(currentUsr,'loggedOut')
-        }
+        localStorage.setItem("User", JSON.stringify(finaleUser.data()));
+      } else {
+        setCurrentUser(null);
+        console.log(currentUsr, "loggedOut");
+      }
     });
     return () => {
       if (unsubscribe) {
@@ -124,7 +130,6 @@ const FireBaseContextProvider = ({ children }) => {
       }
     };
   }, []);
-
 
   const saveNotificationToFirebase = async (notifyID) => {
     const currentUserName = await getDoc(doc(database, "Users", currentUsr));
@@ -181,7 +186,6 @@ const FireBaseContextProvider = ({ children }) => {
         saveNotificationToFirebase,
         UserRef,
         eventsQueryAccordingToUserRole,
- 
       }}
     >
       {!loading && children}

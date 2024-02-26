@@ -83,8 +83,8 @@ const router = createBrowserRouter(
               </Protected>
             }
           />
-         
-            <Route path='MyEvents' element={<MyEvents/>}/> 
+
+          <Route path="MyEvents" element={<MyEvents />} />
           <Route
             path="Users"
             element={
@@ -104,6 +104,13 @@ root.render(
   <FireBaseContextProvider>
     <SearchContextProvider>
       <Suspense
+        children={
+          <div className="vh-100  w-100 d-flex justify-content-center align-items-center">
+            <div className="lazy-loadingImg w-75">
+              <img src={lazyImg} alt="LazyLoadingImg" width={"100%"} />
+            </div>
+          </div>
+        }
         fallback={
           <div className="vh-100  w-100 d-flex justify-content-center align-items-center">
             <div className="lazy-loadingImg w-75">
