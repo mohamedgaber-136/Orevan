@@ -113,7 +113,10 @@ export const ChosenCard = () => {
               </p>
               {ResultData.TransferOfValue
 .map((item)=><div className="wrappingItems p-1 " >
-                   {item.types}
+                     <p className='m-0'>
+                  <span className='text-white'>{item.option} :</span>
+                  <span className='text-white'> {item.textValue}</span>
+                </p>
                    </div>)}
                  
             </div>

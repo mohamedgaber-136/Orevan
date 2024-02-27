@@ -43,6 +43,7 @@ const FireBaseContextProvider = ({ children }) => {
     FontColor: "#000",
     ButtonColor: "#00F",
     AccpetAllTermss: false,
+    Policies:' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this '
   });
   const firebaseConfig = {
     apiKey: "AIzaSyBckxAp9_24tLxViaY6yX5BUln07nUk2sM",
@@ -82,8 +83,6 @@ const FireBaseContextProvider = ({ children }) => {
         return query(EventRefrence);
       }
       case currentUserRole.manager: {
-        console.log("currentUserRole franchise manager case");
-        console.log(currentUserRole.franchiseType, "type");
         // const franchiseType = currentUserRole.split("-")[1];
         return query(
           EventRefrence,
@@ -98,7 +97,7 @@ const FireBaseContextProvider = ({ children }) => {
         console.log("default");
       //   return query(EventRefrence);
     }
-    // return EventRefrence;
+    return EventRefrence;
   };
   useEffect(() => {
     setLoading(false);
@@ -108,9 +107,6 @@ const FireBaseContextProvider = ({ children }) => {
       if (user) {
         console.log("loggedin");
         console.log(user, "userauth");
-        /* `setCurrentUser` is a function that is used to set the current user's ID in the component's
-        state. It is typically called when a user logs in or logs out to update the current user's
-        information in the application. */
         setCurrentUser(user.uid);
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);

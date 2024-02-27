@@ -7,7 +7,6 @@ export const PreviewCard = () => {
       <div className=" previewCardParent p-2  rounded-2 ">
         <h3 className="py-1">Preview Event Data</h3>
         <div className="d-flex gap-2 flex-column">
-       
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
               <b>Event Name:</b>
@@ -48,21 +47,51 @@ export const PreviewCard = () => {
             <p className="m-0">
               <b>Font Color:</b>
             </p>
-            <div className='border' style={{backgroundColor:`${newEvent.FontColor}`,width:'50px',height:'5px',borderRadius:'5px'}}> </div>
+            <div
+              className="border"
+              style={{
+                backgroundColor: `${newEvent.FontColor}`,
+                width: "50px",
+                height: "5px",
+                borderRadius: "5px",
+              }}
+            >
+              {" "}
+            </div>
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
               <b>Background Color:</b>
             </p>
-            <div className='border' style={{backgroundColor:`${newEvent.BackGroundColor}`,width:'50px',height:'5px',borderRadius:'5px'}}> </div>
+            <div
+              className="border"
+              style={{
+                backgroundColor: `${newEvent.BackGroundColor}`,
+                width: "50px",
+                height: "5px",
+                borderRadius: "5px",
+              }}
+            >
+              {" "}
+            </div>
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
               <b>Button Color:</b>
             </p>
-            <div className='border' style={{backgroundColor:`${newEvent.ButtonColor}`,width:'50px',height:'5px',borderRadius:'5px'}}> </div>
+            <div
+              className="border"
+              style={{
+                backgroundColor: `${newEvent.ButtonColor}`,
+                width: "50px",
+                height: "5px",
+                borderRadius: "5px",
+              }}
+            >
+              {" "}
+            </div>
           </div>
-      
+
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
               <b>End Date:</b>
@@ -73,16 +102,23 @@ export const PreviewCard = () => {
             <p className="m-0">
               <b>City:</b>
             </p>
-            {newEvent.City.map((item,index) => (
-              <div className="wrappingItems p-1 " key={index}>{item.types}</div>
+            {newEvent.City.map((item, index) => (
+              <div className="wrappingItems p-1 " key={index}>
+                {item.types}
+              </div>
             ))}
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
               <b>Transfer of value:</b>
             </p>
-            {newEvent.TransferOfValue.map((item ,index) => (
-              <div className="wrappingItems p-1 " key={index}>{item.types}</div>
+            {newEvent.TransferOfValue.map((item, index) => (
+              <div className="wrappingItems  p-1 " key={index}>
+                <p className='m-0'>
+                  <span className='text-white'>{item.option} :</span>
+                  <span className='text-white'> {item.textValue}</span>
+                </p>
+              </div>
             ))}
           </div>
         </div>

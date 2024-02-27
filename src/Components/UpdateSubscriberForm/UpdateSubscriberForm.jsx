@@ -225,16 +225,18 @@ export const UpdateSubscriberForm = ({ user ,handleClose}) => {
                   defaultValue={updatedData?.CostPerDelegate}
                 />
               </div>
-              {/* <div className="w-50 d-flex justify-content-center">
+              <div className="w-50 d-flex justify-content-center">
 <Autocomplete
         multiple
         id="tags-outlined"
-        options={  [
-          { types: "Pharma" },
-          { types: "chem" },
-          { types: "phys" },
-        ]}
-        getOptionLabel={(option) => option.types}
+        // options={  [
+        //   { types: "Pharma" },
+        //   { types: "chem" },
+        //   { types: "phys" },
+        // ]}
+        const options = {[' Registration Fees', 'Meals ', 'Accommodation','Medical Utlitities','CME Hours',
+        'Transportation']}
+        getOptionLabel={(option) => option}
         // value={updatedData["TransferOfValue"][0]}
         filterSelectedOptions 
        onChange={(e,value)=>{
@@ -243,7 +245,7 @@ export const UpdateSubscriberForm = ({ user ,handleClose}) => {
         ...updatedData,['TransferOfValue']:value
        })
       }}
-       isOptionEqualToValue={(option, value) => option.types === value.types}
+       isOptionEqualToValue={(option, value) => option === value}
           renderInput={(params) => (
           <TextField
             {...params}
@@ -253,7 +255,7 @@ export const UpdateSubscriberForm = ({ user ,handleClose}) => {
         )}
         
       />
-              </div> */}
+              </div>
               <div className="w-50 d-flex justify-content-center">
                 <button className="w-75 p-1 m-2 rounded rounded-2 border-0 border text-white">
                   Save

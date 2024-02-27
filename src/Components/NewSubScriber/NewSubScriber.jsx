@@ -52,11 +52,11 @@ export const NewSubScriber = ({ id, handleClose }) => {
       type: "text",
       name: "Email",
     },
-    {
-      label: "National/iqamaID",
-      type: "number",
-      name: "NationalID",
-    },
+    // {
+    //   label: "National/iqamaID",
+    //   type: "number",
+    //   name: "NationalID",
+    // },
     {
       label: "Phone Number",
       type: "text",
@@ -180,7 +180,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
     }
   };
   return (
-    <Formik initialValues={initialvalues} validationSchema={validation}>
+    <Formik initialValues={initialvalues} 
+    // validationSchema={validation}
+    >
       {(values, handleChange) => (
         <>
           <Form
@@ -191,6 +193,27 @@ export const NewSubScriber = ({ id, handleClose }) => {
               <BreadCrumbs id={id} sub={"Subscriber"} />
             </h3>
             <div className="w-100  d-flex flex-wrap ">
+                <div
+                className="w-50  flex-column align-items-center    d-flex justify-content-center"
+              >
+                <div className="text-danger ps-5 align-self-start">
+                  <ErrorMessage name={'NationalID'} />
+                </div>
+
+                <Field
+                  as={TextField}
+                  label={'National/iqamaID'}
+                  id={"NationalID"}
+                  sx={{ m: 1, width: "25ch" }}
+                  focused
+                  type={'number'}
+                  className="w-75 "
+                  name={'NationalID'}
+                  onChange={checkNationalId}
+                  value={change}
+                />
+              </div>
+              
               {NewSubScriberInputs.map((item, index) =>
                 item.name === "PhoneNumber" ? (
                   <div
@@ -216,7 +239,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       name={item.name}
                       InputProps={{
                         startAdornment: (
-                          <InputAdornment position="start">
+                          <InputAdornment position="start" >
                             {countryCode}
                           </InputAdornment>
                         ),
@@ -224,28 +247,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
                     />
                   </div>
                 ) : 
-                item.name==='NationalID'?
-                <div
-                className="w-50  flex-column align-items-center    d-flex justify-content-center"
-                key={`${item.label}-${index}`}
-              >
-                <div className="text-danger ps-5 align-self-start">
-                  <ErrorMessage name={item.name} />
-                </div>
-
-                <Field
-                  as={TextField}
-                  label={item.label}
-                  id={index}
-                  sx={{ m: 1, width: "25ch" }}
-                  focused
-                  type={item.type}
-                  className="w-75 "
-                  name={item.NationalID}
-                  onChange={checkNationalId}
-                  value={change}
-                />
-              </div>: <div
+              <div
                 className="w-50  flex-column align-items-center    d-flex justify-content-center"
                 key={`${item.label}-${index}`}
               >
@@ -262,7 +264,8 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   type={item.type}
                   className="w-75 "
                   name={item.name}
-                  value={autoFilledUser[item.name]}
+                  value={autoFilledUser[item.name]|| ''}
+                  onChange={(e) => setAutoFilledUser({ ...autoFilledUser, [item.name]: e.target.value })}
                   // onChange={handleChange}
                 />
               </div>

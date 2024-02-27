@@ -9,9 +9,7 @@ import MultipleSelection from "../../MultipleSelection/MultipleSelection";
 import ToggleBtn from "../../ToggleBtn/ToggleBtn";
 import TimePicker from "../../timePicker/TimePicker";
 import { FranchisedropDown } from "./FranchisedropDown";
-import MultipleSelectionToV from "../../MultipleSelectionToV/MultipleSelectionToV";
-import Test from "../../test/test";
-import ModalTovData from "../../MultipleSelectionToV/ModalTovData";
+import Tov from "../../Tov/Tov";
 export const StepOne = () => {
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
   const [amexNumber, setAmexNumber] = useState(false);
@@ -33,7 +31,6 @@ export const StepOne = () => {
     { types: "chem" },
     { types: "phys" },
   ];
-  // const City = [{ types: "egypt" }, { types: "saudi" }, { types: "frace" }];
   const getData = (e) => {
     console.log(e.target.name,'e')
     setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
@@ -43,7 +40,15 @@ export const StepOne = () => {
       setFormErrors({ ...formErrors, [e.target.name]: "Required" });
     }
   };
-
+  const TovSum = ()=>{
+    const data = newEvent.TransferOfValue
+    console.log(data,'data')
+    let sum = data.map((item)=>item.textValue)
+    let result = sum.reduce((x,y)=>parseFloat(x)+parseFloat(y))
+    return result
+  }
+  
+  // console.log(newEvent,'newEvent')
   return (
     <div>
       <Formik>
@@ -80,15 +85,16 @@ export const StepOne = () => {
                           name={"CostperDelegate"}
                           label={<b>Cost Per Delegate</b>}
                           focused
-                          defaultValue={newEvent.CostperDelegate}
                           className="w-100"
                           type="number"
-                          onChange={getData}  
+                          readOnly
+                          value={TovSum()}
+                          // onChange={getData}  
                         />
-                        <small className="text-danger errorMsg">
+                        {/* <small className="text-danger errorMsg">
                           {" "}
                           {formErrors.CostperDelegate}
-                        </small>
+                        </small> */}
                       </div>
                     </div>
                     <div className="d-flex gap-5 flex-column w-50 ">
@@ -148,7 +154,8 @@ export const StepOne = () => {
                   </div> 
                 </div>
                  <div className="w-100 errorParent px-md-4 px-2  ">
-                  <Test/>
+                  <Tov SetError={setFormErrors}
+                    formErrors={formErrors}/>
                   {/* <MultipleSelectionToV
                     type="TransferOfValue"
                     label="Transfer of Value"

@@ -99,6 +99,12 @@ export default function DataTable({ row }) {
       label: "Cost / Delegate	",
     },
     {
+      id: "TransferOfValue",
+      numeric: true,
+      disablePadding: false,
+      label: "Transfer of Value	",
+    },
+    {
       id: "EventCost",
       numeric: true,
       disablePadding: false,
@@ -420,6 +426,14 @@ export default function DataTable({ row }) {
                     align="left"
                   >
                     {row.CostperDelegate}
+                  </TableCell>
+                  <TableCell
+                    onClick={() =>
+                      navigate(`/app/subscribers/${row.Id}/${row.ID}`)
+                    }
+                    align="left"
+                  >
+                    {row.TransferOfValue.map((item)=><p className="wrappingItems m-1 p-1 text-center">{item.option} : {item.textValue}</p>)}
                   </TableCell>
                   <TableCell
                     onClick={() =>

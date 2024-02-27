@@ -297,3 +297,6 @@ input{
 .css-1h51icj-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input,.css-gga68z-MuiInputBase-input{
   border: none !important;
 }
+.css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input{
+  border :0 !important;
+}

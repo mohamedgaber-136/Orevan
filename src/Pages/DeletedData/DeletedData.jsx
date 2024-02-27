@@ -1,8 +1,12 @@
 import React from 'react'
-import DeletedTable from '../../Components/DeletedTable/DeletedTable'
+import { Outlet} from 'react-router-dom'
+import AppBar from './AppBar/AppBar'
 
 export const DeletedData = () => {
   return (
-    <div><DeletedTable/></div>
+    <div>
+      <AppBar/>
+<Outlet/>
+    </div>
   )
 }

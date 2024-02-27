@@ -33,10 +33,10 @@ export const Navbar = ({ navAppear }) => {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    if (currentUserRole)
-      setIsAllowedUser(currentUserRole.toLowerCase().includes("brand manager"));
-  }, [currentUserRole]);
+  // useEffect(() => {
+  //   if (currentUserRole)
+  //     setIsAllowedUser(currentUserRole.toLowerCase().includes("brand manager"));
+  // }, [currentUserRole]);
 
   const MenuData = [
     {
