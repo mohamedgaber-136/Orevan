@@ -46,7 +46,21 @@ export const SearchFormik = ({ rows, setRows }) => {
         String(value).toLowerCase().includes(search.toLowerCase())
       )
     );
-    setRows(finalFilterd);
+    let finalFilterdTov = filtered.filter((item)=>{
+        if(item.TransferOfValue.map((item)=>item.types.includes(TovType))){
+          console.log(item)
+              // return item
+            }else{
+              console.log('no')
+            }
+    })
+    // console.log(filtered[0].TransferOfValue.map((item)=>item.types.includes('CME Hours')))
+    // .map((item)=>{
+    //  let data=  item.find((item)=>item.types===TovType)
+    //  console.log(data)
+    // setRows(finalFilterd);
+    // setRows()
+    console.log(finalFilterdTov,'finalFilterdTov')
   };
   const BtnCheck = (e) => {
     setSearch(e.target.value);
@@ -56,7 +70,7 @@ export const SearchFormik = ({ rows, setRows }) => {
       setDisabledBtn(true);
     }
   };
-
+console.log(TovType)
   return (
     <Formik initialValues={intialValues}>
       {() => (
