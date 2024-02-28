@@ -12,8 +12,8 @@ export const StepTwo = () => {
     setAccpetAll(!AccpetAllTermss);
     setNewEvent({...newEvent,AccpetAllTermss:AccpetAllTermss})
   };
-  const initialContent = ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I’ve read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this '
-  const [content, setContent] = useState(initialContent);
+  // const initialContent = ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I’ve read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this '
+  // const [content, setContent] = useState(initialContent);
   const [editMode, setEditMode] = useState(false);
 
   const handleDoubleClick = () => {
@@ -21,7 +21,8 @@ export const StepTwo = () => {
   };
 
   const handleChange = (event) => {
-    setContent(event.target.value);
+    // setContent(event.target.value);
+    setNewEvent({...newEvent,Policies:event.target.value})
   };
 
   const handleBlur = () => {
@@ -45,6 +46,7 @@ export const StepTwo = () => {
     pdfWindow.document.close();
     pdfWindow.history.pushState(null, null, URI);
   };
+  console.log(newEvent,'newEvent')
   return (
     <div className="px-4 d-flex flex-md-row flex-column justify-content-center gap-3 align-items-center StepTwoParent ">
       <div className="w-50">
@@ -73,18 +75,17 @@ export const StepTwo = () => {
         <div className='w-100' >
           <p>
             <b className="text-secondary">By accepting this,</b>
-            {/* <input type='text' value=', I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I’ve read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this ' readOnly={true} disabled={true} className="border-0 h-100 bg-transparent"/> */}
             <div onDoubleClick={handleDoubleClick}>
       {editMode ? (
         <textarea
-          value={content}
+          value={newEvent.Policies}
           onChange={handleChange}
           onBlur={handleBlur}
           className='w-100'
           autoFocus
         />
       ) : (
-        <div>{content}</div>
+        <div>{newEvent.Policies}</div>
       )}
     </div>
             

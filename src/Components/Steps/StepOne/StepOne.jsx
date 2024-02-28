@@ -3,7 +3,7 @@ import DateByYMD from "../../DateByYMD/DateByYMD";
 import { City } from "../../../Json/sa";
 import TextField from "@mui/material/TextField";
 import "./StepOneStyle.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../../Context/FireBase";
 import MultipleSelection from "../../MultipleSelection/MultipleSelection";
 import ToggleBtn from "../../ToggleBtn/ToggleBtn";
@@ -13,6 +13,9 @@ import Tov from "../../Tov/Tov";
 export const StepOne = () => {
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
   const [amexNumber, setAmexNumber] = useState(false);
+  const [CPD, SetCPD] = useState(0);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
   const [formErrors, setFormErrors] = useState({
     EventName:newEvent.EventName?'':'Required',
     CreatedAt: newEvent.StartDate?'':'Required',
@@ -22,15 +25,9 @@ export const StepOne = () => {
     P3: newEvent.P3?'':'Required',
     PO: newEvent.PO?'':'Required',
     Franchise: newEvent.Franchise?'':'Required',
-    CostperDelegate: newEvent.CostperDelegate?'':'Required',
     DateEndHours:newEvent.DateEndHours?'':'Required',
     DateFromHours:newEvent.DateFromHours?'':'Required'
   });
-  const Franchises = [
-    { types: "Pharma" },
-    { types: "chem" },
-    { types: "phys" },
-  ];
   const getData = (e) => {
     console.log(e.target.name,'e')
     setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
@@ -42,13 +39,24 @@ export const StepOne = () => {
   };
   const TovSum = ()=>{
     const data = newEvent.TransferOfValue
-    console.log(data,'data')
-    let sum = data.map((item)=>item.textValue)
-    let result = sum.reduce((x,y)=>parseFloat(x)+parseFloat(y))
-    return result
-  }
+    if( newEvent.TransferOfValue.length){
   
-  // console.log(newEvent,'newEvent')
+    let sum = data.map((item)=>item.value)
+    let result = sum.reduce((x,y)=>parseFloat(x)+parseFloat(y))
+    SetCPD(result)
+    return result
+  } else{
+    return 0
+  }}
+  useEffect(()=>{
+    setNewEvent({ ...newEvent, CostperDelegate: CPD});
+
+  },[CPD])
+  useEffect(()=>{
+    TovSum()
+  },[selectedOptions])
+  console.log(selectedOptions,'new')
+  console.log(newEvent,'new')
   return (
     <div>
       <Formik>
@@ -85,23 +93,18 @@ export const StepOne = () => {
                           name={"CostperDelegate"}
                           label={<b>Cost Per Delegate</b>}
                           focused
-                          className="w-100"
+                          className="w-100 CostPerDelegate"
                           type="number"
                           readOnly
                           value={TovSum()}
-                          // onChange={getData}  
                         />
-                        {/* <small className="text-danger errorMsg">
-                          {" "}
-                          {formErrors.CostperDelegate}
-                        </small> */}
                       </div>
                     </div>
                     <div className="d-flex gap-5 flex-column w-50 ">
                       <div className="errorParent">
                         <TextField
                           name={'PO'}
-                          label={amexNumber ? "Amex Num" : "PO"}
+                          label={amexNumber ? <b>Amex Num </b>:<b>PO</b>}
                           focused
                           className="w-100"
                           defaultValue={newEvent.PO}
@@ -155,15 +158,9 @@ export const StepOne = () => {
                 </div>
                  <div className="w-100 errorParent px-md-4 px-2  ">
                   <Tov SetError={setFormErrors}
+                  selectedOptions={selectedOptions}
+                  setSelectedOptions={setSelectedOptions}
                     formErrors={formErrors}/>
-                  {/* <MultipleSelectionToV
-                    type="TransferOfValue"
-                    label="Transfer of Value"
-                    className="w-100"
-                    list={Franchises}
-                    SetError={setFormErrors}
-                    formErrors={formErrors}
-                  /> */}
                   <small className="text-danger errorMsg">
                     {" "}
                     {formErrors.TransferOfValue}

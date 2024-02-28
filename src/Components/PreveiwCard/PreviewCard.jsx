@@ -9,6 +9,12 @@ export const PreviewCard = () => {
         <div className="d-flex gap-2 flex-column">
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
+              <b>ID:</b>
+            </p>
+            <p className="m-0">{newEvent.Id}</p>
+          </div>
+          <div className="d-flex align-items-center gap-2">
+            <p className="m-0">
               <b>Event Name:</b>
             </p>
             <p className="m-0">{newEvent.EventName}</p>
@@ -115,8 +121,8 @@ export const PreviewCard = () => {
             {newEvent.TransferOfValue.map((item, index) => (
               <div className="wrappingItems  p-1 " key={index}>
                 <p className='m-0'>
-                  <span className='text-white'>{item.option} :</span>
-                  <span className='text-white'> {item.textValue}</span>
+                  <span className='text-white'>{item.types} :</span>
+                  <span className='text-white'> {item.value}</span>
                 </p>
               </div>
             ))}

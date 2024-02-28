@@ -55,6 +55,11 @@ export const Navbar = ({ navAppear }) => {
       data: "Teams",
       nav: "teams",
     },
+      {
+      icon: "fa-solid fa-users-viewfinder",
+      data: "Users",
+      nav: "AllUsers",
+    },
     // {
     //   icon: "fa-solid fa-file-lines",
     //   data: "Profile",

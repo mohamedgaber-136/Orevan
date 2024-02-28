@@ -60,6 +60,7 @@ const FireBaseContextProvider = ({ children }) => {
   const TeamsRefrence = collection(database, "Teams");
   const SubscribersRefrence = collection(database, "Subscribers");
   const UserRef = collection(database, "Users");
+  const SubscribersRef = collection(database, "Subscribers");
   const EventsDeletedRef = collection(database, "EventsDeleted");
   const SubscribersDeletedRef = collection(database, "SubscribersDeleted");
   //  Authentication
@@ -182,6 +183,7 @@ const FireBaseContextProvider = ({ children }) => {
         saveNotificationToFirebase,
         UserRef,
         eventsQueryAccordingToUserRole,
+        SubscribersRef
       }}
     >
       {!loading && children}

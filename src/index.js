@@ -32,6 +32,7 @@ import { Protected } from "./Components/ProtectedRouted/Protected.jsx";
 import { MyEvents } from "./Pages/MyEvents/MyEvents.jsx";
 import { DeletedSubscribers } from "./Pages/DeletedData/DeletedSubscribers/DeletedSubscribers.jsx";
 import { DeletedEvents } from "./Pages/DeletedData/DeletedElements/DeletedEvents.jsx";
+import { AllUsers } from "./Pages/AllUsers/AllUsers.jsx";
 async function delayForDemo(promise) {
   return new Promise((resolve) => {
     setTimeout(resolve, 4000);
@@ -82,6 +83,14 @@ const router = createBrowserRouter(
             element={
               <Protected nestedRoute={true}>
                 <Teams />
+              </Protected>
+            }
+          />
+          <Route
+            path="AllUsers"
+            element={
+              <Protected nestedRoute={true}>
+                <AllUsers />
               </Protected>
             }
           />

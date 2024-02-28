@@ -131,10 +131,10 @@ export const NewSubScriber = ({ id, handleClose }) => {
 
     const data = {
       id: randomXToY(1, 100000000),
-      FirstName: e.target[0].value,
-      LastName: e.target[2].value,
-      Email: e.target[4].value,
-      NationalID: e.target[6].value,
+      FirstName: e.target[2].value,
+      LastName: e.target[4].value,
+      Email: e.target[6].value,
+      NationalID: e.target[0].value,
       PhoneNumber: e.target[8].value,
       Speciality: e.target[10].value,
       Organization: e.target[12].value,
@@ -151,6 +151,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
        setErrorMsg(true);
      } else {
          swal({
+          text:`Subscriber ${data.Email} added successfully `,
                  icon: "success",
            }).then(async () => {
        const eventRef = await getDoc(ref);

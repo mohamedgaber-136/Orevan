@@ -19,8 +19,9 @@ export default function BasicTable({ row ,setDays,setMonths,setWeeks}) {
   };
   useEffect(()=>{
     const dates = new Date()
-    const date1 = new Date(dates.toLocaleString()); // replace with your first date
-    setRows(row)
+    const date1 = new Date(dates.toLocaleString());
+    const days =  row.filter(({CreatedAt})=>new Date(new Date(CreatedAt).toLocaleDateString()).getTime()===new Date(dates.toLocaleDateString()).getTime() )
+    setRows(days) // replace with your first date
     setDays((row.filter(({CreatedAt})=>new Date(new Date(CreatedAt).toLocaleDateString()).getTime()===new Date(dates.toLocaleDateString()).getTime() )).length)
     setMonths((row.filter(({CreatedAt})=>new Date(CreatedAt).getMonth()===dates.getMonth())).length)
     setWeeks((row.filter(({CreatedAt})=>areDatesInSameWeek(date1, new Date(new Date(CreatedAt).toLocaleDateString()))).length))

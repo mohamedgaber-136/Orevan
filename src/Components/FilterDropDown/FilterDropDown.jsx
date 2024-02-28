@@ -5,7 +5,6 @@ import Select from '@mui/material/Select';
 import { Field } from 'formik';
 
 export default function FilterDropDown({setfilterType,filterType}) {
-
   const handleChange = (event) => {
     setfilterType(event.target.value );
   };

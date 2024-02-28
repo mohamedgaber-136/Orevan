@@ -12,8 +12,9 @@ export const StepThree = () => {
     return Math.round(randVal);
   }
   useEffect(() => {
-    setNewEvent({ ...newEvent, Id:   randomXToY(1, 1000000000)     })
+    setNewEvent({ ...newEvent, Id:   randomXToY(1, 100000)     })
   }, [])
+  console.log(newEvent,'newEvent')
   return (
     <div className="d-flex justify-content-center flex-column gap-4 align-items-center container mt-5">
       <div className="d-flex justify-content-between flex-wrap  w-100 gap-5 align-items-center">

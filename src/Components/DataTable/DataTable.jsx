@@ -433,7 +433,7 @@ export default function DataTable({ row }) {
                     }
                     align="left"
                   >
-                    {row.TransferOfValue.map((item)=><p className="wrappingItems m-1 p-1 text-center">{item.option} : {item.textValue}</p>)}
+                    {row.TransferOfValue.map((item,index)=><p className="wrappingItems m-1 p-1 text-center" key={index}>{item.types} : {item.value}</p>)}
                   </TableCell>
                   <TableCell
                     onClick={() =>

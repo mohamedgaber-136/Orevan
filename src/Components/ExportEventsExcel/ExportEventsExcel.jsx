@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import * as XLSX from 'xlsx';
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 const ExportEventsExcel = ({ data, filename, sheetname }) => {
@@ -17,26 +15,7 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
     "Created At":item.StartDate,
    }))
 
-  // const exportToExcel = () => {
-  //   const ws = XLSX.utils.json_to_sheet(extractData);
-  //   const wb = XLSX.utils.book_new();
-  //   var wscols = [
-  //     {wch:20},
-  //     {wch:20},
-  //     {wch:20},
-  //     {wch:20},
-  //     {wch:20},
-  //     {wch:20},
-  //     {wch:20},
-  //     {wch:20},
-  //     {wch:20}, 
-  //     {wch:20},
-  //     {wch:20}, 
-  // ];
-  // ws['!cols'] = wscols;
-  //   XLSX.utils.book_append_sheet(wb, ws, sheetname);
-  //   XLSX.writeFile(wb, `${filename}.xlsx`);
-  // };
+
   const exportToExcel  = async ()=>{
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetname);
