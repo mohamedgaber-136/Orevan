@@ -9,8 +9,14 @@ export const SearchFormik = ({ rows, setRows }) => {
   const [endDateFilter, setEndDateFilter] = useState(null);
   const [search, setSearch] = useState("");
   const [filterType, setfilterType] = useState("StartDate");
-  const options = [{types:' Registration Fees',value:0}, {types:'Meals ',value:0}, {types:'Accommodation',value:0},{types:'Medical Utlitities',value:0},{types:'CME Hours',value:0},
-  {types:'Transportation',value:0}];
+  const options = [
+    { types: " Registration Fees", value: 0 },
+    { types: "Meals ", value: 0 },
+    { types: "Accommodation", value: 0 },
+    { types: "Medical Utlitities", value: 0 },
+    { types: "CME Hours", value: 0 },
+    { types: "Transportation", value: 0 },
+  ];
   const [TovType, setTov] = useState(options[0].types);
   const [disabledBtn, setDisabledBtn] = useState(true);
   const intialValues = {
@@ -41,26 +47,51 @@ export const SearchFormik = ({ rows, setRows }) => {
         return false;
       }
     });
+
+    console.log(filtered, "filtered");
     let finalFilterd = filtered.filter((item) =>
       Object.values(item).some((value) =>
         String(value).toLowerCase().includes(search.toLowerCase())
       )
     );
-    let finalFilterdTov = filtered.filter((item)=>{
-        if(item.TransferOfValue.map((item)=>item.types.includes(TovType))){
-          console.log(item)
-              // return item
-            }else{
-              console.log('no')
-            }
-    })
+
+    console.log(finalFilterd, "finalFilterd");
+
+    let finalFilterdTov = filtered.filter(
+      ({ TransferOfValue }) =>
+        TransferOfValue.filter((item) => item.types.includes(TovType)).length
+    );
+    console.log(finalFilterdTov, "finalFilterdTov");
+    setRows(finalFilterdTov);
+    // setRows()
+
+    // let finalFilterdTov = rows.map(
+    //   (item) => {
+    //     console.log(
+    //       item.TransferOfValue.filter((item) => item.types.includes(TovType)),
+    //       "result value"
+    //     );
+    //   }
+    //   // item.TransferOfValue.filter(
+    //   //   (item) => item.types.includes(TovType) == true
+    //   // )
+    // );
+    // {
+    //   // console.log(
+    //   //   item.TransferOfValue.filter((item) => item.types.includes(TovType)),
+    //   //   "result value"
+    //   // );
+    //   // if (item.TransferOfValue.map((item) => item.types.includes(TovType))) {
+    //   //   console.log(item);
+    //   //   // return item
+    //   // } else {
+    //   //   console.log("no");
+    //   // }
+    // });
     // console.log(filtered[0].TransferOfValue.map((item)=>item.types.includes('CME Hours')))
     // .map((item)=>{
     //  let data=  item.find((item)=>item.types===TovType)
     //  console.log(data)
-    // setRows(finalFilterd);
-    // setRows()
-    console.log(finalFilterdTov,'finalFilterdTov')
   };
   const BtnCheck = (e) => {
     setSearch(e.target.value);
@@ -70,7 +101,7 @@ export const SearchFormik = ({ rows, setRows }) => {
       setDisabledBtn(true);
     }
   };
-console.log(TovType)
+  console.log(TovType);
   return (
     <Formik initialValues={intialValues}>
       {() => (
@@ -152,7 +183,11 @@ console.log(TovType)
                     name="FilterType"
                     onChange={handleChangeTov}
                   >
-                    {options.map((item,ind)=><MenuItem value={item.types} key={`${item.types}-${ind}`}>{item.types}</MenuItem>)}
+                    {options.map((item, ind) => (
+                      <MenuItem value={item.types} key={`${item.types}-${ind}`}>
+                        {item.types}
+                      </MenuItem>
+                    ))}
                     {/* <MenuItem value={"CreatedAt"}>Created at</MenuItem>
                     <MenuItem value={"StartDate"}>Started at</MenuItem>
                     <MenuItem value={"EndDate"}>End at</MenuItem> */}
