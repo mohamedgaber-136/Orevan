@@ -20,7 +20,7 @@ export const Subscribers = () => {
         <div className="d-flex justify-content-center">
         <ChosenCard/> 
         </div>
-        <SubScribersTable rows={Subscribers}  refCollection={infoCollection} />
+        <SubScribersTable row={Subscribers}  refCollection={infoCollection} />
     </div>
   )
 }

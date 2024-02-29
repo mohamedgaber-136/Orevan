@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState ,memo } from "react";
+import React, {  useEffect, useState ,memo } from "react";
 import { TextField } from "@mui/material";
-import { FireBaseContext } from "../../Context/FireBase";
 const SearchText = ({ list ,setRows,row}) => {
-  // const { setRows } = useContext(FireBaseContext);
   const [filter, setFilter] = useState("");
   const [data, setData] = useState([]);
   const handleFilterChange = (e) => {
@@ -18,11 +16,10 @@ const SearchText = ({ list ,setRows,row}) => {
     setData(filteredData);
   };
   useEffect(() => {
-    if (filter.length == 0) {
+    if (filter.length === 0) {
       setRows([...row]);
     } else {
       setRows([...data]);
-      console.log('yes')
     }
   }, [filter]);
   return (

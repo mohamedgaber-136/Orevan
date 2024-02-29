@@ -32,7 +32,7 @@
     position: absolute;
     left: 0px;
     background-color: white;
-    top: -25px;
+    bottom: -25px;
     font-size: 0.75rem;
 }
 .errorParent{

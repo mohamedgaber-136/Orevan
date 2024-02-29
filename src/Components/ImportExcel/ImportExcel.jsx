@@ -65,7 +65,7 @@ import { addDoc, collection, doc, getDoc } from "firebase/firestore";
     setFilterd([...arrayOfObjects])
     // SendDataFireBase()
   },[data])
-  console.log(filterdData);
+  // console.log(filterdData);
   return (
   
   <Button   id="fade-button" className="d-flex flex-column "   >

@@ -23,10 +23,11 @@ import ChangeEventModal from "../ChangeEventModal/ChangeEventModal";
 import ExportToExcelButton from "../ExportBtn/ExportToExcelButton";
 import SettingsBtn from "../SettingsBtn/SettingsBtn";
 import SearchText from "../SearchText/SearchText";
-export default function SubScribersTable({ rows, refCollection }) {
+export default function SubScribersTable({ row, refCollection }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
+  const [rows, setrows] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -55,6 +56,7 @@ export default function SubScribersTable({ rows, refCollection }) {
     });
     return stabilizedThis?.map((el) => el[0]);
   }
+  React.useEffect(()=>{setrows(row)},[row])
   // HeadTitles
   const headCells = [
     {
@@ -213,7 +215,7 @@ export default function SubScribersTable({ rows, refCollection }) {
           </IconButton>
         </Tooltip>
         }
-        <div className='d-flex gap-2 align-items-center
+        <div className='d-flex  gap-2 align-items-center
 '>
    <ExportToExcelButton
               filename="exported_data"
@@ -222,7 +224,7 @@ export default function SubScribersTable({ rows, refCollection }) {
             />
 {" "}
 <ImportExcel />
-{/* <SearchText list={rows}/> */}
+{/* <SearchText list={rows} setRows={setrows} row={row} /> */}
 </div>
   <Tooltip title="AddNew">
   <IconButton>

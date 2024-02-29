@@ -103,7 +103,7 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
   }
 
 
-  return (<button onClick={exportToExcel} className='bg-transparent border-0'>
+  return (<button onClick={exportToExcel} className='bg-transparent d-flex border-0'>
     <i className="fa-solid fa-file-arrow-down fs-4 darkBlue"></i>
    <span className='fs-6 fw-light'> excel</span> 
   </button>

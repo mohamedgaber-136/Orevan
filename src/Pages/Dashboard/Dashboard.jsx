@@ -43,6 +43,7 @@ export const Dashboard = () => {
       setEventsAccordingToRole(data);
     }
   }, [data]);
+  console.log(Months,'day')
   return (
     <div className="d-flex flex-column gap-4 align-items-start ">
       <div className="container">
@@ -55,9 +56,8 @@ export const Dashboard = () => {
               {WeeksInfo.map((item, ind) => (
                 <WeekEeventsCard
                   key={ind}
-                  num={data.length}
+                  num={item.times}
                   calen={item.calen}
-                  info={item.times}
                   color={item.color}
                 />
               ))}

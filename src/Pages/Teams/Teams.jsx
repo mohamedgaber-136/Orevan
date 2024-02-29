@@ -18,13 +18,27 @@ const getValue = async ()=>{
 useEffect(()=>{
   getValue()
 },[])
-console.log(collectionKeys,'collection')
+if(collectionKeys.length){
 
-    return (
-      <div className='d-flex flex-column container gap-3 EventsPageParent '>
+  return (
+    <div className='d-flex flex-column container gap-3 EventsPageParent '>
       <h2>Teams</h2>
    <TeamsTable  row={collectionKeys}  /> 
       </div>
   )
+}else{
+  return   <div className="w-100 d-flex justify-content-center ">
+  <div className="dot-spinner ">
+    <div className="dot-spinner__dot"></div>
+    <div className="dot-spinner__dot"></div>
+    <div className="dot-spinner__dot"></div>
+    <div className="dot-spinner__dot"></div>
+    <div className="dot-spinner__dot"></div>
+    <div className="dot-spinner__dot"></div>
+    <div className="dot-spinner__dot"></div>
+    <div className="dot-spinner__dot"></div>
+  </div>
+</div>
+}
 }
 

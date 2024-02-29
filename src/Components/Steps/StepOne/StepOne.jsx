@@ -17,16 +17,16 @@ export const StepOne = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const [formErrors, setFormErrors] = useState({
-    EventName:newEvent.EventName?'':'Required',
-    CreatedAt: newEvent.StartDate?'':'Required',
-    City: newEvent.City.length!==0?'':'Required',
-    EndDate: newEvent.EndDate?'':'Required',
-    TransferOfValue: newEvent.TransferOfValue.length!==0?'':'Required',
-    P3: newEvent.P3?'':'Required',
-    PO: newEvent.PO?'':'Required',
-    Franchise: newEvent.Franchise?'':'Required',
-    DateEndHours:newEvent.DateEndHours?'':'Required',
-    DateFromHours:newEvent.DateFromHours?'':'Required'
+    EventName:newEvent.EventName?'':'',
+    CreatedAt: newEvent.StartDate?'':'',
+    City: newEvent.City.length!==0?'':'',
+    EndDate: newEvent.EndDate?'':'',
+    TransferOfValue: newEvent.TransferOfValue.length!==0?'':'',
+    P3: newEvent.P3?'':'',
+    PO: newEvent.PO?'':'',
+    Franchise: newEvent.Franchise?'':'',
+    DateEndHours:newEvent.DateEndHours?'':'',
+    DateFromHours:newEvent.DateFromHours?'':''
   });
   const getData = (e) => {
     console.log(e.target.name,'e')
