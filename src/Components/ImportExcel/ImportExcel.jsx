@@ -27,6 +27,22 @@ import Button from '@mui/material/Button';
     reader.readAsBinaryString(file);
    
   };
+  const arrayData = [
+    ['name', 'age', 'gender'],
+    ['John', 25, 'Male'],
+    ['Alice', 30, 'Female'],
+    ['Bob', 22, 'Male'],
+  ];
+  
+  const arrayOfObjects = data.slice(1).map((values) => {
+    return data[0].reduce((obj, key, index) => {
+      obj[key] = values[index];
+      return obj;
+    }, {});
+  });
+  
+  console.log(arrayOfObjects);
+  // console.log(data)
   return (
   
   <Button   id="fade-button" className="d-flex flex-column "   >

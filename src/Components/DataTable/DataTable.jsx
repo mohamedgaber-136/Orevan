@@ -361,7 +361,7 @@ export default function DataTable({ row }) {
             <ExportDropDown rows={rows}  />{" "}
           </span>
         </span>
-        {/* <ImportExcel />  */}
+        <ImportExcel /> 
         <SearchText list={rows} setRows={setRows} row={row} />
       </div>
       <EnhancedTableToolbar numSelected={selected.length} />

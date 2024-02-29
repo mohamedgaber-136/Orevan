@@ -1,62 +1,16 @@
-// import * as XLSX from 'xlsx';
-// import Button from '@mui/material/Button';
-
-// const ExportToExcelButton = ({ data, filename, sheetname }) => {
-//   const extractData = data.map((item)=>({
-//     FirstName:item.FirstName,
-//     LastName:item.LastName,
-//     Speciality:item.Speciality,
-//     id:item.id,
-//     City:item.City,
-//     Email:item.Email,
-//     LicenseID:item.LicenseID,
-//     NationalID:item.NationalID,
-//     Organization:item.Organization,
-//     PhoneNumber:item.PhoneNumber,
-//    }))
-
-//   const exportToExcel = () => {
-//     const ws = XLSX.utils.json_to_sheet(extractData);
-//     const wb = XLSX.utils.book_new();
-//     var wscols = [
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }},
-//       {wch:20,s: { font: { bold: true, color: { rgb: "FF0000" }} }}, 
-//   ];
-//   ws['!cols'] = wscols;
-//     XLSX.utils.book_append_sheet(wb, ws, sheetname);
-//     XLSX.writeFile(wb, `${filename}.xlsx`);
-//   };
-
-//   return (
-
-//       <Button   id="fade-button" className="d-flex flex-column "  onClick={exportToExcel}  >
-//         <i className="fa-solid fa-file-arrow-up fs-4 darkBlue"></i>   
-//         <span>export</span>
-//     </Button>
-//   );
-// };
-
-// export default ExportToExcelButton;
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 const ExportToExcelButton = ({ data, filename, sheetname }) => {
   const extractData = data.map((item)=>({
-        FirstName:item.FirstName,
-        LastName:item.LastName,
+    ID:item.id,
+    'Medical ID':item.MedicalID,
+        'First Name':item.FirstName,
+        'Last Name':item.LastName,
         Speciality:item.Speciality,
-        id:item.id,
         City:item.City,
         Email:item.Email,
-        LicenseID:item.LicenseID,
-        NationalID:item.NationalID,
+        "License ID":item.LicenseID,
+        "National ID":item.NationalID,
         Organization:item.Organization,
         PhoneNumber:item.PhoneNumber,
        }))
@@ -66,14 +20,15 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetname);
     const headersList = [
-      "FirstName",
-      "LastName",
+      "ID",
+      "Medical ID",
+      "First Name",
+      "Last Name",
       "Speciality",
-      "id",
       "City",
       "Email",
-      "LicenseID",
-      "NationalID",
+      "License ID",
+      "National ID",
       "Organization",
       "PhoneNumber",
   
@@ -91,7 +46,11 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
 
         };
         cell.font = { size: 12 };
-        cell.alignment = { horizontal: "center", vertical: "middle" };      
+        cell.alignment = { horizontal: "center", vertical: "middle" };   
+        
+        if (typeof cell.value === 'number') {
+          cell.numFmt = '0'; // Display as integer, you can customize this format
+        }
     });
   
     // Add data rows
@@ -115,6 +74,9 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
           fgColor: { argb: "FFADD8E6" }, // ARGB format for light blue color
         };
         cell.alignment = { horizontal: "center", vertical: "middle" };
+        if (typeof cell.value === 'number') {
+          cell.numFmt = '0'; // Display as integer, you can customize this format
+        }
       });
     });
     // Set column widths to fit the content
@@ -131,6 +93,8 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
       column.width = maxLength + 5; // Add some extra padding
     });
     worksheet.getRow(1).height = 20;
+  //   const largeNumberColumn = worksheet.getColumn('K');
+  // largeNumberColumn.numFmt = '0';
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

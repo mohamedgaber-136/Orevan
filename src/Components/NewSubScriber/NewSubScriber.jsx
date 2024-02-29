@@ -78,6 +78,11 @@ export const NewSubScriber = ({ id, handleClose }) => {
       name: "LicenseID",
     },
     {
+      label: "Medical ID",
+      type: "number",
+      name: "MedicalID",
+    },
+    {
       label: "City",
       type: "text",
       name: "City",
@@ -139,7 +144,8 @@ export const NewSubScriber = ({ id, handleClose }) => {
       Speciality: e.target[10].value,
       Organization: e.target[12].value,
       LicenseID: e.target[14].value,
-      City: e.target[16].value,
+      MedicalID: e.target[16].value,
+      City: e.target[18].value,
     };
     data.PhoneNumber=`${countryCode}${data.PhoneNumber}`
     console.log(data)
