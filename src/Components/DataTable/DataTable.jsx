@@ -35,7 +35,6 @@ import {
   getDocs,
 } from "firebase/firestore";
 import SearchText from "../SearchText/SearchText";
-import ImportExcel from "../ImportExcel/ImportExcel";
 import { SearchFormik } from "../SearchFormik/SearchFormik";
 export default function DataTable({ row }) {
   const [order, setOrder] = React.useState("asc");
@@ -361,7 +360,6 @@ export default function DataTable({ row }) {
             <ExportDropDown rows={rows}  />{" "}
           </span>
         </span>
-        <ImportExcel /> 
         <SearchText list={rows} setRows={setRows} row={row} />
       </div>
       <EnhancedTableToolbar numSelected={selected.length} />

@@ -22,6 +22,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
   const [errorMsg, setErrorMsg] = useState(false);
   const [change, setChange] = useState("");
   const [checkSubScriber, SetSubScriber] = useState([]);
+  const { EventRefrence, getData, database } = useContext(FireBaseContext);
   const [autoFilledUser, setAutoFilledUser] = useState({
     id: randomXToY(1, 1000),
     FirstName: "",
@@ -52,11 +53,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
       type: "text",
       name: "Email",
     },
-    // {
-    //   label: "National/iqamaID",
-    //   type: "number",
-    //   name: "NationalID",
-    // },
     {
       label: "Phone Number",
       type: "text",
@@ -90,7 +86,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
   ]);
   const [user, SetUsers] = useState([]);
 
-  const { EventRefrence, getData, database } = useContext(FireBaseContext);
   function randomXToY(minVal, maxVal) {
     let randVal = minVal + Math.random() * (maxVal - minVal);
     return Math.round(randVal);
@@ -171,7 +166,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
        handleClose();
      });
      }
-    // console.log(autoFilledUser,'autoFilledUser')
   };
   const checkNationalId = async (e) => {
     setChange(e.target.value);

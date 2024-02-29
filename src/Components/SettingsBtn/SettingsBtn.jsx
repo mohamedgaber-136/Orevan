@@ -87,7 +87,7 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
           <div className="d-flex   justify-content-center align-items-center w-75  gap-2 ">
             {" "}
             <i className={`fa-solid fa-trash darkBlue w-25`}></i>
-            <span className="   w-75 darkBlue">delete</span>
+            <span className="   w-75 darkBlue">Delete</span>
            
           </div>
         </MenuItem>

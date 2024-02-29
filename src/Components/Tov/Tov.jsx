@@ -6,7 +6,6 @@ import DialogContent from '@mui/material/DialogContent';
 import { FireBaseContext } from '../../Context/FireBase';
 import { useContext, useState,useEffect } from 'react';
 const Tov = ({SetError,formErrors,setSelectedOptions,selectedOptions}) => {
-  // const [openModal, setOpenModal] = useState(false);
   const [checkText, setcheckText] = useState(true);
   const [currentOption, setCurrentOption] = useState(null);
   const [textValue, setTextValue] = useState('');
@@ -61,57 +60,11 @@ return (
          </li>
        ))}
      </ul>
-       <button type='button' onClick={sendData} >save</button>
+     {selectedOptions.length?<button type='button' className='wrappingItems' onClick={sendData} >save</button>:''}
+       
    </div>
    </>
   );
 };
 
 export default Tov;
- // multiple
-    // id="tags-outlined"
-    // options={options}
-    // getOptionLabel={(option) => option.types}
-    // value={selectedOptions}
-    // filterSelectedOptions 
-        // multiple
-        // options={options}
-        // value={selectedOptions.map((option) => option)}
-        // onChange={()=>console.log('hi')}
-        // disableCloseOnSelect
-        // filterSelectedOptions
-        // getOptionLabel={(option) => option}
-        // renderOption={(props, option) => (
-        //   <li {...props} onClick={() => handleOpenModal(option)}>
-        //     {option}
-        //   </li>
-        // )}
-        // renderInput={(params) => (
-        //   <TextField {...params} label="Transfer of values" />
-        // )}
-
-
-          {/* <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogContent>
-          <h2>{currentOption}</h2>
-          <div className="d-flex align-items-center gap-2">
-
-          <TextField
-            label="Enter value"
-            value={textValue}
-            onChange={handleTextFieldChange}
-            />
-            {checkText&&<small className='text-danger'>Please Set a value</small>}
-          <button  onClick={handleSave} className={checkText?"bg-secondary text-white rounded":"wrappingItems"} disabled={checkText}>Save</button>
-            </div>
-        </DialogContent>
-      </Dialog> */}
-
-      {/* Display saved selections */}
-
-         // if(value.length!==0){
-        //   SetError({...formErrors,[type]:''})
-        // }else{
-        //   SetError({...formErrors,[type]:'Required'})
-        // }
-        // setValues(value)

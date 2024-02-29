@@ -300,11 +300,12 @@ input{
 .css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input{
   border :0 !important;
 }
-/* .CostPerDelegate{
-  background-color: lightgray !important;
-} */
-/* .alertmsg{
-border-color:  red  !important;
-border: 2px solid;
-border-radius: 5px !important;
-} */
+[htmlFor="importFile"]{
+  cursor: pointer !important;
+}
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+  max-width: 80% !important;
+}
+input:focus, .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+  background-color: white !important;
+}

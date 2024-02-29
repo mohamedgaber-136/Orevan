@@ -2,15 +2,15 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 const ExportToExcelButton = ({ data, filename, sheetname }) => {
   const extractData = data.map((item)=>({
-    ID:item.id,
+    id:item.id,
     'Medical ID':item.MedicalID,
-        'First Name':item.FirstName,
-        'Last Name':item.LastName,
+        'FirstName':item.FirstName,
+        'LastName':item.LastName,
         Speciality:item.Speciality,
         City:item.City,
         Email:item.Email,
-        "License ID":item.LicenseID,
-        "National ID":item.NationalID,
+        "LicenseID":item.LicenseID,
+        "NationalID":item.NationalID,
         Organization:item.Organization,
         PhoneNumber:item.PhoneNumber,
        }))
@@ -20,15 +20,15 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetname);
     const headersList = [
-      "ID",
-      "Medical ID",
-      "First Name",
-      "Last Name",
+      "id",
+      "MedicalID",
+      "FirstName",
+      "LastName",
       "Speciality",
       "City",
       "Email",
-      "License ID",
-      "National ID",
+      "LicenseID",
+      "NationalID",
       "Organization",
       "PhoneNumber",
   

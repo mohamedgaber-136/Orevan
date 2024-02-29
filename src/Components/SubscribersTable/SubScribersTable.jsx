@@ -221,7 +221,7 @@ export default function SubScribersTable({ rows, refCollection }) {
               data={rows}
             />
 {" "}
-{/* <ImportExcel /> */}
+<ImportExcel />
 {/* <SearchText list={rows}/> */}
 </div>
   <Tooltip title="AddNew">
@@ -248,10 +248,7 @@ export default function SubScribersTable({ rows, refCollection }) {
     [order, orderBy, page, rowsPerPage]
   );
 
-  // const updateSup = (row) => {
-  //   setShowUpdate(true);
-  //   setUpdateUser(row);
-  // };
+
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];

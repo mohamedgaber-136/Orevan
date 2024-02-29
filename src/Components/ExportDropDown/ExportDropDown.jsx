@@ -47,7 +47,7 @@ export default function ExportDropDown({rows}) {
      </MenuItem>
         <MenuItem onClick={handleClose}> 
         <ExportSfda
-         filename="exported_data"
+         filename="SFDA Report"
          sheetname="Sheet 1"
          data={rows}
        /> 
