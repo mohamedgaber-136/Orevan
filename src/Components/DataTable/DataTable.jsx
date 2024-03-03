@@ -29,6 +29,7 @@ import {
   serverTimestamp,
   getDoc,
   setDoc,
+  writeBatch,
   query,
   where,
   collection,
@@ -43,11 +44,9 @@ export default function DataTable({ row }) {
   const [page, setPage] = React.useState(0);
   const [rows, setRows] = React.useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const {
-    EventRefrence,
-    EventsDeletedRef,
-    database,
-  } = React.useContext(FireBaseContext);
+  const { EventRefrence, EventsDeletedRef, database } = React.useContext(
+    FireBaseContext
+  );
   const navigate = useNavigate();
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -75,8 +74,9 @@ export default function DataTable({ row }) {
     return stabilizedThis.map((el) => el[0]);
   }
   React.useEffect(() => {
+    console.log(row, "row data");
     setRows(row);
-  }, [row,selected]);
+  }, [row]);
   // HeadTitles ----------------------------------------------
   const headCells = [
     {
@@ -260,6 +260,7 @@ export default function DataTable({ row }) {
     [order, orderBy, page, rowsPerPage]
   );
   //  Delet ----------------------------
+  const batch = writeBatch(database);
   const DeleteField = (arr) => {
     swal({
       title: "Are you sure You want Delete this Event?",
@@ -271,28 +272,71 @@ export default function DataTable({ row }) {
         swal({
           icon: "success",
         });
-        arr.map(async (item) => {
-          const ref = doc(EventRefrence, item);
-          const info = await getDoc(ref);
-          await setDoc(doc(EventsDeletedRef, item), {
-            ID: item,
-            timing: serverTimestamp(),
-            ...info.data(),
-          });
 
-          const notifyQuery = query(
-            collection(database, "notifications"),
-            where("NewEventID", "==", item)
-          );
-          await getDocs(notifyQuery).then(async (snapshot) => {
-            snapshot.docs.map(async (item) => {
-              await deleteDoc(doc(database, "notifications", item.id));
+        console.log(arr, "arr selected delete");
+
+        Promise.all(
+          arr.map(async (docID) => {
+            const ref = doc(EventRefrence, docID);
+            const info = await getDoc(ref);
+            console.log(info.data(), "info item");
+            await setDoc(doc(EventsDeletedRef, docID), {
+              ID: docID,
+              timing: serverTimestamp(),
+              ...info.data(),
+            }).then(() => batch.delete(doc(EventRefrence, docID)));
+            //   // const notifyQuery = query(
+            //   //   collection(database, "notifications"),
+            //   //   where("NewEventID", "==", docItem)
+            //   // );
+            //   // await getDocs(notifyQuery).then(async (snapshot) => {
+            //   //   snapshot.docs.map(async (item) => {
+            //   //     await deleteDoc(doc(database, "notifications", item.id));
+            //   //   });
+            //   // });
+          })
+        ).then(() => {
+          console.log("hello after all");
+
+          // Commit the batch
+          batch
+            .commit()
+            .then(() => {
+              console.log("Batch deletion successful");
+              console.log("setSelected([])");
+              setSelected([]);
+            })
+            .catch((error) => {
+              console.log("Error deleting documents in batch:", error);
+              swal({
+                title: "somthing wrong happend while deleting",
+                icon: "warning",
+                // buttons: true,
+                // dangerMode: true,
+              });
             });
-          });
-          await deleteDoc(ref);
+        });
 
-        }      
-        );
+        // selected.map(async (item) => {
+        //   const ref = doc(EventRefrence, item);
+        //   const info = await getDoc(ref);
+        //   await setDoc(doc(EventsDeletedRef, item), {
+        //     ID: item,
+        //     timing: serverTimestamp(),
+        //     ...info.data(),
+        //   });
+
+        //   // const notifyQuery = query(
+        //   //   collection(database, "notifications"),
+        //   //   where("NewEventID", "==", item)
+        //   // );
+        //   // await getDocs(notifyQuery).then(async (snapshot) => {
+        //   //   snapshot.docs.map(async (item) => {
+        //   //     await deleteDoc(doc(database, "notifications", item.id));
+        //   //   });
+        //   // });
+        //   await deleteDoc(ref);
+        // });
       }
     });
   };
@@ -315,20 +359,20 @@ export default function DataTable({ row }) {
       >
         {numSelected > 0 ? (
           <>
-          <Typography
-            sx={{ flex: "1 1 100%" }}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
+            <Typography
+              sx={{ flex: "1 1 100%" }}
+              color="inherit"
+              variant="subtitle1"
+              component="div"
+            >
+              {numSelected} selected
+            </Typography>
             <Tooltip title="Delete">
-            <IconButton onClick={() => DeleteField(selected)}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-            </>
+              <IconButton onClick={() => DeleteField(selected)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </>
         ) : (
           <Typography
             sx={{ flex: "0 1 100%" }}
@@ -340,10 +384,6 @@ export default function DataTable({ row }) {
             <SearchFormik rows={rows} setRows={setRows} />
           </Typography>
         )}
-
-   
-        
-        
       </Toolbar>
     );
   }
@@ -357,7 +397,7 @@ export default function DataTable({ row }) {
       <div className=" d-flex align-items-center gap-2 p-3 d-flex justify-content-end ">
         <span className="d-flex gap-2 align-items-center">
           <span className="fs-6 exportExcel">
-            <ExportDropDown rows={rows}  />{" "}
+            <ExportDropDown rows={rows} />{" "}
           </span>
         </span>
         <SearchText list={rows} setRows={setRows} row={row} />
@@ -374,17 +414,17 @@ export default function DataTable({ row }) {
             rowCount={rows.length}
           />
           <TableBody>
-            {visibleRows.map((row, index) => {
-              const isItemSelected = isSelected(row.ID);
-              const labelId = `enhanced-table-checkbox-${index}`;
+            {visibleRows.map((rowItem, indexItem) => {
+              const isItemSelected = isSelected(rowItem.ID);
+              const labelId = `enhanced-table-checkbox-${indexItem}`;
               return (
                 <TableRow
                   hover
-                  onClick={(event) => handleClick(event, row.ID)}
+                  onClick={(event) => handleClick(event, rowItem.ID)}
                   role="checkbox"
                   aria-checked={isItemSelected}
                   tabIndex={-1}
-                  key={`${row.ID}-${index}`}
+                  key={`${rowItem.ID}-${indexItem}`}
                   selected={isItemSelected}
                   sx={{ cursor: "pointer" }}
                 >
@@ -404,71 +444,78 @@ export default function DataTable({ row }) {
                     scope="row"
                     padding="none"
                     onClick={() =>
-                      navigate(`/app/subscribers/${row.Id}/${row.ID}`)
+                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
                     }
                   >
-                    {row.Id}
+                    {rowItem.Id}
                   </TableCell>
                   <TableCell
                     onClick={() =>
-                      navigate(`/app/subscribers/${row.Id}/${row.ID}`)
-                    }
-                    align="left"
-                  >
-                    {row.EventName}
-                  </TableCell>
-                  <TableCell
-                    onClick={() =>
-                      navigate(`/app/subscribers/${row.Id}/${row.ID}`)
+                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
                     }
                     align="left"
                   >
-                    {row.CostperDelegate}
+                    {rowItem.EventName}
                   </TableCell>
                   <TableCell
                     onClick={() =>
-                      navigate(`/app/subscribers/${row.Id}/${row.ID}`)
+                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
                     }
                     align="left"
                   >
-                    {row.TransferOfValue.map((item,index)=><p className="wrappingItems m-1 p-1 text-center" key={index}>{item.types} : {item.value}</p>)}
+                    {rowItem.CostperDelegate}
                   </TableCell>
                   <TableCell
                     onClick={() =>
-                      navigate(`/app/subscribers/${row.Id}/${row.ID}`)
+                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
                     }
                     align="left"
                   >
-                    {row.EventCost}
+                    {rowItem.TransferOfValue.map((item, index) => (
+                      <p
+                        className="wrappingItems m-1 p-1 text-center"
+                        key={index}
+                      >
+                        {item.types} : {item.value}
+                      </p>
+                    ))}
                   </TableCell>
                   <TableCell
                     onClick={() =>
-                      navigate(`/app/subscribers/${row.Id}/${row.ID}`)
+                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
                     }
                     align="left"
                   >
-                    {row.StartDate}
+                    {rowItem.EventCost}
                   </TableCell>
                   <TableCell
                     onClick={() =>
-                      navigate(`/app/subscribers/${row.Id}/${row.ID}`)
+                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
                     }
                     align="left"
                   >
-                    {row.CreatedAt}
+                    {rowItem.StartDate}
                   </TableCell>
                   <TableCell
                     onClick={() =>
-                      navigate(`/app/subscribers/${row.Id}/${row.ID}`)
+                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                    }
+                    align="left"
+                  >
+                    {rowItem.CreatedAt}
+                  </TableCell>
+                  <TableCell
+                    onClick={() =>
+                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
                     }
                     align="left"
                   >
                     <span
                       className={`${statusCase(
-                        row.Status
+                        rowItem.Status
                       )} text-white p-2 rounded `}
                     >
-                      {row.Status}
+                      {rowItem.Status}
                     </span>
                   </TableCell>
                 </TableRow>

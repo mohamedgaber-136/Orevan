@@ -46,13 +46,15 @@ export const Events = () => {
         setEvents(results);
       };
       fetchDataForItems();
+    } else {
+      setEvents([]);
     }
   }, [informations]);
-  console.log(informations)
+
   return (
     <div className="d-flex flex-column container gap-3 EventsPageParent ">
       <h2>Events</h2>
-      <DataTable row={events}   />
+      <DataTable row={events} />
     </div>
   );
 };
