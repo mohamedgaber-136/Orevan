@@ -10,6 +10,8 @@ import ToggleBtn from "../../ToggleBtn/ToggleBtn";
 import TimePicker from "../../timePicker/TimePicker";
 import { FranchisedropDown } from "./FranchisedropDown";
 import Tov from "../../Tov/Tov";
+import Test from "../../Test/Test";
+import TestTwo from "../../TestTwo/TestTwo";
 export const StepOne = () => {
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
   const [amexNumber, setAmexNumber] = useState(false);
@@ -59,6 +61,7 @@ export const StepOne = () => {
   console.log(newEvent,'new')
   return (
     <div>
+
       <Formik>
         {() => (
             <Form className="d-flex flex-column ">
@@ -174,11 +177,14 @@ export const StepOne = () => {
                   </h6>
                   <div className="d-flex justify-content-between  flex-md-row align-items-center gap-3">
                     <div className="w-50 errorParent  dropDownBorder p-2 greyBgc">
-                      <DateByYMD
+                      {/* <DateByYMD
                         condition={true}
                         SetError={setFormErrors}
                         formErrors={formErrors}
-                      />
+                      /> */}
+                        <Test   condition={true}
+                        SetError={setFormErrors}
+                        formErrors={formErrors}/>
                        <small className="text-danger errorMsg">
                       {" "}
                       {formErrors.CreatedAt}
@@ -190,6 +196,8 @@ export const StepOne = () => {
                         SetError={setFormErrors}
                         formErrors={formErrors}
                       />
+                            {/* <TestTwo/> */}
+
                       <small className="text-danger errorMsg">
                         {formErrors.DateFromHours}
                       </small>
@@ -202,11 +210,14 @@ export const StepOne = () => {
                   </h6>
                   <div className="d-flex  justify-content-between  flex-md-row  align-items-center gap-3 ">
                     <div className="w-50 dropDownBorder p-2 errorParent greyBgc ">
-                      <DateByYMD
+                      {/* <DateByYMD
                         condition={false}
                         SetError={setFormErrors}
                         formErrors={formErrors}
-                      />
+                      /> */}
+                        <Test   condition={false}
+                        SetError={setFormErrors}
+                        formErrors={formErrors}/>
                        <small className="text-danger errorMsg">
                       {" "}
                       {formErrors.EndDate}
@@ -229,6 +240,7 @@ export const StepOne = () => {
           </Form>
         )}
       </Formik>
+
     </div>
   );
 };

@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import ColorPickers from "../../ColorPicker/ColorPicker";
 import { FireBaseContext } from "../../../Context/FireBase";
 import { useContext ,useEffect} from "react";
+import TestThree from "../../TestThree/TestThree";
 export const StepThree = () => {
   const { newEvent, setNewEvent} = useContext(FireBaseContext);
   function randomXToY(minVal, maxVal) {
@@ -20,15 +21,18 @@ export const StepThree = () => {
       <div className="d-flex justify-content-between flex-wrap  w-100 gap-5 align-items-center">
         <div className=" border p-2 colorPickerParent rounded rounded-1">
           <h6 className="ColorPickerTitle">BackGround Color</h6>
-          <ColorPickers type={"BackGroundColor"} />
+          <TestThree type={"BackGroundColor"}/>
+
         </div>
         <div className="border p-2 colorPickerParent rounded rounded-1">
           <h6 className="ColorPickerTitle">Font Color</h6>
-          <ColorPickers type={"FontColor"} />
+          <TestThree type={"FontColor"}/>
+
         </div>
         <div className="border p-2 colorPickerParent rounded rounded-1">
           <h6 className="ColorPickerTitle">Button Color</h6>
-          <ColorPickers type={"ButtonColor"} />
+          <TestThree type={"ButtonColor"} />
+
         </div>
       </div>
 

@@ -309,3 +309,20 @@ input{
 input:focus, .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
   background-color: white !important;
 }
+.react-datepicker__input-container input {
+  background-color: lightgray;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 10px !important;
+}
+.react-time-picker__wrapper,.react-time-picker{
+width: 100% !important;
+background-color: lightgray;
+}
+.react-time-picker input{
+border: none !important;
+height: 100% !important;
+}
+.test input{
+  width: 100% !important;
+}
