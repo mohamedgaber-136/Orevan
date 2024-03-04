@@ -268,10 +268,10 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                       filterSelectedOptions
                       onChange={(e, value) => {
                         setValues(value);
-                        // setUpdated({
-                        //   ...updatedData,
-                        //   ["TransferOfValue"]: value,
-                        // });
+                        setUpdated({
+                          ...updatedData,
+                          ["TransferOfValue"]: value,
+                        });
                         setSelectedOptions([...updatedData?.TransferOfValue,...value]);
                       }}
                       isOptionEqualToValue={(option, value) =>

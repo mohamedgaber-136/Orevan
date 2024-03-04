@@ -87,19 +87,7 @@ export const StepOne = () => {
                           {formErrors.EventName}
                         </small>
                       </div>
-                      <div className="errorParent">
-                      <small className="SingleDelegate text-primary">Not Total Cost</small>
-
-                        <TextField
-                          name={"CostperDelegate"}
-                          label={<b>Cost Per Delegate</b>}
-                          focused
-                          className="w-100 CostPerDelegate"
-                          type="number"
-                          readOnly
-                          value={TovSum()}
-                        />
-                      </div>
+                  
                     </div>
                     <div className="d-flex gap-5 flex-column w-50 ">
                       <div className="errorParent">
@@ -115,7 +103,15 @@ export const StepOne = () => {
                           {formErrors.PO}
                         </small>
                       </div>
-                      <div className="errorParent">
+                  
+                    </div>
+                
+                  </div>
+                </div>
+              </div>
+              <div className="container d-flex flex-column gap-5">
+                <div className="d-flex two flex-column flex-md-row  gap-5  gap-md-5 px-md-4 px-2 gap2  justify-content-center align-item-center">
+                <div className="errorParent  w-50">
                         <TextField
                           name={"P3"}
                           label={<b>P3</b>}
@@ -128,13 +124,8 @@ export const StepOne = () => {
                           {formErrors.P3}
                         </small>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="container d-flex flex-column gap-5">
-                <div className="d-flex two flex-column flex-md-row  gap-5  gap-md-5 px-md-4 px-2 gap2  justify-content-center align-item-center">
                   <div className="w-50   errorParent d-flex justify-content-center align-items-end " >
+                    
                     <FranchisedropDown  SetError={setFormErrors}
                       formErrors={formErrors}/>
                     <small className="text-danger errorMsg">
@@ -167,7 +158,21 @@ export const StepOne = () => {
                     {formErrors.TransferOfValue}
                   </small>
                 </div> 
+                <div className="errorParent ">
+                      <small className="SingleDelegate text-primary">Not Total Cost</small>
+
+                        <TextField
+                          name={"CostperDelegate"}
+                          label={<b>Cost Per Delegate</b>}
+                          focused
+                          className="w-100 CostPerDelegate"
+                          type="number"
+                          readOnly
+                          value={TovSum()}
+                        />
+                      </div>
               </div>
+        
               <div className="container d-flex flex-wrap flex-md-nowrap gap-md-5 px-md-4 px-2 gap-4  justify-content-between align-item-center">
                 <div className="d-flex flex-column gap-3 ">
                   <h6>

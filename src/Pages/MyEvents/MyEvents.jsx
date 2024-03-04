@@ -7,18 +7,15 @@ export const MyEvents = () => {
     const {state} =  useLocation()
     const [sub, setSub] = useState([]);
     const [combinedData, setCombinedData] = useState([]);
+    console.log(state)
     const [data, setdata] = useState(state.data);
     const {
-        
-        
         EventRefrence,
       } = useContext(FireBaseContext);
       console.log(state.data)
     useEffect(() => {
       // query to filter evemts according to role
-
         const fetchData = async () => {
-  
           const EventDetails = await Promise.all( state.data.map(async (maidDoc) => {
             const ref = doc(EventRefrence, maidDoc.ID);
             const infoCollection = collection(ref, "Subscribers");

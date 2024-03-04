@@ -248,30 +248,30 @@ export default function FranchiseTable({ row ,sub}) {
     [order, orderBy, page, rowsPerPage]
   );
   //  Delet ----------------------------
-  const DeleteField = (arr) => {
-    swal({
-      title: "Are you sure You want Delete this Event?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        swal({
-          icon: "success",
-        });
-        arr.map(async (item) => {
-          const ref = doc(EventRefrence, item);
-          const info = await getDoc(ref);
-          await setDoc(doc(EventsDeletedRef, item), {
-            ID: item,
-            timing: serverTimestamp(),
-            ...info.data(),
-          });
-          await deleteDoc(ref);
-        });
-      }
-    });
-  };
+  // const DeleteField = (arr) => {
+  //   swal({
+  //     title: "Are you sure You want Delete this Event?",
+  //     icon: "warning",
+  //     buttons: true,
+  //     dangerMode: true,
+  //   }).then((willDelete) => {
+  //     if (willDelete) {
+  //       swal({
+  //         icon: "success",
+  //       });
+  //       arr.map(async (item) => {
+  //         const ref = doc(EventRefrence, item);
+  //         const info = await getDoc(ref);
+  //         await setDoc(doc(EventsDeletedRef, item), {
+  //           ID: item,
+  //           timing: serverTimestamp(),
+  //           ...info.data(),
+  //         });
+  //         await deleteDoc(ref);
+  //       });
+  //     }
+  //   });
+  // };
   //  /-----------ToolBar
   function EnhancedTableToolbar(props) {
     const { numSelected } = props;
@@ -315,9 +315,9 @@ export default function FranchiseTable({ row ,sub}) {
 
         {numSelected > 0 && (
           <Tooltip title="Delete">
-            <IconButton onClick={() => DeleteField(selected)}>
+            {/* <IconButton onClick={() => DeleteField(selected)}>
               <DeleteIcon />
-            </IconButton>
+            </IconButton> */}
           </Tooltip>
         )}
       </Toolbar>
@@ -333,11 +333,11 @@ export default function FranchiseTable({ row ,sub}) {
       <div className=" d-flex align-items-center gap-2 p-3 d-flex justify-content-end ">
         <span className="d-flex gap-2 align-items-center">
           <span className="fs-6 exportExcel">
-          <ExportDropDown rows={rows} sub={sub}/>
+          {/* <ExportDropDown rows={rows} sub={sub}/> */}
         {" "}
           </span>
         </span>
-        <ImportExcel />
+        {/* <ImportExcel /> */}
         {/* <SearchText list={row} /> */}
       </div>
       <EnhancedTableToolbar numSelected={selected.length} />

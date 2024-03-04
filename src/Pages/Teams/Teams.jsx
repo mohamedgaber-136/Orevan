@@ -18,8 +18,8 @@ const getValue = async ()=>{
 useEffect(()=>{
   getValue()
 },[])
+console.log(collectionKeys,'collectionKeys')
 if(collectionKeys.length){
-
   return (
     <div className='d-flex flex-column container gap-3 EventsPageParent '>
       <h2>Teams</h2>

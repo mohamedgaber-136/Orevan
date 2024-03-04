@@ -10,7 +10,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate } from "react-router-dom";
 import {
-  createUserWithEmailAndPassword,
+
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { Formik, Form } from "formik";
@@ -45,46 +45,22 @@ const Login = () => {
   const UsersRef = collection(database, "Users");
   const LoginFunc = async (e) => {
     e.preventDefault();
-
     signInWithEmailAndPassword(auth, e.target[0].value, e.target[2].value)
       .then(async (res) => {
         setError(false);
         setShowSpinning(true);
-        //  navigateTime = setTimeout(() => navigation(`/app`), 2000);
+         navigateTime = setTimeout(() => navigation(`/app`), 2000);
       })
       .catch((error) => setError(true));
   };
 
-  useEffect(() => {
-    if (currentUsr && currentUsr !== "init") {
-      navigation(`/app`);
-      // navigateTime = setTimeout(() => navigation(`/app`), 2000);
-    }
-    // return () => clearTimeout(navigateTime);
-  }, [currentUsr]);
-  // const LoginFunc = async (e) => {
-  //   e.preventDefault();
-  //    getDocs(query(UsersRef,where('Email','==',e.target[0].value))).then((res)=>{
-
-  //        if(res.docs.length){
-  //       seterrorRegist(false)
-  //       setError(false);
-  //       createUserWithEmailAndPassword(auth,e.target[0].value, e.target[2].value).then(()=>  navigateTime = setTimeout(() => navigation(`/app`), 2000)).catch(()=>{
-  //         signInWithEmailAndPassword(auth, e.target[0].value, e.target[2].value)
-  //         .then(async (res) => {
-  //           seterrorRegist(false)
-  //             setError(false);
-  //             setShowSpinning(true);
-  //             navigateTime = setTimeout(() => navigation(`/app`), 2000);
-  //           })
-  //           .catch((error) => setError(true));
-  //       })
-  //     }else{
-  //       seterrorRegist(true)
-  //     }
-  //    })
-
-  // };
+  // useEffect(() => {
+  //   if (currentUsr && currentUsr !== "init") {
+  //     navigation(`/app`);
+  //     // navigateTime = setTimeout(() => navigation(`/app`), 2000);
+  //   }
+  //   // return () => clearTimeout(navigateTime);
+  // }, [currentUsr]);
   // useEffect(() => {
   //   return () => clearTimeout(navigateTime);
   // }, []);
