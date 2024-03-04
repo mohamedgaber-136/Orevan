@@ -43,7 +43,8 @@ const FireBaseContextProvider = ({ children }) => {
     FontColor: "#000",
     ButtonColor: "#00F",
     AccpetAllTermss: false,
-    Policies:' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this '
+    Policies:
+      ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this ',
   });
   const firebaseConfig = {
     apiKey: "AIzaSyBckxAp9_24tLxViaY6yX5BUln07nUk2sM",
@@ -75,7 +76,7 @@ const FireBaseContextProvider = ({ children }) => {
       SetItem(newData);
     });
   };
-  const [currentUsr, setCurrentUser] = useState();
+  const [currentUsr, setCurrentUser] = useState("init");
   const [loading, setLoading] = useState(true);
 
   const eventsQueryAccordingToUserRole = () => {
@@ -183,7 +184,7 @@ const FireBaseContextProvider = ({ children }) => {
         saveNotificationToFirebase,
         UserRef,
         eventsQueryAccordingToUserRole,
-        SubscribersRef
+        SubscribersRef,
       }}
     >
       {!loading && children}
