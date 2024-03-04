@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ChromePicker } from 'react-color';
 import { FireBaseContext } from '../../Context/FireBase';
 
-const TestThree = ({type}) => {
+const ColorPickerInput = ({type}) => {
   const [showPicker, setShowPicker] = useState(false);
   const [selectedColor, setSelectedColor] = useState('#00ff00');
   const {newEvent,setNewEvent} = useContext(FireBaseContext)
@@ -54,4 +54,4 @@ const TestThree = ({type}) => {
   );
 };
 
-export default TestThree;
+export default ColorPickerInput;

@@ -326,3 +326,7 @@ height: 100% !important;
 .test input{
   width: 100% !important;
 }
+.chrome-picker {
+  position: absolute !important;
+  z-index: 9999 !important;
+}

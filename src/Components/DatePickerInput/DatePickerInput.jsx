@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FireBaseContext } from '../../Context/FireBase';
 
-const Test = ({condition,SetError,formErrors}) => {
+const DatePickerInput = ({condition,SetError,formErrors}) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [value, setValue] = useState('');
   const {setNewEvent,newEvent} = useContext(FireBaseContext)
@@ -46,4 +46,4 @@ const Test = ({condition,SetError,formErrors}) => {
   );
 };
 
-export default Test;
+export default DatePickerInput;

@@ -1,5 +1,4 @@
 import { Formik, Form } from "formik";
-import DateByYMD from "../../DateByYMD/DateByYMD";
 import { City } from "../../../Json/sa";
 import TextField from "@mui/material/TextField";
 import "./StepOneStyle.css";
@@ -10,8 +9,7 @@ import ToggleBtn from "../../ToggleBtn/ToggleBtn";
 import TimePicker from "../../timePicker/TimePicker";
 import { FranchisedropDown } from "./FranchisedropDown";
 import Tov from "../../Tov/Tov";
-import Test from "../../Test/Test";
-import TestTwo from "../../TestTwo/TestTwo";
+import DatePickerInput from "../../DatePickerInput/DatePickerInput";
 export const StepOne = () => {
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
   const [amexNumber, setAmexNumber] = useState(false);
@@ -177,12 +175,8 @@ export const StepOne = () => {
                   </h6>
                   <div className="d-flex justify-content-between  flex-md-row align-items-center gap-3">
                     <div className="w-50 errorParent  dropDownBorder p-2 greyBgc">
-                      {/* <DateByYMD
-                        condition={true}
-                        SetError={setFormErrors}
-                        formErrors={formErrors}
-                      /> */}
-                        <Test   condition={true}
+                    
+                        <DatePickerInput   condition={true}
                         SetError={setFormErrors}
                         formErrors={formErrors}/>
                        <small className="text-danger errorMsg">
@@ -196,7 +190,6 @@ export const StepOne = () => {
                         SetError={setFormErrors}
                         formErrors={formErrors}
                       />
-                            {/* <TestTwo/> */}
 
                       <small className="text-danger errorMsg">
                         {formErrors.DateFromHours}
@@ -210,12 +203,7 @@ export const StepOne = () => {
                   </h6>
                   <div className="d-flex  justify-content-between  flex-md-row  align-items-center gap-3 ">
                     <div className="w-50 dropDownBorder p-2 errorParent greyBgc ">
-                      {/* <DateByYMD
-                        condition={false}
-                        SetError={setFormErrors}
-                        formErrors={formErrors}
-                      /> */}
-                        <Test   condition={false}
+                        <DatePickerInput  condition={false}
                         SetError={setFormErrors}
                         formErrors={formErrors}/>
                        <small className="text-danger errorMsg">

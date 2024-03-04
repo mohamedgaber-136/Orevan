@@ -2,10 +2,9 @@ import "./StepThreeStyle.css";
 import mobileImg from "../../../assets/mobile-frame-without-background-free-png.png";
 import logo from "../../../assets/Novartis Logo RGB 2.png";
 import TextField from "@mui/material/TextField";
-import ColorPickers from "../../ColorPicker/ColorPicker";
 import { FireBaseContext } from "../../../Context/FireBase";
 import { useContext ,useEffect} from "react";
-import TestThree from "../../TestThree/TestThree";
+import ColorPickerInput from "../../ColorPickerInput/ColorPickerInput";
 export const StepThree = () => {
   const { newEvent, setNewEvent} = useContext(FireBaseContext);
   function randomXToY(minVal, maxVal) {
@@ -21,17 +20,17 @@ export const StepThree = () => {
       <div className="d-flex justify-content-between flex-wrap  w-100 gap-5 align-items-center">
         <div className=" border p-2 colorPickerParent rounded rounded-1">
           <h6 className="ColorPickerTitle">BackGround Color</h6>
-          <TestThree type={"BackGroundColor"}/>
+          <ColorPickerInput type={"BackGroundColor"}/>
 
         </div>
         <div className="border p-2 colorPickerParent rounded rounded-1">
           <h6 className="ColorPickerTitle">Font Color</h6>
-          <TestThree type={"FontColor"}/>
+          <ColorPickerInput type={"FontColor"}/>
 
         </div>
         <div className="border p-2 colorPickerParent rounded rounded-1">
           <h6 className="ColorPickerTitle">Button Color</h6>
-          <TestThree type={"ButtonColor"} />
+          <ColorPickerInput type={"ButtonColor"} />
 
         </div>
       </div>
