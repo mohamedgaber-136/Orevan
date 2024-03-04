@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { FireBaseContext } from "../../Context/FireBase";
-export const Protected = ({ children }) => {
-  const { currentUsr } = useContext(FireBaseContext);
+export const PrivateRoute = ({ children }) => {
+  const { currentUserRole } = useContext(FireBaseContext);
   // const [isNotAuthorized, setIsNotAuthorized] = useState(false);
 
   // useEffect(() => {
@@ -18,7 +18,7 @@ export const Protected = ({ children }) => {
   //   }
   // }, [currentUsr, currentUserRole]);
 
-  console.log(currentUsr, "currentUsr protected");
+  console.log(currentUserRole, "currentUserRole protected");
 
   // const check = () => {
   //   if (!currentUsr) {
@@ -31,12 +31,14 @@ export const Protected = ({ children }) => {
   //   check();
   // }, [currentUsr]);
 
-  if (currentUsr == null) {
-    return <Navigate to="/" replace />;
-  }
-  if (currentUsr) {
+  if (currentUserRole.admin) {
     return children;
   }
+  if (currentUserRole.manager || currentUserRole.user) {
+    return <Navigate to="/app" replace />;
+  }
+  // if (currentUsr) {
+  // }
 
   // const isNotAuthorized = currentUserRole.toLowerCase().includes("franchise");
 

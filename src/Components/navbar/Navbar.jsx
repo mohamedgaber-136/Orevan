@@ -33,10 +33,9 @@ export const Navbar = ({ navAppear }) => {
     }
   }, [pathname]);
 
-  // useEffect(() => {
-  //   if (currentUserRole)
-  //     setIsAllowedUser(currentUserRole.toLowerCase().includes("brand manager"));
-  // }, [currentUserRole]);
+  useEffect(() => {
+    if (currentUserRole) setIsAllowedUser(currentUserRole.admin);
+  }, [currentUserRole]);
 
   const MenuData = [
     {
@@ -49,13 +48,12 @@ export const Navbar = ({ navAppear }) => {
       data: "Events",
       nav: "events",
     },
-    // isAllowedUser && {
-      {
+    isAllowedUser && {
       icon: "fa-solid fa-users",
       data: "Teams",
       nav: "teams",
     },
-      {
+    isAllowedUser && {
       icon: "fa-solid fa-users-viewfinder",
       data: "Users",
       nav: "AllUsers",
