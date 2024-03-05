@@ -24,7 +24,7 @@ import ExportDropDown from "../ExportDropDown/ExportDropDown";
 import "./DataTable.css";
 import { useNavigate } from "react-router-dom";
 import {
-  deleteDoc,
+  
   doc,
   serverTimestamp,
   getDoc,
@@ -201,7 +201,7 @@ export default function DataTable({ row }) {
     if (status === "Completed") {
       return "bg-danger";
     } else if (status === "Started") {
-      return "bg-success";
+      return "darkBlue";
     } else {
       return "bg-warning";
     }
@@ -256,7 +256,7 @@ export default function DataTable({ row }) {
         page * rowsPerPage + rowsPerPage
       ),
     console.log(""),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage,rows]
   );
   //  Delet ----------------------------
   const batch = writeBatch(database);
@@ -447,7 +447,7 @@ export default function DataTable({ row }) {
                   >
                     {rowItem.TransferOfValue.map((item, index) => (
                       <p
-                        className="wrappingItems m-1 p-1 text-center"
+                        className=" m-1 p-1 text-center"
                         key={index}
                       >
                         {item.types} : {item.value}

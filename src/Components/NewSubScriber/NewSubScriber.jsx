@@ -84,20 +84,20 @@ export const NewSubScriber = ({ id, handleClose }) => {
     let randVal = minVal + Math.random() * (maxVal - minVal);
     return Math.round(randVal);
   }
-  const initialvalues = {
-    id: randomXToY(1, 1000),
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    NationalID: "",
-    PhoneNumber: "",
-    Speciality: "",
-    Organization: "",
-    LicenseID: "",
-    City: "",
-    CostPerDelegate: 0,
-    TransferOfValue: [],
-  };
+  // const initialvalues = {
+  //   id: randomXToY(1, 1000),
+  //   FirstName: "",
+  //   LastName: "",
+  //   Email: "",
+  //   NationalID: "",
+  //   PhoneNumber: "",
+  //   Speciality: "",
+  //   Organization: "",
+  //   LicenseID: "",
+  //   City: "",
+  //   CostPerDelegate: 0,
+  //   TransferOfValue: [],
+  // };
   const validation = Yup.object().shape({
     FirstName: Yup.string().min(3, "too short").required("Required"),
     LastName: Yup.string().min(3, "too short").required("Required"),
@@ -166,14 +166,16 @@ export const NewSubScriber = ({ id, handleClose }) => {
         String(item.NationalID).toLowerCase().includes(data.toLowerCase())
       );
       if (matchingItem) {
-        setAutoFilledUser(matchingItem);
+        setAutoFilledUser({...matchingItem});
       }
+      console.log(matchingItem,'matchingItem')
     }
   };
+  console.log(autoFilledUser,'autoFilledUser2')
   return (
     <Formik
-      initialValues={initialvalues}
-      // validationSchema={validation}
+      initialValues={autoFilledUser}
+      validationSchema={validation}
     >
       {(values, handleChange) => (
         <>
@@ -254,7 +256,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       type={item.type}
                       className="w-75 "
                       name={item.name}
-                      value={autoFilledUser[item.name] || ""}
+                      value={autoFilledUser[item.name]}
                       onChange={(e) =>
                         setAutoFilledUser({
                           ...autoFilledUser,

@@ -3,11 +3,13 @@ import { FireBaseContext } from "../../Context/FireBase";
 import AllUsersTable from "../../Components/AllUsersTable/AllUsersTable";
 
 export const AllUsers = () => {
-  const { getData, SubscribersRef } = useContext(FireBaseContext);
+  const { getData } = useContext(FireBaseContext);
   const [informations, setInformations] = useState([]);
-  useEffect(() => {
-    getData(SubscribersRef, setInformations);
-  }, []);
+
+
+  // useEffect(() => {
+  //   getData(SubscribersRef, setInformations);
+  // }, []);
   return (
     <div className="d-flex flex-column container gap-3 EventsPageParent ">
       <h2>All Users</h2> <AllUsersTable rows={informations} />

@@ -26,24 +26,31 @@ const ExportSfda = ({ data, filename, sheetname }) => {
               PO: item.PO,
               P3: item.P3,
               "Start Date": item.StartDate,
-              "End Date": item.StartDate,
-              "Created At": item.StartDate,
+              "End Date": item.EndDate,
+              "Created At": item.CreatedAt,
             },
             ...snapshot.docs.map((ele) => {
               const subItem = ele.data();
               return {
-                FirstName: subItem.FirstName,
-                LastName: subItem.LastName,
-                Speciality: subItem.Speciality,
-                "Subscriber ID": subItem.id,
-                "Subscriber City": subItem.City,
-                Email: subItem.Email,
-                "License ID": subItem.LicenseID,
-                "National ID": subItem.NationalID,
-                Organization: subItem.Organization,
-                "Phone Number": subItem.PhoneNumber,
                 "Event ID": item.Id,
+                'Title/اللقب':'Dr',
+                'FirstName/الاسم الاول': subItem.FirstName,
+                'LastName/الاسم الاخير': subItem.LastName,
+                Specialitzation: subItem.Speciality,
+                'Other Specialitzation (optional)': '',
+                'Professional Classification Number':subItem.MedicalID,
+                "National/Resident ID": subItem.NationalID,
+                "Mobile Number / رقم الجوال": subItem.PhoneNumber,
+                'Email/الايميل': subItem.Email,
+                'Form Of Payment ': 'cash or cash equalivant',
+                "Total Grant": subItem.CostPerDelegate,
+                "Grant purpose":subItem.TransferOfValue.map((item)=>`${item.types} = ${item.value}`).join(','),
+                'Payment Amount':'',
+                'Date of Payment':item.StartDate,
                 Signature: subItem.image,
+                // "Subscriber City": subItem.City,
+                // "License ID": subItem.LicenseID,
+                // Organization: subItem.Organization,
               };
             })
           );
@@ -65,17 +72,24 @@ const ExportSfda = ({ data, filename, sheetname }) => {
       "Created At",
       "Event ID",
 
-      "FirstName",
-      "LastName",
-      "Email",
-      "Phone Number",
-      "National ID",
-      "License ID",
-      "Speciality",
-      "Organization",
-      "Subscriber City",
-      "Subscriber ID",
-      "Signature",
+
+
+      "Event ID",
+      'Title/اللقب',
+      'FirstName/الاسم الاول',
+      'LastName/الاسم الاخير',
+      'Specialitzation',
+      'Other Specialitzation (optional)',
+      'Professional Classification Number',
+      "National/Resident ID",
+      "Mobile Number / رقم الجوال",
+      'Email/الايميل',
+      'Form Of Payment ',
+      "Total Grant",
+      "Grant purpose",
+      'Payment Amount',
+      'Date of Payment',
+      'Signature',
     ];
     worksheet.addRow([...headersList]);
 
@@ -131,12 +145,15 @@ const ExportSfda = ({ data, filename, sheetname }) => {
           fgColor: { argb: "FFADD8E6" }, // ARGB format for light blue color
         };
         cell.alignment = { horizontal: "center", vertical: "middle" };
+        if (typeof cell.value === "number") {
+          cell.numFmt = "0"; // Display as integer, you can customize this format
+        }
       });
     });
     finalDataToExport.map((item, ind) => {
       const data = item["Signature"];
       if (data) {
-        worksheet.getCell(`V${ind + 2}`).value = {
+        worksheet.getCell(`AA${ind + 2}`).value = {
           text: "Signature",
           hyperlink: data,
         };
@@ -155,6 +172,7 @@ const ExportSfda = ({ data, filename, sheetname }) => {
       // Set the column width based on the maximum content length
       column.width = maxLength + 5; // Add some extra padding
     });
+    
 
     worksheet.getRow(1).height = 20;
     // worksheet.getRow(1).width = 30;

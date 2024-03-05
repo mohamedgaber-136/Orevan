@@ -10,11 +10,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { useContext } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
-import { useNavigate } from "react-router-dom";
 import ModalProfileData from "../ModalProfileData/ModalProfileData";
+import PasswordModal from "../PasswordModal/PasswordModal";
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -85,6 +84,9 @@ export default function ProfileMenu() {
       >
         <MenuItem>
           <ModalProfileData />
+        </MenuItem>
+        <MenuItem>
+        <PasswordModal/>
         </MenuItem>
         <Divider />
         <MenuItem onClick={signOut}>

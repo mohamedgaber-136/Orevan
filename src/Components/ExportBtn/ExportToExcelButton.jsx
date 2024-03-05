@@ -2,34 +2,40 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 const ExportToExcelButton = ({ data, filename, sheetname }) => {
   const extractData = data.map((item) => ({
-    id: item.id,
-    "Medical ID": item.MedicalID,
-    FirstName: item.FirstName,
-    LastName: item.LastName,
-    Speciality: item.Speciality,
-    City: item.City,
-    Email: item.Email,
-    LicenseID: item.LicenseID,
-    NationalID: item.NationalID,
-    Organization: item.Organization,
-    PhoneNumber: item.PhoneNumber,
+    'Title/اللقب':'Dr',
+    'FirstName/الاسم الاول': item.FirstName,
+    'LastName/الاسم الاخير': item.LastName,
+    Specialitzation: item.Speciality,
+    'Other Specialitzation (optional)': '',
+    'Professional Classification Number':item.MedicalID,
+    "National/Resident ID": item.NationalID,
+    "Mobile Number / رقم الجوال": item.PhoneNumber,
+    'Email/الايميل': item.Email,
+    'Form Of Payment ': 'cash or cash equalivant',
+    "Total Grant": item.CostPerDelegate,
+    "Grant purpose":item.TransferOfValue.map((item)=>`${item.types} = ${item.value}`).join(','),
+    'Payment Amount':'',
+    Signature: item.image,
   }));
 
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetname);
     const headersList = [
-      "id",
-      "MedicalID",
-      "FirstName",
-      "LastName",
-      "Speciality",
-      "City",
-      "Email",
-      "LicenseID",
-      "NationalID",
-      "Organization",
-      "PhoneNumber",
+      'Title/اللقب',
+      'FirstName/الاسم الاول',
+      'LastName/الاسم الاخير',
+      'Specialitzation',
+      'Other Specialitzation (optional)',
+      'Professional Classification Number',
+      "National/Resident ID",
+      "Mobile Number / رقم الجوال",
+      'Email/الايميل',
+      'Form Of Payment ',
+      "Total Grant",
+      "Grant purpose",
+      'Payment Amount',
+      'Signature',
     ];
     worksheet.addRow([...headersList]);
     // Set the background color for the entire row (e.g., row 1)
@@ -74,6 +80,15 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
           cell.numFmt = "0"; // Display as integer, you can customize this format
         }
       });
+    });
+    extractData.map((item, ind) => {
+      const data = item["Signature"];
+      if (data) {
+        worksheet.getCell(`N${ind + 2}`).value = {
+          text: "Signature",
+          hyperlink: data,
+        };
+      }
     });
     // Set column widths to fit the content
     worksheet.columns.forEach((column, colIndex) => {

@@ -14,6 +14,7 @@ export const SearchFormik = ({ rows, setRows }) => {
   const [search, setSearch] = useState("");
   const [filterType, setfilterType] = useState("StartDate");
   const options = [
+    { types: " None", value: null },
     { types: " Registration Fees", value: 0 },
     { types: "Meals ", value: 0 },
     { types: "Accommodation", value: 0 },
@@ -72,8 +73,7 @@ export const SearchFormik = ({ rows, setRows }) => {
         TransferOfValue.filter((item) => item.types.includes(TovType)).length
     );
     console.log(finalFilterdTov, "finalFilterdTov");
-    setRows(TovType ? finalFilterdTov : finalFilterd);
-    // setRows(finalFilterdTov);
+    setRows(TovType==='None' ? finalFilterdTov : finalFilterd);
   };
   const BtnCheck = (e) => {
     setSearch(e.target.value);
@@ -128,14 +128,16 @@ export const SearchFormik = ({ rows, setRows }) => {
                 />
               </span>
             </span>
-            <span className="d-flex gap-2 align-items-start justify-content-between flex-column h-100 ">
+            <div className="d-flex gap-2 align-items-start justify-content-between flex-column ">
+              <span>
+
               <b className="d-flex gap-2 align-items-center"> Filter type</b>
-              <span
-                className="fs-6 d-flex align-items-end rounded "
+              </span>
+              <div
+                className="fs-6 d-flex align-items-end rounded py-2 "
                 style={{ border: "1px solid black" }}
               >
                 <FormControl fullWidth>
-                  {/* <InputLabel id="demo-simple-select-label" className='bg-white'>FilterType</InputLabel> */}
                   <Field
                     as={Select}
                     labelId="demo-simple-select-label"
@@ -150,16 +152,15 @@ export const SearchFormik = ({ rows, setRows }) => {
                     <MenuItem value={"EndDate"}>End at</MenuItem>
                   </Field>
                 </FormControl>
-              </span>
-            </span>
+              </div>
+            </div>
             <span className="d-flex gap-2 align-items-start justify-content-between flex-column h-100 ">
               <b className="d-flex gap-2 align-items-center"> Tov type</b>
               <span
-                className="fs-6 d-flex align-items-end rounded "
+                className="fs-6 d-flex align-items-end rounded py-2"
                 style={{ border: "1px solid black" }}
               >
                 <FormControl fullWidth>
-                  {/* <InputLabel id="demo-simple-select-label" className='bg-white'>FilterType</InputLabel> */}
                   <Field
                     as={Select}
                     labelId="demo-simple-select-label"
@@ -182,7 +183,6 @@ export const SearchFormik = ({ rows, setRows }) => {
               <span className="fs-6 d-flex align-items-end">
                 <Field
                   as={TextField}
-                  // disabled
                   onChange={BtnCheck}
                   name="search"
                   placeholder="search...."
@@ -195,7 +195,7 @@ export const SearchFormik = ({ rows, setRows }) => {
               <button
                 type="button"
                 onClick={onSubmit}
-                className={"btn-DarkBlue text-white p-2 rounded"}
+                className={"btn-DarkBlue text-white p-2 rounded border-0"}
               >
                 Search
               </button>

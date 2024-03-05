@@ -1,6 +1,5 @@
 import { initializeApp } from "@firebase/app";
 import { createContext, useEffect, useState } from "react";
-
 import {
   collection,
   getFirestore,
@@ -23,6 +22,7 @@ const FireBaseContextProvider = ({ children }) => {
   const [filterdData, setFilterd] = useState([]);
   const [updateUser, setUpdateUser] = useState(null);
   const [Subscribers, setSubscribers] = useState([]);
+  const [user ,setUser]=useState({})
   const [roleCondition, setRole] = useState("");
   const [currentUserRole, setCurrentUserRole] = useState("");
   const [newEvent, setNewEvent] = useState({
@@ -39,9 +39,9 @@ const FireBaseContextProvider = ({ children }) => {
     EndDate: "",
     DateFromHours: "",
     DateEndHours: "",
-    BackGroundColor: "#FFF",
-    FontColor: "#000",
-    ButtonColor: "#00F",
+    BackGroundColor: "#00ff00",
+    FontColor: "#000000",
+    ButtonColor: "#ffffff",
     AccpetAllTermss: false,
     Policies:
       ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this ',
@@ -105,6 +105,7 @@ const FireBaseContextProvider = ({ children }) => {
       setLoading(false);
       if (user) {
         setCurrentUser(user.uid);
+        setUser(user)
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
         console.log(finaleUser.data().Role, "Role on state change");
@@ -149,6 +150,7 @@ const FireBaseContextProvider = ({ children }) => {
         setCurrentUser,
         IdIncluded,
         setId,
+        user,
         SubscribersDeletedRef,
         EventsDeletedRef,
         currentUsr,

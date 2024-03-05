@@ -4,7 +4,7 @@ import { FireBaseContext } from "../../Context/FireBase";
 
 const ColorPickerInput = ({ type }) => {
   const [showPicker, setShowPicker] = useState(false);
-  const [selectedColor, setSelectedColor] = useState("#00ff00");
+  const [selectedColor, setSelectedColor] = useState("#000000");
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
 
   const boxRef = useRef(null);
