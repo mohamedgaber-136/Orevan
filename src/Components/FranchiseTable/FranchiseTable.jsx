@@ -14,34 +14,18 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import swal from "sweetalert";
 import { FireBaseContext } from "../../Context/FireBase";
-import ExportDropDown from '../ExportDropDown/ExportDropDown'
 import { useNavigate } from "react-router-dom";
-import {
-  deleteDoc,
-  doc,
-  serverTimestamp,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
-import SearchText from "../SearchText/SearchText";
-import ImportExcel from "../ImportExcel/ImportExcel";
 import { SearchFormik } from "../SearchFormik/SearchFormik";
-export default function FranchiseTable({ row ,sub}) {
+export default function FranchiseTable({ row, sub }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rows, setRows] = React.useState([0]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { EventRefrence, EventsDeletedRef } = React.useContext(
-    FireBaseContext
-  );
   const navigate = useNavigate();
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -116,7 +100,6 @@ export default function FranchiseTable({ row ,sub}) {
       label: "Status",
     },
   ];
-  // eventCost
 
   // Sorting---Head /--------------------------------
   function EnhancedTableHead(props) {
@@ -279,7 +262,6 @@ export default function FranchiseTable({ row ,sub}) {
     return (
       <Toolbar
         sx={{
-       
           pl: { sm: 2 },
           pr: { xs: 1, sm: 1 },
           ...(numSelected > 0 && {
@@ -307,9 +289,8 @@ export default function FranchiseTable({ row ,sub}) {
             id="tableTitle"
             component="div"
           >
-          {/* //// */}
-          <SearchFormik rows={rows} setRows={setRows}/>
-         
+            {/* //// */}
+            <SearchFormik rows={rows} setRows={setRows} />
           </Typography>
         )}
 
@@ -333,10 +314,10 @@ export default function FranchiseTable({ row ,sub}) {
       <div className=" d-flex align-items-center gap-2 p-3 d-flex justify-content-end ">
         <span className="d-flex gap-2 align-items-center">
           <span className="fs-6 exportExcel">
-          {/* <ExportDropDown rows={rows} sub={sub}/> */}
-        {" "}
+            {/* <ExportDropDown rows={rows} sub={sub}/> */}
           </span>
         </span>
+        {/* the following line should be activated but it has an error */}
         {/* <ImportExcel /> */}
         {/* <SearchText list={row} /> */}
       </div>

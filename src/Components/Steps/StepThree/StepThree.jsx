@@ -3,35 +3,31 @@ import mobileImg from "../../../assets/mobile-frame-without-background-free-png.
 import logo from "../../../assets/Novartis Logo RGB 2.png";
 import TextField from "@mui/material/TextField";
 import { FireBaseContext } from "../../../Context/FireBase";
-import { useContext ,useEffect} from "react";
+import { useContext, useEffect } from "react";
 import ColorPickerInput from "../../ColorPickerInput/ColorPickerInput";
 export const StepThree = () => {
-  const { newEvent, setNewEvent} = useContext(FireBaseContext);
+  const { newEvent, setNewEvent } = useContext(FireBaseContext);
   function randomXToY(minVal, maxVal) {
     let randVal = minVal + Math.random() * (maxVal - minVal);
     return Math.round(randVal);
   }
   useEffect(() => {
-    setNewEvent({ ...newEvent, Id:   randomXToY(1, 100000)     })
-  }, [])
-  console.log(newEvent,'newEvent')
+    setNewEvent({ ...newEvent, Id: randomXToY(1, 100000) });
+  }, []);
   return (
     <div className="d-flex justify-content-center flex-column gap-4 align-items-center container mt-5">
       <div className="d-flex justify-content-between flex-wrap  w-100 gap-5 align-items-center">
         <div className=" border p-2 colorPickerParent rounded rounded-1">
           <h6 className="ColorPickerTitle">BackGround Color</h6>
-          <ColorPickerInput type={"BackGroundColor"}/>
-
+          <ColorPickerInput type={"BackGroundColor"} />
         </div>
         <div className="border p-2 colorPickerParent rounded rounded-1">
           <h6 className="ColorPickerTitle">Font Color</h6>
-          <ColorPickerInput type={"FontColor"}/>
-
+          <ColorPickerInput type={"FontColor"} />
         </div>
         <div className="border p-2 colorPickerParent rounded rounded-1">
           <h6 className="ColorPickerTitle">Button Color</h6>
           <ColorPickerInput type={"ButtonColor"} />
-
         </div>
       </div>
 

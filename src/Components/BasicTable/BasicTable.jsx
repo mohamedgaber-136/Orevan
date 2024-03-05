@@ -1,4 +1,4 @@
-import {useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,46 +9,69 @@ import Paper from "@mui/material/Paper";
 import Toolbar from "@mui/material/Toolbar";
 import "./Table.css";
 import { SelectComponent } from "../SelectComponent/SelectComponent";
-export default function BasicTable({ row ,setDays,setMonths,setWeeks}) {
-  const [rows,setRows] =useState([])
-  const [date, setdate] = useState('This Day')
+export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
+  const [rows, setRows] = useState([]);
+  const [date, setdate] = useState("This Day");
   const areDatesInSameWeek = (date1, date2) => {
-    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    // hours*minutes*seconds*milliseconds
+    const oneDay = 24 * 60 * 60 * 1000;
     const diffDays = Math.round(Math.abs((date1 - date2) / oneDay));
     return diffDays <= 6 && date1.getDay() >= date2.getDay();
   };
-  useEffect(()=>{
-    const dates = new Date()
+  useEffect(() => {
+    const dates = new Date();
     const date1 = new Date(dates.toLocaleString());
-    const days =  row.filter(({CreatedAt})=>new Date(new Date(CreatedAt).toLocaleDateString()).getTime()===new Date(dates.toLocaleDateString()).getTime() )
-    const Months = row.filter(({CreatedAt})=>new Date(CreatedAt).getMonth()===dates.getMonth())
-    setRows(days) 
-    setDays(days.length)// replace with your first date
-    setMonths(Months.length)// replace with your first date
-
-
-  },[row])
-  useEffect(()=>{
-    const dates = new Date()
-switch(date){
-  case'This Day' :
-  const days =  row.filter(({CreatedAt})=>new Date(new Date(CreatedAt).toLocaleDateString()).getTime()===new Date(dates.toLocaleDateString()).getTime() )
-  setRows(days)
-  break;
-  case'This Month':
-  const Months = row.filter(({CreatedAt})=>new Date(CreatedAt).getMonth()===dates.getMonth())
-  setRows(Months)
-break;
-case'This Week':
-const date1 = new Date(dates.toLocaleString()); // replace with your first date
-const weeks = row.filter(({CreatedAt})=>areDatesInSameWeek(date1, new Date(new Date(CreatedAt).toLocaleDateString()))
-)
-setRows(weeks)
-break;
-  default:
-
-}
-  },[date])
+    const days = row.filter(
+      ({ CreatedAt }) =>
+        new Date(new Date(CreatedAt).toLocaleDateString()).getTime() ===
+        new Date(dates.toLocaleDateString()).getTime()
+    );
+    const Months = row.filter(
+      ({ CreatedAt }) => new Date(CreatedAt).getMonth() === dates.getMonth()
+    );
+    setRows(days);
+    const weeks = row.filter(({ CreatedAt }) =>
+      areDatesInSameWeek(
+        date1,
+        new Date(new Date(CreatedAt).toLocaleDateString())
+      )
+    );
+    // replace with your first date
+    WeeksInfo[0].times = days.length;
+    WeeksInfo[1].times = weeks.length;
+    WeeksInfo[2].times = Months.length;
+    setWeeksInfo([...WeeksInfo]);
+  }, [row]);
+  useEffect(() => {
+    const dates = new Date();
+    switch (date) {
+      case "This Day":
+        const days = row.filter(
+          ({ CreatedAt }) =>
+            new Date(new Date(CreatedAt).toLocaleDateString()).getTime() ===
+            new Date(dates.toLocaleDateString()).getTime()
+        );
+        setRows(days);
+        break;
+      case "This Month":
+        const Months = row.filter(
+          ({ CreatedAt }) => new Date(CreatedAt).getMonth() === dates.getMonth()
+        );
+        setRows(Months);
+        break;
+      case "This Week":
+        const date1 = new Date(dates.toLocaleString()); // replace with your first date
+        const weeks = row.filter(({ CreatedAt }) =>
+          areDatesInSameWeek(
+            date1,
+            new Date(new Date(CreatedAt).toLocaleDateString())
+          )
+        );
+        setRows(weeks);
+        break;
+      default:
+    }
+  }, [date]);
   return (
     <TableContainer
       component={Paper}

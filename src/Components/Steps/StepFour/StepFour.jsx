@@ -1,8 +1,8 @@
-import { PreviewCard } from "../../PreveiwCard/PreviewCard"
+import { PreviewCard } from "../../PreveiwCard/PreviewCard";
 export const StepFour = () => {
   return (
     <div className="d-flex justify-content-center  ">
-    <PreviewCard/>
+      <PreviewCard />
     </div>
-  )
-}
+  );
+};

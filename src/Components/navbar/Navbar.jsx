@@ -6,12 +6,10 @@ import { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
 export const Navbar = ({ navAppear }) => {
   const navigate = useNavigate();
-  // const{userId} = useContext(FireBaseContext)
   const { currentUserRole } = useContext(FireBaseContext);
   const { pathname } = useLocation();
   const [focusedButton, setFocusedButton] = useState(null);
   const [isAllowedUser, setIsAllowedUser] = useState(null);
-  console.log(isAllowedUser);
   const handleFocus = (id) => {
     setFocusedButton(id);
   };

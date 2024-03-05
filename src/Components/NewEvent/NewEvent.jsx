@@ -21,12 +21,12 @@ export default function NewEvent() {
     TeamsRefrence,
     newEvent,
     EventRefrence,
-    setNewEvent, 
+    setNewEvent,
     setId,
     currentUsr,
-    saveNotificationToFirebase
+    saveNotificationToFirebase,
   } = useContext(FireBaseContext);
-  const { setAccpetAll, AccpetAllTermss, } = useContext(SearchContext);
+  const { setAccpetAll, AccpetAllTermss } = useContext(SearchContext);
   const [skipped, setSkipped] = useState(new Set());
   const [open, setOpen] = useState(true);
   const steps = [
@@ -100,24 +100,29 @@ export default function NewEvent() {
     }
   };
   const SendDataToFireBase = async () => {
-    const ref= doc(TeamsRefrence,newEvent.Franchise)
-    const refCollec = collection(ref,'Events')   
+    const ref = doc(TeamsRefrence, newEvent.Franchise);
+    const refCollec = collection(ref, "Events");
     swal({
       icon: "success",
       title: `Event ${newEvent.Id} added`,
-    }).then( async ()=>{
+    }).then(async () => {
       await addDoc(refCollec, {
         CreatedByID: currentUsr,
         ...newEvent,
       });
-    })
+    });
     await addDoc(EventRefrence, { ...newEvent, CreatedByID: currentUsr }).then(
       async (snapshot) => {
-       saveNotificationToFirebase(snapshot.id,)
+        console.log("saveNotificationToFirebase new event");
+        saveNotificationToFirebase({
+          notifyID: snapshot.id,
+          message: "created a new event",
+          eventDataObject: { ...newEvent },
+        });
       }
-      );
-  
-      navigation("/app/events");
+    );
+
+    navigation("/app/events");
     setNewEvent({
       EventName: "",
       CostperDelegate: "",
@@ -136,7 +141,8 @@ export default function NewEvent() {
       FontColor: "#000",
       ButtonColor: "#00F",
       AccpetAllTermss: false,
-      Policies:' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this '
+      Policies:
+        ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this ',
     });
   };
   useEffect(() => {
@@ -202,21 +208,17 @@ export default function NewEvent() {
               <div>
                 {open && (
                   <small className="text-danger px-2 m-0">
-                    Please Insert All Data{" "}
+                    Please Insert All Data
                   </small>
                 )}
                 <Button
                   className={`text-white " bg-secondary" ${
-                    open &&
-                  
-                    (activeStep === 1 && !newEvent.AccpetAllTermss)
+                    open && activeStep === 1 && !newEvent.AccpetAllTermss
                       ? " bg-secondary"
                       : "btn-DarkBlue"
                   }`}
                   disabled={
-                    (activeStep === 1 && !newEvent.AccpetAllTermss) ||
-                    open 
-                    
+                    (activeStep === 1 && !newEvent.AccpetAllTermss) || open
                   }
                   onClick={handleNext}
                 >

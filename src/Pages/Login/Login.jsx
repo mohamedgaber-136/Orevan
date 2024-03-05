@@ -9,10 +9,7 @@ import bcrypt from "bcryptjs";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate } from "react-router-dom";
-import {
-
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Formik, Form } from "formik";
 import { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
@@ -41,7 +38,6 @@ const Login = () => {
       label: "Password",
     },
   ];
-  let navigateTime;
   const UsersRef = collection(database, "Users");
   const LoginFunc = async (e) => {
     e.preventDefault();
@@ -49,21 +45,16 @@ const Login = () => {
       .then(async (res) => {
         setError(false);
         setShowSpinning(true);
-         navigateTime = setTimeout(() => navigation(`/app`), 2000);
       })
       .catch((error) => setError(true));
   };
 
-  // useEffect(() => {
-  //   if (currentUsr && currentUsr !== "init") {
-  //     navigation(`/app`);
-  //     // navigateTime = setTimeout(() => navigation(`/app`), 2000);
-  //   }
-  //   // return () => clearTimeout(navigateTime);
-  // }, [currentUsr]);
-  // useEffect(() => {
-  //   return () => clearTimeout(navigateTime);
-  // }, []);
+  useEffect(() => {
+    if (currentUsr && currentUsr !== "init") {
+      navigation(`/app`);
+    }
+  }, [currentUsr]);
+
   return (
     <div className="d-flex justify-content-around vh-100 flex-column align-items-center flex-column ">
       <div className=" d-flex justify-content-center pt-3 flex-column align-items-center   container">
@@ -112,7 +103,7 @@ const Login = () => {
                       type="submit"
                       className="w-100 LoginBtn d-flex gap-2 border"
                     >
-                      <span className="text-white">Login</span>{" "}
+                      <span className="text-white">Login</span>
                       {ShowSpinning && (
                         <i className="gg-spinner-two-alt text-white "></i>
                       )}

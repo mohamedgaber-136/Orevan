@@ -1,28 +1,13 @@
-import bcrypt from "bcryptjs";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signOut,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
-import {
-  collection,
-  doc,
-  setDoc,
-  getDoc,
-  addDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
 import swal from "sweetalert";
 import { RoleDropDown } from "../RoleDropDown/RoleDropDown";
 import { AdminAuth } from "../../Config/FirebaseAdminApp";
-// import admin from "firebase-admin";
 export const CreateUser = () => {
   const { database } = useContext(FireBaseContext);
   const [error, setError] = useState(false);

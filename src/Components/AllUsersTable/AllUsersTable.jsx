@@ -13,16 +13,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { visuallyHidden } from "@mui/utils";
 import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
-import UploadBtn from "../UploadBtn/UploadBtn";
-import Modal from "../Modal/Modal";
-import ImportExcel from "../ImportExcel/ImportExcel";
 import ChangeEventModal from "../ChangeEventModal/ChangeEventModal";
 import ExportToExcelButton from "../ExportBtn/ExportToExcelButton";
-import SettingsBtn from "../SettingsBtn/SettingsBtn";
-import SearchText from "../SearchText/SearchText";
 export default function AllUsersTable({ rows }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -105,7 +99,6 @@ export default function AllUsersTable({ rows }) {
       disablePadding: false,
       label: "City",
     },
-   
   ];
 
   function EnhancedTableHead(props) {
@@ -119,7 +112,7 @@ export default function AllUsersTable({ rows }) {
     return (
       <TableHead>
         <TableRow>
-        <TableCell align="right"></TableCell>
+          <TableCell align="right"></TableCell>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -133,7 +126,6 @@ export default function AllUsersTable({ rows }) {
                 onClick={createSortHandler(headCell.id)}
               >
                 {headCell.label}
-             
               </TableSortLabel>
             </TableCell>
           ))}
@@ -171,7 +163,7 @@ export default function AllUsersTable({ rows }) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  
+
   function EnhancedTableToolbar(props) {
     const { numSelected } = props;
     return (
@@ -180,41 +172,42 @@ export default function AllUsersTable({ rows }) {
         sx={{
           pl: { sm: 2 },
           pr: { xs: 1, sm: 1 },
-         
         }}
       >
-         {numSelected > 0 && (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="blue"
-          variant="subtitle1"
-          component="div"
+        {numSelected > 0 && (
+          <Typography
+            sx={{ flex: "1 1 100%" }}
+            color="blue"
+            variant="subtitle1"
+            component="div"
+          >
+            {selected.length} selected
+          </Typography>
+        )}
+        {numSelected > 0 && (
+          <Tooltip title="AddNew">
+            <IconButton>
+              <ChangeEventModal
+                newSelected={selected}
+                setSelected={setSelected}
+              />
+            </IconButton>
+          </Tooltip>
+        )}
+        <div
+          className="d-flex gap-2 align-items-center
+"
         >
-          {selected.length} selected
-        </Typography>
-    )}
-        {numSelected > 0 &&
-        <Tooltip title="AddNew">
-           <IconButton>
-            <ChangeEventModal newSelected={selected} setSelected={setSelected}/>
-          </IconButton>
-        </Tooltip>
-        }
-        <div className='d-flex gap-2 align-items-center
-'>
-   <ExportToExcelButton
-              filename="exported_data"
-              sheetname="Sheet 1"
-              data={rows}
-            />
-{" "}
-{/* <ImportExcel /> */}
-{/* <SearchText list={rows}/> */}
-</div>
- 
+          <ExportToExcelButton
+            filename="exported_data"
+            sheetname="Sheet 1"
+            data={rows}
+          />
 
-        </Toolbar>
- 
+          {/* <ImportExcel /> */}
+          {/* <SearchText list={rows}/> */}
+        </div>
+      </Toolbar>
     );
   }
   const isSelected = (id) => selected.indexOf(id) !== -1;
@@ -253,7 +246,7 @@ export default function AllUsersTable({ rows }) {
     setSelected(newSelected);
   };
   return (
-    <Box sx={{ width: "100%"}}>
+    <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -312,8 +305,6 @@ export default function AllUsersTable({ rows }) {
                       <TableCell align="right">{row.Speciality}</TableCell>
                       <TableCell align="right">{row.NationalID}</TableCell>
                       <TableCell align="right">{row.City}</TableCell>
-              
-
                     </TableRow>
                   );
                 })}

@@ -43,7 +43,7 @@ const ExportSfda = ({ data, filename, sheetname }) => {
                 Organization: subItem.Organization,
                 "Phone Number": subItem.PhoneNumber,
                 "Event ID": item.Id,
-                "Signature":subItem.image
+                Signature: subItem.image,
               };
             })
           );
@@ -75,15 +75,15 @@ const ExportSfda = ({ data, filename, sheetname }) => {
       "Organization",
       "Subscriber City",
       "Subscriber ID",
-      "Signature"
+      "Signature",
     ];
     worksheet.addRow([...headersList]);
 
     // Set the background color for the entire row (e.g., row 1)
     const rowIndex = 1;
     const row = worksheet.getRow(rowIndex);
-    row.eachCell({ includeEmpty: true }, (cell,index) => {
-      if(index>11){
+    row.eachCell({ includeEmpty: true }, (cell, index) => {
+      if (index > 11) {
         cell.fill = {
           type: "pattern",
           pattern: "solid",
@@ -91,7 +91,7 @@ const ExportSfda = ({ data, filename, sheetname }) => {
         };
         cell.font = { size: 12 };
         cell.alignment = { horizontal: "center", vertical: "middle" };
-      } else if(index===11){
+      } else if (index === 11) {
         cell.fill = {
           type: "pattern",
           pattern: "solid",
@@ -99,8 +99,7 @@ const ExportSfda = ({ data, filename, sheetname }) => {
         };
         cell.font = { size: 12 };
         cell.alignment = { horizontal: "center", vertical: "middle" };
-      }
-        else{
+      } else {
         cell.fill = {
           type: "pattern",
           pattern: "solid",
@@ -109,21 +108,20 @@ const ExportSfda = ({ data, filename, sheetname }) => {
         cell.font = { size: 12 };
         cell.alignment = { horizontal: "center", vertical: "middle" };
       }
-     
     });
 
     // Add data rows
-    finalDataToExport.map((rowItem, index) =>  {
+    finalDataToExport.map((rowItem, index) => {
       const holder = [
-        ...headersList.map((head) => {        
-            const convertItem = isNaN(Number(rowItem[head]))
+        ...headersList.map((head) => {
+          const convertItem = isNaN(Number(rowItem[head]))
             ? rowItem[head]
             : Number(rowItem[head]);
-            return rowItem[head] ? convertItem : "";              
-          }),
+          return rowItem[head] ? convertItem : "";
+        }),
       ];
       worksheet.addRow([...holder]);
- 
+
       const rowIndex = index + 2;
       const row = worksheet.getRow(rowIndex);
       row.eachCell({ includeEmpty: true }, (cell) => {
@@ -135,16 +133,15 @@ const ExportSfda = ({ data, filename, sheetname }) => {
         cell.alignment = { horizontal: "center", vertical: "middle" };
       });
     });
-    finalDataToExport.map((item,ind)=>{
-  const data = item["Signature"] 
-  if(data){
-    worksheet.getCell(`V${ind+2}`).value = {
-      text: 'Signature',
-      hyperlink: data,
-    }
-  };
-
-    })
+    finalDataToExport.map((item, ind) => {
+      const data = item["Signature"];
+      if (data) {
+        worksheet.getCell(`V${ind + 2}`).value = {
+          text: "Signature",
+          hyperlink: data,
+        };
+      }
+    });
     // Set column widths to fit the content
     worksheet.columns.forEach((column, colIndex) => {
       let maxLength = 0;
@@ -171,10 +168,9 @@ const ExportSfda = ({ data, filename, sheetname }) => {
     // const fileName = "excel-with-row-color.xlsx";
   };
 
- 
   return (
     <i className="fa-solid fa-download" onClick={handleExport}>
-      <span className="fs-6 fw-light"> SFDA</span>{" "}
+      <span className="fs-6 fw-light"> SFDA</span>
     </i>
   );
 };

@@ -1,12 +1,16 @@
 import { Field, Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 export const SearchFormik = ({ rows, setRows }) => {
-  const [startDateFilter, setStartDateFilter] = useState(null);
-  const [endDateFilter, setEndDateFilter] = useState(null);
+  const [startDateFilter, setStartDateFilter] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [endDateFilter, setEndDateFilter] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [search, setSearch] = useState("");
   const [filterType, setfilterType] = useState("StartDate");
   const options = [
@@ -17,6 +21,7 @@ export const SearchFormik = ({ rows, setRows }) => {
     { types: "CME Hours", value: 0 },
     { types: "Transportation", value: 0 },
   ];
+  // TovType initial value should be null?
   const [TovType, setTov] = useState(options[0].types);
   const [disabledBtn, setDisabledBtn] = useState(true);
   const intialValues = {
@@ -29,13 +34,18 @@ export const SearchFormik = ({ rows, setRows }) => {
   const handleChangeTov = (event) => {
     setTov(event.target.value);
   };
-  const onSubmit = (values) => {
+
+  const onSubmit = () => {
     // Filter data based on the selected date range..
-    const StartTimefilterdDate = new Date(startDateFilter);
-    const EndTimefilterdDate = new Date(endDateFilter);
+    const StartTimefilterdDate = startDateFilter;
+    const EndTimefilterdDate = endDateFilter;
+
+    console.log(StartTimefilterdDate, "filter start");
+    console.log(EndTimefilterdDate, "filter end");
 
     const filtered = rows.filter((item) => {
-      const startDate = new Date(item[filterType]);
+      const startDate = new Date(item[filterType]).toISOString().split("T")[0];
+      console.log(startDate, "startDate");
       if (
         (!StartTimefilterdDate || startDate >= StartTimefilterdDate) &&
         (!EndTimefilterdDate || startDate <= EndTimefilterdDate)
@@ -62,36 +72,8 @@ export const SearchFormik = ({ rows, setRows }) => {
         TransferOfValue.filter((item) => item.types.includes(TovType)).length
     );
     console.log(finalFilterdTov, "finalFilterdTov");
-    setRows(finalFilterdTov);
-    // setRows()
-
-    // let finalFilterdTov = rows.map(
-    //   (item) => {
-    //     console.log(
-    //       item.TransferOfValue.filter((item) => item.types.includes(TovType)),
-    //       "result value"
-    //     );
-    //   }
-    //   // item.TransferOfValue.filter(
-    //   //   (item) => item.types.includes(TovType) == true
-    //   // )
-    // );
-    // {
-    //   // console.log(
-    //   //   item.TransferOfValue.filter((item) => item.types.includes(TovType)),
-    //   //   "result value"
-    //   // );
-    //   // if (item.TransferOfValue.map((item) => item.types.includes(TovType))) {
-    //   //   console.log(item);
-    //   //   // return item
-    //   // } else {
-    //   //   console.log("no");
-    //   // }
-    // });
-    // console.log(filtered[0].TransferOfValue.map((item)=>item.types.includes('CME Hours')))
-    // .map((item)=>{
-    //  let data=  item.find((item)=>item.types===TovType)
-    //  console.log(data)
+    setRows(TovType ? finalFilterdTov : finalFilterd);
+    // setRows(finalFilterdTov);
   };
   const BtnCheck = (e) => {
     setSearch(e.target.value);
@@ -112,11 +94,13 @@ export const SearchFormik = ({ rows, setRows }) => {
                 <i className="fa-solid fa-pause"></i>From
               </b>
               <span className="fs-6 d-flex align-items-end">
-                {" "}
                 <Field
                   as={TextField}
-                  // disabled
-                  onChange={(e) => setStartDateFilter(e.target.value)}
+                  onChange={(e) =>
+                    setStartDateFilter(
+                      new Date(e.target.value).toISOString().split("T")[0]
+                    )
+                  }
                   value={startDateFilter}
                   name="StartDate"
                   type="date"
@@ -126,15 +110,17 @@ export const SearchFormik = ({ rows, setRows }) => {
             </span>
             <span className="d-flex gap-2 align-items-start flex-column ">
               <b className="d-flex gap-2 align-items-center">
-                {" "}
                 <i className="fa-solid fa-bars"></i>To
               </b>
               <span className="fs-6">
-                {" "}
                 <Field
                   as={TextField}
                   type="date"
-                  onChange={(e) => setEndDateFilter(e.target.value)}
+                  onChange={(e) =>
+                    setEndDateFilter(
+                      new Date(e.target.value).toISOString().split("T")[0]
+                    )
+                  }
                   // disabled
                   value={endDateFilter}
                   name="EndDate"
@@ -163,7 +149,7 @@ export const SearchFormik = ({ rows, setRows }) => {
                     <MenuItem value={"StartDate"}>Started at</MenuItem>
                     <MenuItem value={"EndDate"}>End at</MenuItem>
                   </Field>
-                </FormControl>{" "}
+                </FormControl>
               </span>
             </span>
             <span className="d-flex gap-2 align-items-start justify-content-between flex-column h-100 ">
@@ -188,16 +174,12 @@ export const SearchFormik = ({ rows, setRows }) => {
                         {item.types}
                       </MenuItem>
                     ))}
-                    {/* <MenuItem value={"CreatedAt"}>Created at</MenuItem>
-                    <MenuItem value={"StartDate"}>Started at</MenuItem>
-                    <MenuItem value={"EndDate"}>End at</MenuItem> */}
                   </Field>
-                </FormControl>{" "}
+                </FormControl>
               </span>
             </span>
             <span className="d-flex gap-2 align-items-start flex-column ">
               <span className="fs-6 d-flex align-items-end">
-                {" "}
                 <Field
                   as={TextField}
                   // disabled

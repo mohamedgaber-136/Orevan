@@ -56,7 +56,9 @@ export default function SubScribersTable({ row, refCollection }) {
     });
     return stabilizedThis?.map((el) => el[0]);
   }
-  React.useEffect(()=>{setrows(row)},[row])
+  React.useEffect(() => {
+    setrows(row);
+  }, [row]);
   // HeadTitles
   const headCells = [
     {
@@ -113,8 +115,6 @@ export default function SubScribersTable({ row, refCollection }) {
       disablePadding: false,
       label: "Signature",
     },
-   
-   
   ];
 
   function EnhancedTableHead(props) {
@@ -128,7 +128,7 @@ export default function SubScribersTable({ row, refCollection }) {
     return (
       <TableHead>
         <TableRow>
-        <TableCell align="right"></TableCell>
+          <TableCell align="right"></TableCell>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -186,7 +186,7 @@ export default function SubScribersTable({ row, refCollection }) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  
+
   function EnhancedTableToolbar(props) {
     const { numSelected } = props;
     return (
@@ -195,45 +195,46 @@ export default function SubScribersTable({ row, refCollection }) {
         sx={{
           pl: { sm: 2 },
           pr: { xs: 1, sm: 1 },
-         
         }}
       >
-         {numSelected > 0 && (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="blue"
-          variant="subtitle1"
-          component="div"
+        {numSelected > 0 && (
+          <Typography
+            sx={{ flex: "1 1 100%" }}
+            color="blue"
+            variant="subtitle1"
+            component="div"
+          >
+            {selected.length} selected
+          </Typography>
+        )}
+        {numSelected > 0 && (
+          <Tooltip title="AddNew">
+            <IconButton>
+              <ChangeEventModal
+                newSelected={selected}
+                setSelected={setSelected}
+              />
+            </IconButton>
+          </Tooltip>
+        )}
+        <div
+          className="d-flex  gap-2 align-items-center
+"
         >
-          {selected.length} selected
-        </Typography>
-    )}
-        {numSelected > 0 &&
+          <ExportToExcelButton
+            filename="exported_data"
+            sheetname="Sheet 1"
+            data={rows}
+          />
+          <ImportExcel />
+          {/* <SearchText list={rows} setRows={setrows} row={row} /> */}
+        </div>
         <Tooltip title="AddNew">
-           <IconButton>
-            <ChangeEventModal newSelected={selected} setSelected={setSelected}/>
+          <IconButton>
+            <Modal />
           </IconButton>
         </Tooltip>
-        }
-        <div className='d-flex  gap-2 align-items-center
-'>
-   <ExportToExcelButton
-              filename="exported_data"
-              sheetname="Sheet 1"
-              data={rows}
-            />
-{" "}
-<ImportExcel />
-{/* <SearchText list={rows} setRows={setrows} row={row} /> */}
-</div>
-  <Tooltip title="AddNew">
-  <IconButton>
-    <Modal />
-  </IconButton>
-</Tooltip>
-
-        </Toolbar>
- 
+      </Toolbar>
     );
   }
   const isSelected = (id) => selected.indexOf(id) !== -1;
@@ -249,7 +250,6 @@ export default function SubScribersTable({ row, refCollection }) {
     console.log(""),
     [order, orderBy, page, rowsPerPage]
   );
-
 
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
@@ -269,7 +269,7 @@ export default function SubScribersTable({ row, refCollection }) {
     setSelected(newSelected);
   };
   return (
-    <Box sx={{ width: "100%"}}>
+    <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -338,9 +338,12 @@ export default function SubScribersTable({ row, refCollection }) {
                         )}
                       </TableCell>
                       <TableCell align="right">
-                        <SettingsBtn row={row} rowId={row.ID} refCollection={refCollection}/>
+                        <SettingsBtn
+                          row={row}
+                          rowId={row.ID}
+                          refCollection={refCollection}
+                        />
                       </TableCell>
-
                     </TableRow>
                   );
                 })}

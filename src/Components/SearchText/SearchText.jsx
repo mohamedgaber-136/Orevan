@@ -1,6 +1,6 @@
-import React, {  useEffect, useState ,memo } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { TextField } from "@mui/material";
-const SearchText = ({ list ,setRows,row}) => {
+const SearchText = ({ list, setRows, row }) => {
   const [filter, setFilter] = useState("");
   const [data, setData] = useState([]);
   const handleFilterChange = (e) => {
@@ -23,7 +23,7 @@ const SearchText = ({ list ,setRows,row}) => {
     }
   }, [filter]);
   return (
-    <div >
+    <div>
       <TextField
         placeholder="search...."
         variant="outlined"
@@ -34,4 +34,4 @@ const SearchText = ({ list ,setRows,row}) => {
   );
 };
 
-export default memo (SearchText)
+export default memo(SearchText);

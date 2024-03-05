@@ -14,10 +14,9 @@
 //   const handleChange = (value) => {
 //     setColor(value);
 //     setNewEvent({...newEvent,[type]:value.css.backgroundColor})
-//   }; 
+//   };
 
 //   return ( <>
-
 
 //     <ColorPicker  value={color} onChange={handleChange}    />
 

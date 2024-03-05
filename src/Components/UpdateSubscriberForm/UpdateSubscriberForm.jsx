@@ -1,22 +1,14 @@
 import TextField from "@mui/material/TextField";
 import { Formik, Form } from "formik";
-import { BreadCrumbs } from "../BreadCrum/BreadCrumbs";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FireBaseContext } from "../../Context/FireBase";
 import { updateDoc, doc, getDoc, collection } from "firebase/firestore";
-import UploadBtnSub from "./UploadBtnSub";
 import swal from "sweetalert";
-import { writeFileAsync } from "xlsx";
 export const UpdateSubscriberForm = ({ user, handleClose }) => {
   const { dbID } = useParams();
-  const [checkText, setcheckText] = useState(true);
-  const [currentOption, setCurrentOption] = useState(null);
-  const [textValue, setTextValue] = useState("");
-  const { EventRefrence, triggerNum, setTriggerNum, updateUser } = useContext(
-    FireBaseContext
-  );
+  const { EventRefrence } = useContext(FireBaseContext);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [updatedData, setUpdated] = useState(null);
   const [downloadURL, setDownloadUrl] = useState(null);
@@ -112,13 +104,9 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
           Organization: e.target[10].value,
           LicenseID: e.target[12].value,
           City: e.target[14].value,
-          // image: ImageData(),
           CostPerDelegate: e.target[16].value,
-          // TransferOfValue:valus
         };
         await updateDoc(userData, updateSub);
-        console.log(valus);
-        // console.log(valus)
 
         swal({
           icon: "success",
@@ -141,12 +129,10 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
     getdata();
     setUpdated();
   }, []);
- 
+
   if (updatedData) {
     return (
       <>
-        {" "}
-        {  console.log(updatedData.TransferOfValue)}
         <h2>Edit SubScriber</h2>
         <Formik>
           {() => (
@@ -272,7 +258,10 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                           ...updatedData,
                           ["TransferOfValue"]: value,
                         });
-                        setSelectedOptions([...updatedData?.TransferOfValue,...value]);
+                        setSelectedOptions([
+                          ...updatedData?.TransferOfValue,
+                          ...value,
+                        ]);
                       }}
                       isOptionEqualToValue={(option, value) =>
                         option.types === value.types
@@ -288,23 +277,24 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                   </div>
                   <div className="w-75 d-flex justify-content-center">
                     <ul className="p-0 d-flex flex-wrap  gap-1 w-100 ">
-                      {updatedData?.TransferOfValue.map((savedObject, index) => (
-                        <li
-                          key={index}
-                          className="border d-flex flex-column p-2 rounded wrappingItems "
-                          style={{ width: "40%" }}
-                        >
-                          <p className="m-0">Tov : {savedObject.types} </p>
-                          <TextField
-                            onChange={(e) =>
-                              checkTxtValue(e, savedObject.option, index)
-                            }
-                            defaultValue={savedObject.value}
-                          />
-                        </li>
-                      ))}
+                      {updatedData?.TransferOfValue.map(
+                        (savedObject, index) => (
+                          <li
+                            key={index}
+                            className="border d-flex flex-column p-2 rounded wrappingItems "
+                            style={{ width: "40%" }}
+                          >
+                            <p className="m-0">Tov : {savedObject.types} </p>
+                            <TextField
+                              onChange={(e) =>
+                                checkTxtValue(e, savedObject.option, index)
+                              }
+                              defaultValue={savedObject.value}
+                            />
+                          </li>
+                        )
+                      )}
                     </ul>
-                    {/* {selectedOptions.length?<button type='button' className='wrappingItems' onClick={sendData} >save</button>:''} */}
                   </div>
                 </div>
                 <div className="w-50 d-flex justify-content-center align-items-center">

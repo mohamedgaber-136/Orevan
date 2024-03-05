@@ -1,9 +1,9 @@
-import {useState} from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import {useNavigate} from 'react-router-dom';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { useNavigate } from "react-router-dom";
 
 function samePageLinkNavigation(event) {
   if (
@@ -29,7 +29,7 @@ function LinkTab(props) {
           event.preventDefault();
         }
       }}
-      aria-current={props.selected && 'page'}
+      aria-current={props.selected && "page"}
       {...props}
     />
   );
@@ -41,28 +41,35 @@ LinkTab.propTypes = {
 
 export default function AppBar() {
   const [value, setValue] = useState(0);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleChange = (event, newValue) => {
     // event.type can be equal to focus with selectionFollowsFocus.
     if (
-      event.type !== 'click' ||
-      (event.type === 'click' && samePageLinkNavigation(event))
+      event.type !== "click" ||
+      (event.type === "click" && samePageLinkNavigation(event))
     ) {
       setValue(newValue);
     }
   };
 
   return (
-    <Box sx={{ width: '100%' ,display:'flex',justifyContent:'center',gap:'100px'}}>
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        gap: "100px",
+      }}
+    >
       <Tabs
         value={value}
         onChange={handleChange}
         aria-label="nav tabs example"
         role="navigation"
-        sx={{display:'flex',justifyContent:'center',gap:'100px'}}
+        sx={{ display: "flex", justifyContent: "center", gap: "100px" }}
       >
-        <LinkTab label="Events" onClick={()=>navigate('events')} />
-        <LinkTab label="Subscribers" onClick={()=>navigate('subscribers')} />
+        <LinkTab label="Events" onClick={() => navigate("events")} />
+        <LinkTab label="Subscribers" onClick={() => navigate("subscribers")} />
       </Tabs>
     </Box>
   );

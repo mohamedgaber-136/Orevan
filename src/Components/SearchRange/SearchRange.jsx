@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState ,memo } from "react";
+import React, { useContext, useEffect, useState, memo } from "react";
 import { TextField } from "@mui/material";
 import { FireBaseContext } from "../../Context/FireBase";
 const SearchText = ({ list }) => {
-  const { setRows } = useContext(FireBaseContext);
   const [filter, setFilter] = useState("");
   const [data, setData] = useState([]);
   const handleFilterChange = (e) => {
@@ -19,7 +18,7 @@ const SearchText = ({ list }) => {
   };
 
   return (
-    <div >
+    <div>
       <TextField
         label="SEARCH"
         variant="outlined"
@@ -30,4 +29,4 @@ const SearchText = ({ list }) => {
   );
 };
 
-export default memo (SearchText)
+export default memo(SearchText);
