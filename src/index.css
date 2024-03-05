@@ -270,7 +270,6 @@ color: white !important;
 }
 input{
   outline: none !important;
-  /* border: 1px solid black !important; */
 }
 .react-datepicker-ignore-onclickoutside:focus{
   border: 0 !important;
