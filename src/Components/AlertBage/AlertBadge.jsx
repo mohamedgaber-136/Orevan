@@ -5,15 +5,12 @@ import { FireBaseContext } from "../../Context/FireBase";
 import React, { useState, useEffect, useContext } from "react";
 import {
   collection,
-  getFirestore,
   onSnapshot,
   doc,
-  getDoc,
   updateDoc,
   where,
   query,
 } from "firebase/firestore";
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
@@ -22,9 +19,13 @@ import SnackBarItem from "../SnackBarItem/SnackBarItem";
 
 export default function AlertBadge() {
   const navigation = useNavigate();
-  const { triggerNum, setTriggerNum, database, currentUsr } = useContext(
-    FireBaseContext
-  );
+  const {
+    triggerNum,
+    setTriggerNum,
+    database,
+    currentUsr,
+    currentUserRole,
+  } = useContext(FireBaseContext);
   const [snackBarConfig, setSanckBarConfig] = useState({
     open: false,
     message: "",
@@ -42,209 +43,77 @@ export default function AlertBadge() {
 
   const [notifications, setNotifications] = useState([]);
 
-  // useEffect(() => {
-  //   // Set up real-time listener for changes in the 'notifications' collection
-  //   const notificationsQuery = query(
-  //     collection(database, "notifications"),
-  //     where("CreatedByID", "!=", currentUsr)
-  //   );
-  //   const unsubscribe = onSnapshot(notificationsQuery, (snapshot) => {
-  //     console.log(triggerNum, "triggerNum");
+  useEffect(() => {
+    // Set up real-time listener for changes in the 'notifications' collection
+    const notificationsQuery = query(
+      collection(database, "notifications"),
+      where("CreatedByID", "!=", currentUsr)
+    );
+    const unsubscribe = onSnapshot(notificationsQuery, (snapshot) => {
+      const newNotifications = [];
 
-  //     // setSanckBarConfig({ open: true, message: 'New Notification'});
+      if (currentUserRole.admin) {
+        snapshot.docs.map((docItem) =>
+          newNotifications.push({
+            id: docItem.id,
+            ...docItem.data(),
+          })
+        );
+      } else if (currentUserRole.manager) {
+        snapshot.docs.map(
+          (docItem) =>
+            docItem.data().EventFranchise == currentUserRole.franchiseType &&
+            newNotifications.push({
+              id: docItem.id,
+              ...docItem.data(),
+            })
+        );
+      }
+      console.log(newNotifications, "filtered notifications");
 
-  //     const newNotifications = snapshot.docs.map((doc) => ({
-  //       id: doc.id,
-  //       ...doc.data(),
-  //     }));
+      const editedNotifications = newNotifications
+        .sort((x, y) =>
+          new Date(x.CreatedAt).getTime() < new Date(y.CreatedAt).getTime()
+            ? 1
+            : -1
+        )
+        .map((notify, index) => {
+          if (index === 0) {
+            const currentDate = new Date().getTime();
+            // check if the notification created during 1000 milliseconds
+            if (
+              notify.TimeStamp <= currentDate &&
+              notify.TimeStamp >= currentDate - 10000 &&
+              !notify.isReadUsersID.find((item) => item === currentUsr)
+            ) {
+              console.log("New Notification");
+              setSanckBarConfig({
+                open: true,
+                message: "You have new notification",
+              });
+            }
+            // console.log(new Date("Mon Feb 19 2024 15:41:00").getTime(), "test");
+            // console.log(new Date("Mon Feb 19 2024 15:42:00").getTime(), "test");
+            // one minute == 60000 miliseconds
+          }
+          const found = notify.isReadUsersID.find((item) => item == currentUsr);
+          if (found) {
+            return { ...notify, isRead: true };
+          }
+          return { ...notify, isRead: false };
+        });
+      // sort notify
+      setTriggerNum(
+        editedNotifications.slice(0, 5).filter(({ isRead }) => isRead == false)
+          .length
+      );
 
-  //     const editedNotifications = newNotifications
-  //       .sort((x, y) =>
-  //         new Date(x.CreatedAt).getTime() < new Date(y.CreatedAt).getTime()
-  //           ? 1
-  //           : -1
-  //       )
-  //       .map((notify, index) => {
-  //         if (index === 0) {
-  //           console.log(new Date(notify.TimeStamp));
-  //           console.log(new Date(notify.TimeStamp).getTime());
-  //           const currentDate = new Date().getTime();
-  //           console.log(new Date());
-  //           console.log(currentDate, "current");
-  //           // check if the notification created during 1000 milliseconds
-  //           if (
-  //             notify.TimeStamp <= currentDate &&
-  //             notify.TimeStamp >= currentDate - 10000 &&
-  //             !notify.isReadUsersID.find((item) => item === currentUsr)
-  //           ) {
-  //             console.log("New Notification");
-  //             setSanckBarConfig({
-  //               open: true,
-  //               message: "You have new notification",
-  //             });
-  //           }
-  //           // console.log(new Date("Mon Feb 19 2024 15:41:00").getTime(), "test");
-  //           // console.log(new Date("Mon Feb 19 2024 15:42:00").getTime(), "test");
-  //           // one minute == 60000 miliseconds
-  //         }
-  //         const found = notify.isReadUsersID.find((item) => item == currentUsr);
-  //         if (found) {
-  //           return { ...notify, isRead: true };
-  //         }
-  //         return { ...notify, isRead: false };
-  //       });
-  //     // sort notify
-  //     console.log(triggerNum, "triggerNum");
-  //     setTriggerNum(
-  //       editedNotifications.slice(0, 5).filter(({ isRead }) => isRead == false)
-  //         .length
-  //     );
+      setNotifications([...editedNotifications]);
+    });
 
-  //     setNotifications([...editedNotifications]);
-  //   });
-
-  //   // Clean up the listener when the component unmounts
-  //   return () => unsubscribe();
-  // }, []); 
-  
-  
-  // Empty dependency array means this effect runs once when the component mounts
-
-  // if (currentUserRole.toLowerCase().includes("manager")) {
-  //   const notificationsQuery = query(
-  //     collection(database, "notifications"),
-  //     where("CreatedByID", "!=", currentUsr)
-  //   );
-  //   const unsubscribe = onSnapshot(notificationsQuery, async (snapshot) => {
-  //     console.log(triggerNum, "triggerNum");
-
-  //     let newNotifications = [];
-
-  //     if (currentUserRole.toLowerCase().includes("franchise")) {
-  //       const holder = [];
-  //       snapshot.docs.map(async (docItem) => {
-  //         const franchiseType = currentUserRole.split("-")[1];
-  //         const event = await getDoc(
-  //           doc(EventRefrence, docItem.data().NewEventID)
-  //         );
-  //         console.log(event.data(), "EventRefrence");
-
-  //         if (event.Franchise == franchiseType) {
-  //           holder.push({
-  //             id: docItem.id,
-  //             ...docItem.data(),
-  //           });
-  //           // return {
-  //           //   id: docItem.id,
-  //           //   ...docItem.data(),
-  //           // };
-  //         }
-  //       });
-
-  //       newNotifications = [...holder];
-  //     } else {
-  //       newNotifications = snapshot.docs.map(async (docItem) => ({
-  //         id: docItem.id,
-  //         ...docItem.data(),
-  //       }));
-  //     }
-
-  //     // const newNotifications = await Promise.all(
-  //     //   snapshot.docs.map(async (docItem) => {
-  //     //     if (currentUserRole.toLowerCase().includes("franchise")) {
-  //     //       const franchiseType = currentUserRole.split("-")[1];
-  //     //       console.log(franchiseType, "franchiseType notify");
-  //     //       const event = await getDoc(
-  //     //         doc(EventRefrence, docItem.data().NewEventID)
-  //     //       );
-  //     //       console.log(event.data(), "EventRefrence");
-
-  //     //       if (event.Franchise == franchiseType) {
-  //     //         return {
-  //     //           id: docItem.id,
-  //     //           ...docItem.data(),
-  //     //         };
-  //     //       }
-  //     //     } else {
-  //     //       return {
-  //     //         id: docItem.id,
-  //     //         ...docItem.data(),
-  //     //       };
-  //     //     }
-  //     //     return null;
-  //     //   })
-  //     // );
-  //     console.log(newNotifications, "newNotifications");
-
-  //     const editedNotifications = newNotifications
-  //       .sort((x, y) =>
-  //         new Date(x.CreatedAt).getTime() < new Date(y.CreatedAt).getTime()
-  //           ? 1
-  //           : -1
-  //       )
-  //       .map((notify, index) => {
-  //         if (index == 0) {
-  //           console.log(new Date(notify.TimeStamp));
-  //           console.log(new Date(notify.TimeStamp).getTime());
-  //           const currentDate = new Date().getTime();
-  //           console.log(new Date());
-  //           console.log(currentDate, "current");
-  //           // check if the notification created during 1000 milliseconds
-  //           if (
-  //             notify.TimeStamp <= currentDate &&
-  //             notify.TimeStamp >= currentDate - 10000 &&
-  //             !notify.isReadUsersID.find((item) => item == currentUsr)
-  //           ) {
-  //             console.log("New Notification");
-  //             setSanckBarConfig({
-  //               open: true,
-  //               message: "You have new notification",
-  //             });
-  //           }
-  //           // console.log(new Date("Mon Feb 19 2024 15:41:00").getTime(), "test");
-  //           // console.log(new Date("Mon Feb 19 2024 15:42:00").getTime(), "test");
-  //           // one minute == 60000 miliseconds
-  //         }
-  //         const found = notify.isReadUsersID.find(
-  //           (item) => item == currentUsr
-  //         );
-  //         if (found) {
-  //           return { ...notify, isRead: true };
-  //         }
-  //         return { ...notify, isRead: false };
-  //       });
-  //     // sort notify
-  //     console.log(triggerNum, "triggerNum");
-  //     setTriggerNum(
-  //       editedNotifications
-  //         .slice(0, 5)
-  //         .filter(({ isRead }) => isRead == false).length
-  //     );
-
-  //     setNotifications([
-  //       ...editedNotifications,
-  //       // .filter((item) => item.isRead == false)
-  //       // .sort((x, y) => {
-  //       //   if (
-  //       //     new Date(x.CreatedAt).getTime() <
-  //       //     new Date(y.CreatedAt).getTime()
-  //       //   ) {
-  //       //     return 1;
-  //       //   }
-  //       //   if (
-  //       //     new Date(x.CreatedAt).getTime() >
-  //       //     new Date(y.CreatedAt).getTime()
-  //       //   ) {
-  //       //     return -1;
-  //       //   }
-  //       //   return 0;
-  //       // }),
-  //     ]);
-  //   });
-
-  //   // Clean up the listener when the component unmounts
-  //   return () => unsubscribe();
-  // }
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe();
+  }, [currentUserRole]);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -254,24 +123,17 @@ export default function AlertBadge() {
 
   const handleClose = async (EventID, NewEventID, notifyID) => {
     setAnchorEl(null);
-
+    navigation(`/app/subscribers/${EventID}/${NewEventID}`);
     const currentNotification = notifications.find(({ id }) => id == notifyID);
     await updateDoc(doc(database, "notifications", notifyID), {
       isReadUsersID: [...currentNotification?.isReadUsersID, currentUsr],
     });
-    // const evenDoc = doc(,NewEventID)
     currentNotification.isRead = true;
-    navigation(`/app/subscribers/${EventID}/${NewEventID}`);
   };
   return (
     <>
       <IconButton
         onClick={(e) => {
-          // setTriggerNum(0);
-          // update to firebase
-          // setNotifications([
-          //   ...notifications.map((item) => ({ ...item, isRead: true })),
-          // ]);
           handleClick(e);
         }}
         aria-label={notificationsLabel(triggerNum)}
@@ -310,15 +172,11 @@ export default function AlertBadge() {
                   !notify.isRead && "bg-light"
                 }`}
               >
-                {/* <h5
-                  className="py-2 fw-bolder text-wrap"
-                  style={{ width: "200px" }}
-                >{`New Event Created '${notify.EventName}'`}</h5> */}
-
                 <div className="text-wrap w-100">
                   <div className="fs-6">
                     <span className="fw-semibold">{notify.CreatedBy}</span>
-                    <span className="px-1">{`added a new event:`}</span>
+                    {/* <span className="px-1">{`added a new event:`}</span> */}
+                    <span className="px-1">{notify.NotifyMessage}:</span>
                     <span className="d-block fst-italic">{`"${notify.EventName}"`}</span>
                   </div>
                   <span

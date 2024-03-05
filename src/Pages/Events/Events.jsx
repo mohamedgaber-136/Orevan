@@ -19,7 +19,6 @@ export const Events = () => {
     }
   }, [currentUserRole]);
 
-
   useEffect(() => {
     if (informations.length) {
       // هنا عملنا تغيير من غير ReRender
@@ -47,6 +46,7 @@ export const Events = () => {
       };
       fetchDataForItems();
     } else {
+      // this line is important to reset the data when delete all but it is the reason of the rerendering of events
       setEvents([]);
     }
   }, [informations]);

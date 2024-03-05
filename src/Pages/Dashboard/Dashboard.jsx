@@ -4,22 +4,19 @@ import { WeekEeventsCard } from "../../Components/WeekEventsCard/WeekEeventsCard
 import "./Dashboard.css";
 import { FireBaseContext } from "../../Context/FireBase";
 export const Dashboard = () => {
-    const [day, setDays] = useState(0);
-  const [Weeks, setWeeks] = useState(0);
-  const [Months, setMonths] = useState(0);
   const [WeeksInfo, setWeeksInfo] = useState([
     {
-      times: day,
+      times: 0,
       calen: "Today",
       color: "#FFc100",
     },
     {
-      times: Weeks,
+      times: 0,
       calen: "Week",
       color: "#F1606B",
     },
     {
-      times: Months,
+      times: 0,
       calen: "Month",
       color: "#0460a9",
     },
@@ -31,7 +28,6 @@ export const Dashboard = () => {
   } = useContext(FireBaseContext);
   const [data, setData] = useState([]);
   const [eventsAccordingToRole, setEventsAccordingToRole] = useState([]);
-  console.log(currentUserRole)
   useEffect(() => {
     if (currentUserRole) {
       getData(eventsQueryAccordingToUserRole(), setData);
@@ -43,12 +39,14 @@ export const Dashboard = () => {
       setEventsAccordingToRole(data);
     }
   }, [data]);
-  console.log(Months,'day')
   return (
     <div className="d-flex flex-column gap-4 align-items-start ">
       <div className="container">
         <h2 className="my-3">
-          Hi , {JSON.parse(localStorage.getItem("User")).Name}
+          Hi ,
+          {localStorage.getItem("User")
+            ? JSON.parse(localStorage.getItem("User")).Name
+            : ""}
         </h2>
         <div className="d-flex  justify-content-between align-item-center w-100">
           <div className="   d-flex flex-column gap-2  align-items-start DashboardTableParen w-100">
@@ -66,9 +64,8 @@ export const Dashboard = () => {
               <h2 className="mt-3 text-secondary">Events</h2>
               <BasicTable
                 row={eventsAccordingToRole}
-                setDays={setDays}
-                setWeeks={setWeeks}
-                setMonths={setMonths}
+                WeeksInfo={WeeksInfo}
+                setWeeksInfo={setWeeksInfo}
               />
             </div>
           </div>

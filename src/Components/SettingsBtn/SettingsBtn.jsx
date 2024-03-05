@@ -77,18 +77,15 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
           },
         }}
       >
-        <MenuItem >
+        <MenuItem>
           <div className="d-flex   justify-content-between align-items-center w-100  gap-2 ">
             <UpdateSubModel user={row} />
-       
           </div>
         </MenuItem>
         <MenuItem onClick={() => removeSubscriber(rowId)}>
           <div className="d-flex   justify-content-center align-items-center w-75  gap-2 ">
-            {" "}
             <i className={`fa-solid fa-trash darkBlue w-25`}></i>
             <span className="   w-75 darkBlue">Delete</span>
-           
           </div>
         </MenuItem>
       </Menu>

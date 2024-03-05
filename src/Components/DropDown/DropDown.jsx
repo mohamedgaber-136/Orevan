@@ -1,17 +1,16 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import './DropDownStyle.css'
-import { FireBaseContext } from '../../Context/FireBase';
+import * as React from "react";
+import { useTheme } from "@mui/material/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import "./DropDownStyle.css";
+import { FireBaseContext } from "../../Context/FireBase";
 
-
-export default function DropDown({type}) {
+export default function DropDown({ type }) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
-  const {newEvent,setNewEvent} = React.useContext(FireBaseContext)
+  const { newEvent, setNewEvent } = React.useContext(FireBaseContext);
 
   const handleChange = (event) => {
     const {
@@ -19,46 +18,46 @@ export default function DropDown({type}) {
     } = event;
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === "string" ? value.split(",") : value
     );
   };
   const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
     },
-  },
-};
-
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
   };
-}
+
+  const names = [
+    "Oliver Hansen",
+    "Van Henry",
+    "April Tucker",
+    "Ralph Hubbard",
+    "Omar Alexander",
+    "Carlos Abbott",
+    "Miriam Wagner",
+    "Bradley Wilkerson",
+    "Virginia Andrews",
+    "Kelly Snyder",
+  ];
+
+  function getStyles(name, personName, theme) {
+    return {
+      fontWeight:
+        personName.indexOf(name) === -1
+          ? theme.typography.fontWeightRegular
+          : theme.typography.fontWeightMedium,
+    };
+  }
 
   return (
-    <div className='w-100'>
-      <FormControl  className='w-100'>
-      <span className='text-secondary fw-bolder'>{type}</span>
+    <div className="w-100">
+      <FormControl className="w-100">
+        <span className="text-secondary fw-bolder">{type}</span>
         <Select
           multiple
           displayEmpty
@@ -70,12 +69,12 @@ function getStyles(name, personName, theme) {
               return <em>{type}</em>;
             }
 
-            return selected.join(', ');
+            return selected.join(", ");
           }}
           MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
+          inputProps={{ "aria-label": "Without label" }}
         >
-          <MenuItem disabled >
+          <MenuItem disabled>
             <em>{type}</em>
           </MenuItem>
           {names.map((name) => (

@@ -15,16 +15,15 @@
 //   }
 //       },[newEvent.EndDate,newEvent.StartDate])
 
-
 //     return (
 //    <div className=" rounded rounded-2">
 //       <LocalizationProvider dateAdapter={AdapterDateFns}   >
-//         <DatePicker   
+//         <DatePicker
 //           value={value}
 //           onChange={(newValue) => {
 //             const numericDate = new Date(newValue).getTime();
 //             const formattedDate = new Date(numericDate).toLocaleString();
-            
+
 //            if(condition){
 //               setNewEvent({...newEvent,StartDate:formattedDate.split(',')[0]})
 //               setValue(formattedDate.split(',')[0])
@@ -44,7 +43,7 @@
 //               }
 //             }
 //           }}
-         
+
 //           renderInput={(startProps) => (
 //             <>
 //               <TextField {...startProps} name={condition?'StartDate':'EndDate'} className="dateField" />

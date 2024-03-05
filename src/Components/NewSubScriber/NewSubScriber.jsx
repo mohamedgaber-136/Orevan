@@ -6,13 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../Context/SearchContext";
 import { FireBaseContext } from "../../Context/FireBase";
 import InputAdornment from "@mui/material/InputAdornment";
-import {
-  addDoc,
-  doc,
-  collection,
-  getDoc,
-  
-} from "firebase/firestore";
+import { addDoc, doc, collection, getDoc } from "firebase/firestore";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
@@ -142,30 +136,26 @@ export const NewSubScriber = ({ id, handleClose }) => {
       MedicalID: e.target[16].value,
       City: e.target[18].value,
     };
-    data.PhoneNumber=`${countryCode}${data.PhoneNumber}`
-    console.log(data)
-    // console.log(values)
-    const checkUser = checkSubScriber.find(
-         ({ Email }) => Email === data.Email
-       );
-       if (checkUser) {
-       setErrorMsg(true);
-     } else {
-         swal({
-          text:`Subscriber ${data.Email} added successfully `,
-                 icon: "success",
-           }).then(async () => {
-       const eventRef = await getDoc(ref);
-       const eventData = eventRef.data();
-       data["CostPerDelegate"] = eventData.CostperDelegate;
-       data["TransferOfValue"] = eventData.TransferOfValue;
-       setErrorMsg(false);
-       await addDoc(subscriberCollection, data);
-       await addDoc(SubCollection, data);
-       setShowAddNeWSub(false);
-       handleClose();
-     });
-     }
+    data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
+    const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
+    if (checkUser) {
+      setErrorMsg(true);
+    } else {
+      swal({
+        text: `Subscriber ${data.Email} added successfully `,
+        icon: "success",
+      }).then(async () => {
+        const eventRef = await getDoc(ref);
+        const eventData = eventRef.data();
+        data["CostPerDelegate"] = eventData.CostperDelegate;
+        data["TransferOfValue"] = eventData.TransferOfValue;
+        setErrorMsg(false);
+        await addDoc(subscriberCollection, data);
+        await addDoc(SubCollection, data);
+        setShowAddNeWSub(false);
+        handleClose();
+      });
+    }
   };
   const checkNationalId = async (e) => {
     setChange(e.target.value);
@@ -181,8 +171,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
     }
   };
   return (
-    <Formik initialValues={initialvalues} 
-    // validationSchema={validation}
+    <Formik
+      initialValues={initialvalues}
+      // validationSchema={validation}
     >
       {(values, handleChange) => (
         <>
@@ -194,27 +185,25 @@ export const NewSubScriber = ({ id, handleClose }) => {
               <BreadCrumbs id={id} sub={"Subscriber"} />
             </h3>
             <div className="w-100  d-flex flex-wrap ">
-                <div
-                className="w-50  flex-column align-items-center    d-flex justify-content-center"
-              >
+              <div className="w-50  flex-column align-items-center    d-flex justify-content-center">
                 <div className="text-danger ps-5 align-self-start">
-                  <ErrorMessage name={'NationalID'} />
+                  <ErrorMessage name={"NationalID"} />
                 </div>
 
                 <Field
                   as={TextField}
-                  label={'National/iqamaID'}
+                  label={"National/iqamaID"}
                   id={"NationalID"}
                   sx={{ m: 1, width: "25ch" }}
                   focused
-                  type={'number'}
+                  type={"number"}
                   className="w-75 "
-                  name={'NationalID'}
+                  name={"NationalID"}
                   onChange={checkNationalId}
                   value={change}
                 />
               </div>
-              
+
               {NewSubScriberInputs.map((item, index) =>
                 item.name === "PhoneNumber" ? (
                   <div
@@ -240,36 +229,41 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       name={item.name}
                       InputProps={{
                         startAdornment: (
-                          <InputAdornment position="start" >
+                          <InputAdornment position="start">
                             {countryCode}
                           </InputAdornment>
                         ),
                       }}
                     />
                   </div>
-                ) : 
-              <div
-                className="w-50  flex-column align-items-center    d-flex justify-content-center"
-                key={`${item.label}-${index}`}
-              >
-                <div className="text-danger ps-5 align-self-start">
-                  <ErrorMessage name={item.name} />
-                </div>
+                ) : (
+                  <div
+                    className="w-50  flex-column align-items-center    d-flex justify-content-center"
+                    key={`${item.label}-${index}`}
+                  >
+                    <div className="text-danger ps-5 align-self-start">
+                      <ErrorMessage name={item.name} />
+                    </div>
 
-                <Field
-                  as={TextField}
-                  label={item.label}
-                  id={index}
-                  sx={{ m: 1, width: "25ch" }}
-                  focused
-                  type={item.type}
-                  className="w-75 "
-                  name={item.name}
-                  value={autoFilledUser[item.name]|| ''}
-                  onChange={(e) => setAutoFilledUser({ ...autoFilledUser, [item.name]: e.target.value })}
-                  // onChange={handleChange}
-                />
-              </div>
+                    <Field
+                      as={TextField}
+                      label={item.label}
+                      id={index}
+                      sx={{ m: 1, width: "25ch" }}
+                      focused
+                      type={item.type}
+                      className="w-75 "
+                      name={item.name}
+                      value={autoFilledUser[item.name] || ""}
+                      onChange={(e) =>
+                        setAutoFilledUser({
+                          ...autoFilledUser,
+                          [item.name]: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                )
               )}
               <div className="w-50 d-flex justify-content-center">
                 <button

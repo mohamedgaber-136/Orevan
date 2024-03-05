@@ -61,9 +61,7 @@ export const PreviewCard = () => {
                 height: "5px",
                 borderRadius: "5px",
               }}
-            >
-              {" "}
-            </div>
+            ></div>
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
@@ -77,9 +75,7 @@ export const PreviewCard = () => {
                 height: "5px",
                 borderRadius: "5px",
               }}
-            >
-              {" "}
-            </div>
+            ></div>
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
@@ -93,9 +89,7 @@ export const PreviewCard = () => {
                 height: "5px",
                 borderRadius: "5px",
               }}
-            >
-              {" "}
-            </div>
+            ></div>
           </div>
 
           <div className="d-flex align-items-center gap-2">
@@ -120,9 +114,9 @@ export const PreviewCard = () => {
             </p>
             {newEvent.TransferOfValue.map((item, index) => (
               <div className="wrappingItems  p-1 " key={index}>
-                <p className='m-0'>
-                  <span className='text-white'>{item.types} :</span>
-                  <span className='text-white'> {item.value}</span>
+                <p className="m-0">
+                  <span className="text-white">{item.types} :</span>
+                  <span className="text-white"> {item.value}</span>
                 </p>
               </div>
             ))}

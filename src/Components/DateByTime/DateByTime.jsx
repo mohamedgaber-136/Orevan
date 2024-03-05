@@ -14,10 +14,10 @@
 //         setValue(newEvent["Date End Hours"]);
 //       }
 //           },[newEvent["Date From Hours"],newEvent["Date End Hours"]])
-//         return (  
+//         return (
 //           <div className="border border-2 rounded rounded-2">
 //           <LocalizationProvider dateAdapter={AdapterDateFns}  >
-//             <TimePicker   
+//             <TimePicker
 //               value={value}
 //               onChange={(newValue) => {
 //                 const numericDate = new Date(newValue).getTime();
@@ -27,7 +27,7 @@
 //                     setNewEvent({...newEvent,"Date From Hours":value})
 //                   }else{
 //                     setNewEvent({...newEvent,"Date End Hours":value})
-//                   }             
+//                   }
 //               }}
 //               renderInput={(startProps) => (
 //                   <>
@@ -36,7 +36,6 @@
 //               )}
 //               />
 //           </LocalizationProvider>
-//           </div>   
+//           </div>
 //       )
-//             }  
-
+//             }

@@ -1,22 +1,21 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 const ExportEventsExcel = ({ data, filename, sheetname }) => {
-  const extractData = data.map((item)=>({
-    'Event Name':item.EventName,
-    "Franchise":item.Franchise.toString(),
-    "Event ID":item.Id,
-    "City":item.City.map((city) => city.types).join(","),
-    "Cost per Delegate":item.CostperDelegate,
-    "Event Cost":item.EventCost.toString(),
-    "PO":item.PO,
-    "P3":item.P3,
-    "Start Date":item.StartDate,
-    "End Date":item.StartDate,
-    "Created At":item.StartDate,
-   }))
+  const extractData = data.map((item) => ({
+    "Event Name": item.EventName,
+    Franchise: item.Franchise.toString(),
+    "Event ID": item.Id,
+    City: item.City.map((city) => city.types).join(","),
+    "Cost per Delegate": item.CostperDelegate,
+    "Event Cost": item.EventCost.toString(),
+    PO: item.PO,
+    P3: item.P3,
+    "Start Date": item.StartDate,
+    "End Date": item.StartDate,
+    "Created At": item.StartDate,
+  }));
 
-
-  const exportToExcel  = async ()=>{
+  const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetname);
     const headersList = [
@@ -31,24 +30,21 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
       "Start Date",
       "End Date",
       "Created At",
-  
-     
     ];
     worksheet.addRow([...headersList]);
     // Set the background color for the entire row (e.g., row 1)
     const rowIndex = 1;
     const row = worksheet.getRow(rowIndex);
-    row.eachCell({ includeEmpty: true }, (cell,index) => {   
-        cell.fill = {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "80FFFF00" }, // ARGB format for light red color
-
-        };
-        cell.font = { size: 12 };
-        cell.alignment = { horizontal: "center", vertical: "middle" };      
+    row.eachCell({ includeEmpty: true }, (cell, index) => {
+      cell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "80FFFF00" }, // ARGB format for light red color
+      };
+      cell.font = { size: 12 };
+      cell.alignment = { horizontal: "center", vertical: "middle" };
     });
-  
+
     // Add data rows
     extractData.map((rowItem, index) => {
       const holder = [
@@ -60,7 +56,7 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
         }),
       ];
       worksheet.addRow([...holder]);
-  
+
       const rowIndex = index + 2;
       const row = worksheet.getRow(rowIndex);
       row.eachCell({ includeEmpty: true }, (cell) => {
@@ -75,13 +71,13 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
     // Set column widths to fit the content
     worksheet.columns.forEach((column, colIndex) => {
       let maxLength = 0;
-  
+
       // Find the maximum content length in the column
       worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
         const cellValue = row.getCell(colIndex + 1).text;
         maxLength = Math.max(maxLength, cellValue ? cellValue.length : 0);
       });
-  
+
       // Set the column width based on the maximum content length
       column.width = maxLength + 5; // Add some extra padding
     });
@@ -91,11 +87,12 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
     saveAs(blob, filename);
-  }
-
+  };
 
   return (
-   <i className="fa-solid fa-download" onClick={exportToExcel} ><span className='fs-6 fw-light'> excel</span> </i >
+    <i className="fa-solid fa-download" onClick={exportToExcel}>
+      <span className="fs-6 fw-light"> excel</span>{" "}
+    </i>
   );
 };
 

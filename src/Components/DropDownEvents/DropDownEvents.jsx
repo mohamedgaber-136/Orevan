@@ -1,13 +1,10 @@
 import { useState, useContext, useEffect } from "react";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { FireBaseContext } from "../../Context/FireBase";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -23,7 +20,6 @@ export default function DropDownEvents() {
   const [showBtn, setShowBTN] = useState(true);
   const { EventRefrence, getData } = useContext(FireBaseContext);
   const { id, UserDbID, dbID } = useParams();
-  const navigate = useNavigate();
   useEffect(() => {
     getData(EventRefrence, setData);
   }, []);
@@ -64,17 +60,6 @@ export default function DropDownEvents() {
         });
         await setDoc(doc(CollectionWillAddTo, UserDbID), subscriber);
         await deleteDoc(deletedItemRef);
-        // navigate(
-        //   `/app/subscribers/${newEvent.data().Id}/${age}/UpdateSubscriber/${
-        //     subscriber.id
-        //   }/${UserDbID}`
-        // );
-        // navigate(
-        //   `/app/subscribers/${newEvent.data().Id}/${age}/UpdateSubscriber/${
-        //     subscriber.id
-        //   }/${UserDbID}`
-        // );
-        // navigate('/app/events')
       }
     });
   };

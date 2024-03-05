@@ -74,7 +74,6 @@ export default function DataTable({ row }) {
     return stabilizedThis.map((el) => el[0]);
   }
   React.useEffect(() => {
-    console.log(row, "row data");
     setRows(row);
   }, [row]);
   // HeadTitles ----------------------------------------------
@@ -273,27 +272,25 @@ export default function DataTable({ row }) {
           icon: "success",
         });
 
-        console.log(arr, "arr selected delete");
-
         Promise.all(
           arr.map(async (docID) => {
             const ref = doc(EventRefrence, docID);
             const info = await getDoc(ref);
-            console.log(info.data(), "info item");
             await setDoc(doc(EventsDeletedRef, docID), {
               ID: docID,
               timing: serverTimestamp(),
               ...info.data(),
             }).then(() => batch.delete(doc(EventRefrence, docID)));
-            //   // const notifyQuery = query(
-            //   //   collection(database, "notifications"),
-            //   //   where("NewEventID", "==", docItem)
-            //   // );
-            //   // await getDocs(notifyQuery).then(async (snapshot) => {
-            //   //   snapshot.docs.map(async (item) => {
-            //   //     await deleteDoc(doc(database, "notifications", item.id));
-            //   //   });
-            //   // });
+            const notifyQuery = query(
+              collection(database, "notifications"),
+              where("NewEventID", "==", docID)
+            );
+            await getDocs(notifyQuery).then(async (snapshot) => {
+              snapshot.docs.map(async (item) => {
+                batch.delete(doc(database, "notifications", item.id));
+                // await deleteDoc(doc(database, "notifications", item.id));
+              });
+            });
           })
         ).then(() => {
           console.log("hello after all");
@@ -303,7 +300,7 @@ export default function DataTable({ row }) {
             .commit()
             .then(() => {
               console.log("Batch deletion successful");
-              console.log("setSelected([])");
+
               setSelected([]);
             })
             .catch((error) => {
@@ -311,32 +308,9 @@ export default function DataTable({ row }) {
               swal({
                 title: "somthing wrong happend while deleting",
                 icon: "warning",
-                // buttons: true,
-                // dangerMode: true,
               });
             });
         });
-
-        // selected.map(async (item) => {
-        //   const ref = doc(EventRefrence, item);
-        //   const info = await getDoc(ref);
-        //   await setDoc(doc(EventsDeletedRef, item), {
-        //     ID: item,
-        //     timing: serverTimestamp(),
-        //     ...info.data(),
-        //   });
-
-        //   // const notifyQuery = query(
-        //   //   collection(database, "notifications"),
-        //   //   where("NewEventID", "==", item)
-        //   // );
-        //   // await getDocs(notifyQuery).then(async (snapshot) => {
-        //   //   snapshot.docs.map(async (item) => {
-        //   //     await deleteDoc(doc(database, "notifications", item.id));
-        //   //   });
-        //   // });
-        //   await deleteDoc(ref);
-        // });
       }
     });
   };
@@ -397,7 +371,7 @@ export default function DataTable({ row }) {
       <div className=" d-flex align-items-center gap-2 p-3 d-flex justify-content-end ">
         <span className="d-flex gap-2 align-items-center">
           <span className="fs-6 exportExcel">
-            <ExportDropDown rows={rows} />{" "}
+            <ExportDropDown rows={rows} />
           </span>
         </span>
         <SearchText list={rows} setRows={setRows} row={row} />

@@ -33,7 +33,7 @@ export default function UploadBtn({ id, info }) {
 
         // Now, you can save the download URL to Firestore or perform other actions
       } catch (error) {
-        console.error("Error uploading file:", error);
+        console.log("Error uploading file:", error);
       }
     };
     if (selectedFile) {

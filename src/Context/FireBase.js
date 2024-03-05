@@ -76,7 +76,7 @@ const FireBaseContextProvider = ({ children }) => {
       SetItem(newData);
     });
   };
-  const [currentUsr, setCurrentUser] = useState("init");
+  const [currentUsr, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
   const eventsQueryAccordingToUserRole = () => {
@@ -85,14 +85,12 @@ const FireBaseContextProvider = ({ children }) => {
         return query(EventRefrence);
       }
       case currentUserRole.manager: {
-        // const franchiseType = currentUserRole.split("-")[1];
         return query(
           EventRefrence,
           where("Franchise", "==", currentUserRole.franchiseType)
         );
       }
       case currentUserRole.user: {
-        console.log("currentUserRole user case");
         return query(EventRefrence, where("CreatedByID", "==", currentUsr));
       }
       default:
@@ -101,44 +99,44 @@ const FireBaseContextProvider = ({ children }) => {
     }
     return EventRefrence;
   };
+
   useEffect(() => {
-    setLoading(false);
-    console.log(currentUsr, "currentUsr");
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log(user, "firebaseUser");
+      setLoading(false);
       if (user) {
-        console.log("loggedin");
-        console.log(user, "userauth");
         setCurrentUser(user.uid);
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
         console.log(finaleUser.data().Role, "Role on state change");
+        localStorage.setItem("User", JSON.stringify(finaleUser.data()));
         setCurrentUserRole(finaleUser.data().Role);
         eventsQueryAccordingToUserRole(finaleUser.data().Role, user.uid);
-        // localStorage.setItem("REF", JSON.stringify(finaleUser.data().Role));
-        localStorage.setItem("User", JSON.stringify(finaleUser.data()));
       } else {
+        // setLoading(true);
         setCurrentUser(null);
-        console.log(currentUsr, "loggedOut");
       }
     });
     return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
+      unsubscribe();
     };
   }, []);
 
-  const saveNotificationToFirebase = async (notifyID) => {
+  const saveNotificationToFirebase = async ({
+    notifyID,
+    eventDataObject,
+    message,
+  }) => {
     const currentUserName = await getDoc(doc(database, "Users", currentUsr));
     const newNotificationObj = {
-      EventName: newEvent.EventName,
+      EventName: eventDataObject.EventName,
       TimeStamp: new Date().getTime(),
-      EventID: newEvent.Id,
+      EventID: eventDataObject.Id,
       NewEventID: notifyID,
-      CreatedAt: newEvent.CreatedAt,
+      CreatedAt: eventDataObject.CreatedAt,
       CreatedBy: currentUserName.data().Name,
       CreatedByID: currentUsr,
+      EventFranchise: eventDataObject.Franchise,
+      NotifyMessage: message,
       isReadUsersID: [],
     };
     await addDoc(collection(database, "notifications"), newNotificationObj);

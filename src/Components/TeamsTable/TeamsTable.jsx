@@ -9,22 +9,11 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import TextField from "@mui/material/TextField";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import FilterBtn from "../FilterBtn/FilterBtn";
-import { SearchContext } from "../../Context/SearchContext";
 import { FireBaseContext } from "../../Context/FireBase";
-import ExportToExcelButton from "../ExportBtn/ExportToExcelButton";
 import { useNavigate } from "react-router-dom";
 import { deleteDoc, doc } from "firebase/firestore";
-import SearchText from "../SearchText/SearchText";
 export default function TeamsTable({ row }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -168,7 +157,6 @@ export default function TeamsTable({ row }) {
     }
     setSelected(newSelected);
     // In ChecKbOX /--------------------------------------------------------------------
-    //
   };
 
   const handleChangePage = (event, newPage) => {
@@ -201,84 +189,10 @@ export default function TeamsTable({ row }) {
       await deleteDoc(ref);
     });
   };
-  //  /-----------ToolBar
-  // function EnhancedTableToolbar(props) {
-  //   const { numSelected } = props;
 
-  //   return (
-  //     <Toolbar
-  //       sx={{
-  //         pl: { sm: 2 },
-  //         pr: { xs: 1, sm: 1 },
-  //         ...(numSelected > 0 && {
-  //           bgcolor: (theme) =>
-  //             alpha(
-  //               theme.palette.primary.main,
-  //               theme.palette.action.activatedOpacity
-  //             ),
-  //         }),
-  //       }}
-  //     >
-  //       {numSelected > 0 ? (
-  //         <Typography
-  //           sx={{ flex: "1 1 100%" }}
-  //           color="inherit"
-  //           variant="subtitle1"
-  //           component="div"
-  //         >
-  //           {numSelected} selected
-  //         </Typography>
-  //       ) : (
-  //         <Typography
-  //           sx={{ flex: "0 1 100%" }}
-  //           variant="h2"
-  //           id="tableTitle"
-  //           component="div"
-  //         >
-  //           <div className="  d-flex gap-3 gap-md-5 fs-6 text-primary dateTableTitle">
-  //             <span className="d-flex gap-2 align-items-center">
-  //               <i className="fa-solid fa-pause"></i>
-  //               <span className="fs-6">Start Date</span>
-  //             </span>
-  //             <span className="d-flex gap-2 align-items-center">
-  //               <i className="fa-solid fa-arrow-down-wide-short"></i>
-  //               <span className="fs-6">Filters</span>
-  //             </span>
-  //             <span className="d-flex gap-2 align-items-center">
-  //               <i className="fa-solid fa-bars"></i>
-  //               <span className="fs-6">EndDate</span>
-  //             </span>
-  //             <span className="d-flex gap-2 align-items-center">
-  //               <span className="fs-6 exportExcel">
-  //                 <ExportToExcelButton
-  //                   filename="exported_data"
-  //                   sheetname="Sheet 1"
-  //                   data={rows}
-  //                 />{" "}
-  //               </span>
-  //             </span>
-  //           </div>
-  //         </Typography>
-  //       )}
-
-  //       {numSelected > 0 && (
-  //         <Tooltip title="Delete">
-  //           <IconButton onClick={() => DeleteField(selected)}>
-  //             <DeleteIcon />
-  //           </IconButton>
-  //         </Tooltip>
-  //       )}
-  //     </Toolbar>
-  //   );
-  // }
-  // EnhancedTableToolbar.propTypes = {
-  //   numSelected: PropTypes.number.isRequired,
-  // };
-  // body ----------------
   return (
     <Paper sx={{ width: "100%", mb: 0 }} className="BasicTableParent">
-      <div className=" p-3 d-flex justify-content-end">
-      </div>
+      <div className=" p-3 d-flex justify-content-end"></div>
 
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-labelledby="tableTitle">
