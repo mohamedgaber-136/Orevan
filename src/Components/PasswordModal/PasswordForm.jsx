@@ -37,25 +37,33 @@ const handleChangePassword = async () => {
 };
 
   return (
-    <div className=' d-flex flex-column align-items-start gap-2'>
+    <div >
       <h2>Change Password</h2>   
-      <div className='d-flex justify-content-between  w-100'>
-        <label>Current Password:</label>
+      <div className="d-flex flex-column gap-2 align-items-center justify-content-center flex-wrap">
+      <div className=' d-flex justify-content-between flex-wrap'>
+      
+        <label >Current Password:</label>
+
+   
+
         <input
           type="password"
           value={CurrentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
-        />
+          />
+
+     
       </div>
-      <div className='d-flex justify-content-between  w-100'>
+      <div className=' d-flex justify-content-between   flex-wrap' style={{gap:'0 20px'}}>
         <label>New Password:</label>
+    
         <input
           type="password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-        />
+          />
       </div>
-      <div className='d-flex justify-content-between w-100'>
+      <div className=' d-flex  justify-content-between  flex-wrap'>
         <label>Confirm Password:</label>
         <input
           type="password"
@@ -63,8 +71,12 @@ const handleChangePassword = async () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
       </div>
+      </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button className='border-0 bg-primary text-white rounded align-self-end' onClick={handleChangePassword}>Change Password</button>
+      <div className='w-100 d-flex justify-content-end'>
+
+      <button className='border-0 bg-primary text-white rounded align-self-end mt-2' onClick={handleChangePassword}>Change Password</button>
+      </div>
     </div>
   );
 };

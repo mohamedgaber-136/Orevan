@@ -20,7 +20,7 @@ export const ChosenCard = () => {
     // Dashboard Events Counts Card ----------------------------------
     <div className="w-100">
       {ResultData ? (
-        <div className=" choosenCard bg-white px-3 py-2 rounded-2 rounded">
+        <div className=" choosenCard bg-white px-3 py-2 rounded-2 rounded w-100 shadow">
           <h2 className="EventDetailTitle">Event Details</h2>
           <div className="  my-3 gap-2  d-flex flex-md-wrap flex-column flex-md-row ">
             <div className="d-flex flex-column gap-2 justify-content-between ">

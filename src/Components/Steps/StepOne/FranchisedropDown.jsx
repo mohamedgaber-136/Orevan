@@ -23,7 +23,7 @@ export const FranchisedropDown = ({ SetError, formErrors }) => {
     <>
       <FormControl variant="standard" className=" w-100">
         <InputLabel id="demo-simple-select-standard-label">
-          <b> Franchise</b>
+          <b className="p-3"> Franchise</b>
         </InputLabel>
         <Select
           labelId="demo-simple-select-standard-label"

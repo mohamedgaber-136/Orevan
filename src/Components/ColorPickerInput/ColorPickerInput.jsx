@@ -4,8 +4,8 @@ import { FireBaseContext } from "../../Context/FireBase";
 
 const ColorPickerInput = ({ type }) => {
   const [showPicker, setShowPicker] = useState(false);
-  const [selectedColor, setSelectedColor] = useState("#000000");
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
+  const [selectedColor, setSelectedColor] = useState(newEvent[type]);
 
   const boxRef = useRef(null);
 
@@ -23,7 +23,7 @@ const ColorPickerInput = ({ type }) => {
       setShowPicker(false);
     }
   };
-
+console.log(selectedColor)
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
     return () => {
@@ -45,7 +45,7 @@ const ColorPickerInput = ({ type }) => {
       {showPicker && (
         <ChromePicker color={selectedColor} onChange={handleColorChange} />
       )}
-      <p className="m-0"> {selectedColor}</p>
+      <p className="m-0 p-2"> {selectedColor}</p>
     </div>
   );
 };

@@ -54,6 +54,9 @@ color:black !important;
 .LeftLogo img ,.RighLogo img{
 width: 100%;
 }
+.LeftLogo img {
+    object-fit: cover;
+}
 
 .LoginFooter{
 height: 60px ;

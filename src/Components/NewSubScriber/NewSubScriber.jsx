@@ -10,6 +10,7 @@ import { addDoc, doc, collection, getDoc } from "firebase/firestore";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
+import "./NewSubScriberStyle.css";
 export const NewSubScriber = ({ id, handleClose }) => {
   const { setShowAddNeWSub } = useContext(SearchContext);
   const { EventRefrence, getData, database } = useContext(FireBaseContext);
@@ -185,9 +186,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
 
         setFormValues({
           ...matchingItem,
-          PhoneNumber:matchingItem.PhoneNumber.substring(
-            4
-          ),
+          PhoneNumber: matchingItem.PhoneNumber.substring(4),
         });
       }
       // else {
@@ -216,79 +215,39 @@ export const NewSubScriber = ({ id, handleClose }) => {
         <>
           <Form
             // onSubmit={onsubmit}
-            className="d-flex p-3 bg-white rounded  flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm"
+            className="bg-white rounded  NewSubScriberForm"
+            // className="d-flex p-3 bg-white rounded  flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm"
           >
-            <h3>
+            <h3 className="px-lg-3 px-1">
               <BreadCrumbs id={id} sub={"Subscriber"} />
             </h3>
-            <div className="w-100  d-flex flex-wrap ">
-              {/* <div className="w-50  flex-column align-items-center    d-flex justify-content-center">
-                <div className="text-danger ps-5 align-self-start">
-                  <ErrorMessage name={"NationalID"} />
-                </div>
-
-                <Field
-                  as={TextField}
-                  label={"National/iqamaID"}
-                  id={"NationalID"}
-                  sx={{ m: 1, width: "25ch" }}
-                  focused
-                  type={"number"}
-                  className="w-75 "
-                  name={"NationalID"}
-                  // onChange={checkNationalId}
-                  // onChange={handleChange}
-                  // value={change}
-                  onChange={(e) =>
-                    customHandleChange("NationalID", e, handleChange)
-                  }
-                  value={values.NationalID}
-                />
-              </div> */}
-              {/* <div className="w-50  flex-column align-items-center    d-flex justify-content-center">
-                <div className="text-danger ps-5 align-self-start">
-                  <ErrorMessage name={"NationalID"} />
-                </div>
-
-                <Field
-                  as={TextField}
-                  label={"National/iqamaID"}
-                  id={"NationalID"}
-                  sx={{ m: 1, width: "25ch" }}
-                  focused
-                  type={"number"}
-                  className="w-75 "
-                  name={"NationalID"}
-                  // onChange={checkNationalId}
-                  // onChange={handleChange}
-                  // value={change}
-                  value={autoFilledUser["NationalID"]}
-                  onChange={(e) => {
-                    handleInputChange(e, "NationalID");
-                    handleChange(e);
-                  }}
-                />
-              </div> */}
-
+            <div
+              // className="w-100 gap-3 row justify-content-between mt-3 border border-success"
+              className="w-100 gap-2 d-flex flex-wrap justify-content-evenly mt-3 pt-2"
+            >
               {NewSubScriberInputs.map((item, index) => (
                 <div
-                  className="w-50  flex-column align-items-center   d-flex justify-content-center"
+                  // pe-0
+                  className="col-12 col-md-5 p-1"
+                  // className="w-50  flex-column align-items-center   d-flex justify-content-center"
                   key={`${item.label}-${index}`}
                 >
-                  <div className="text-danger ps-5 align-self-start">
+                  <div className="text-danger ps-5 align-self-start mb-2">
                     <ErrorMessage name={item.name} />
                   </div>
                   <Field
                     as={TextField}
                     label={item.label}
                     id={index}
-                    sx={{
-                      m: 1,
-                      width: "25ch",
-                    }}
+                    sx={
+                      {
+                        // m: 1,
+                        // width: "25ch",
+                      }
+                    }
                     focused
                     type={item.type}
-                    className={`w-75  ${
+                    className={`w-100  ${
                       item.name == "PhoneNumber" &&
                       "border border-secondary form-control p-2"
                     }`}
@@ -313,100 +272,25 @@ export const NewSubScriber = ({ id, handleClose }) => {
                 </div>
               ))}
 
-              {/* {NewSubScriberInputs.map((item, index) =>
-                item.name === "PhoneNumber" ? (
-                  <div
-                    className="w-50  flex-column align-items-center   d-flex justify-content-center"
-                    key={`${item.label}-${index}`}
-                  >
-                    <div className="text-danger ps-5 align-self-start">
-                      <ErrorMessage name={item.name} />
-                    </div>
-                    <Field
-                      as={TextField}
-                      label={item.label}
-                      id={index}
-                      sx={{
-                        m: 1,
-                        width: "25ch",
-                        border: "1px solid grey",
-                        borderRadius: 1,
-                      }}
-                      focused
-                      type={item.type}
-                      className="w-75  "
-                      name={item.name}
-                      // onChange={handleChange}
-                      value={values[item.name]}
-                      onChange={(e) =>
-                        customHandleChange(item.name, e, handleChange)
-                      }
-                      // onChange={(e) => handleInputChange(e, item.name)}
-                      // onChange={(e) =>
-                      //   setAutoFilledUser({
-                      //     ...autoFilledUser,
-                      //     [item.name]: e.target.value,
-                      //   })
-                      // }
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            {countryCode}
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div
-                    className="w-50  flex-column align-items-center    d-flex justify-content-center"
-                    key={`${item.label}-${index}`}
-                  >
-                    <div className="text-danger ps-5 align-self-start">
-                      <ErrorMessage name={item.name} />
-                    </div>
-
-                    <Field
-                      as={TextField}
-                      label={item.label}
-                      id={index}
-                      sx={{ m: 1, width: "25ch" }}
-                      focused
-                      type={item.type}
-                      className="w-75 "
-                      name={item.name}
-                      // value={autoFilledUser[item.name]}
-                      value={values[item.name]}
-                      onChange={(e) =>
-                        customHandleChange(item.name, e, handleChange)
-                      }
-                      // onChange={(e) => handleInputChange(e, item.name)}
-
-                      // onChange={handleChange}
-
-                      // onChange={(e) =>
-                      //   setAutoFilledUser({
-                      //     ...autoFilledUser,
-                      //     [item.name]: e.target.value,
-                      //   })
-                      // }
-                    />
-                  </div>
-                )
-              )} */}
-              <div className="w-50 d-flex justify-content-center">
+              <div className="w-50 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
+                {/* <div
+                 className="w-50 d-flex justify-content-center p-1 pt-3" 
+                 // className="w-50 d-flex justify-content-center"
+               > */}
                 <button
                   type="submit"
-                  className="w-75 p-1 m-2 rounded rounded-2 border-0 border text-white"
+                  className="w-75 p-2 rounded rounded-2 border-0 border text-white"
+                  // className="w-75 p-1 m-2 rounded rounded-2 border-0 border text-white"
                 >
                   Save
                 </button>
+                {/* </div> */}
+                {errorMsg && (
+                  <div className="w-50 text-danger d-flex justify-content-center align-items-center">
+                    <small>This Email already Registerd</small>
+                  </div>
+                )}
               </div>
-              {errorMsg && (
-                <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-                  <small>This Email already Registerd</small>
-                </div>
-              )}
             </div>
           </Form>
         </>

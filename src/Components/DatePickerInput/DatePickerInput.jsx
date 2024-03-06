@@ -38,13 +38,14 @@ const DatePickerInput = ({ condition, SetError, formErrors }) => {
       setValue(newEvent.EndDate);
     }
   }, [newEvent.EndDate, newEvent.StartDate]);
-
+console.log(newEvent)
   return (
     <div className="test">
       <DatePicker
         selected={selectedDate}
         onChange={handleDateChange}
         dateFormat="dd/MM/yyyy"
+        value={condition ? newEvent.StartDate : newEvent.EndDate}
         placeholderText={"dd/MM/yyyy"}
         name={condition ? "StartDate" : "EndDate"}
       />
