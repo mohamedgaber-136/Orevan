@@ -82,7 +82,8 @@ const Login = () => {
                         <TextField
                           className="px-5 py-0 rounded rounded-1 w-100"
                           type={`${item.type}`}
-                          placeHolder={`Enter Your ${item.label}`}
+                          placeholder={`Enter Your ${item.label}`}
+                          
                         />
                       </div>
                     ))}
