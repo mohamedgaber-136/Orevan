@@ -12,12 +12,14 @@ import { useParams } from "react-router-dom";
 import swal from "sweetalert";
 export const NewSubScriber = ({ id, handleClose }) => {
   const { setShowAddNeWSub } = useContext(SearchContext);
-  const { dbID } = useParams();
-  const [errorMsg, setErrorMsg] = useState(false);
-  const [change, setChange] = useState("");
-  const [checkSubScriber, SetSubScriber] = useState([]);
   const { EventRefrence, getData, database } = useContext(FireBaseContext);
-  const [autoFilledUser, setAutoFilledUser] = useState({
+  const { dbID } = useParams();
+  const countryCode = "+966";
+  const [errorMsg, setErrorMsg] = useState(false);
+  const [checkSubScriber, SetSubScriber] = useState([]);
+  const [user, SetUsers] = useState([]);
+
+  const initialvalues = {
     id: randomXToY(1, 1000),
     FirstName: "",
     LastName: "",
@@ -27,11 +29,18 @@ export const NewSubScriber = ({ id, handleClose }) => {
     Speciality: "",
     Organization: "",
     LicenseID: "",
+    MedicalID: "",
     City: "",
     CostPerDelegate: 0,
     TransferOfValue: [],
-  });
-  const [NewSubScriberInputs, SetNewSubScriberInputs] = useState([
+  };
+
+  const NewSubScriberInputs = [
+    {
+      label: "National/iqamaID",
+      type: "number",
+      name: "NationalID",
+    },
     {
       label: "First Name",
       type: "text",
@@ -77,27 +86,8 @@ export const NewSubScriber = ({ id, handleClose }) => {
       type: "text",
       name: "City",
     },
-  ]);
-  const [user, SetUsers] = useState([]);
+  ];
 
-  function randomXToY(minVal, maxVal) {
-    let randVal = minVal + Math.random() * (maxVal - minVal);
-    return Math.round(randVal);
-  }
-  // const initialvalues = {
-  //   id: randomXToY(1, 1000),
-  //   FirstName: "",
-  //   LastName: "",
-  //   Email: "",
-  //   NationalID: "",
-  //   PhoneNumber: "",
-  //   Speciality: "",
-  //   Organization: "",
-  //   LicenseID: "",
-  //   City: "",
-  //   CostPerDelegate: 0,
-  //   TransferOfValue: [],
-  // };
   const validation = Yup.object().shape({
     FirstName: Yup.string().min(3, "too short").required("Required"),
     LastName: Yup.string().min(3, "too short").required("Required"),
@@ -110,8 +100,15 @@ export const NewSubScriber = ({ id, handleClose }) => {
     Speciality: Yup.string().required("Required"),
     Organization: Yup.string().required("Required"),
     LicenseID: Yup.string().required("Required"),
+    MedicalID: Yup.string().required("Required"),
     City: Yup.string().required("Required"),
   });
+
+  function randomXToY(minVal, maxVal) {
+    let randVal = minVal + Math.random() * (maxVal - minVal);
+    return Math.round(randVal);
+  }
+
   const ref = doc(EventRefrence, dbID);
   const subscriberCollection = collection(ref, "Subscribers");
   const SubCollection = collection(database, "Subscribers");
@@ -119,24 +116,40 @@ export const NewSubScriber = ({ id, handleClose }) => {
     getData(subscriberCollection, SetSubScriber);
     getData(SubCollection, SetUsers);
   }, [dbID]);
-  const countryCode = "+966";
-  const onsubmit = (e) => {
-    e.preventDefault();
 
-    const data = {
-      id: randomXToY(1, 100000000),
-      FirstName: e.target[2].value,
-      LastName: e.target[4].value,
-      Email: e.target[6].value,
-      NationalID: e.target[0].value,
-      PhoneNumber: e.target[8].value,
-      Speciality: e.target[10].value,
-      Organization: e.target[12].value,
-      LicenseID: e.target[14].value,
-      MedicalID: e.target[16].value,
-      City: e.target[18].value,
-    };
+  const handleFormSubmit = async (values) => {
+    // e.preventDefault();
+
+    // const newData = { id: randomXToY(1, 100000000) };
+
+    // NewSubScriberInputs.map(({ name }) => {
+    //   if (name == "PhoneNumber") {
+    //     newData[name] = `${countryCode}${e.target[name].value}`;
+    //   } else {
+    //     newData[name] = e.target[name].value;
+    //   }
+    // });
+
+    // console.log(newData, "newData");
+
+    // const data = {
+    //   id: randomXToY(1, 100000000),
+    //   FirstName: e.target[2].value,
+    //   LastName: e.target[4].value,
+    //   Email: e.target[6].value,
+    //   NationalID: e.target[0].value,
+    //   PhoneNumber: e.target[8].value,
+    //   Speciality: e.target[10].value,
+    //   Organization: e.target[12].value,
+    //   LicenseID: e.target[14].value,
+    //   MedicalID: e.target[16].value,
+    //   City: e.target[18].value,
+    // };
+
+    const data = { ...values };
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
+
+    console.log(data, "data");
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
     if (checkUser) {
       setErrorMsg(true);
@@ -157,37 +170,59 @@ export const NewSubScriber = ({ id, handleClose }) => {
       });
     }
   };
-  const checkNationalId = async (e) => {
-    setChange(e.target.value);
-    const data = e.target.value;
-    setAutoFilledUser({ ...autoFilledUser, NationalID: data });
-    if (data.length > 7) {
-      const matchingItem = user.find((item) =>
-        String(item.NationalID).toLowerCase().includes(data.toLowerCase())
+
+  const handleInputChange = (name, value, formValues, setFormValues) => {
+    let isAutoCompleted = false;
+    // is the national id primary one
+    if (name == "NationalID" && value.length >= 7) {
+      const matchingItem = user.find(
+        (item) => String(item.NationalID).toLowerCase() == value.toLowerCase()
       );
+
       if (matchingItem) {
-        setAutoFilledUser({...matchingItem});
+        isAutoCompleted = true;
+        // setAutoFilledUser({ ...matchingItem });
+
+        setFormValues({
+          ...matchingItem,
+          PhoneNumber:matchingItem.PhoneNumber.substring(
+            4
+          ),
+        });
       }
-      console.log(matchingItem,'matchingItem')
+      // else {
+      //   // setAutoFilledUser({ ...autoFilledUser, NationalID: nationalValue });
+      //   setValues({ ...autoFilledUser, NationalID: nationalValue });
+      // }
+      console.log(matchingItem, "matchingItem");
+      // }
+    }
+    if (!isAutoCompleted) {
+      // setAutoFilledUser({
+      //   ...autoFilledUser,
+      //   [name]: value,
+      // });
+      setFormValues({ ...formValues, [name]: value });
     }
   };
-  console.log(autoFilledUser,'autoFilledUser2')
+
   return (
     <Formik
-      initialValues={autoFilledUser}
+      initialValues={{ ...initialvalues }}
       validationSchema={validation}
+      onSubmit={handleFormSubmit}
     >
-      {(values, handleChange) => (
+      {({ values, setValues }) => (
         <>
           <Form
-            onSubmit={onsubmit}
+            // onSubmit={onsubmit}
             className="d-flex p-3 bg-white rounded  flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm"
           >
             <h3>
               <BreadCrumbs id={id} sub={"Subscriber"} />
             </h3>
             <div className="w-100  d-flex flex-wrap ">
-              <div className="w-50  flex-column align-items-center    d-flex justify-content-center">
+              {/* <div className="w-50  flex-column align-items-center    d-flex justify-content-center">
                 <div className="text-danger ps-5 align-self-start">
                   <ErrorMessage name={"NationalID"} />
                 </div>
@@ -201,15 +236,87 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   type={"number"}
                   className="w-75 "
                   name={"NationalID"}
-                  onChange={checkNationalId}
-                  value={change}
+                  // onChange={checkNationalId}
+                  // onChange={handleChange}
+                  // value={change}
+                  onChange={(e) =>
+                    customHandleChange("NationalID", e, handleChange)
+                  }
+                  value={values.NationalID}
                 />
-              </div>
+              </div> */}
+              {/* <div className="w-50  flex-column align-items-center    d-flex justify-content-center">
+                <div className="text-danger ps-5 align-self-start">
+                  <ErrorMessage name={"NationalID"} />
+                </div>
 
-              {NewSubScriberInputs.map((item, index) =>
+                <Field
+                  as={TextField}
+                  label={"National/iqamaID"}
+                  id={"NationalID"}
+                  sx={{ m: 1, width: "25ch" }}
+                  focused
+                  type={"number"}
+                  className="w-75 "
+                  name={"NationalID"}
+                  // onChange={checkNationalId}
+                  // onChange={handleChange}
+                  // value={change}
+                  value={autoFilledUser["NationalID"]}
+                  onChange={(e) => {
+                    handleInputChange(e, "NationalID");
+                    handleChange(e);
+                  }}
+                />
+              </div> */}
+
+              {NewSubScriberInputs.map((item, index) => (
+                <div
+                  className="w-50  flex-column align-items-center   d-flex justify-content-center"
+                  key={`${item.label}-${index}`}
+                >
+                  <div className="text-danger ps-5 align-self-start">
+                    <ErrorMessage name={item.name} />
+                  </div>
+                  <Field
+                    as={TextField}
+                    label={item.label}
+                    id={index}
+                    sx={{
+                      m: 1,
+                      width: "25ch",
+                    }}
+                    focused
+                    type={item.type}
+                    className={`w-75  ${
+                      item.name == "PhoneNumber" &&
+                      "border border-secondary form-control p-2"
+                    }`}
+                    name={item.name}
+                    value={values[item.name]}
+                    onChange={(e) =>
+                      handleInputChange(
+                        item.name,
+                        e.target.value,
+                        values,
+                        setValues
+                      )
+                    }
+                    InputProps={{
+                      startAdornment: item.name == "PhoneNumber" && (
+                        <InputAdornment position="start">
+                          {countryCode}
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </div>
+              ))}
+
+              {/* {NewSubScriberInputs.map((item, index) =>
                 item.name === "PhoneNumber" ? (
                   <div
-                    className="w-50  flex-column align-items-center    d-flex justify-content-center"
+                    className="w-50  flex-column align-items-center   d-flex justify-content-center"
                     key={`${item.label}-${index}`}
                   >
                     <div className="text-danger ps-5 align-self-start">
@@ -229,6 +336,18 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       type={item.type}
                       className="w-75  "
                       name={item.name}
+                      // onChange={handleChange}
+                      value={values[item.name]}
+                      onChange={(e) =>
+                        customHandleChange(item.name, e, handleChange)
+                      }
+                      // onChange={(e) => handleInputChange(e, item.name)}
+                      // onChange={(e) =>
+                      //   setAutoFilledUser({
+                      //     ...autoFilledUser,
+                      //     [item.name]: e.target.value,
+                      //   })
+                      // }
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -256,17 +375,25 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       type={item.type}
                       className="w-75 "
                       name={item.name}
-                      value={autoFilledUser[item.name]}
+                      // value={autoFilledUser[item.name]}
+                      value={values[item.name]}
                       onChange={(e) =>
-                        setAutoFilledUser({
-                          ...autoFilledUser,
-                          [item.name]: e.target.value,
-                        })
+                        customHandleChange(item.name, e, handleChange)
                       }
+                      // onChange={(e) => handleInputChange(e, item.name)}
+
+                      // onChange={handleChange}
+
+                      // onChange={(e) =>
+                      //   setAutoFilledUser({
+                      //     ...autoFilledUser,
+                      //     [item.name]: e.target.value,
+                      //   })
+                      // }
                     />
                   </div>
                 )
-              )}
+              )} */}
               <div className="w-50 d-flex justify-content-center">
                 <button
                   type="submit"

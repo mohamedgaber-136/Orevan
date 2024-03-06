@@ -8,7 +8,9 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import swal from "sweetalert";
 import { RoleDropDown } from "../RoleDropDown/RoleDropDown";
 import { AdminAuth } from "../../Config/FirebaseAdminApp";
+import { useNavigate } from "react-router-dom";
 export const CreateUser = () => {
+  const navigation = useNavigate();
   const { database } = useContext(FireBaseContext);
   const [error, setError] = useState(false);
   const [user, SetUser] = useState("");
@@ -42,7 +44,7 @@ export const CreateUser = () => {
     Email: "",
     Password: "",
     PhoneNumber: "",
-    Role: "",
+    Role: "Brand Manager",
   };
 
   const validation = Yup.object().shape({
@@ -60,6 +62,7 @@ export const CreateUser = () => {
 
   // test on create user
   const onsubmit = async (values, props) => {
+    console.log(values, "user");
     await createUserWithEmailAndPassword(
       AdminAuth,
       values.Email,
@@ -86,7 +89,7 @@ export const CreateUser = () => {
         swal({
           icon: "success",
           text: `${values.Email} Has been added succesfully`,
-        });
+        }).then(() => navigation("/app/AllUsers"));
       })
       .catch((error) => setError(true));
   };
