@@ -1,27 +1,24 @@
-.StepThreeBg {
-width: 500px;
+ .StepThreeBg {
+width: 100%;
      position: relative;
      border-radius: 40px;
      border: none;
 }
 .StepThreeContent   {
     position: absolute;
-    left: 50%;
+    left: 52%;
     transform: translate(-50%,-50%);
-    top: 48%;
+    top: 52%;
 }
-.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
-    background-color: white !important;
-}
-@media(max-width:525px){
-    .StepThreeContent img {
-        width: 100% !important;
-    }
-    .StepThreeBg {
+/* @media(max-width:529px){
+    .StepThreeBg{
         width: 300px;
-            }
-         
-}
+    }
+    .StepThreeContent{
+        height: 150px !important;
+    } */
+/* } */
+
 /* color picker  */
 .makeStyles-root-230{
     align-items: center;
@@ -44,4 +41,20 @@ width: 500px;
     left: 0;
     z-index: 1;
     background-color: white;
+}
+[alt="novartisLogo"]{
+    width: 100% !important;
+    height: 45px !important;
+    object-fit: cover !important;
+}
+[  alt="mobileLogo"]{
+    width: 500px !important;
+    height: 250px !important;
+}
+@media(max-width:529px){
+    [  alt="mobileLogo"]{
+        width: 90% !important;
+        height: 270px !important;
+
+    }
 }

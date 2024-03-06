@@ -55,13 +55,13 @@ export const StepTwo = () => {
         <div>
           <h6>
             <b className="text-secondary">
-              Due to the Financial Transparency and Disclosure guideline of
-              <a
+              Due to the Financial Transparency and Disclosure guideline of -
+               <a
                 href="https://www.sfda.gov.sa/sites/default/files/2019-10/Payment-disclosure-en.pdf"
                 target="_blank"
                 rel="noreferrer"
               >
-                SFDA
+                 SFDA
               </a>
             </b>
           </h6>
@@ -105,7 +105,7 @@ export const StepTwo = () => {
             .
           </p>
         </div>
-        <div className="AccpetAllTerms  d-flex justify-content-between align-items-center gap-2">
+        <div className="AccpetAllTerms mt-2 flex-column flex-md-row d-flex justify-content-between align-items-center gap-2 w-100">
           <FormControlLabel
             className="AccpetAllTermsBox"
             control={

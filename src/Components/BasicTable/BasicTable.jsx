@@ -73,14 +73,18 @@ export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
     }
   }, [date]);
   return (
+    <>
+       <Toolbar className="text-end  d-flex justify-content-end w-100 ">
+        <SelectComponent date={date} setdate={setdate} />
+      </Toolbar>
+ 
     <TableContainer
       component={Paper}
       className="BasicTableParent basicTableHeight"
     >
-      <Toolbar className="text-end  d-flex justify-content-end w-100">
-        <SelectComponent date={date} setdate={setdate} />
-      </Toolbar>
+      
       <Table aria-label="simple table">
+   
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
@@ -107,5 +111,6 @@ export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
         </TableBody>
       </Table>
     </TableContainer>
+    </>
   );
 }

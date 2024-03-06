@@ -329,3 +329,22 @@ height: 100% !important;
   position: absolute !important;
   z-index: 9999 !important;
 }
+
+@media (max-width:768px) {
+  .css-1bw0nnu-MuiStep-root+div{
+    display: none !important;
+  }
+  .css-m5vj9m-MuiStepper-root{
+    flex-wrap: wrap !important;
+    justify-content: space-between;
+    gap: 30px;
+    align-items: center;
+  }
+}
+.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1h51icj-MuiAutocomplete-root .MuiOutlinedInput-root{
+  max-height: 57.6px !important;
+  overflow-y: scroll;
+}
+.css-140puxv-MuiTypography-root-MuiDialogTitle-root {
+margin-bottom: 20px !important;
+}

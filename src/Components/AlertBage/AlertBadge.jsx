@@ -62,14 +62,13 @@ export default function AlertBadge() {
       } else if (currentUserRole.manager) {
         snapshot.docs.map(
           (docItem) =>
-            docItem.data().EventFranchise == currentUserRole.franchiseType &&
+            docItem.data().EventFranchise === currentUserRole.franchiseType &&
             newNotifications.push({
               id: docItem.id,
               ...docItem.data(),
             })
         );
       }
-      console.log(newNotifications, "filtered notifications");
 
       const editedNotifications = newNotifications
         .sort((x, y) =>
@@ -86,7 +85,6 @@ export default function AlertBadge() {
               notify.TimeStamp >= currentDate - 10000 &&
               !notify.isReadUsersID.find((item) => item === currentUsr)
             ) {
-              console.log("New Notification");
               setSanckBarConfig({
                 open: true,
                 message: "You have new notification",
@@ -96,7 +94,7 @@ export default function AlertBadge() {
             // console.log(new Date("Mon Feb 19 2024 15:42:00").getTime(), "test");
             // one minute == 60000 miliseconds
           }
-          const found = notify.isReadUsersID.find((item) => item == currentUsr);
+          const found = notify.isReadUsersID.find((item) => item === currentUsr);
           if (found) {
             return { ...notify, isRead: true };
           }
@@ -104,7 +102,7 @@ export default function AlertBadge() {
         });
       // sort notify
       setTriggerNum(
-        editedNotifications.slice(0, 5).filter(({ isRead }) => isRead == false)
+        editedNotifications.slice(0, 5).filter(({ isRead }) => isRead === false)
           .length
       );
 
@@ -162,12 +160,12 @@ export default function AlertBadge() {
           onClose={() => setAnchorEl(null)}
         >
           {notifications.slice(0, 5).map((notify, notifyIndex) => (
-            <>
+            <div>
               <MenuItem
                 onClick={() =>
                   handleClose(notify.EventID, notify.NewEventID, notify.id)
                 }
-                key={notify.id}
+                key={notifyIndex}
                 className={`mx-2 rounded text-dark ${
                   !notify.isRead && "bg-light"
                 }`}
@@ -190,7 +188,7 @@ export default function AlertBadge() {
               {notifyIndex !== notifications.length - 1 && (
                 <Divider variant="middle" component="li" />
               )}
-            </>
+            </div>
           ))}
         </Menu>
       )}

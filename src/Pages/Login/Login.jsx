@@ -69,7 +69,7 @@ const Login = () => {
             <Formik>
               {() => (
                 <Form onSubmit={LoginFunc}>
-                  <FormControl className="p-3  ">
+                  <FormControl className="p-md-3  ">
                     <span className="text-danger">
                       {error && "Invalid Email or Password"}
                       {errorRegist && "This Email Not Registerd"}
@@ -80,7 +80,7 @@ const Login = () => {
                           {item.label}
                         </FormLabel>
                         <TextField
-                          className="px-5 py-0 rounded rounded-1 w-100"
+                          className=" py-0 rounded rounded-1 w-100"
                           type={`${item.type}`}
                           placeholder={`Enter Your ${item.label}`}
                           
@@ -122,8 +122,8 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="d-flex px-3 justify-content-between w-100 align-items-center LoginFooter">
-        <div className="LeftLogo w-25 ">
+      <div className="d-flex gap-2 p-1 justify-content-between w-100 align-items-center LoginFooter">
+        <div className="LeftLogo">
           <img src={leftLogo} alt="" />
         </div>
         <div className="RighLogo ">

@@ -54,8 +54,8 @@ export default function EventsDeletedTable() {
   if (rows.length == 0) {
     return (
       <div className=" d-flex justify-content-center align-items-center">
-        <div className="w-25 rounded-3 py-5  shadow bg-white  d-flex justify-content-center align-items-center ">
-          <h2>Empty</h2>
+        <div className="w-75 rounded-3 py-5 mt-3  shadow bg-white  d-flex justify-content-center align-items-center ">
+          <h2 className='py-5'>Empty</h2>
         </div>
       </div>
     );

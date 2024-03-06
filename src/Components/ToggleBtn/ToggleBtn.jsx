@@ -52,8 +52,8 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 
 export default function ToggleBtn() {
   return (
-    <FormGroup>
-      <Stack direction="row" spacing={1} alignItems="center">
+    <FormGroup >
+      <Stack direction="row" spacing={1} alignItems="center" className=' d-flex justify-content-end'>
         <Typography>AmexNum</Typography>
         <AntSwitch defaultChecked inputProps={{ antdesign: "aria-label" }} />
         <Typography>PO</Typography>

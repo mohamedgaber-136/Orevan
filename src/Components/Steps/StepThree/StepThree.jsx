@@ -16,40 +16,40 @@ export const StepThree = () => {
   }, []);
   return (
     <div className="d-flex justify-content-center flex-column gap-4 align-items-center container mt-5">
-      <div className="d-flex justify-content-between flex-wrap  w-100 gap-5 align-items-center">
-        <div className=" border p-2 colorPickerParent rounded rounded-1">
+      <div className="row w-100 gap-md-1 gap-3">
+        <div className=" border p-2 colorPickerParent rounded rounded-1 col-5 col-md-3">
           <h6 className="ColorPickerTitle">BackGround Color</h6>
           <ColorPickerInput type={"BackGroundColor"} />
         </div>
-        <div className="border p-2 colorPickerParent rounded rounded-1">
+        <div className="border p-2 colorPickerParent rounded col-5 col-md-3 rounded-1">
           <h6 className="ColorPickerTitle">Font Color</h6>
           <ColorPickerInput type={"FontColor"} />
         </div>
-        <div className="border p-2 colorPickerParent rounded rounded-1">
+        <div className="border p-2 colorPickerParent rounded col-3 col-md-3 rounded-1">
           <h6 className="ColorPickerTitle">Button Color</h6>
           <ColorPickerInput type={"ButtonColor"} />
         </div>
       </div>
 
-      <div className=" StepThreeBg  overflow-hidden  ">
+      <div className=" StepThreeBg d-flex justify-content-center   ">
         <img
           src={mobileImg}
           alt="mobileLogo"
-          width={"100%"}
+         
           style={{ backgroundColor: newEvent.BackGroundColor }}
         />
-        <div className="StepThreeContent   gap-1 d-flex justify-content-center flex-column align-items-center">
-          <img src={logo} alt="novartisLogo" />
+        <div className="StepThreeContent row flex-column align-items-center justify-content-center gap-2 ">
+         <img src={logo} alt="novartisLogo" />
           <p className="m-0 text-center ">
             <b
-              className="fs-6 text-center"
+              className="text-center"
               style={{ color: newEvent.FontColor }}
             >
               Welcome To Please Insert The Event ID
             </b>
           </p>
           <TextField
-            className="px-5 py-0 rounded rounded-1"
+            className="px-md-5 py-0 rounded rounded-1"
             disabled
             type="number"
           />

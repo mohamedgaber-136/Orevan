@@ -39,9 +39,9 @@ const FireBaseContextProvider = ({ children }) => {
     EndDate: "",
     DateFromHours: "",
     DateEndHours: "",
-    BackGroundColor: "#00ff00",
+    BackGroundColor: "#fff",
     FontColor: "#000000",
-    ButtonColor: "#ffffff",
+    ButtonColor: "#0000ff",
     AccpetAllTermss: false,
     Policies:
       ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this ',

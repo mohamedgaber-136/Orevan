@@ -181,14 +181,14 @@ export const NewSubScriber = ({ id, handleClose }) => {
         <>
           <Form
             onSubmit={onsubmit}
-            className="d-flex p-3 bg-white rounded  flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm"
+            className=" bg-white rounded  NewSubScriberForm"
           >
             <h3>
               <BreadCrumbs id={id} sub={"Subscriber"} />
             </h3>
-            <div className="w-100  d-flex flex-wrap ">
-              <div className="w-50  flex-column align-items-center    d-flex justify-content-center">
-                <div className="text-danger ps-5 align-self-start">
+            <div className="w-100 gap-3 row justify-content-between mt-3">
+             <div className=" col-12 col-md-5 pe-0">
+                <div className="text-danger ps-5 align-self-start ">
                   <ErrorMessage name={"NationalID"} />
                 </div>
 
@@ -196,23 +196,21 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   as={TextField}
                   label={"National/iqamaID"}
                   id={"NationalID"}
-                  sx={{ m: 1, width: "25ch" }}
                   focused
                   type={"number"}
-                  className="w-75 "
                   name={"NationalID"}
                   onChange={checkNationalId}
                   value={change}
+                  className='w-100'
                 />
-              </div>
-
+                </div>
               {NewSubScriberInputs.map((item, index) =>
                 item.name === "PhoneNumber" ? (
                   <div
-                    className="w-50  flex-column align-items-center    d-flex justify-content-center"
+                    className="col-12 col-md-5 pe-0"
                     key={`${item.label}-${index}`}
                   >
-                    <div className="text-danger ps-5 align-self-start">
+                    <div className="text-danger  align-self-start">
                       <ErrorMessage name={item.name} />
                     </div>
                     <Field
@@ -220,14 +218,12 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       label={item.label}
                       id={index}
                       sx={{
-                        m: 1,
-                        width: "25ch",
                         border: "1px solid grey",
                         borderRadius: 1,
                       }}
                       focused
                       type={item.type}
-                      className="w-75  "
+                      className="w-100  "
                       name={item.name}
                       InputProps={{
                         startAdornment: (
@@ -240,7 +236,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   </div>
                 ) : (
                   <div
-                    className="w-50  flex-column align-items-center    d-flex justify-content-center"
+                    className="col-12 col-md-5 pe-0"
                     key={`${item.label}-${index}`}
                   >
                     <div className="text-danger ps-5 align-self-start">
@@ -251,10 +247,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       as={TextField}
                       label={item.label}
                       id={index}
-                      sx={{ m: 1, width: "25ch" }}
                       focused
                       type={item.type}
-                      className="w-75 "
+                      className=" w-100"
                       name={item.name}
                       value={autoFilledUser[item.name]}
                       onChange={(e) =>
@@ -267,10 +262,10 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   </div>
                 )
               )}
-              <div className="w-50 d-flex justify-content-center">
+              <div className="w-50 d-flex justify-content-start">
                 <button
                   type="submit"
-                  className="w-75 p-1 m-2 rounded rounded-2 border-0 border text-white"
+                  className="w-75 p-1  rounded rounded-2 border-0 border text-white"
                 >
                   Save
                 </button>

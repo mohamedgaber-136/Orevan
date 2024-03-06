@@ -38,7 +38,7 @@ export default function MultipleSelection({
         renderInput={(params) => (
           <TextField
             {...params}
-            label={<b>{`${label}`}</b>}
+            label={<b >{`${label}`}</b>}
             className="dropDownBorder "
           />
         )}

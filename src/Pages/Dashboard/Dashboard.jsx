@@ -51,6 +51,7 @@ export const Dashboard = () => {
         <div className="d-flex  justify-content-between align-item-center w-100">
           <div className="   d-flex flex-column gap-2  align-items-start DashboardTableParen w-100">
             <div className="d-flex align-items-center justify-content-start gap-2 w-100  ">
+              
               {WeeksInfo.map((item, ind) => (
                 <WeekEeventsCard
                   key={ind}
