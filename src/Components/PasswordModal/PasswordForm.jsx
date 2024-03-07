@@ -11,7 +11,6 @@ const PasswordForm = () => {
 
   const { user} = useContext(FireBaseContext); 
 const credentials = user.providerData;
-// console.log(credentials)
 const handleChangePassword = async () => {
   if(confirmPassword!==newPassword){
     setError('Password Not Matcing')
