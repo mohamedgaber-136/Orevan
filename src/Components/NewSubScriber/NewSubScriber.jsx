@@ -149,8 +149,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
 
     const data = { ...values };
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
-
-    console.log(data, "data");
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
     if (checkUser) {
       setErrorMsg(true);

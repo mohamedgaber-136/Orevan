@@ -355,3 +355,11 @@ margin-bottom: 20px !important;
 
   cursor: pointer;
 }
+.ErrorParent{
+  position: relative;
+}
+.Error{
+  position: absolute;
+  top: -25px;
+  right: 0;
+}

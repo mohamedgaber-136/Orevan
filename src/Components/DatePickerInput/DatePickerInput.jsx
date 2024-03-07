@@ -38,7 +38,6 @@ const DatePickerInput = ({ condition, SetError, formErrors }) => {
       setValue(newEvent.EndDate);
     }
   }, [newEvent.EndDate, newEvent.StartDate]);
-console.log(newEvent)
   return (
     <div className="test">
       <DatePicker

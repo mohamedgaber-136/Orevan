@@ -4,7 +4,7 @@ import { FireBaseContext } from "../../Context/FireBase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import swal from "sweetalert";
 import { RoleDropDown } from "../RoleDropDown/RoleDropDown";
 import { AdminAuth } from "../../Config/FirebaseAdminApp";
@@ -14,7 +14,6 @@ export const CreateUser = () => {
   const { database } = useContext(FireBaseContext);
   const [error, setError] = useState(false);
   const [user, SetUser] = useState("");
-
   const [data, SetData] = useState(null);
   const NewSubScriberInputs = [
     {
@@ -81,6 +80,10 @@ export const CreateUser = () => {
               ? values.Role.split("-")[1]
               : null,
           },
+          Condition:{
+            Active:true,
+            Blocked:false
+          }
         });
         setError(false);
         swal({
@@ -93,7 +96,9 @@ export const CreateUser = () => {
 
   useEffect(() => {
     if (user) {
-      (async () => await setDoc(doc(UsersRef, user.uid), data))();
+      (async () => {await setDoc(doc(UsersRef, user.uid), {...data,ID:user.uid})
+    }    
+      )();
     }
   }, [user]);
 
@@ -141,14 +146,14 @@ export const CreateUser = () => {
         {(props) => (
           <>
             <Form className="d-flex py-3 px-2 bg-white rounded shadow flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm">
-              <div className="w-100 row gap-4 ">
+              <div className="w-100 row gap-4  p-2">
                 {NewSubScriberInputs.map((item, index) => (
                   <div
-                    className="col-12 col-md-5 "
+                    className="col-12 col-md-5 ErrorParent "
                     key={`${item.label}-${index}`}
                   >
-                    <div className="text-danger ps-5 align-self-start">
-                      <ErrorMessage name={item.name} />
+                    <div className="text-danger ps-5 align-self-start Error">
+                      <ErrorMessage name={item.name}  />
                       {item.name === "Email" && showErrors()}
                     </div>
                     <Field
@@ -168,10 +173,10 @@ export const CreateUser = () => {
                   </div>
                   <RoleDropDown />
                 </div>
-                <div className="w-50   d-flex justify-content-center">
+                <div className="w-50   d-flex justify-content-start">
                   <button
                     type="submit"
-                    className="w-75 p-1 m-2 rounded rounded-2 border-0 border text-white"
+                    className="w-75 p-1  rounded rounded-2 border-0 border text-white"
                   >
                     Save
                   </button>

@@ -83,7 +83,6 @@ export const SearchFormik = ({ rows, setRows }) => {
       setDisabledBtn(true);
     }
   };
-  console.log(TovType);
   return (
     <Formik initialValues={intialValues}>
       {() => (

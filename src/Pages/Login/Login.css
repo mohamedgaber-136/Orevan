@@ -64,3 +64,6 @@ width: 100%;
 .LoginFooter{
 height: 60px ;
 }
+.LeftLogo{
+    width: 250px !important;
+}

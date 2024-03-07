@@ -10,7 +10,6 @@ export const AllUsers = () => {
   useEffect(() => {
     getData(UserRef, setInformations);
   }, []);
-  console.log(informations,'info')
   return (
     <div className="d-flex flex-column container gap-3 EventsPageParent ">
       <h2>All Users</h2> <AllUsersTable row={informations} />

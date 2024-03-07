@@ -15,6 +15,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import ChangeEventModal from "../ChangeEventModal/ChangeEventModal";
+import UsersSettings from "../UsersSettings/UsersSettings";
 export default function AllUsersTable({ row }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -69,6 +70,12 @@ export default function AllUsersTable({ row }) {
       numeric: true,
       disablePadding: false,
       label: "Phone Number",
+    },
+    {
+      id: "Settings",
+      numeric: true,
+      disablePadding: false,
+      label: "",
     },
    
   ];
@@ -248,6 +255,7 @@ export default function AllUsersTable({ row }) {
                       <TableCell align="center">{row.Name}</TableCell>
                       <TableCell align="center">{row.Email}</TableCell>
                       <TableCell align="center">{row.PhoneNumber}</TableCell>
+                      {/* <TableCell align="center"><UsersSettings /></TableCell> */}
                      
                     </TableRow>
                   );

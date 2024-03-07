@@ -23,6 +23,7 @@ const FireBaseContextProvider = ({ children }) => {
   const [updateUser, setUpdateUser] = useState(null);
   const [Subscribers, setSubscribers] = useState([]);
   const [user ,setUser]=useState({})
+  const [FinaleUser ,setFinaleUser]=useState({})
   const [roleCondition, setRole] = useState("");
   const [currentUserRole, setCurrentUserRole] = useState("");
   const [newEvent, setNewEvent] = useState({
@@ -109,6 +110,7 @@ const FireBaseContextProvider = ({ children }) => {
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
         localStorage.setItem("User", JSON.stringify(finaleUser.data()));
+        setFinaleUser(finaleUser.data())
         setCurrentUserRole(finaleUser.data().Role);
         eventsQueryAccordingToUserRole(finaleUser.data().Role, user.uid);
       } else {
@@ -164,6 +166,7 @@ const FireBaseContextProvider = ({ children }) => {
         triggerNum,
         setTriggerNum,
         getData,
+        FinaleUser,
         Subscribers,
         SubscribersRefrence,
         database,

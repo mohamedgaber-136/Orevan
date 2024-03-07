@@ -9,7 +9,7 @@ import bcrypt from "bcryptjs";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { Formik, Form } from "formik";
 import { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
@@ -25,7 +25,7 @@ const Login = () => {
   const navigation = useNavigate();
   const [error, setError] = useState(false);
   const [errorRegist, seterrorRegist] = useState(false);
-  const { auth, database, currentUsr } = useContext(FireBaseContext);
+  const { auth, database, currentUsr,FinaleUser } = useContext(FireBaseContext);
   const [ShowSpinning, setShowSpinning] = useState(false);
 
   const formData = [
@@ -51,7 +51,12 @@ const Login = () => {
 
   useEffect(() => {
     if (currentUsr && currentUsr !== "init") {
-      navigation(`/app`);
+      if(FinaleUser.Condition.Active){
+        navigation(`/app`);
+      }else{
+        auth.signOut();     
+        console.log('this Account blocked')
+       }
     }
   }, [currentUsr]);
 
