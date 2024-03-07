@@ -21,11 +21,14 @@ export const Navbar = ({ navAppear }) => {
       case "/app/events":
         setFocusedButton(1);
         break;
-      case "/app/profile":
-        setFocusedButton(3);
-        break;
       case "/app/teams":
         setFocusedButton(2);
+        break;
+      case "/app/AllUsers":
+        setFocusedButton(3);
+        break;
+      case "/app/CreateUser":
+        setFocusedButton(4);
         break;
       default:
     }
@@ -61,11 +64,11 @@ export const Navbar = ({ navAppear }) => {
     //   data: "Profile",
     //   nav: "Profile",
     // },
-    // isAllowedUser && {
-    //   icon: "fa-solid fa-people-group",
-    //   data: "Users",
-    //   nav: "Users",
-    // },
+    isAllowedUser && {
+      icon: "fa-solid fa-people-group",
+      data: "CreateUser",
+      nav: "CreateUser",
+    },
   ];
   return (
     <nav className={`MainNav ${navAppear && "appearNav"}`}>

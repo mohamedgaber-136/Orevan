@@ -16,7 +16,7 @@ import { Events } from "./Pages/Events/Events";
 import { Profile } from "./Pages/Profile/Profile";
 import { Teams } from "./Pages/Teams/Teams";
 import { MainContent } from "./Components/MainContent/MainContent";
-import { Suspense, lazy, useContext } from "react";
+import { Suspense, lazy, useContext, useEffect } from "react";
 import lazyImg from "./assets/LoadingLogo.png";
 import SearchContextProvider from "./Context/SearchContext.js";
 import { AddNewEvent } from "./Pages/AddNewEvent/AddNewEvent.jsx";
@@ -31,6 +31,9 @@ import { MyEvents } from "./Pages/MyEvents/MyEvents.jsx";
 import { DeletedSubscribers } from "./Pages/DeletedData/DeletedSubscribers/DeletedSubscribers.jsx";
 import { DeletedEvents } from "./Pages/DeletedData/DeletedElements/DeletedEvents.jsx";
 import { AllUsers } from "./Pages/AllUsers/AllUsers.jsx";
+import { Users } from "./Pages/Users/Users";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute.jsx";
+
 async function delayForDemo(promise) {
   return new Promise((resolve) => {
     setTimeout(resolve, 4000);
@@ -40,8 +43,6 @@ async function delayForDemo(promise) {
 let LoginLazy = lazy(() => delayForDemo(import("./Pages/Login/Login")));
 
 const RouterStructure = () => {
-  const { currentUserRole } = useContext(FireBaseContext);
-
   return (
     <RouterProvider
       router={createBrowserRouter(
@@ -70,18 +71,30 @@ const RouterStructure = () => {
                 <Route path="Profile" element={<Profile />} />
                 <Route path="AddEvents" element={<AddNewEvent />} />
 
-                {currentUserRole.admin && (
-                  <>
-                    <Route path="teams" element={<Teams />} />
-                    <Route path="AllUsers" element={<AllUsers />} />
-                    {/* <Route
-                      path="Users"
-                      element={
-                        <Users />
-                      }
-                    /> */}
-                  </>
-                )}
+                <Route
+                  path="teams"
+                  element={
+                    <PrivateRoute>
+                      <Teams />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="AllUsers"
+                  element={
+                    <PrivateRoute>
+                      <AllUsers />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="CreateUser"
+                  element={
+                    <PrivateRoute>
+                      <Users />
+                    </PrivateRoute>
+                  }
+                />
 
                 <Route path="MyEvents" element={<MyEvents />} />
 
