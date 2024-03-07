@@ -336,6 +336,9 @@ height: 100% !important;
   }
   .css-m5vj9m-MuiStepper-root{
     flex-wrap: wrap !important;
+    -webkit-flex-wrap: wrap !important;
+  -ms-flex-wrap: wrap !important;
+
     justify-content: space-between;
     gap: 30px;
     align-items: center;
@@ -362,4 +365,10 @@ margin-bottom: 20px !important;
   position: absolute;
   top: -25px;
   right: 0;
+}
+.css-1h51icj-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input{
+  -webkit-border: 0 !important;
+  -moz-border: 0 !important ;
+  -ms-border: 0 !important;
+  -o-border: 0 !important;
 }
