@@ -108,7 +108,6 @@ const FireBaseContextProvider = ({ children }) => {
         setUser(user)
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
-        console.log(finaleUser.data().Role, "Role on state change");
         localStorage.setItem("User", JSON.stringify(finaleUser.data()));
         setCurrentUserRole(finaleUser.data().Role);
         eventsQueryAccordingToUserRole(finaleUser.data().Role, user.uid);

@@ -1,10 +1,10 @@
-import { Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import EditIcon from "@mui/icons-material/Edit";
 import ProfileReport from "../../Components/ProfileReport/ProfileReport";
 import { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { FireBaseContext } from "../../Context/FireBase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 export const Profile = () => {
   const [disabledValue, setDisabled] = useState(true);
   const { currentUsr, UserRef } = useContext(FireBaseContext);
@@ -12,28 +12,33 @@ export const Profile = () => {
   const InputsDataColOne = [
     {
       label: "Name",
-      defaultValue: Current?.Name,
       type: "text",
     },
     {
       label: "Telephone",
-      defaultValue: Current?.PhoneNumber,
       type: "text",
     },
   ];
   const InputsDataColTwo = [
     {
       label: "Email",
-      defaultValue: Current?.Email,
       type: "text",
     },
   ];
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const intialValues={
+    Name:Current?.Name,
+    Telephone: Current?.PhoneNumber,
+    Email:Current?.Email
+
+  }
+  const docRef = doc(UserRef, currentUsr);
+  const handleSubmit = async (values) => {
+     await  updateDoc(docRef,values)
+    setDisabled(true)
+    window.location.reload();
   };
   useEffect(() => {
     const fetchUser = async () => {
-      const docRef = doc(UserRef, currentUsr);
       const user = await getDoc(docRef);
       setCurrent(user.data());
     };
@@ -45,47 +50,51 @@ export const Profile = () => {
       <div className="  d-flex flex-column container gap-3 EventsPageParent ">
         <div className="">
           <h5 className="mb-3">Personal Data</h5>
-          <Formik>
+       
+          <Formik onSubmit={handleSubmit} initialValues={intialValues}>
             {() => (
               <Form
-                onSubmit={handleSubmit}
+                // onSubmit={handleSubmit}
                 className="FormDataParent  bg-white container   rounded rounded-2  "
               >
-                <div className="d-flex w-100 gap-2">
-                  <div className="d-flex gap-4 flex-column w-50  ">
+                <div className="row w-100 gap-3">
+                  <div className="d-flex gap-3 flex-column col-12  ">
                     {InputsDataColOne.map((item, indx) => (
-                      <TextField
+                      <Field
+                        as={TextField}
                         key={indx}
                         name={item.label}
                         label={item.label}
                         focused
-                        defaultValue={item.defaultValue}
                         disabled={disabledValue}
                       />
                     ))}
                   </div>
-                  <div className="d-flex gap-4 flex-column w-50 ">
+                  <div className="d-flex gap-3 flex-column col-12">
                     {InputsDataColTwo.map((item, indx) => (
-                      <TextField
+                        <Field
+                       as={TextField}
                         key={indx}
                         name={item.label}
                         label={item.label}
                         focused
-                        defaultValue={item.defaultValue}
                         disabled={disabledValue}
                       />
                     ))}
                   </div>
                 </div>
+                <div className="EditPen">
 
                 <EditIcon
                   title="edit"
                   onClick={() => setDisabled(!disabledValue)}
-                  className="text-primary  EditPen"
-                />
+                  className="text-primary  "
+                  />
+                  </div>
+            
                 <button
-                  className={`SaveBtn ${disabledValue && "d-none"} m-2 `}
-                  onClick={() => setDisabled(true)}
+                  className={`SaveBtn wrappingItems border-0 ${disabledValue && "d-none"} m-2 `}
+                  type="submit"
                 >
                   Save
                 </button>

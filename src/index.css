@@ -348,3 +348,10 @@ height: 100% !important;
 .css-140puxv-MuiTypography-root-MuiDialogTitle-root {
 margin-bottom: 20px !important;
 }
+.EditPen{
+  position: absolute !important;
+  top: 15%;
+  right: 5%;
+
+  cursor: pointer;
+}

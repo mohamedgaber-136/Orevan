@@ -13,17 +13,17 @@ import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
 import ChangeEventModal from "../ChangeEventModal/ChangeEventModal";
-import ExportToExcelButton from "../ExportBtn/ExportToExcelButton";
-export default function AllUsersTable({ rows }) {
+export default function AllUsersTable({ row }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
+  const [rows, setrows] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  React.useEffect(()=>{setrows(row)},[row])
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -51,14 +51,9 @@ export default function AllUsersTable({ rows }) {
   }
   // HeadTitles
   const headCells = [
+ 
     {
-      id: "id",
-      numeric: false,
-      disablePadding: true,
-      label: "ID",
-    },
-    {
-      id: "FirstName",
+      id: "Name",
       numeric: true,
       disablePadding: false,
       label: "Name",
@@ -75,30 +70,7 @@ export default function AllUsersTable({ rows }) {
       disablePadding: false,
       label: "Phone Number",
     },
-    {
-      id: "Organization",
-      numeric: true,
-      disablePadding: false,
-      label: "Organization",
-    },
-    {
-      id: "Speciality",
-      numeric: true,
-      disablePadding: false,
-      label: "Speciality",
-    },
-    {
-      id: "NationalID",
-      numeric: true,
-      disablePadding: false,
-      label: "National ID",
-    },
-    {
-      id: "City",
-      numeric: true,
-      disablePadding: false,
-      label: "City",
-    },
+   
   ];
 
   function EnhancedTableHead(props) {
@@ -112,11 +84,10 @@ export default function AllUsersTable({ rows }) {
     return (
       <TableHead>
         <TableRow>
-          <TableCell align="right"></TableCell>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={headCell.numeric ? "right" : "left"}
+              align={headCell.numeric ? "center" : "center"}
               padding={headCell.disablePadding ? "normal" : "normal"}
               sortDirection={orderBy === headCell.d ? order : false}
             >
@@ -198,11 +169,11 @@ export default function AllUsersTable({ rows }) {
           className="d-flex gap-2 align-items-center
 "
         >
-          <ExportToExcelButton
+          {/* <ExportToExcelButton
             filename="exported_data"
             sheetname="Sheet 1"
             data={rows}
-          />
+          /> */}
 
           {/* <ImportExcel /> */}
           {/* <SearchText list={rows}/> */}
@@ -223,11 +194,6 @@ export default function AllUsersTable({ rows }) {
     console.log(""),
     [order, orderBy, page, rowsPerPage]
   );
-
-  // const updateSup = (row) => {
-  //   setShowUpdate(true);
-  //   setUpdateUser(row);
-  // };
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -278,33 +244,11 @@ export default function AllUsersTable({ rows }) {
                       sx={{ cursor: "pointer" }}
                       className="align-items-center"
                     >
-                      <TableCell
-                        padding="checkbox"
-                        onClick={(event) => handleClick(event, row.ID)}
-                      >
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="normal"
-                      >
-                        {row.id}
-                      </TableCell>
-                      <TableCell align="right">{row.FirstName}</TableCell>
+                   
+                      <TableCell align="center">{row.Name}</TableCell>
                       <TableCell align="center">{row.Email}</TableCell>
-                      <TableCell align="right">{row.PhoneNumber}</TableCell>
-                      <TableCell align="right">{row.Organization}</TableCell>
-                      <TableCell align="right">{row.Speciality}</TableCell>
-                      <TableCell align="right">{row.NationalID}</TableCell>
-                      <TableCell align="right">{row.City}</TableCell>
+                      <TableCell align="center">{row.PhoneNumber}</TableCell>
+                     
                     </TableRow>
                   );
                 })}

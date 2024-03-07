@@ -62,7 +62,6 @@ export const CreateUser = () => {
 
   // test on create user
   const onsubmit = async (values, props) => {
-    console.log(values, "user");
     await createUserWithEmailAndPassword(
       AdminAuth,
       values.Email,
@@ -70,9 +69,7 @@ export const CreateUser = () => {
     )
       .then((res) => {
         SetUser(res.user);
-        console.log(res.user, "user create");
         const passwordDATA = res.user.reloadUserInfo.passwordHash;
-        console.log(values.Role, "Role");
         SetData({
           ...values,
           Password: passwordDATA,
@@ -96,7 +93,6 @@ export const CreateUser = () => {
 
   useEffect(() => {
     if (user) {
-      console.log(data, "data user will save");
       (async () => await setDoc(doc(UsersRef, user.uid), data))();
     }
   }, [user]);
@@ -144,11 +140,11 @@ export const CreateUser = () => {
       >
         {(props) => (
           <>
-            <Form className="d-flex p-3 bg-white rounded shadow flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm">
-              <div className="w-100  d-flex flex-wrap ">
+            <Form className="d-flex py-3 px-2 bg-white rounded shadow flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm">
+              <div className="w-100 row gap-4 ">
                 {NewSubScriberInputs.map((item, index) => (
                   <div
-                    className="w-50  flex-column align-items-center    d-flex justify-content-center"
+                    className="col-12 col-md-5 "
                     key={`${item.label}-${index}`}
                   >
                     <div className="text-danger ps-5 align-self-start">
@@ -159,17 +155,15 @@ export const CreateUser = () => {
                       as={TextField}
                       label={item.label}
                       id={index}
-                      sx={{ m: 1, width: "25ch" }}
                       focused
                       type={item.type}
-                      className="w-75 "
+                      className="w-100 "
                       name={item.name}
                     />
                   </div>
                 ))}
-                <div className=" d-flex w-50 flex-column justify-content-center align-items-center border-0 ">
+                <div className=" d-flex col-11 flex-column justify-content-center align-items-center border-0 ">
                   <div className="d-flex align-items-center gap-2  w-75  justify-content-between ">
-                    <small>Choose Role</small>
                     <ErrorMessage name={"Role"} className="align-self-start" />
                   </div>
                   <RoleDropDown />

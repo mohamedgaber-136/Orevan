@@ -53,7 +53,7 @@ const handleChangePassword = async () => {
 
      
       </div>
-      <div className=' d-flex justify-content-between   flex-wrap' style={{gap:'0 20px'}}>
+      <div className=' d-flex justify-content-between   flex-wrap' style={{gap:'0 26px'}}>
         <label>New Password:</label>
     
         <input
