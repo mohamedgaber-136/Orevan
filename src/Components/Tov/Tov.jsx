@@ -65,22 +65,31 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
           {selectedOptions.map((savedObject, index) => (
             <li
               key={index}
-              className="wrappingItems p-1 col-5 col-md-3"
+              className=" p-1 col-5 col-md-3"
           
             >
-              <p className="m-0">Tov : {savedObject.types} </p>
+              {/* <p className="m-0">Tov : {savedObject.types} </p>
               <TextField
                 onChange={(e) => checkTxtValue(e, savedObject.option, index)}
                 className="w-100 p-0"
                 style={{padding:'10px !important'}}
+              /> */}
+                  <TextField
+                label={<b>Tov : {savedObject.types}</b>}
+                focused
+                className="w-100"
+                onChange={(e) => checkTxtValue(e, savedObject.option, index)}
               />
             </li>
           ))}
         </ul>
         {selectedOptions.length ? (
-          <button type="button" className="wrappingItems border-0" onClick={sendData}>
-            save
+          <div className="w-100  d-flex justify-content-end ">
+
+          <button type="button" className="wrappingItems border-0 p-2" onClick={sendData}>
+            save +
           </button>
+          </div>
         ) : (
           ""
         )}
