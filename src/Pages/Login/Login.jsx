@@ -51,12 +51,12 @@ const Login = () => {
 
   useEffect(() => {
     if (currentUsr && currentUsr !== "init") {
-      if(FinaleUser.Condition.Active){
-        navigation(`/app`);
-      }else{
-        auth.signOut();     
-        console.log('this Account blocked')
-       }
+      // if(FinaleUser.Condition.Active){
+        // }else{
+          //   auth.signOut();     
+          //   console.log('this Account blocked')
+          //  }
+            navigation(`/app`);
     }
   }, [currentUsr]);
 
