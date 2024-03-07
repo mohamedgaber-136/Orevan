@@ -50,6 +50,9 @@ color:black !important;
     .LeftLogo img {
         height: 100% !important;
     }
+    .LeftLogo{
+        width: 250px !important;
+    }
 }
 .LeftLogo img ,.RighLogo img{
 width: 100%;
