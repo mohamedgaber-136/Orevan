@@ -90,9 +90,7 @@ export default function AlertBadge() {
                 message: "You have new notification",
               });
             }
-            // console.log(new Date("Mon Feb 19 2024 15:41:00").getTime(), "test");
-            // console.log(new Date("Mon Feb 19 2024 15:42:00").getTime(), "test");
-            // one minute == 60000 miliseconds
+         
           }
           const found = notify.isReadUsersID.find((item) => item === currentUsr);
           if (found) {
@@ -165,7 +163,7 @@ export default function AlertBadge() {
                 onClick={() =>
                   handleClose(notify.EventID, notify.NewEventID, notify.id)
                 }
-                key={notifyIndex}
+                key={`${notifyIndex}-${notify}`}
                 className={`mx-2 rounded text-dark ${
                   !notify.isRead && "bg-light"
                 }`}
@@ -173,7 +171,6 @@ export default function AlertBadge() {
                 <div className="text-wrap w-100">
                   <div className="fs-6">
                     <span className="fw-semibold">{notify.CreatedBy}</span>
-                    {/* <span className="px-1">{`added a new event:`}</span> */}
                     <span className="px-1">{notify.NotifyMessage}:</span>
                     <span className="d-block fst-italic">{`"${notify.EventName}"`}</span>
                   </div>

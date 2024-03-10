@@ -100,7 +100,7 @@ const FireBaseContextProvider = ({ children }) => {
     }
     return EventRefrence;
   };
-
+console.log(newEvent,'NewEvent')
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(false);

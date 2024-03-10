@@ -10,14 +10,7 @@ width: 100%;
     transform: translate(-50%,-50%);
     top: 52%;
 }
-/* @media(max-width:529px){
-    .StepThreeBg{
-        width: 300px;
-    }
-    .StepThreeContent{
-        height: 150px !important;
-    } */
-/* } */
+
 
 /* color picker  */
 .makeStyles-root-230{
@@ -57,4 +50,8 @@ width: 100%;
         height: 270px !important;
 
     }
+}
+
+[ alt="mobileLogo"] {
+border-radius:35px !important ;
 }

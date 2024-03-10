@@ -277,9 +277,7 @@ input{
 .border-disappear{
   border:1px solid transpernt !important ;
 }
-input:focus,.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
-background-color: transparent !important;
-}
+
 .EventShadow{
   box-shadow:0 0 15px 2px rgb(234, 232, 232);
 } 
@@ -371,4 +369,13 @@ margin-bottom: 20px !important;
   -moz-border: 0 !important ;
   -ms-border: 0 !important;
   -o-border: 0 !important;
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
+  padding: 8px 16px !important;
+}
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+top: -10px !important;
+}
+.css-1h51icj-MuiAutocomplete-root .MuiOutlinedInput-root{
+  padding: 5px !important;
 }

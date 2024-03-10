@@ -133,7 +133,7 @@ export const SearchFormik = ({ rows, setRows }) => {
               <b className="d-flex gap-2 align-items-center"> Filter type</b>
               </span>
               <div
-                className="fs-6 d-flex align-items-end rounded py-2 "
+                className="fs-6 d-flex align-items-end rounded  "
                 style={{ border: "1px solid black" }}
               >
                 <FormControl fullWidth>
@@ -156,7 +156,7 @@ export const SearchFormik = ({ rows, setRows }) => {
             <span className="d-flex gap-2 align-items-start justify-content-between flex-column h-100 ">
               <b className="d-flex gap-2 align-items-center"> Tov type</b>
               <span
-                className="fs-6 d-flex align-items-end rounded py-2"
+                className="fs-6 d-flex align-items-end rounded "
                 style={{ border: "1px solid black" }}
               >
                 <FormControl fullWidth>

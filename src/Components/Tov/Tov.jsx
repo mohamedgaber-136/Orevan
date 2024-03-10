@@ -68,12 +68,6 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
               className=" p-1 col-5 col-md-3"
           
             >
-              {/* <p className="m-0">Tov : {savedObject.types} </p>
-              <TextField
-                onChange={(e) => checkTxtValue(e, savedObject.option, index)}
-                className="w-100 p-0"
-                style={{padding:'10px !important'}}
-              /> */}
                   <TextField
                 label={<b>Tov : {savedObject.types}</b>}
                 focused
