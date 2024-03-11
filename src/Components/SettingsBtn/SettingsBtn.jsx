@@ -39,15 +39,17 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
         swal({
           icon: "success",
         });
-        await deleteDoc(ref);
+        console.log(item.data())
+        console.log(id)
+        // await deleteDoc(ref);
 
-        await setDoc(doc(SubscribersDeletedRef, id), {
-          event: dbID,
-          ID: id,
-          timing: serverTimestamp(),
-          ...item.data(),
-        });
-        handleClose();
+        // await setDoc(doc(SubscribersDeletedRef, id), {
+        //   event: dbID,
+        //   ID: id,
+        //   timing: serverTimestamp(),
+        //   ...item.data(),
+        // });
+        // handleClose();
       }
     });
   };

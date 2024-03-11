@@ -38,7 +38,9 @@ const Login = () => {
     e.preventDefault();
   const acc =  query(UsersRef, where("Email", "==",  e.target[0].value));
   const Res = await getDocs(acc)
+  if(Res.docs[0]){
   const UserId = Res.docs[0].data()
+  seterrorRegist(false)
 if(!UserId.Condition.Blocked){
   signInWithEmailAndPassword(auth, e.target[0].value, e.target[2].value)
   .then(async (res) => {
@@ -52,27 +54,11 @@ if(!UserId.Condition.Blocked){
     }else{
       setBlockedErrorMsg(true)
     }
-
+  }else{
+    seterrorRegist(true)
+  }
   };
- // if (!FinaleUser.Condition.Blocked) {
-        //   navigation(`/app`);
-        //   console.log("done");
-        //   setBlockedErrorMsg(false);
-        // } else {
-        //   console.log("this Account blocked");
-        //   setBlockedErrorMsg(true);
-        //   auth.signOut();
-        // }
-        // navigation(`/app`);
-  // };
-  // if(UserId.Condition.Blocked){
-  //   navigation(`/app`);
-  //   console.log('done')
-  //   setBlockedErrorMsg(false)
-  //   }else{
-  //     console.log(FinaleUser.Condition.Active,'this Account blocked')
-  //     setBlockedErrorMsg(true)
-  //   }
+
   // useEffect(() => {
   //   if (currentUsr && currentUsr !== "init") {
   //       navigation(`/app`);
