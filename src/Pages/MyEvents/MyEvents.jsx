@@ -7,10 +7,8 @@ export const MyEvents = () => {
   const { state } = useLocation();
   const [sub, setSub] = useState([]);
   const [combinedData, setCombinedData] = useState([]);
-  console.log(state);
   const [data, setdata] = useState(state.data);
   const { EventRefrence } = useContext(FireBaseContext);
-  console.log(state.data);
   useEffect(() => {
     // query to filter evemts according to role
     const fetchData = async () => {
@@ -73,7 +71,25 @@ export const MyEvents = () => {
   return (
     <div className="d-flex flex-column container gap-3 EventsPageParent ">
       <h2>{state.name}</h2>
-      <FranchiseTable row={data} sub={sub} />
+      {!combinedData.length ? (
+        <div
+          className="w-100 d-flex justify-content-center align-items-center   "
+          style={{ height: "calc(100vh - 150px) " }}
+        >
+          <div className="dot-spinner ">
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+          </div>
+        </div>
+      ) : (
+        <FranchiseTable row={data} sub={sub} />
+      )}
     </div>
   );
 };

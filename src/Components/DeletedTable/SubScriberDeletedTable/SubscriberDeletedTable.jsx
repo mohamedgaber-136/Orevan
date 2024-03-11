@@ -8,11 +8,11 @@ import Paper from '@mui/material/Paper';
 import { FireBaseContext } from '../../../Context/FireBase';
 import {useState,useEffect,useContext} from 'react';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-import { deleteDoc, doc,setDoc ,getDoc,serverTimestamp, collection } from 'firebase/firestore';
+import { deleteDoc, doc,setDoc ,getDoc, collection } from 'firebase/firestore';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 export default function SubscriberDeletedTable() {
-    const {SubscribersDeletedRef,getData,SubscribersRefrence,EventRefrence} = useContext(FireBaseContext)
+    const {SubscribersDeletedRef,getData,EventRefrence} = useContext(FireBaseContext)
     const [rows,setSubData]=useState([])
    useEffect(()=>{
    getData(SubscribersDeletedRef,setSubData)

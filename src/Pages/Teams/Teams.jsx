@@ -30,17 +30,16 @@ export const Teams = () => {
   useEffect(() => {
     getValue();
   }, []);
-  console.log(collectionKeys, "collectionKeys");
   if (collectionKeys.length) {
     return (
-      <div className="d-flex flex-column container gap-3 EventsPageParent ">
+      <div className="d-flex flex-column container-fluid container-md gap-3 EventsPageParent ">
         <h2>Teams</h2>
         <TeamsTable row={collectionKeys} />
       </div>
     );
   } else {
     return (
-      <div className="w-100 d-flex justify-content-center ">
+      <div className="w-100 d-flex justify-content-center align-items-center   " style={{height:'calc(100vh - 150px) '}}> 
         <div className="dot-spinner ">
           <div className="dot-spinner__dot"></div>
           <div className="dot-spinner__dot"></div>

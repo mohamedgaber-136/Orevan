@@ -24,7 +24,7 @@ border: none !important;
     font-weight: 700 !important;
 }
 .MuiInputBase-root,.MuiPaper-rounded{
-    border-radius: 20px !important;
+    border-radius: 10px !important;
 }
 .TableTitle{
     font-size: 24px;

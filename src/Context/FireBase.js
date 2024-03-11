@@ -95,12 +95,10 @@ const FireBaseContextProvider = ({ children }) => {
         return query(EventRefrence, where("CreatedByID", "==", currentUsr));
       }
       default:
-        console.log("default");
       //   return query(EventRefrence);
     }
     return EventRefrence;
   };
-console.log(newEvent,'NewEvent')
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(false);

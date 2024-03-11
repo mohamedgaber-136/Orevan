@@ -81,7 +81,6 @@ export const CreateUser = () => {
               : null,
           },
           Condition:{
-            Active:true,
             Blocked:false
           }
         });
@@ -101,34 +100,6 @@ export const CreateUser = () => {
       )();
     }
   }, [user]);
-
-  // const plainTextPassword = 'user123';
-  // const saltRounds = 10;
-  //   const onsubmit = async (values, props) => {
-  //     // SetUser(values)
-  //     bcrypt.hash(values.Password, saltRounds, async (err, hash) => {
-  //       if (err) {
-  //         console.error('Error hashing password:', err);
-  //       } else {
-  //         console.log('Hashed password:', hash);
-  //         SetData({ ...values, Password: hash });
-  //         const checkEmail = await getDocs(query(UsersRef,where('Email','==',values.Email)))
-  //         if(!checkEmail.docs.length){
-  //           await addDoc(UsersRef,  data)
-  //           swal({
-  //             icon: "success",
-  //             text: `${values.Email} Has been added succesfully`,
-  //           });
-  //         }else{
-  //           setError(true);
-  //         }
-
-  //         // Send the hash to the server for storage
-  //       }
-  //     });
-
-  //   };
-
   const showErrors = () => {
     if (error) {
       return (

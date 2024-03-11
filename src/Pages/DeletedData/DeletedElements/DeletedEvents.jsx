@@ -1,10 +1,10 @@
 import React from "react";
-import EventsDeletedTable from "../../../Components/DeletedTable/EventsDeletedTable/EventsDeletedTable";
+import EventsDeletedTable from "../../../Components/EventsDeletedTable/EventsDeletedTable";
 
 export const DeletedEvents = () => {
   return (
-    <div>
-      <EventsDeletedTable />
+    <div className="container-fluid container-md">
+      <EventsDeletedTable/>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
@@ -29,6 +29,7 @@ export default function ProfileMenu() {
     localStorage.removeItem("User");
   };
 
+
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -40,7 +41,7 @@ export default function ProfileMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>
+            <Avatar sx={{ width: 32, height: 32 ,backgroundColor:'green'}}>
               {localStorage.getItem("User")
                 ? JSON.parse(localStorage.getItem("User")).Name.charAt(0)
                 : ""}

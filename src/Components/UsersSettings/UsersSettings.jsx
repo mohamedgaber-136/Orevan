@@ -7,17 +7,15 @@ import { FireBaseContext } from "../../Context/FireBase";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
 import {
-  deleteDoc,
   doc,
-  setDoc,
-  getDoc,
-  serverTimestamp,
+
+  updateDoc,
 } from "firebase/firestore";
-export default function UsersSettings({ refCollection, rowId, row }) {
+export default function UsersSettings({  rowId, row }) {
   const { dbID } = useParams();
   const ITEM_HEIGHT = 38;
   const [anchorEl, setAnchorEl] = useState(null);
-  const { SubscribersDeletedRef, UserRef } = useContext(FireBaseContext);
+  const { UserRef } = useContext(FireBaseContext);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,25 +24,24 @@ export default function UsersSettings({ refCollection, rowId, row }) {
     setAnchorEl(null);
   };
   const removeSubscriber = async (id) => {
-    const ref = doc(UserRef, id);
-    const item = await getDoc(ref);
+    const ref = doc(UserRef, row.ID);
+   
     swal({
-      title: "Are you sure You want Delete this subscriber?",
+      title: "Are you sure?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then(async (willDelete) => {
       if (willDelete) {
         swal({
+          
+          title: `${row.Email} ${row.Condition.Blocked?'Unblocked':'Blocked'}   `,
           icon: "success",
         });
-        await deleteDoc(ref);
-        await setDoc(doc(SubscribersDeletedRef, id), {
-          event: dbID,
-          ID: id,
-          timing: serverTimestamp(),
-          ...item.data(),
-        });
+       await updateDoc(ref,{...row,Condition:{
+        Blocked
+        : 
+        !row.Condition.Blocked}})
         handleClose();
       }
     });
@@ -76,15 +73,27 @@ export default function UsersSettings({ refCollection, rowId, row }) {
           },
         }}
       >
-        <MenuItem>
-          <div className="d-flex   justify-content-between align-items-center w-100  gap-2 ">
-          </div>
-        </MenuItem>
-        <MenuItem onClick={() => removeSubscriber(rowId)}>
+      
+        <MenuItem 
+        
+        onClick={() =>{
+          removeSubscriber(rowId)        }
+        }
+        
+        
+        >
+            {row.Condition.Blocked?
+             <div className="d-flex   justify-content-center align-items-center w-75  gap-2 ">
+             <i className="fa-solid fa-lock-open text-success w-25"></i>
+             <span className="   w-75 darkBlue">Unblock</span>
+      </div>
+            :
           <div className="d-flex   justify-content-center align-items-center w-75  gap-2 ">
-            <i className={`fa-solid fa-trash darkBlue w-25`}></i>
-            <span className="   w-75 darkBlue">Delete</span>
+                 <i className="fa-solid fa-user-slash text-danger w-25"></i>
+                 <span className="   w-75 darkBlue">Block</span>
           </div>
+            }
+       
         </MenuItem>
       </Menu>
     </div>

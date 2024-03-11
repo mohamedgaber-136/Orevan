@@ -41,7 +41,7 @@ export const Dashboard = () => {
   }, [data]);
   return (
     <div className="d-flex flex-column gap-4 align-items-start ">
-      <div className="container">
+      <div className="container-fluid container-md">
         <h2 className="my-3">
           Hi ,
           {localStorage.getItem("User")
@@ -50,7 +50,7 @@ export const Dashboard = () => {
         </h2>
         <div className="d-flex  justify-content-between align-item-center w-100">
           <div className="   d-flex flex-column gap-2  align-items-start DashboardTableParen w-100">
-            <div className="d-flex align-items-center justify-content-start gap-2 w-100  ">
+            <div className="d-flex align-items-center justify-content-start gap-2 w-100 flex-md-row flex-column ">
               
               {WeeksInfo.map((item, ind) => (
                 <WeekEeventsCard

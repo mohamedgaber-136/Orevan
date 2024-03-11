@@ -40,6 +40,7 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
           icon: "success",
         });
         await deleteDoc(ref);
+
         await setDoc(doc(SubscribersDeletedRef, id), {
           event: dbID,
           ID: id,

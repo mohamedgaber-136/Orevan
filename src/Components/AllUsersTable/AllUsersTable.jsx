@@ -72,11 +72,17 @@ export default function AllUsersTable({ row }) {
       label: "Phone Number",
     },
     {
+      id: "Status",
+      numeric: true,
+      disablePadding: false,
+      label: "Status",
+    },
+    {
       id: "Settings",
       numeric: true,
       disablePadding: false,
       label: "",
-    },
+    }
    
   ];
 
@@ -249,13 +255,27 @@ export default function AllUsersTable({ row }) {
                       key={row.ID}
                       selected={isItemSelected}
                       sx={{ cursor: "pointer" }}
-                      className="align-items-center"
+                      className='align-items-center'
                     >
                    
-                      <TableCell align="center">{row.Name}</TableCell>
-                      <TableCell align="center">{row.Email}</TableCell>
-                      <TableCell align="center">{row.PhoneNumber}</TableCell>
-                      {/* <TableCell align="center"><UsersSettings /></TableCell> */}
+                      <TableCell      align="center">
+                       
+                        {row.Name}
+                          </TableCell>
+                      <TableCell      align="center">
+                 
+                        {row.Email}
+                        </TableCell>
+                      <TableCell     align="center">
+                        
+                       
+                    
+                        {row.PhoneNumber}
+                        </TableCell>
+                      <TableCell align="center">
+                      {row.Condition.Blocked?<b className='text-danger'>Blocked</b>:<b className='text-success'>Active</b>}
+                      </TableCell>
+                      <TableCell align="center"><UsersSettings row={row} /></TableCell>
                      
                     </TableRow>
                   );

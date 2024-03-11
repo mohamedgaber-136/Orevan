@@ -6,8 +6,8 @@ export const ProfileNav = () => {
   const navigate = useNavigate();
 
   return (
-    <div className=" d-flex justify-content-between flex-column container align-items-end gap-2">
-      <div className="d-flex ProfileNavParen justify-content-end  container align-items-center  gap-3">
+    <div className=" d-flex justify-content-between flex-column container-fluid container-md align-items-end gap-2">
+      <div className="d-flex ProfileNavParen justify-content-end  container-fluid container-md align-items-center  gap-3">
         <AlertBadge />
         <BinBadge />
         <ProfileMenu />

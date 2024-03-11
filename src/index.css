@@ -379,3 +379,10 @@ top: -10px !important;
 .css-1h51icj-MuiAutocomplete-root .MuiOutlinedInput-root{
   padding: 5px !important;
 }
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+  padding: 10px 32px !important;
+}
+.BlockedACC{
+  background-color: #97180a  !important;
+  color: white !important;
+}

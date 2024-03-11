@@ -6,7 +6,7 @@
 }
 @media(max-width:768px){
     .WeekEeventsCard{
-        width: 33%;
+        width: 80% !important;
         height: auto;
     }
 }

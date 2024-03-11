@@ -5,7 +5,6 @@ import loginBg from "../../assets/LoginBg.png";
 import leftLogo from "../../assets/LoadingLogo.png";
 import rightlogo from "../../assets/Logo2.png";
 import "./Login.css";
-import bcrypt from "bcryptjs";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useNavigate } from "react-router-dom";
@@ -13,19 +12,15 @@ import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { Formik, Form } from "formik";
 import { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
 const Login = () => {
   const navigation = useNavigate();
   const [error, setError] = useState(false);
   const [errorRegist, seterrorRegist] = useState(false);
-  const { auth, database, currentUsr,FinaleUser } = useContext(FireBaseContext);
+  const [BlockedErrorMsg, setBlockedErrorMsg] = useState(false);
+  const { auth, database, currentUsr, FinaleUser } = useContext(
+    FireBaseContext
+  );
   const [ShowSpinning, setShowSpinning] = useState(false);
 
   const formData = [
@@ -41,24 +36,50 @@ const Login = () => {
   const UsersRef = collection(database, "Users");
   const LoginFunc = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, e.target[0].value, e.target[2].value)
-      .then(async (res) => {
-        setError(false);
-        setShowSpinning(true);
-      })
-      .catch((error) => setError(true));
-  };
-
-  useEffect(() => {
-    if (currentUsr && currentUsr !== "init") {
-      // if(FinaleUser.Condition.Active){
-        // }else{
-          //   auth.signOut();     
-          //   console.log('this Account blocked')
-          //  }
-            navigation(`/app`);
+  const acc =  query(UsersRef, where("Email", "==",  e.target[0].value));
+  const Res = await getDocs(acc)
+  const UserId = Res.docs[0].data()
+if(!UserId.Condition.Blocked){
+  signInWithEmailAndPassword(auth, e.target[0].value, e.target[2].value)
+  .then(async (res) => {
+    setError(false);
+    setShowSpinning(true);
+    navigation(`/app`);
+    setBlockedErrorMsg(false)
+   
+  })
+  .catch((error) => setError(true));
+    }else{
+      setBlockedErrorMsg(true)
     }
-  }, [currentUsr]);
+
+  };
+ // if (!FinaleUser.Condition.Blocked) {
+        //   navigation(`/app`);
+        //   console.log("done");
+        //   setBlockedErrorMsg(false);
+        // } else {
+        //   console.log("this Account blocked");
+        //   setBlockedErrorMsg(true);
+        //   auth.signOut();
+        // }
+        // navigation(`/app`);
+  // };
+  // if(UserId.Condition.Blocked){
+  //   navigation(`/app`);
+  //   console.log('done')
+  //   setBlockedErrorMsg(false)
+  //   }else{
+  //     console.log(FinaleUser.Condition.Active,'this Account blocked')
+  //     setBlockedErrorMsg(true)
+  //   }
+  // useEffect(() => {
+  //   if (currentUsr && currentUsr !== "init") {
+  //       navigation(`/app`);
+
+  //       // auth.signOut();
+  //   }
+  // }, [currentUsr]);
 
   return (
     <div className="d-flex justify-content-around vh-100 flex-column align-items-center flex-column ">
@@ -88,10 +109,13 @@ const Login = () => {
                           className=" py-0 rounded rounded-1 w-100"
                           type={`${item.type}`}
                           placeholder={`Enter Your ${item.label}`}
-                          
                         />
                       </div>
                     ))}
+                    <div className="text-danger p-2">
+                      {BlockedErrorMsg &&
+                        "This Account Blocked from The System"}
+                    </div>
                     <div className="d-flex justify-content-between align-items-center">
                       <FormControlLabel
                         className="RememberMeLabel"

@@ -20,37 +20,54 @@ export const Events = () => {
   }, []);
 
   useEffect(() => {
-      // هنا عملنا تغيير من غير ReRender
-      const date = new Date().getTime();
-      const fetchDataForItems = async () => {
-        const promises = informations.map(async (item) => {
-          const data = doc(EventRefrence, item.ID);
-          const eventSubscribersCollec = collection(data, "Subscribers");
-          const subNm = await getDocs(eventSubscribersCollec);
-          const NumberOfSubScribers = subNm.docs.length;
-          const EndTime = new Date(item.EndDate).getTime();
-          const StartTime = new Date(item.StartDate).getTime();
-          if (StartTime > date) {
-            item.Status = "Pending";
-          } else if (date > StartTime && EndTime > date) {
-            item.Status = "Started";
-          } else if (date > EndTime) {
-            item.Status = "Completed";
-          }
-          item.EventCost = NumberOfSubScribers * item.CostperDelegate;
-          return item;
-        });
-        const results = await Promise.all(promises);
-        setEvents(results);
-      };
-      fetchDataForItems();
-    
+    // هنا عملنا تغيير من غير ReRender
+    const date = new Date().getTime();
+    const fetchDataForItems = async () => {
+      const promises = informations.map(async (item) => {
+        const data = doc(EventRefrence, item.ID);
+        const eventSubscribersCollec = collection(data, "Subscribers");
+        const subNm = await getDocs(eventSubscribersCollec);
+        const NumberOfSubScribers = subNm.docs.length;
+        const EndTime = new Date(item.EndDate).getTime();
+        const StartTime = new Date(item.StartDate).getTime();
+        if (StartTime > date) {
+          item.Status = "Pending";
+        } else if (date > StartTime && EndTime > date) {
+          item.Status = "Started";
+        } else if (date > EndTime) {
+          item.Status = "Completed";
+        }
+        item.EventCost = NumberOfSubScribers * item.CostperDelegate;
+        return item;
+      });
+      const results = await Promise.all(promises);
+      setEvents(results);
+    };
+    fetchDataForItems();
   }, [informations]);
 
   return (
-    <div className="d-flex flex-column container gap-3 EventsPageParent ">
+    <div className="d-flex flex-column container-fluid container-md gap-3 EventsPageParent ">
       <h2>Events</h2>
-      <DataTable row={events} />
+      {!informations.length ? (
+        <div
+          className="w-100 d-flex justify-content-center align-items-center   "
+          style={{ height: "calc(100vh - 150px) " }}
+        >
+          <div className="dot-spinner ">
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+            <div className="dot-spinner__dot"></div>
+          </div>
+        </div>
+      ) : (
+        <DataTable row={events} />
+      )}
     </div>
   );
 };

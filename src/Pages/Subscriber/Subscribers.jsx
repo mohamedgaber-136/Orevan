@@ -15,7 +15,7 @@ export const Subscribers = () => {
     getData(infoCollection, setSubscribers);
   }, [dbID]);
   return (
-    <div className="EventsPageParent d-flex flex-column container gap-3  ">
+    <div className="EventsPageParent d-flex flex-column container-fluid container-md gap-3  ">
       <h2>Subscribers</h2>
       <div className="d-flex justify-content-center">
         <ChosenCard />
