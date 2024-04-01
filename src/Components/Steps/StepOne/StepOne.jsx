@@ -22,7 +22,7 @@ export const StepOne = () => {
     City: newEvent.City.length !== 0 ? "" : "",
     EndDate: newEvent.EndDate ? "" : "",
     TransferOfValue: newEvent.TransferOfValue.length !== 0 ? "" : "",
-    P3: newEvent.P3 ? "" : "",
+    P3: newEvent.BeSure ? "" : "",
     PO: newEvent.PO ? "" : "",
     Franchise: newEvent.Franchise ? "" : "",
     DateEndHours: newEvent.DateEndHours ? "" : "",
@@ -93,14 +93,14 @@ export const StepOne = () => {
             </div>
             <div className="errorParent col-md-6 col-12 ">
               <TextField
-                name={"P3"}
-                label={<b>P3</b>}
+                name={"BeSure"}
+                label={<b>BeSure</b>}
                 focused
-                defaultValue={newEvent.P3}
+                defaultValue={newEvent.BeSure}
                 className="w-100"
                 onChange={getData}
               />
-              <small className="text-danger errorMsg">{formErrors.P3}</small>
+              <small className="text-danger errorMsg">{formErrors.BeSure}</small>
             </div>
             <div className="errorParent col-md-6 col-12  ">
               <MultipleSelection

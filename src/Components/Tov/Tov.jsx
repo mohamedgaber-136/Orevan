@@ -21,6 +21,8 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
     { types: "Medical Utlitities", value: 0 },
     { types: "CME Hours", value: 0 },
     { types: "Transportation", value: 0 },
+    { types: "Visa ", value: 0 },
+    { types: "Flights", value: 0 },
   ];
 
   return (

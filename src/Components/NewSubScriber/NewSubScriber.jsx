@@ -119,65 +119,37 @@ export const NewSubScriber = ({ id, handleClose }) => {
   }, [dbID]);
 
   const handleFormSubmit = async (values) => {
-    // e.preventDefault();
-
-    // const newData = { id: randomXToY(1, 100000000) };
-
-    // NewSubScriberInputs.map(({ name }) => {
-    //   if (name == "PhoneNumber") {
-    //     newData[name] = `${countryCode}${e.target[name].value}`;
-    //   } else {
-    //     newData[name] = e.target[name].value;
-    //   }
-    // });
-
-    // console.log(newData, "newData");
-
-    // const data = {
-    //   id: randomXToY(1, 100000000),
-    //   FirstName: e.target[2].value,
-    //   LastName: e.target[4].value,
-    //   Email: e.target[6].value,
-    //   NationalID: e.target[0].value,
-    //   PhoneNumber: e.target[8].value,
-    //   Speciality: e.target[10].value,
-    //   Organization: e.target[12].value,
-    //   LicenseID: e.target[14].value,
-    //   MedicalID: e.target[16].value,
-    //   City: e.target[18].value,
-    // };
-
     const data = { ...values };
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
-    if (checkUser) {
-      setErrorMsg(true);
-    } else {
-      swal({
-        text: `Subscriber ${data.Email} added successfully `,
-        icon: "success",
-      }).then(async () => {
-        const eventRef = await getDoc(ref);
-        const eventData = eventRef.data();
-        data["CostPerDelegate"] = eventData.CostperDelegate;
-        data["TransferOfValue"] = eventData.TransferOfValue;
-        setErrorMsg(false);
-        await addDoc(subscriberCollection, data);
-        await addDoc(SubCollection, data);
-        setShowAddNeWSub(false);
-        handleClose();
-      });
-    }
+    console.log(data)
+    // if (checkUser) {
+    //   setErrorMsg(true);
+    // } else {
+    //   swal({
+    //     text: `Subscriber ${data.Email} added successfully `,
+    //     icon: "success",
+    //   }).then(async () => {
+    //     const eventRef = await getDoc(ref);
+    //     const eventData = eventRef.data();
+    //     data["CostPerDelegate"] = eventData.CostperDelegate;
+    //     data["TransferOfValue"] = eventData.TransferOfValue;
+    //     setErrorMsg(false);
+    //     await addDoc(subscriberCollection, data);
+    //     await addDoc(SubCollection, data);
+    //     setShowAddNeWSub(false);
+    //     handleClose();
+    //   });
+    // }
   };
 
   const handleInputChange = (name, value, formValues, setFormValues) => {
     let isAutoCompleted = false;
     // is the national id primary one
-    if (name == "NationalID" && value.length >= 7) {
+    if (name === "NationalID" && value.length >= 7) {
       const matchingItem = user.find(
-        (item) => String(item.NationalID).toLowerCase() == value.toLowerCase()
+        (item) => String(item.NationalID).toLowerCase() === value.toLowerCase()
       );
-
       if (matchingItem) {
         isAutoCompleted = true;
         // setAutoFilledUser({ ...matchingItem });
@@ -212,42 +184,29 @@ export const NewSubScriber = ({ id, handleClose }) => {
       {({ values, setValues }) => (
         <>
           <Form
-            // onSubmit={onsubmit}
-            className="bg-white rounded  NewSubScriberForm"
-            // className="d-flex p-3 bg-white rounded  flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm"
+            className="bg-white rounded  NewSubScriberForm "
           >
             <h3 className="px-lg-3 px-1">
               <BreadCrumbs id={id} sub={"Subscriber"} />
             </h3>
             <div
-              // className="w-100 gap-3 row justify-content-between mt-3 border border-success"
               className="w-100 gap-2 d-flex flex-wrap justify-content-evenly mt-3 pt-2"
             >
               {NewSubScriberInputs.map((item, index) => (
                 <div
-                  // pe-0
                   className="col-12 col-md-5 p-1"
-                  // className="w-50  flex-column align-items-center   d-flex justify-content-center"
                   key={`${item.label}-${index}`}
                 >
-                  <div className="text-danger ps-5 align-self-start mb-2">
-                    <ErrorMessage name={item.name} />
-                  </div>
+                
                   <Field
                     as={TextField}
                     label={item.label}
                     id={index}
-                    sx={
-                      {
-                        // m: 1,
-                        // width: "25ch",
-                      }
-                    }
                     focused
                     type={item.type}
                     className={`w-100  ${
-                      item.name == "PhoneNumber" &&
-                      "border border-secondary form-control p-2"
+                      item.name === "PhoneNumber" &&
+                      "border border-secondary form-control "
                     }`}
                     name={item.name}
                     value={values[item.name]}
@@ -260,29 +219,27 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       )
                     }
                     InputProps={{
-                      startAdornment: item.name == "PhoneNumber" && (
+                      startAdornment: item.name === "PhoneNumber" && (
                         <InputAdornment position="start">
                           {countryCode}
                         </InputAdornment>
                       ),
                     }}
                   />
+                    <div className="text-danger  align-self-start  mb-3">
+                    <ErrorMessage name={item.name} />
+                  </div>
                 </div>
               ))}
 
               <div className="w-50 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
-                {/* <div
-                 className="w-50 d-flex justify-content-center p-1 pt-3" 
-                 // className="w-50 d-flex justify-content-center"
-               > */}
+               
                 <button
                   type="submit"
                   className="w-75 p-2 rounded rounded-2 border-0 border text-white"
-                  // className="w-75 p-1 m-2 rounded rounded-2 border-0 border text-white"
                 >
                   Save
                 </button>
-                {/* </div> */}
                 {errorMsg && (
                   <div className="w-50 text-danger d-flex justify-content-center align-items-center">
                     <small>This Email already Registerd</small>

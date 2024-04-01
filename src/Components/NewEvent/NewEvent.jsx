@@ -58,7 +58,7 @@ export default function NewEvent() {
       if (
         newEvent.EventName === "" ||
         newEvent.PO === "" ||
-        newEvent.P3 === "" ||
+        newEvent.BeSure === "" ||
         newEvent.Franchise === "" ||
         newEvent.DateFromHours === "" ||
         newEvent.DateEndHours === "" ||
@@ -130,7 +130,7 @@ export default function NewEvent() {
       Franchise: "",
       Id: "",
       City: [],
-      P3: "",
+      BeSure: "",
       TransferOfValue: [],
       CreatedAt: new Date().toLocaleString(),
       StartDate: "",
