@@ -123,24 +123,24 @@ export const NewSubScriber = ({ id, handleClose }) => {
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
     console.log(data)
-    // if (checkUser) {
-    //   setErrorMsg(true);
-    // } else {
-    //   swal({
-    //     text: `Subscriber ${data.Email} added successfully `,
-    //     icon: "success",
-    //   }).then(async () => {
-    //     const eventRef = await getDoc(ref);
-    //     const eventData = eventRef.data();
-    //     data["CostPerDelegate"] = eventData.CostperDelegate;
-    //     data["TransferOfValue"] = eventData.TransferOfValue;
-    //     setErrorMsg(false);
-    //     await addDoc(subscriberCollection, data);
-    //     await addDoc(SubCollection, data);
-    //     setShowAddNeWSub(false);
-    //     handleClose();
-    //   });
-    // }
+    if (checkUser) {
+      setErrorMsg(true);
+    } else {
+      swal({
+        text: `Subscriber ${data.Email} added successfully `,
+        icon: "success",
+      }).then(async () => {
+        const eventRef = await getDoc(ref);
+        const eventData = eventRef.data();
+        data["CostPerDelegate"] = eventData.CostperDelegate;
+        data["TransferOfValue"] = eventData.TransferOfValue;
+        setErrorMsg(false);
+        await addDoc(subscriberCollection, data);
+        await addDoc(SubCollection, data);
+        setShowAddNeWSub(false);
+        handleClose();
+      });
+    }
   };
 
   const handleInputChange = (name, value, formValues, setFormValues) => {
