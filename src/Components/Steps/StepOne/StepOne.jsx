@@ -10,12 +10,13 @@ import TimePicker from "../../timePicker/TimePicker";
 import { FranchisedropDown } from "./FranchisedropDown";
 import Tov from "../../Tov/Tov";
 import DatePickerInput from "../../DatePickerInput/DatePickerInput";
+import { onSnapshot } from "firebase/firestore";
 export const StepOne = () => {
-  const { newEvent, setNewEvent } = useContext(FireBaseContext);
+  const { newEvent, setNewEvent ,Cities} = useContext(FireBaseContext);
   const [amexNumber, setAmexNumber] = useState(false);
   const [CPD, SetCPD] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
-
+  const [items, setItem] = useState([]);
   const [formErrors, setFormErrors] = useState({
     EventName: newEvent.EventName ? "" : "",
     CreatedAt: newEvent.StartDate ? "" : "",
@@ -28,7 +29,7 @@ export const StepOne = () => {
     DateEndHours: newEvent.DateEndHours ? "" : "",
     DateFromHours: newEvent.DateFromHours ? "" : "",
   });
-  const getData = (e) => {
+  const getDatas = (e) => {
     setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
     if (e.target.value) {
       setFormErrors({ ...formErrors, [e.target.name]: "" });
@@ -47,12 +48,26 @@ export const StepOne = () => {
       return 0;
     }
   };
+  
   useEffect(() => {
     setNewEvent({ ...newEvent, CostperDelegate: CPD });
   }, [CPD]);
   useEffect(() => {
     TovSum();
   }, [selectedOptions]);
+
+  const getData = (CollectionType, SetItem) => {
+    const returnedValue = onSnapshot(CollectionType, (snapshot) => {
+      const newData = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+      }));
+      SetItem(newData[0].data);
+    })}
+
+
+  useEffect(()=>{
+    getData(Cities,setItem)
+  },[])
   return (
     <div>
       <Formik>
@@ -74,7 +89,7 @@ export const StepOne = () => {
                 focused
                 defaultValue={newEvent.EventName}
                 className={`w-100 `}
-                onChange={getData}
+                onChange={getDatas}
               />
               <small className="text-danger errorMsg">
                 {formErrors.EventName}
@@ -87,7 +102,7 @@ export const StepOne = () => {
                 focused
                 className="w-100"
                 defaultValue={newEvent.PO}
-                onChange={getData}
+                onChange={getDatas}
               />
               <small className="text-danger errorMsg">{formErrors.PO}</small>
             </div>
@@ -98,7 +113,7 @@ export const StepOne = () => {
                 focused
                 defaultValue={newEvent.BeSure}
                 className="w-100"
-                onChange={getData}
+                onChange={getDatas}
               />
               <small className="text-danger errorMsg">{formErrors.BeSure}</small>
             </div>
@@ -106,7 +121,7 @@ export const StepOne = () => {
               <MultipleSelection
                 type="City"
                 label="City"
-                list={City}
+                list={items}
                 SetError={setFormErrors}
                 formErrors={formErrors}
               />

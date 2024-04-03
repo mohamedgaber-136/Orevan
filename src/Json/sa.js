@@ -1,4 +1,4 @@
-export const City =  [
+ const Cities =  [
   {
     "types": "Riyadh", 
     "lat": "24.6333", 
@@ -660,3 +660,6 @@ export const City =  [
     "population_proper": "21983"
   }
 ]
+export const City = Cities.map((item)=>{
+  return {types: item.types}
+})

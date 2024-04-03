@@ -25,7 +25,7 @@ export default function MultipleSelection({
     setValues([...valus, newCity]);
   };
   return (
-    <Stack spacing={3} sx={{ width: 500 }} className="errorParent  ">
+    <Stack spacing={3} sx={{ width: 500 }} className="errorParent OthersParent  ">
       <Autocomplete
         multiple
         id="tags-outlined"

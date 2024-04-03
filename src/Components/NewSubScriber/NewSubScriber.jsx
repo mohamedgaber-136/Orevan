@@ -93,9 +93,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
     FirstName: Yup.string().min(3, "too short").required("Required"),
     LastName: Yup.string().min(3, "too short").required("Required"),
     Email: Yup.string().email("Enter Valid Email").required("Required"),
-    NationalID: Yup.string().required("Required"),
+    NationalID: Yup.string().min(10,'must be 10 numbers ').max(10,'must be 10 numbers').required("Required"),
     PhoneNumber: Yup.string()
-      .min(7, "too short")
+      .min(9, "too short")
       .typeError("enter Valid phone Number")
       .required("Required"),
     Speciality: Yup.string().required("Required"),

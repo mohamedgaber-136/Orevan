@@ -65,6 +65,7 @@ const FireBaseContextProvider = ({ children }) => {
   const SubscribersRef = collection(database, "Subscribers");
   const EventsDeletedRef = collection(database, "EventsDeleted");
   const SubscribersDeletedRef = collection(database, "SubscribersDeleted");
+  const Cities = collection(database, "Cities");
   //  Authentication
   const auth = getAuth(app);
   // GetData from FireBase
@@ -164,6 +165,7 @@ const FireBaseContextProvider = ({ children }) => {
         triggerNum,
         setTriggerNum,
         getData,
+        Cities,
         FinaleUser,
         Subscribers,
         SubscribersRefrence,
