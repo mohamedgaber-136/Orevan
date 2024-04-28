@@ -27,9 +27,9 @@ export const PreviewCard = () => {
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
-              <b>P3:</b>
+              <b>BeSure:</b>
             </p>
-            <p className="m-0">{newEvent.P3}</p>
+            <p className="m-0">{newEvent.BeSure}</p>
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">

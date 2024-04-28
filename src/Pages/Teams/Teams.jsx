@@ -21,12 +21,14 @@ export const Teams = () => {
               name: item.id.replace("Franchise", " Franchise"),
               data: RefData,
             };
+            
             return data;
           })
         )
       )
     );
   };
+  console.log(collectionKeys,'collectionKeyss')
   useEffect(() => {
     getValue();
   }, []);

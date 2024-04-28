@@ -47,22 +47,39 @@ const FireBaseContextProvider = ({ children }) => {
     Policies:
       ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this ',
   });
+  // orevan old config --------------------------------------------------
+  // const firebaseConfig = {
+  //   apiKey: "AIzaSyBckxAp9_24tLxViaY6yX5BUln07nUk2sM",
+  //   authDomain: "novartis-f3745.firebaseapp.com",
+  //   projectId: "novartis-f3745",
+  //   storageBucket: "novartis-f3745.appspot.com",
+  //   messagingSenderId: "904353795718",
+  //   appId: "1:904353795718:web:25f35b4c6c5f25688f8b07",
+  //   measurementId: "G-2LMZXPR3L4",
+  // };
+// Orevan Config New ----------------------------------------------------------------------------------------------------
   const firebaseConfig = {
-    apiKey: "AIzaSyBckxAp9_24tLxViaY6yX5BUln07nUk2sM",
-    authDomain: "novartis-f3745.firebaseapp.com",
-    projectId: "novartis-f3745",
-    storageBucket: "novartis-f3745.appspot.com",
-    messagingSenderId: "904353795718",
-    appId: "1:904353795718:web:25f35b4c6c5f25688f8b07",
-    measurementId: "G-2LMZXPR3L4",
+    apiKey: "AIzaSyCVvf3gBWoTTvErXwWNbeWWW8aLfx9S5Ag",
+    authDomain: "orevanreg.firebaseapp.com",
+    databaseURL: "https://orevanreg.firebaseio.com",
+    projectId: "orevanreg",
+    storageBucket: "orevanreg.appspot.com",
+    messagingSenderId: "882583903364",
+    appId: "1:882583903364:web:1d5c38ff461bb5f4e0f6d1",
+    measurementId: "G-FRHV1QQFS9"
   };
   const app = initializeApp(firebaseConfig);
   const database = getFirestore(app);
-  const EventRefrence = collection(database, "Event");
+  // oldRef ---------------------------
+  // const EventRefrence = collection(database, "Event");
+  // newref  -------------------------------------
+  const EventRefrence = collection(database, "eventsTemp");
+  // old ref ----------------------------
+  // const SubscribersRefrence = collection(database, "Subscribers");
+  // newref  -------------------------------------
+  const SubscribersRefrence = collection(database, "registeredUsersTemp");
   const TeamsRefrence = collection(database, "Teams");
-  const SubscribersRefrence = collection(database, "Subscribers");
   const UserRef = collection(database, "Users");
-  const SubscribersRef = collection(database, "Subscribers");
   const EventsDeletedRef = collection(database, "EventsDeleted");
   const SubscribersDeletedRef = collection(database, "SubscribersDeleted");
   const Cities = collection(database, "Cities");
@@ -108,9 +125,9 @@ const FireBaseContextProvider = ({ children }) => {
         setUser(user)
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
-        localStorage.setItem("User", JSON.stringify(finaleUser.data()));
         setFinaleUser(finaleUser.data())
         setCurrentUserRole(finaleUser.data().Role);
+        localStorage.setItem("User", JSON.stringify(finaleUser.data()));
         eventsQueryAccordingToUserRole(finaleUser.data().Role, user.uid);
       } else {
         // setLoading(true);
@@ -186,7 +203,7 @@ const FireBaseContextProvider = ({ children }) => {
         saveNotificationToFirebase,
         UserRef,
         eventsQueryAccordingToUserRole,
-        SubscribersRef,
+        
       }}
     >
       {!loading && children}

@@ -59,13 +59,13 @@ if(!UserId.Condition.Blocked){
   }
   };
 
-  // useEffect(() => {
-  //   if (currentUsr && currentUsr !== "init") {
-  //       navigation(`/app`);
+  useEffect(() => {
+    if (currentUsr && currentUsr !== "init") {
+        navigation(`/app`);
 
-  //       // auth.signOut();
-  //   }
-  // }, [currentUsr]);
+        // auth.signOut();
+    }
+  }, [currentUsr]);
 
   return (
     <div className="d-flex justify-content-around vh-100 flex-column align-items-center flex-column ">

@@ -206,9 +206,10 @@ export default function TeamsTable({ row }) {
           />
           <TableBody>
             {visibleRows?.map((row, index) => {
+              console.log(row,'data')
               const isItemSelected = isSelected(row.ID);
               const labelId = `enhanced-table-checkbox-${index}`;
-              if (row.data.length) {
+              if (row.data) {
                 return (
                   <TableRow
                     hover
@@ -221,7 +222,10 @@ export default function TeamsTable({ row }) {
                     sx={{ cursor: "pointer" }}
                   >
                     <TableCell align="left" className="TabelCoulmTeams">
-                      {row.name}
+                   <b>
+                       {row.name}
+
+                    </b>
                     </TableCell>
                     <TableCell align="left" className="TabelCoulmTeams">
                       {row.data.length}

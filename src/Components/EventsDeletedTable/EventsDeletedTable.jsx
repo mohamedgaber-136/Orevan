@@ -304,8 +304,6 @@ export default function EventsDeletedTable() {
                   selected={isItemSelected}
                   sx={{ cursor: "pointer" }}
                 >
-               
-
                   <TableCell align="center">{rowItem.Id}</TableCell>
                   <TableCell align="center">{rowItem.EventName}</TableCell>
                   <TableCell align="center">{rowItem.Franchise}</TableCell>

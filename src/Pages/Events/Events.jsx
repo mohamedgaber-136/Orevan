@@ -14,9 +14,10 @@ export const Events = () => {
   } = useContext(FireBaseContext);
   const [informations, setInformations] = useState([]);
   useEffect(() => {
-    if (currentUserRole) {
+    // if (currentUserRole) {
+    //   getData(eventsQueryAccordingToUserRole(), setInformations);
+    // }
       getData(eventsQueryAccordingToUserRole(), setInformations);
-    }
   }, []);
 
   useEffect(() => {
@@ -41,11 +42,13 @@ export const Events = () => {
         return item;
       });
       const results = await Promise.all(promises);
-      setEvents(results);
+      
+      // setEvents(results);
+      setEvents(results.slice(86));
     };
     fetchDataForItems();
   }, [informations]);
-
+console.log(events,'events')
   return (
     <div className="d-flex flex-column container-fluid container-md gap-3 EventsPageParent ">
       <h2>Events</h2>

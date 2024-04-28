@@ -115,6 +115,12 @@ export default function DataTable({ row }) {
       label: "Start Date",
     },
     {
+      id: "endDate",
+      numeric: true,
+      disablePadding: false,
+      label: "end Date ",
+    },
+    {
       id: "CreatedAt",
       numeric: true,
       disablePadding: false,
@@ -197,14 +203,18 @@ export default function DataTable({ row }) {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const statusCase = (status) => {
-    if (status === "Completed") {
-      return "bg-danger";
-    } else if (status === "Started") {
-      return "darkBlue";
-    } else {
-      return "bg-warning";
-    }
+  const statusCase = (start,end) => {
+     const currentDate = new Date();
+     start = new Date(start);
+     end = new Date(end);
+   
+    if (start > currentDate) {
+      return {status:'Pending',color:'bg-warning'};
+  } else if (start <= currentDate && end >= currentDate) {
+      return {status:'Started',color:'bg-success'}
+  } else {
+      return {status:'Ended',color:'bg-danger'};
+  }
   };
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -476,6 +486,14 @@ export default function DataTable({ row }) {
                     }
                     align="left"
                   >
+                    {rowItem.EndDate}
+                  </TableCell>
+                  <TableCell
+                    onClick={() =>
+                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                    }
+                    align="left"
+                  >
                     {rowItem.CreatedAt}
                   </TableCell>
                   <TableCell
@@ -486,10 +504,12 @@ export default function DataTable({ row }) {
                   >
                     <span
                       className={`${statusCase(
-                        rowItem.Status
-                      )} text-white p-2 rounded `}
+                        rowItem.eventDate,
+                        rowItem.endDate
+                      ).color} text-white p-2 rounded `}
                     >
-                      {rowItem.Status}
+                      {statusCase(   rowItem.eventDate,
+                        rowItem.endDate).status}
                     </span>
                   </TableCell>
                 </TableRow>

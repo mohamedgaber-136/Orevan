@@ -1,5 +1,4 @@
 import { Formik, Form } from "formik";
-import { City } from "../../../Json/sa";
 import TextField from "@mui/material/TextField";
 import "./StepOneStyle.css";
 import { useContext, useEffect, useState } from "react";
@@ -118,6 +117,7 @@ export const StepOne = () => {
               <small className="text-danger errorMsg">{formErrors.BeSure}</small>
             </div>
             <div className="errorParent col-md-6 col-12  ">
+              
               <MultipleSelection
                 type="City"
                 label="City"
