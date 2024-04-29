@@ -29,8 +29,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
     PhoneNumber: "",
     Speciality: "",
     Organization: "",
-    LicenseID: "",
-    MedicalID: "",
+    MedicalLicense    : "",
     City: "",
     CostPerDelegate: 0,
     TransferOfValue: [],
@@ -72,15 +71,11 @@ export const NewSubScriber = ({ id, handleClose }) => {
       type: "text",
       name: "Organization",
     },
+   
     {
-      label: "License ID",
+      label: "Medical License",
       type: "number",
-      name: "LicenseID",
-    },
-    {
-      label: "Medical ID",
-      type: "number",
-      name: "MedicalID",
+      name: "MedicalLicense",
     },
     {
       label: "City",
@@ -232,7 +227,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
                 </div>
               ))}
 
-              <div className="w-50 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
+              <div className="col-12 col-md-5 p-1 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
                
                 <button
                   type="submit"

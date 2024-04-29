@@ -101,11 +101,11 @@ export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell>{row.Id}</TableCell>
-              <TableCell>{row.EventName}</TableCell>
+              <TableCell>{row.eventName}</TableCell>
 
               <TableCell>{row.Franchise}</TableCell>
               <TableCell>{row.CreatedAt}</TableCell>
-              <TableCell>{row.EndDate}</TableCell>
+              <TableCell>{row.endDate}</TableCell>
             </TableRow>
           ))}
         </TableBody>

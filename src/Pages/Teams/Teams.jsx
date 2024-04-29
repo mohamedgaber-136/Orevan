@@ -5,6 +5,7 @@ import { getDocs, query, onSnapshot, where } from "firebase/firestore";
 export const Teams = () => {
   const { TeamsRefrence, EventRefrence } = useContext(FireBaseContext);
   const [collectionKeys, setCollectionKeys] = useState([]);
+
   const getValue = async () => {
     const retinaRef = onSnapshot(TeamsRefrence, async (snapshot) =>
       setCollectionKeys(
@@ -28,10 +29,13 @@ export const Teams = () => {
       )
     );
   };
-  console.log(collectionKeys,'collectionKeyss')
   useEffect(() => {
     getValue();
   }, []);
+
+
+  console.log(collectionKeys,'collectionKeyss')
+
   if (collectionKeys.length) {
     return (
       <div className="d-flex flex-column container-fluid container-md gap-3 EventsPageParent ">

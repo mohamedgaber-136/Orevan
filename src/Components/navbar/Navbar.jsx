@@ -49,11 +49,11 @@ export const Navbar = ({ navAppear }) => {
       data: "Events",
       nav: "events",
     },
-    // isAllowedUser && {
-    //   icon: "fa-solid fa-users",
-    //   data: "Teams",
-    //   nav: "teams",
-    // },
+    isAllowedUser && {
+      icon: "fa-solid fa-users",
+      data: "Teams",
+      nav: "teams",
+    },
     isAllowedUser && {
       icon: "fa-solid fa-users-viewfinder",
       data: "Users",

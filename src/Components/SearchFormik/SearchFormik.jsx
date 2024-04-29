@@ -12,10 +12,10 @@ export const SearchFormik = ({ rows, setRows }) => {
     new Date().toISOString().split("T")[0]
   );
   const [search, setSearch] = useState("");
-  const [filterType, setfilterType] = useState("StartDate");
+  const [filterType, setfilterType] = useState("eventDate");
   const options = [
-    { types: " None", value: null },
-    { types: " Registration Fees", value: 0 },
+    { types: "None", value: null },
+    { types: "Registration Fees", value: 0 },
     { types: "Meals ", value: 0 },
     { types: "Accommodation", value: 0 },
     { types: "Medical Utlitities", value: 0 },
@@ -34,6 +34,7 @@ export const SearchFormik = ({ rows, setRows }) => {
   };
   const handleChangeTov = (event) => {
     setTov(event.target.value);
+    console.log(event.target.value)
   };
 
   const onSubmit = () => {
@@ -61,19 +62,18 @@ export const SearchFormik = ({ rows, setRows }) => {
 
     console.log(filtered, "filtered");
     let finalFilterd = filtered.filter((item) =>
-      Object.values(item).some((value) =>
-        String(value).toLowerCase().includes(search.toLowerCase())
-      )
-    );
+    Object.values(item).some((value) =>
+      String(value).toLowerCase().includes(search.toLowerCase())
+    )
+  );
 
-    console.log(finalFilterd, "finalFilterd");
+  // Filter data based on selected TOV type
+  let finalFilterdTov = filtered.filter(({ TransferOfValue }) =>
+    TransferOfValue.some((item) => item.types.includes(TovType))
+  );
 
-    let finalFilterdTov = filtered.filter(
-      ({ TransferOfValue }) =>
-        TransferOfValue.filter((item) => item.types.includes(TovType)).length
-    );
-    console.log(finalFilterdTov, "finalFilterdTov");
-    setRows(TovType==='None' ? finalFilterdTov : finalFilterd);
+  // Set the rows based on the selected TOV type
+  setRows(TovType === 'None' ? finalFilterd : finalFilterdTov);
   };
   const BtnCheck = (e) => {
     setSearch(e.target.value);
@@ -147,8 +147,8 @@ export const SearchFormik = ({ rows, setRows }) => {
                     onChange={handleChange}
                   >
                     <MenuItem value={"CreatedAt"}>Created at</MenuItem>
-                    <MenuItem value={"StartDate"}>Started at</MenuItem>
-                    <MenuItem value={"EndDate"}>End at</MenuItem>
+                    <MenuItem value={"eventDate"}>Started at</MenuItem>
+                    <MenuItem value={"endDate"}>End at</MenuItem>
                   </Field>
                 </FormControl>
               </div>

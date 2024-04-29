@@ -19,7 +19,7 @@ export const StepOne = () => {
   const [formErrors, setFormErrors] = useState({
     EventName: newEvent.EventName ? "" : "",
     CreatedAt: newEvent.StartDate ? "" : "",
-    City: newEvent.City.length !== 0 ? "" : "",
+    City: newEvent.city.length !== 0 ? "" : "",
     EndDate: newEvent.EndDate ? "" : "",
     TransferOfValue: newEvent.TransferOfValue.length !== 0 ? "" : "",
     P3: newEvent.BeSure ? "" : "",
@@ -83,7 +83,7 @@ export const StepOne = () => {
             </div>
             <div className="errorParent col-md-6 col-12">
               <TextField
-                name={"EventName"}
+                name={"eventName"}
                 label={<b>Event Name</b>}
                 focused
                 defaultValue={newEvent.EventName}
@@ -119,7 +119,7 @@ export const StepOne = () => {
             <div className="errorParent col-md-6 col-12  ">
               
               <MultipleSelection
-                type="City"
+                type="city"
                 label="City"
                 list={items}
                 SetError={setFormErrors}

@@ -13,7 +13,7 @@ const DatePickerInput = ({ condition, SetError, formErrors }) => {
     const numericDate = new Date(date).getTime();
     const formattedDate = new Date(numericDate).toLocaleString();
     if (condition) {
-      setNewEvent({ ...newEvent, StartDate: formattedDate.split(",")[0] });
+      setNewEvent({ ...newEvent, eventDate: formattedDate.split(",")[0] });
       setValue(formattedDate.split(",")[0]);
       if (date) {
         SetError({ ...formErrors, CreatedAt: "" });
@@ -21,7 +21,7 @@ const DatePickerInput = ({ condition, SetError, formErrors }) => {
         SetError({ ...formErrors, CreatedAt: "Required" });
       }
     } else {
-      setNewEvent({ ...newEvent, EndDate: formattedDate.split(",")[0] });
+      setNewEvent({ ...newEvent, endDate: formattedDate.split(",")[0] });
       setValue(formattedDate.split(",")[0]);
 
       if (date) {
@@ -33,20 +33,20 @@ const DatePickerInput = ({ condition, SetError, formErrors }) => {
   };
   useEffect(() => {
     if (condition) {
-      setValue(newEvent.StartDate);
+      setValue(newEvent.eventDate);
     } else {
-      setValue(newEvent.EndDate);
+      setValue(newEvent.endDate);
     }
-  }, [newEvent.EndDate, newEvent.StartDate]);
+  }, [newEvent.endDate, newEvent.eventDate]);
   return (
     <div className="test">
       <DatePicker
         selected={selectedDate}
         onChange={handleDateChange}
         dateFormat="dd/MM/yyyy"
-        value={condition ? newEvent.StartDate : newEvent.EndDate}
+        value={condition ? newEvent.eventDate : newEvent.endDate}
         placeholderText={"dd/MM/yyyy"}
-        name={condition ? "StartDate" : "EndDate"}
+        name={condition ? "eventDate" : "endDate"}
       />
     </div>
   );

@@ -85,7 +85,7 @@ export default function DataTable({ row }) {
       label: "ID",
     },
     {
-      id: "EventName",
+      id: "eventName",
       numeric: true,
       disablePadding: false,
       label: "Name",
@@ -109,7 +109,7 @@ export default function DataTable({ row }) {
       label: "Event Cost",
     },
     {
-      id: "StartDate",
+      id: "eventDate",
       numeric: true,
       disablePadding: false,
       label: "Start Date",
@@ -439,7 +439,7 @@ export default function DataTable({ row }) {
                     }
                     align="left"
                   >
-                    {rowItem.EventName}
+                    {rowItem.eventName}
                   </TableCell>
                   <TableCell
                     onClick={() =>
@@ -478,7 +478,7 @@ export default function DataTable({ row }) {
                     }
                     align="left"
                   >
-                    {rowItem.StartDate}
+                    {rowItem.eventDate}
                   </TableCell>
                   <TableCell
                     onClick={() =>
@@ -486,7 +486,7 @@ export default function DataTable({ row }) {
                     }
                     align="left"
                   >
-                    {rowItem.EndDate}
+                    {rowItem.endDate}
                   </TableCell>
                   <TableCell
                     onClick={() =>

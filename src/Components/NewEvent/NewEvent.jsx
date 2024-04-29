@@ -56,15 +56,15 @@ export default function NewEvent() {
   useEffect(() => {
     if (!activeStep) {
       if (
-        newEvent.EventName === "" ||
+        newEvent.eventName === "" ||
         newEvent.PO === "" ||
         newEvent.BeSure === "" ||
         newEvent.Franchise === "" ||
         newEvent.DateFromHours === "" ||
         newEvent.DateEndHours === "" ||
-        newEvent.EndDate === "" ||
-        newEvent.StartDate === "" ||
-        newEvent.City.length === 0 ||
+        newEvent.endDate === "" ||
+        newEvent.eventDate === "" ||
+        newEvent.city.length === 0 ||
         newEvent.TransferOfValue.length === 0
       ) {
         setOpen(true);
@@ -129,19 +129,19 @@ export default function NewEvent() {
       PO: "",
       Franchise: "",
       Id: "",
-      City: [],
+      city: [],
       BeSure: "",
       TransferOfValue: [],
       CreatedAt: new Date().toLocaleString(),
-      StartDate: "",
-      EndDate: "",
+      eventDate: "",
+      endDate: "",
       DateFromHours: "",
       DateEndHours: "",
-      BackGroundColor: "#fff",
-      FontColor: "#000000",
-      ButtonColor: "#0000ff",
+      bgColor: "#fff",
+      fontColor: "#000000",
+      btnColor: "#0000ff",
       AccpetAllTermss: false,
-      Policies:
+      eventTerms:
         ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this ',
     });
   };

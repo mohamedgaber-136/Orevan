@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
 export const PreviewCard = () => {
   const { newEvent } = useContext(FireBaseContext);
+  console.log(newEvent)
   return (
     <div className="w-100  d-flex justify-content-center align-items-center">
       <div className=" previewCardParent p-2  rounded-2 ">
@@ -17,7 +18,7 @@ export const PreviewCard = () => {
             <p className="m-0">
               <b>Event Name:</b>
             </p>
-            <p className="m-0">{newEvent.EventName}</p>
+            <p className="m-0">{newEvent.eventName}</p>
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
@@ -47,7 +48,7 @@ export const PreviewCard = () => {
             <p className="m-0">
               <b>Start Date:</b>
             </p>
-            <p className="m-0"> {newEvent.StartDate}</p>
+            <p className="m-0"> {newEvent.eventDate}</p>
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
@@ -56,7 +57,7 @@ export const PreviewCard = () => {
             <div
               className="border"
               style={{
-                backgroundColor: `${newEvent.FontColor}`,
+                backgroundColor: `${newEvent.fontColor}`,
                 width: "50px",
                 height: "5px",
                 borderRadius: "5px",
@@ -70,7 +71,7 @@ export const PreviewCard = () => {
             <div
               className="border"
               style={{
-                backgroundColor: `${newEvent.BackGroundColor}`,
+                backgroundColor: `${newEvent.bgColor}`,
                 width: "50px",
                 height: "5px",
                 borderRadius: "5px",
@@ -84,7 +85,7 @@ export const PreviewCard = () => {
             <div
               className="border"
               style={{
-                backgroundColor: `${newEvent.ButtonColor}`,
+                backgroundColor: `${newEvent.btnColor}`,
                 width: "50px",
                 height: "5px",
                 borderRadius: "5px",
@@ -96,13 +97,13 @@ export const PreviewCard = () => {
             <p className="m-0">
               <b>End Date:</b>
             </p>
-            <p className="m-0"> {newEvent.EndDate}</p>
+            <p className="m-0"> {newEvent.endDate}</p>
           </div>
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">
               <b>City:</b>
             </p>
-            {newEvent.City.map((item, index) => (
+            {newEvent.city.map((item, index) => (
               <div className="wrappingItems p-1 " key={index}>
                 {item.types}
               </div>

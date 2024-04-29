@@ -34,7 +34,7 @@ export const ChosenCard = () => {
                 <p className="m-0">
                   <b>Event Name:</b>
                 </p>
-                <p className="m-0 px-2 ">{ResultData.EventName}</p>
+                <p className="m-0 px-2 ">{ResultData.eventName}</p>
               </div>
               <div className={`d-flex align-items-center gap-2 `}>
                 <p className="m-0">
@@ -44,9 +44,9 @@ export const ChosenCard = () => {
               </div>
               <div className={`d-flex align-items-center gap-2 `}>
                 <p className="m-0">
-                  <b>P3:</b>
+                  <b>BeSure:</b>
                 </p>
-                <p className="m-0 px-2 ">{ResultData.P3}</p>
+                <p className="m-0 px-2 ">{ResultData.BeSure}</p>
               </div>
               <div className={`d-flex align-items-center gap-2 `}>
                 <p className="m-0">
@@ -72,13 +72,13 @@ export const ChosenCard = () => {
                 <p className="m-0">
                   <b>Start Date:</b>
                 </p>
-                <p className="m-0 px-2 ">{ResultData.StartDate}</p>
+                <p className="m-0 px-2 ">{ResultData.eventDate}</p>
               </div>
               <div className={`d-flex align-items-center gap-2 `}>
                 <p className="m-0">
                   <b>End Date:</b>
                 </p>
-                <p className="m-0 px-2 ">{ResultData.EndDate}</p>
+                <p className="m-0 px-2 ">{ResultData.endDate}</p>
               </div>
               <div className={`d-flex align-items-center gap-2 `}>
                 <p className="m-0">
@@ -107,7 +107,7 @@ export const ChosenCard = () => {
                 </p>
                 <div
                   className="showColor border border-2"
-                  style={{ backgroundColor: ResultData.backgroundColor }}
+                  style={{ backgroundColor: ResultData.bgColor }}
                 ></div>
               </div>
               <div className={`d-flex align-items-center gap-2 `}>
@@ -116,7 +116,7 @@ export const ChosenCard = () => {
                 </p>
                 <div
                   className="showColor border border-2"
-                  style={{ backgroundColor: ResultData.ButtonColor }}
+                  style={{ backgroundColor: ResultData.btnColor }}
                 ></div>
               </div>
               <div className={`d-flex align-items-center gap-2 `}>
@@ -125,7 +125,7 @@ export const ChosenCard = () => {
                 </p>
                 <div
                   className="showColor border border-2"
-                  style={{ backgroundColor: ResultData.FontColor }}
+                  style={{ backgroundColor: ResultData.fontColor }}
                 ></div>
               </div>
             </div>

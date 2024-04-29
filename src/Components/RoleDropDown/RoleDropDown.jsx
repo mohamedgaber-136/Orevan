@@ -4,10 +4,11 @@ export const RoleDropDown = () => {
     "Brand Manager",
     {
       label: "Franchise Manager",
-      options: ["RetinaFranchise", "MedicalFranchise"],
+      options: ["RetinaFranchise", "MedicalFranchise", "Immunology Franchise",'NeuroscienceFranchise','GTxFranchise','In Market BrandsFranchise','CardiovascularFranchise'],
     },
     "Franchise User",
   ];
+
   return (
     <div className="form-control d-flex flex-column align-items-start  w-100  justify-content-center ">
                           <b>Choose Role</b>

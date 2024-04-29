@@ -19,15 +19,15 @@ export const StepThree = () => {
       <div className="row w-100 gap-md-1 gap-3">
         <div className=" border p-2 colorPickerParent rounded rounded-1 col-5 col-md-3">
           <h6 className="ColorPickerTitle">BackGround Color</h6>
-          <ColorPickerInput type={"BackGroundColor"} />
+          <ColorPickerInput type={"bgColor"} />
         </div>
         <div className="border p-2 colorPickerParent rounded col-5 col-md-3 rounded-1">
           <h6 className="ColorPickerTitle">Font Color</h6>
-          <ColorPickerInput type={"FontColor"} />
+          <ColorPickerInput type={"fontColor"} />
         </div>
         <div className="border p-2 colorPickerParent rounded col-3 col-md-3 rounded-1">
           <h6 className="ColorPickerTitle">Button Color</h6>
-          <ColorPickerInput type={"ButtonColor"} />
+          <ColorPickerInput type={"btnColor"} />
         </div>
       </div>
 
@@ -36,14 +36,14 @@ export const StepThree = () => {
           src={mobileImg}
           alt="mobileLogo"
          
-          style={{ backgroundColor: newEvent.BackGroundColor }}
+          style={{ backgroundColor: newEvent.bgColor }}
         />
         <div className="StepThreeContent row flex-column align-items-center justify-content-center gap-2 ">
          <img src={logo} alt="novartisLogo" />
           <p className="m-0 text-center ">
             <b
               className="text-center"
-              style={{ color: newEvent.FontColor }}
+              style={{ color: newEvent.fontColor }}
             >
               Welcome To Please Insert The Event ID
             </b>
@@ -55,7 +55,7 @@ export const StepThree = () => {
           />
           <button
             className="w-50 rounded rounded-2 border-0  py-1 text-white"
-            style={{ backgroundColor: newEvent.ButtonColor }}
+            style={{ backgroundColor: newEvent.btnColor }}
             disabled
           >
             Next
