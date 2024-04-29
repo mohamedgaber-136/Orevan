@@ -454,6 +454,7 @@ export default function DataTable({ row }) {
                       navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
                     }
                     align="left"
+                    className='p-0'
                   >
                     {rowItem.TransferOfValue.map((item, index) => (
                       <p

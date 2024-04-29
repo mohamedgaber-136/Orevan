@@ -266,7 +266,9 @@ color: white !important;
   border-bottom: 1px solid grey !important;
 }
 .greyBgc{
-  background-color: lightgrey !important;
+  background-color: white !important;
+  border: 1px solid ;
+  border-radius: 5px !important;
 }
 input{
   outline: none !important;
@@ -307,7 +309,6 @@ input:focus, .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input{
   background-color: white !important;
 }
 .react-datepicker__input-container input {
-  background-color: lightgray;
   border: none !important;
   border-radius: 0 !important;
   padding: 10px !important;
@@ -350,10 +351,6 @@ height: 100% !important;
 margin-bottom: 20px !important;
 }
 .EditPen{
-  position: absolute !important;
-  top: 15%;
-  right: 5%;
-
   cursor: pointer;
 }
 .ErrorParent{
@@ -393,4 +390,11 @@ top: -10px !important;
   position: absolute;
   right: 0;
   top: -50px;
+}
+.css-140puxv-MuiTypography-root-MuiDialogTitle-root{
+  margin: 0 !important;
+  padding: 0 !important;
+}
+[placeholder="3:00 PM"]{
+  width: 100% !important;
 }

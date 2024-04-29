@@ -42,6 +42,7 @@ export const StepOne = () => {
       let sum = data.map((item) => item.value);
       let result = sum.reduce((x, y) => parseFloat(x) + parseFloat(y));
       SetCPD(result);
+      console.log(result)
       return result;
     } else {
       return 0;
@@ -162,12 +163,12 @@ export const StepOne = () => {
                 value={TovSum()}
               />
             </div>
-            <div className=" col-12 row p-0 m-0 gap-2 container justify-content-center justify-content-md-around ">
+            <div className=" col-12 row p-0 m-0 gap-4 container justify-content-center justify-content-md-around ">
               <div className=" col-12  gap-1 col-md-6 row align-items-center">
                 <h6>
                   <b className="text-secondary">From</b>
                 </h6>
-                <div className=" col-12 col-md-5  dropDownBorder p-2 greyBgc">
+                <div className=" col-12 col-md-5 flex-fill  dropDownBorder p-2 greyBgc">
                   <DatePickerInput
                     condition={true}
                     SetError={setFormErrors}
@@ -177,7 +178,7 @@ export const StepOne = () => {
                     {formErrors.CreatedAt}
                   </small>
                 </div>
-                <div className=" col-12 col-md-5 p-0 ">
+                <div className=" col-12 flex-fill col-md-5 p-0 ">
                   <TimePicker
                     condition={true}
                     SetError={setFormErrors}
@@ -189,11 +190,11 @@ export const StepOne = () => {
                   {formErrors.DateFromHours}
                 </small>
               </div>
-              <div className=" col-12  gap-1 col-md-6 row align-items-center">
+              <div className=" col-12   gap-1 col-md-6 row align-items-center">
                   <h6>
                     <b className="text-secondary">To</b>
                   </h6>
-                  <div className=" dropDownBorder p-2 errorParent greyBgc col-12 col-md-5">
+                  <div className=" col-12 col-md-5 flex-fill  dropDownBorder p-2 greyBgc">
                     <DatePickerInput
                       condition={false}
                       SetError={setFormErrors}
@@ -203,7 +204,7 @@ export const StepOne = () => {
                       {formErrors.EndDate}
                     </small>
                   </div>
-                  <div className=" col-12 p-0 col-md-5">
+                  <div className=" col-12 flex-fill p-0 col-md-5">
                     <TimePicker
                       condition={false}
                       SetError={setFormErrors}

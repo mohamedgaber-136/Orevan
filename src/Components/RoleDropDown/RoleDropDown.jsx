@@ -4,32 +4,35 @@ export const RoleDropDown = () => {
     "Brand Manager",
     {
       label: "Franchise Manager",
-      options: ["RetinaFranchise", "MedicalFranchise", "Immunology Franchise",'NeuroscienceFranchise','GTxFranchise','In Market BrandsFranchise','CardiovascularFranchise'],
+      options: ["RetinaFranchise", "MedicalFranchise", "Immunology Franchise",'NeuroscienceFranchise','GTxFranchise','In Market BrandsFranchise','CardiovascularFranchise','ValueFranchise','AccessFranchise '],
     },
     "Franchise User",
   ];
 
   return (
-    <div className="form-control d-flex flex-column align-items-start  w-100  justify-content-center ">
-                          <b>Choose Role</b>
+    <>
+                              <b className=" w-100">Choose Role</b>
+                              <div className="form-control d-flex flex-column align-items-start  w-100  justify-content-center ">
 
-      <Field as="select" className=" w-100 border-0" id={"Role"} name={"Role"}>
-        {options.map((option) =>
-          typeof option == "object" ? (
-            <optgroup label={option.label}>
-              {option.options.map((item, index) => (
-                <option key={index} value={`${option.label}-${item}`}>
-                  {item}
-                </option>
-              ))}
-            </optgroup>
-          ) : (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          )
-        )}
-      </Field>
-    </div>
+<Field as="select" className=" w-100 border-0" id={"Role"} name={"Role"}>
+  {options.map((option) =>
+    typeof option == "object" ? (
+      <optgroup label={option.label}>
+        {option.options.map((item, index) => (
+          <option key={index} value={`${option.label}-${item}`}>
+            {item}
+          </option>
+        ))}
+      </optgroup>
+    ) : (
+      <option key={option} value={option}>
+        {option}
+      </option>
+    )
+  )}
+</Field>
+</div>
+    </>
+    
   );
 };

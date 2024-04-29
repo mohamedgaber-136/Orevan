@@ -25,16 +25,15 @@ export const Profile = () => {
       type: "text",
     },
   ];
-  const intialValues={
-    Name:Current?.Name,
+  const intialValues = {
+    Name: Current?.Name,
     Telephone: Current?.PhoneNumber,
-    Email:Current?.Email
-
-  }
+    Email: Current?.Email,
+  };
   const docRef = doc(UserRef, currentUsr);
   const handleSubmit = async (values) => {
-     await  updateDoc(docRef,values)
-    setDisabled(true)
+    await updateDoc(docRef, values);
+    setDisabled(true);
     window.location.reload();
   };
   useEffect(() => {
@@ -49,8 +48,16 @@ export const Profile = () => {
     return (
       <div className="  d-flex flex-column container gap-3 EventsPageParent ">
         <div className="">
-          <h5 className="mb-3">Personal Data</h5>
-       
+          <div className="d-flex  gap-2 my-2 align-items-center justify-content-center">
+            <h5 className=" text-center m-0 ">Personal Data</h5>
+            <div className="EditPen">
+              <EditIcon
+                title="edit"
+                onClick={() => setDisabled(!disabledValue)}
+                className="text-primary  "
+              />
+            </div>
+          </div>
           <Formik onSubmit={handleSubmit} initialValues={intialValues}>
             {() => (
               <Form
@@ -72,8 +79,8 @@ export const Profile = () => {
                   </div>
                   <div className="d-flex gap-3 flex-column col-12">
                     {InputsDataColTwo.map((item, indx) => (
-                        <Field
-                       as={TextField}
+                      <Field
+                        as={TextField}
                         key={indx}
                         name={item.label}
                         label={item.label}
@@ -83,17 +90,11 @@ export const Profile = () => {
                     ))}
                   </div>
                 </div>
-                <div className="EditPen">
 
-                <EditIcon
-                  title="edit"
-                  onClick={() => setDisabled(!disabledValue)}
-                  className="text-primary  "
-                  />
-                  </div>
-            
                 <button
-                  className={`SaveBtn wrappingItems border-0 ${disabledValue && "d-none"} m-2 `}
+                  className={`SaveBtn wrappingItems border-0 ${
+                    disabledValue && "d-none"
+                  } m-2 `}
                   type="submit"
                 >
                   Save

@@ -2,17 +2,17 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 const ExportEventsExcel = ({ data, filename, sheetname }) => {
   const extractData = data.map((item) => ({
-    "Event Name": item.EventName,
+    "Event Name": item.eventName,
     Franchise: item.Franchise.toString(),
     "Event ID": item.Id,
-    City: item.City.map((city) => city.types).join(","),
+    City: item.city.map((city) => city.types).join(","),
     "Cost per Delegate": item.CostperDelegate,
     "Event Cost": item.EventCost.toString(),
     PO: item.PO,
-    P3: item.P3,
-    "Start Date": item.StartDate,
-    "End Date": item.StartDate,
-    "Created At": item.StartDate,
+    BeSure: item.BeSure,
+    "Start Date": item.eventDate,
+    "End Date": item.endDate,
+    "Created At": item.CreatedAt,
   }));
 
   const exportToExcel = async () => {
@@ -26,7 +26,7 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
       "Cost per Delegate",
       "Event Cost",
       "PO",
-      "P3",
+      "BeSure",
       "Start Date",
       "End Date",
       "Created At",

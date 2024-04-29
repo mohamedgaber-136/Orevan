@@ -6,8 +6,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { Profile } from "../../Pages/Profile/Profile";
-import Avatar from "@mui/material/Avatar";
 import PasswordForm from "./PasswordForm";
 export default function PasswordModal() {
   const [open, setOpen] = useState(false);
@@ -27,7 +25,7 @@ export default function PasswordModal() {
   };
 
   return (
-    <>
+    <div >
       <Button onClick={handleClickOpen}>
       Change Password
       </Button>
@@ -52,10 +50,12 @@ export default function PasswordModal() {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent>
+        <DialogContent  sx={{
+          width:500
+        }}>
             <PasswordForm/>
         </DialogContent>
       </BootstrapDialog>
-    </>
+    </div>
   );
 }

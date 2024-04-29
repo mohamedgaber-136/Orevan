@@ -3,7 +3,7 @@ import TeamsTable from "../../Components/TeamsTable/TeamsTable";
 import { FireBaseContext } from "../../Context/FireBase";
 import { getDocs, query, onSnapshot, where } from "firebase/firestore";
 export const Teams = () => {
-  const { TeamsRefrence, EventRefrence } = useContext(FireBaseContext);
+  const { TeamsRefrence, EventRefrence ,getData} = useContext(FireBaseContext);
   const [collectionKeys, setCollectionKeys] = useState([]);
 
   const getValue = async () => {

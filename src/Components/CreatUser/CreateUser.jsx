@@ -108,7 +108,7 @@ export const CreateUser = () => {
     }
   };
   return (
-    <div>
+    <div className="border d-flex justify-content-center bg-white">
       <Formik
         initialValues={initialvalues}
         validationSchema={validation}
@@ -116,11 +116,11 @@ export const CreateUser = () => {
       >
         {(props) => (
           <>
-            <Form className="d-flex py-3 px-2 bg-white rounded shadow flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm">
-              <div className="w-100 row gap-4  p-2">
+            <Form className="d-flex py-3 px-2 bg-white  w-75 rounded  flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm">
+              <div className="w-100 row gap-4  justify-content-center  p-2">
                 {NewSubScriberInputs.map((item, index) => (
                   <div
-                    className="col-12 col-md-5 ErrorParent "
+                    className="col-12 col-md-5 ErrorParent flex-fill "
                     key={`${item.label}-${index}`}
                   >
                     <div className="text-danger ps-5 align-self-start Error">
@@ -138,13 +138,13 @@ export const CreateUser = () => {
                     />
                   </div>
                 ))}
-                <div className=" d-flex col-11 flex-column justify-content-center align-items-center border-0 ">
+                <div className=" d-flex col-10 flex-fill flex-column justify-content-center align-items-center border-0 ">
                   <div className="d-flex align-items-center gap-2  w-75  justify-content-between ">
                     <ErrorMessage name={"Role"} className="align-self-start" />
                   </div>
                   <RoleDropDown />
                 </div>
-                <div className="w-50   d-flex justify-content-start">
+                <div className="w-50   d-flex justify-content-center">
                   <button
                     type="submit"
                     className="w-75 p-1  rounded rounded-2 border-0 border text-white"

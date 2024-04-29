@@ -22,7 +22,7 @@ export const StepTwo = () => {
 
   const handleChange = (event) => {
     // setContent(event.target.value);
-    setNewEvent({ ...newEvent, Policies: event.target.value });
+    setNewEvent({ ...newEvent, eventTerms: event.target.value });
   };
 
   const handleBlur = () => {
@@ -77,14 +77,14 @@ export const StepTwo = () => {
             <div onDoubleClick={handleDoubleClick}>
               {editMode ? (
                 <textarea
-                  value={newEvent.Policies}
+                  value={newEvent.eventTerms}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="w-100"
                   autoFocus
                 />
               ) : (
-                <div>{newEvent.Policies}</div>
+                <div>{newEvent.eventTerms}</div>
               )}
             </div>
             <b>

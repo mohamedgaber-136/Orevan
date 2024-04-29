@@ -169,15 +169,19 @@ export default function FranchiseTable({ row, sub }) {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const statusCase = (status) => {
-    if (status === "Completed") {
-      return "bg-danger";
-    } else if (status === "Started") {
-      return "bg-success";
-    } else {
-      return "bg-warning";
-    }
-  };
+  const statusCase = (start,end) => {
+    const currentDate = new Date();
+    start = new Date(start);
+    end = new Date(end);
+  
+   if (start > currentDate) {
+     return {status:'Pending',color:'bg-warning'};
+ } else if (start <= currentDate && end >= currentDate) {
+     return {status:'Started',color:'bg-success'}
+ } else {
+     return {status:'Ended',color:'bg-danger'};
+ }
+ };
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.ID);
@@ -374,7 +378,7 @@ export default function FranchiseTable({ row, sub }) {
                     }
                     align="left"
                   >
-                    {row.EventName}
+                    {row.eventName}
                   </TableCell>
                   <TableCell
                     onClick={() =>
@@ -398,7 +402,7 @@ export default function FranchiseTable({ row, sub }) {
                     }
                     align="left"
                   >
-                    {row.StartDate}
+                    {row.eventDate}
                   </TableCell>
                   <TableCell
                     onClick={() =>
@@ -416,10 +420,12 @@ export default function FranchiseTable({ row, sub }) {
                   >
                     <span
                       className={`${statusCase(
-                        row.Status
-                      )} text-white p-2 rounded `}
+                        row.eventDate,
+                        row.endDate
+                      ).color} text-white p-2 rounded `}
                     >
-                      {row.Status}
+                        {statusCase(   row.eventDate,
+                        row.endDate).status}
                     </span>
                   </TableCell>
                 </TableRow>
