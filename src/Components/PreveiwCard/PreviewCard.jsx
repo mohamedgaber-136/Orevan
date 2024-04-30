@@ -2,11 +2,13 @@ import { useContext } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
 export const PreviewCard = () => {
   const { newEvent } = useContext(FireBaseContext);
-  console.log(newEvent)
   return (
     <div className="w-100  d-flex justify-content-center align-items-center">
       <div className=" previewCardParent p-2  rounded-2 ">
-        <h3 className="py-1">Preview Event Data</h3>
+        <div className="d-flex justify-content-between align-items-center ">
+        <h4 className="py-1">Preview Event Data</h4>
+<h4 className="wrappingItems text-white p-2">{newEvent.Id}</h4>
+        </div>
         <div className="d-flex gap-2 flex-column">
           <div className="d-flex align-items-center gap-2">
             <p className="m-0">

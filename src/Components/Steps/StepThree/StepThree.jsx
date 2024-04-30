@@ -7,12 +7,11 @@ import { useContext, useEffect } from "react";
 import ColorPickerInput from "../../ColorPickerInput/ColorPickerInput";
 export const StepThree = () => {
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
-  function randomXToY(minVal, maxVal) {
-    let randVal = minVal + Math.random() * (maxVal - minVal);
-    return Math.round(randVal);
-  }
+  const randomXToY = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
   useEffect(() => {
-    setNewEvent({ ...newEvent, Id: randomXToY(1, 100000) });
+    setNewEvent({ ...newEvent, Id: randomXToY(100000, 999999) });
   }, []);
   return (
     <div className="d-flex justify-content-center flex-column gap-4 align-items-center container mt-5">
