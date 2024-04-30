@@ -374,7 +374,7 @@ export default function DataTable({ row }) {
   EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
   };
-
+console.log(rows,'rows')
   // body ----------------
   return (
     <Paper sx={{ width: "100%", mb: 0 }} className="BasicTableParent">
@@ -456,7 +456,7 @@ export default function DataTable({ row }) {
                     align="left"
                     className='p-0'
                   >
-                    {rowItem.TransferOfValue.map((item, index) => (
+                    {rowItem.TransferOfValue?.map((item, index) => (
                       <p
                         className=" m-1 p-1 text-center"
                         key={index}

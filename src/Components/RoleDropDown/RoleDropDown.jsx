@@ -4,7 +4,7 @@ export const RoleDropDown = () => {
     "Brand Manager",
     {
       label: "Franchise Manager",
-      options: ["RetinaFranchise", "MedicalFranchise", "Immunology Franchise",'NeuroscienceFranchise','GTxFranchise','In Market BrandsFranchise','CardiovascularFranchise','ValueFranchise','AccessFranchise '],
+      options: ["Retina", "Medical", "Immunology ",'Neuroscience','GTx','In Market Brands','Cardiovascular','Value & Access '],
     },
     "Franchise User",
   ];

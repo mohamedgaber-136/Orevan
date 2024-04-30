@@ -68,7 +68,7 @@ export default function EventsDeletedTable() {
       label: "ID",
     },
     {
-      id: "EventName",
+      id: "eventName",
       numeric: true,
       disablePadding: false,
       label: "EventName",
@@ -86,7 +86,7 @@ export default function EventsDeletedTable() {
       label: "Created At",
     },
     {
-      id: "EndDate",
+      id: "endDate",
       numeric: true,
       disablePadding: false,
       label: "End Date ",
@@ -305,10 +305,10 @@ export default function EventsDeletedTable() {
                   sx={{ cursor: "pointer" }}
                 >
                   <TableCell align="center">{rowItem.Id}</TableCell>
-                  <TableCell align="center">{rowItem.EventName}</TableCell>
+                  <TableCell align="center">{rowItem.eventName}</TableCell>
                   <TableCell align="center">{rowItem.Franchise}</TableCell>
                   <TableCell align="center">{rowItem.CreatedAt}</TableCell>
-                  <TableCell align="center">{rowItem.EndDate}</TableCell>
+                  <TableCell align="center">{rowItem.endDate}</TableCell>
                   <TableCell align="center">
                     {rowItem.timing.toDate().toLocaleString()}
                   </TableCell>

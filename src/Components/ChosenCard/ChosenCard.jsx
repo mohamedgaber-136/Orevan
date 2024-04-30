@@ -84,7 +84,7 @@ export const ChosenCard = () => {
                 <p className="m-0">
                   <b>City:</b>
                 </p>
-                {ResultData.City.map((item) => (
+                {ResultData.city.map((item) => (
                   <div className="wrappingItems p-1 ">{item.types}</div>
                 ))}
               </div>

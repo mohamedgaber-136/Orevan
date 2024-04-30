@@ -23,8 +23,8 @@ export const FranchisedropDown = ({ SetError, formErrors }) => {
     { types: "OncologyFranchise", label: " Oncology" },
     { types: "CardiovascularFranchise", label: "Cardiovascular " },
     { types: "MedicalFranchise", label: "Medical " },
-    { types: "ValueFranchise", label: "Value " },
-    { types: "AccessFranchise", label: "Access " },
+    { types: "Value&Access", label: "Value & Access " },
+  
   ];
   return (
     <>

@@ -10,7 +10,7 @@ import { StepTwo } from "../Steps/StepTwo/StepTwo";
 import { StepThree } from "../Steps/StepThree/StepThree";
 import { StepFour } from "../Steps/StepFour/StepFour";
 import { FireBaseContext } from "../../Context/FireBase";
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { SearchContext } from "../../Context/SearchContext";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
@@ -25,6 +25,7 @@ export default function NewEvent() {
     setId,
     currentUsr,
     saveNotificationToFirebase,
+    database
   } = useContext(FireBaseContext);
   const { setAccpetAll, AccpetAllTermss } = useContext(SearchContext);
   const [skipped, setSkipped] = useState(new Set());
@@ -99,32 +100,34 @@ export default function NewEvent() {
         break;
     }
   };
+
   const SendDataToFireBase = async () => {
     const ref = doc(TeamsRefrence, newEvent.Franchise);
     const refCollec = collection(ref, "Events");
+    const eventID = newEvent.Id.toString()
     swal({
       icon: "success",
-      title: `Event ${newEvent.Id} added`,
+      title: `Event ${eventID} added`,
     }).then(async () => {
       await addDoc(refCollec, {
-        CreatedByID: currentUsr,
+        CreatedByID:currentUsr,
         ...newEvent,
       });
     });
-    await addDoc(EventRefrence, { ...newEvent, CreatedByID: currentUsr }).then(
+    await setDoc(doc(EventRefrence,eventID), {...newEvent, CreatedByID: currentUsr }).then(
       async (snapshot) => {
         console.log("saveNotificationToFirebase new event");
-        saveNotificationToFirebase({
-          notifyID: snapshot.id,
-          message: "created a new event",
-          eventDataObject: { ...newEvent },
-        });
+        // saveNotificationToFirebase({
+        //   notifyID: snapshot.Id,
+        //   message: "created a new event",
+        //   eventDataObject: { ...newEvent }
+        // });
       }
     );
 
     navigation("/app/events");
     setNewEvent({
-      EventName: "",
+      eventName: "",
       CostperDelegate: "",
       PO: "",
       Franchise: "",
