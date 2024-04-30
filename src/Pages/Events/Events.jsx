@@ -46,7 +46,7 @@ export const Events = () => {
       const finaleResult = results.filter((item)=>compareDate<= new Date(item.CreatedAt))
       console.log(finaleResult)
       // setEvents(results);
-      setEvents(results.slice(86));
+      setEvents(finaleResult);
     };
     fetchDataForItems();
   }, [informations]);
