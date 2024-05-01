@@ -18,7 +18,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
 import { FireBaseContext } from "../../Context/FireBase";
 import { useNavigate } from "react-router-dom";
-import { SearchFormik } from "../SearchFormik/SearchFormik";
+import  SearchFormik from "../SearchFormik/SearchFormik";
 export default function FranchiseTable({ row, sub }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");

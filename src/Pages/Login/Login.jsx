@@ -78,10 +78,13 @@ if(!UserId.Condition.Blocked){
                 Please Enter your email to Connect
               </h6>
             </div>
-            <Formik>
+            <div className=" w-50">
+
+           
+            <Formik className='w-100'>
               {() => (
-                <Form onSubmit={LoginFunc}>
-                  <FormControl className="p-md-3  ">
+                <Form onSubmit={LoginFunc} className="w-100  ">
+                  <FormControl className="w-100    ">
                     <span className="text-danger">
                       {error && "Invalid Email or Password"}
                       {errorRegist && "This Email Not Registerd"}
@@ -103,16 +106,9 @@ if(!UserId.Condition.Blocked){
                         "This Account Blocked from The System"}
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
-                      <FormControlLabel
-                        className="RememberMeLabel"
-                        control={<Checkbox defaultChecked />}
-                        label="Remember me"
-                      />
+                    
                       <div className="d-flex flex-column justify-content-center align-items-center">
-                        <span className=" fw-semibold ForgotContent">
-                          Forgot password?
-                        </span>
-                        <span className="OrangeGradient">Contact us</span>
+                       
                       </div>
                     </div>
 
@@ -129,6 +125,9 @@ if(!UserId.Condition.Blocked){
                 </Form>
               )}
             </Formik>
+            <a className="OrangeGradient" href="mailto:orevanevents@orevan.org">Contact us</a>
+
+            </div>
           </div>
           <div className=" loginImgParent px-2  h-100 d-flex justify-content-center align-items-center ">
             <div className="container flex-column  h-100 d-flex justify-content-center align-items-start">

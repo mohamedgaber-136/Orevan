@@ -10,10 +10,10 @@ import Toolbar from "@mui/material/Toolbar";
 import "./Table.css";
 import { SelectComponent } from "../SelectComponent/SelectComponent";
 export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
+  console.log(row,'rw')
   const [rows, setRows] = useState([]);
   const [date, setdate] = useState("This Day");
   const areDatesInSameWeek = (date1, date2) => {
-    // hours*minutes*seconds*milliseconds
     const oneDay = 24 * 60 * 60 * 1000;
     const diffDays = Math.round(Math.abs((date1 - date2) / oneDay));
     return diffDays <= 6 && date1.getDay() >= date2.getDay();

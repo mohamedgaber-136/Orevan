@@ -36,7 +36,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import SearchText from "../SearchText/SearchText";
-import { SearchFormik } from "../SearchFormik/SearchFormik";
+import  SearchFormik  from "../SearchFormik/SearchFormik";
 export default function DataTable({ row }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -365,7 +365,7 @@ export default function DataTable({ row }) {
             component="div"
           >
             {/* //// */}
-            <SearchFormik rows={rows} setRows={setRows} />
+            <SearchFormik rows={row} setRows={setRows}  />
           </Typography>
         )}
       </Toolbar>
