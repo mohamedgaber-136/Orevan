@@ -34,7 +34,8 @@ export default function AddCityModal() {
       types: cityName,
     };
     // console.log(docSnap.data().data,'data')
-    
+    const x = docSnap.data().data.find((y)=>y.types==info.types)
+    if(!x){
   if (docSnap.exists()) {
       const newData = docSnap.data().data || []; // Get existing array or initialize empty array
       newData.push(info); // Push new item into the array
@@ -49,8 +50,12 @@ export default function AddCityModal() {
     } else {
       console.log("No such document!");
     }
-    setCheckCity(true)}
-    
+    setCheckCity(true)
+    }else{
+      setCheckCity(false)
+    }
+  
+  };
 
   return (
     <div className="BtnOthers">

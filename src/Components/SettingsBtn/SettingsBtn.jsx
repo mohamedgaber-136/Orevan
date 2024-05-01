@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import UpdateSubModel from "../UpdateSubModel/UpdateSubModel";
 export default function SettingsBtn({ refCollection, rowId, row }) {
+  console.log(rowId,'rowId')
   const { dbID } = useParams();
   const ITEM_HEIGHT = 38;
   const [anchorEl, setAnchorEl] = useState(null);
@@ -41,15 +42,15 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
         });
         console.log(item.data())
         console.log(id)
-        // await deleteDoc(ref);
+        await deleteDoc(ref);
 
-        // await setDoc(doc(SubscribersDeletedRef, id), {
-        //   event: dbID,
-        //   ID: id,
-        //   timing: serverTimestamp(),
-        //   ...item.data(),
-        // });
-        // handleClose();
+        await setDoc(doc(SubscribersDeletedRef, id), {
+          event: dbID,
+          ID: id,
+          timing: serverTimestamp(),
+          ...item.data(),
+        });
+        handleClose();
       }
     });
   };

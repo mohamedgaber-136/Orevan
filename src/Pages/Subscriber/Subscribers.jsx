@@ -11,6 +11,7 @@ export const Subscribers = () => {
   const { dbID } = useParams();
   const ref = doc(EventRefrence, dbID);
   const infoCollection = collection(ref, "Subscribers");
+  console.log(infoCollection)
   useEffect(() => {
     getData(infoCollection, setSubscribers);
   }, [dbID]);
