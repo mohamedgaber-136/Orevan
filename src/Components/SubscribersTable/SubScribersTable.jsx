@@ -115,6 +115,12 @@ export default function SubScribersTable({ row, refCollection }) {
       disablePadding: false,
       label: "Signature",
     },
+    {
+      id: "Actions",
+      numeric: true,
+      disablePadding: false,
+      label: "Actions",
+    },
   ];
 
   function EnhancedTableHead(props) {

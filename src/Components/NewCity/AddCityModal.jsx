@@ -34,28 +34,23 @@ export default function AddCityModal() {
       types: cityName,
     };
     // console.log(docSnap.data().data,'data')
-    const x = docSnap.data().data.find((y)=>y.types==info.types)
-    if(!x){
-  // if (docSnap.exists()) {
-    //   const newData = docSnap.data().data || []; // Get existing array or initialize empty array
-    //   newData.push(info); // Push new item into the array
-    //   await updateDoc(docRef, { data: newData });
+    
+  if (docSnap.exists()) {
+      const newData = docSnap.data().data || []; // Get existing array or initialize empty array
+      newData.push(info); // Push new item into the array
+      await updateDoc(docRef, { data: newData });
 
-    //   swal({
-    //     icon: "success",
-    //     title: `${cityName} Added`,
-    //   }); // Update document with the new array
-    //   handleClose();
-    //   console.log("Document successfully updated!");
-    // } else {
-    //   console.log("No such document!");
-    // }
-    setCheckCity(true)
-    }else{
-      setCheckCity(false)
+      swal({
+        icon: "success",
+        title: `${cityName} Added`,
+      }); // Update document with the new array
+      handleClose();
+      console.log("Document successfully updated!");
+    } else {
+      console.log("No such document!");
     }
-  
-  };
+    setCheckCity(true)}
+    
 
   return (
     <div className="BtnOthers">

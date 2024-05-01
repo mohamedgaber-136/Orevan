@@ -113,8 +113,10 @@ export const NewSubScriber = ({ id, handleClose }) => {
     getData(SubCollection, SetUsers);
   }, [dbID]);
 
-  const handleFormSubmit = async (values) => {
+  const handleFormSubmit =  (values) => {
     const data = { ...values };
+    console.log('hi')
+    console.log(data,'values')
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
     console.log(data)
@@ -172,8 +174,8 @@ export const NewSubScriber = ({ id, handleClose }) => {
 
   return (
     <Formik
-      initialValues={{ ...initialvalues }}
-      validationSchema={validation}
+      initialValues={initialvalues }
+      // validationSchema={validation}
       onSubmit={handleFormSubmit}
     >
       {({ values, setValues }) => (
@@ -231,7 +233,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
                
                 <button
                   type="submit"
-                  className="w-75 p-2 rounded rounded-2 border-0 border text-white"
+                                  className="w-75 p-2 rounded rounded-2 border-0 border text-white"
                 >
                   Save
                 </button>
