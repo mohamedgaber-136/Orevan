@@ -118,7 +118,7 @@ export default function FranchiseTable({ row, sub }) {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
+          {/* <TableCell padding="checkbox">
             <Checkbox
               color="primary"
               indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -128,11 +128,11 @@ export default function FranchiseTable({ row, sub }) {
                 "aria-label": "select all desserts",
               }}
             />
-          </TableCell>
+          </TableCell> */}
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={headCell.numeric ? "left" : "left"}
+              align={headCell.numeric ? "center" : "center"}
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
@@ -351,7 +351,7 @@ export default function FranchiseTable({ row, sub }) {
                   selected={isItemSelected}
                   sx={{ cursor: "pointer" }}
                 >
-                  <TableCell padding="checkbox">
+                  {/* <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
                       checked={isItemSelected}
@@ -359,13 +359,15 @@ export default function FranchiseTable({ row, sub }) {
                         "aria-labelledby": labelId,
                       }}
                     />
-                  </TableCell>
+                  </TableCell> */}
 
                   <TableCell
                     component="th"
                     id={labelId}
                     scope="row"
                     padding="none"
+                    align="center"
+
                     onClick={() =>
                       navigate(`/app/subscribers/${row.Id}/${row.ID}`)
                     }
@@ -376,7 +378,7 @@ export default function FranchiseTable({ row, sub }) {
                     onClick={() =>
                       navigate(`/app/subscribers/${row.Id}/${row.ID}`)
                     }
-                    align="left"
+                    align="center"
                   >
                     {row.eventName}
                   </TableCell>
