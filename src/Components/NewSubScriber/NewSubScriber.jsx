@@ -141,6 +141,16 @@ export const NewSubScriber = ({ id, handleClose }) => {
   };
 
   const handleInputChange = (name, value, formValues, setFormValues) => {
+    // Regular expression to match Arabic characters
+    const arabicRegex = /[\u0600-\u06FF\u0750-\u077F]/;
+
+    // Check if the input value contains Arabic characters
+    if (arabicRegex.test(value)) {
+      // If Arabic characters are detected, remove them
+      value = value.replace(arabicRegex, "");
+    }
+    setFormValues({ ...formValues, [name]: value });
+    
     let isAutoCompleted = false;
     // is the national id primary one
     if (name === "NationalID" && value.length >= 7) {
@@ -170,6 +180,8 @@ export const NewSubScriber = ({ id, handleClose }) => {
       // });
       setFormValues({ ...formValues, [name]: value });
     }
+    // Update the form values with the sanitized input
+  
   };
 
   return (
