@@ -294,7 +294,7 @@ export default function FranchiseTable({ row, sub }) {
             component="div"
           >
             {/* //// */}
-            <SearchFormik rows={rows} setRows={setRows} />
+            {/* <SearchFormik rows={rows} setRows={setRows} /> */}
           </Typography>
         )}
 
