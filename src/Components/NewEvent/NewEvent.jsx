@@ -117,8 +117,9 @@ export default function NewEvent() {
     await setDoc(doc(EventRefrence,eventID), {...newEvent, CreatedByID: currentUsr }).then(
       async (snapshot) => {
         console.log("saveNotificationToFirebase new event");
+        console.log(snapshot,'snap')
         // saveNotificationToFirebase({
-        //   notifyID: snapshot.Id,
+        //   notifyID: newEvent.ID,
         //   message: "created a new event",
         //   eventDataObject: { ...newEvent }
         // });

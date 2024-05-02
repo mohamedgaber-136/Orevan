@@ -42,9 +42,9 @@ export default function ProfileMenu() {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar sx={{ width: 32, height: 32 ,backgroundColor:'green'}}>
-              {/*localStorage.getItem("User")
+              {localStorage.getItem("User")
                 ? JSON.parse(localStorage.getItem("User")).Name.charAt(0)
-  : "" */}
+  : "" }
             </Avatar>
           </IconButton>
         </Tooltip>

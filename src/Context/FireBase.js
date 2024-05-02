@@ -147,7 +147,7 @@ console.log(newEvent,'new')
   }) => {
     const currentUserName = await getDoc(doc(database, "Users", currentUsr));
     const newNotificationObj = {
-      EventName: eventDataObject.EventName,
+      EventName: eventDataObject.eventName,
       TimeStamp: new Date().getTime(),
       EventID: eventDataObject.Id,
       NewEventID: notifyID,

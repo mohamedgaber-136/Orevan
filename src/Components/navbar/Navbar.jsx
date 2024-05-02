@@ -1,6 +1,6 @@
 import "./Navbar.css";
 import LogoImg from "../../assets/Novartis logo.png";
-import LogoTwo from "../../assets/Logo2.png";
+import LogoTwo from "../../assets/Orevan.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
@@ -103,7 +103,7 @@ export const Navbar = ({ navAppear }) => {
           </ul>
         </div>
         <div className=" h-25 d-flex justify-content-center align-items-end">
-          <img src={LogoTwo} alt="SecondLogo" width={'100%'} style={{objectFit:'contain'}}/>
+          <img src={LogoTwo} alt="SecondLogo" width={'90%'} style={{objectFit:'contain'}}/>
         </div>
       </div>
     </nav>
