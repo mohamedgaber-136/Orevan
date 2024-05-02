@@ -3,7 +3,8 @@ import Button from "@mui/material/Button";
 import { FormControl, FormLabel } from "@mui/material";
 import loginBg from "../../assets/LoginBg.png";
 import leftLogo from "../../assets/LoadingLogo.png";
-import rightlogo from "../../assets/Logo2.png";
+import rightlogo from "../../assets/Orevan.png";
+import center from "../../assets/Asset 1@4x.png";
 import "./Login.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -72,19 +73,25 @@ if(!UserId.Condition.Blocked){
     <div className="d-flex justify-content-around vh-100 flex-column align-items-center flex-column ">
       <div className=" d-flex justify-content-center pt-3 flex-column align-items-center   container">
         <div className="  d-flex justify-content-center align-items-center w-100 h-100 ">
-          <div className="  LoginBorder  h-100  d-flex justify-content-center flex-column align-items-center ">
-            <div className="d-flex flex-column pt-2 gap-2">
+          <div className="  LoginBorder   h-100  d-flex justify-content-center flex-column align-items-center ">
+          
+            <div className=" w-50">
+           
+            <Formik className='w-100'>
+              {() => (
+                <Form onSubmit={LoginFunc} className="w-100  ">
+                  <div className=" my-5 d-flex justify-content-center">
+                    <div className="w-75">
+
+                    <img src={center} alt="" width={'100%'} style={{objectFit:'contain'}}/>
+                    </div>
+                  </div>
+                    <div className="d-flex  flex-column  pt-2 gap-2  w-100">
               <h2 className="LoginTitle fs-1 ">Login</h2>
               <h6 className="text-secondary fs-6">
                 Please Enter your email to Connect
               </h6>
             </div>
-            <div className=" w-50">
-
-           
-            <Formik className='w-100'>
-              {() => (
-                <Form onSubmit={LoginFunc} className="w-100  ">
                   <FormControl className="w-100    ">
                     <span className="text-danger">
                       {error && "Invalid Email or Password"}
@@ -137,12 +144,12 @@ if(!UserId.Condition.Blocked){
           </div>
         </div>
       </div>
-      <div className="d-flex gap-2 p-1 justify-content-between w-100 align-items-center LoginFooter">
+      <div className="d-flex gap-2  p-1 px-5 justify-content-between w-100 align-items-center LoginFooter">
         <div className="LeftLogo">
           <img src={leftLogo} alt="" />
         </div>
-        <div className="RighLogo ">
-          <img src={rightlogo} alt="" />
+        <div className="RighLogo  ">
+          <img src={rightlogo} alt=""   style={{objectFit:'contain'}}/>
         </div>
       </div>
     </div>
