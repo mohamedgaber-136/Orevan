@@ -45,7 +45,7 @@ export const Events = () => {
       // const compareDate = new Date("2024-04-29")
       // const finaleResult = results.filter((item)=>compareDate<= new Date(item.CreatedAt))
       // console.log(finaleResult)
-      setEvents(results);
+      setEvents(results.reverse());
       // setEvents(finaleResult);
     };
     fetchDataForItems();

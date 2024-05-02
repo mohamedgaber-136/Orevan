@@ -1,5 +1,5 @@
 import "./Navbar.css";
-import LogoImg from "../../assets/logo.png";
+import LogoImg from "../../assets/Novartis logo.png";
 import LogoTwo from "../../assets/Logo2.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
@@ -72,9 +72,12 @@ export const Navbar = ({ navAppear }) => {
   ];
   return (
     <nav className={`MainNav ${navAppear && "appearNav"}`}>
-      <div className="container  d-flex flex-column  py-5   justify-content-between align-items-center h-100">
-        <div>
-          <img src={LogoImg} alt="Logo" />
+      <div className="container  d-flex flex-column  py-5   justify-content-between   align-items-center h-100">
+          <div className="h-25">
+
+          <img src={LogoImg} alt="Logo" width={'100%'} style={{objectFit:'contain'}}/>
+          </div>
+        <div className="h-50">
           <ul className="d-flex align-items-center  flex-column p-0 gap-3 MainNavList">
             {MenuData.map(
               (item, indx) =>
@@ -99,8 +102,8 @@ export const Navbar = ({ navAppear }) => {
             )}
           </ul>
         </div>
-        <div className="SecondMenuLogo">
-          <img src={LogoTwo} alt="SecondLogo" />
+        <div className=" h-25 d-flex justify-content-center align-items-end">
+          <img src={LogoTwo} alt="SecondLogo" width={'100%'} style={{objectFit:'contain'}}/>
         </div>
       </div>
     </nav>
