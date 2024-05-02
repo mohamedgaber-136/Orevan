@@ -83,22 +83,22 @@ export const NewSubScriber = ({ id, handleClose }) => {
       name: "City",
     },
   ];
-
-  const validation = Yup.object().shape({
-    FirstName: Yup.string().min(3, "too short").required("Required"),
-    LastName: Yup.string().min(3, "too short").required("Required"),
-    Email: Yup.string().email("Enter Valid Email").required("Required"),
-    NationalID: Yup.string().min(10,'must be 10 numbers ').max(10,'must be 10 numbers').required("Required"),
+  const validationSchema = Yup.object().shape({
+    FirstName: Yup.string().min(3, "Too short").required("Required"),
+    LastName: Yup.string().min(3, "Too short").required("Required"),
+    Email: Yup.string().email("Enter valid email").required("Required"),
+    NationalID: Yup.string()
+      .matches(/^\d{10}$/, "National ID must be 10 digits")
+      .required("Required"),
     PhoneNumber: Yup.string()
-      .min(9, "too short")
-      .typeError("enter Valid phone Number")
+      .matches(/^\d{9}$/, "Phone number must be 9 digits")
       .required("Required"),
     Speciality: Yup.string().required("Required"),
     Organization: Yup.string().required("Required"),
-    LicenseID: Yup.string().required("Required"),
-    MedicalID: Yup.string().required("Required"),
+    MedicalLicense: Yup.string().required("Required"),
     City: Yup.string().required("Required"),
   });
+ 
 
   function randomXToY(minVal, maxVal) {
     let randVal = minVal + Math.random() * (maxVal - minVal);
@@ -175,7 +175,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
   return (
     <Formik
       initialValues={initialvalues }
-      // validationSchema={validation}
+      validationSchema={validationSchema}
       onSubmit={handleFormSubmit}
     >
       {({ values, setValues }) => (
@@ -250,3 +250,18 @@ export const NewSubScriber = ({ id, handleClose }) => {
     </Formik>
   );
 };
+// const validation = Yup.object().shape({
+//   FirstName: Yup.string().min(3, "too short").required("Required"),
+//   LastName: Yup.string().min(3, "too short").required("Required"),
+//   Email: Yup.string().email("Enter Valid Email").required("Required"),
+//   NationalID: Yup.string().min(10,'must be 10 numbers ').max(10,'must be 10 numbers').required("Required"),
+//   PhoneNumber: Yup.string()
+//     .min(9, "too short")
+//     .typeError("enter Valid phone Number")
+//     .required("Required"),
+//   Speciality: Yup.string().required("Required"),
+//   Organization: Yup.string().required("Required"),
+//   LicenseID: Yup.string().required("Required"),
+//   MedicalID: Yup.string().required("Required"),
+//   City: Yup.string().required("Required"),
+// });
