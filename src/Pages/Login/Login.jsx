@@ -89,7 +89,7 @@ if(!UserId.Condition.Blocked){
                     <div className="d-flex  flex-column  pt-2 gap-2  w-100">
               <h2 className="LoginTitle fs-1 ">Login</h2>
               <h6 className="text-secondary fs-6">
-                Please Enter your email to Connect
+                Please Enter your email to Connect.
               </h6>
             </div>
                   <FormControl className="w-100    ">
