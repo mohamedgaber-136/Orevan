@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
 import "./NewSubScriberStyle.css";
+import { MenuItem } from "@mui/material";
 export const NewSubScriber = ({ id, handleClose }) => {
   const { setShowAddNeWSub } = useContext(SearchContext);
   const { EventRefrence, getData, database } = useContext(FireBaseContext);
@@ -19,6 +20,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
   const [errorMsg, setErrorMsg] = useState(false);
   const [checkSubScriber, SetSubScriber] = useState([]);
   const [user, SetUsers] = useState([]);
+  const [eventData, setEventData] = useState(null);
 
   const initialvalues = {
     id: randomXToY(1, 1000),
@@ -29,7 +31,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
     PhoneNumber: "",
     Speciality: "",
     Organization: "",
-    MedicalLicense    : "",
+    MedicalLicense: "",
     City: "",
     CostPerDelegate: 0,
     TransferOfValue: [],
@@ -71,15 +73,15 @@ export const NewSubScriber = ({ id, handleClose }) => {
       type: "text",
       name: "Organization",
     },
-   
+
     {
       label: "Medical License",
-      type: "number",
+      type: "text",
       name: "MedicalLicense",
     },
     {
       label: "City",
-      type: "text",
+      type: "select",
       name: "City",
     },
   ];
@@ -98,7 +100,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
     MedicalLicense: Yup.string().required("Required"),
     City: Yup.string().required("Required"),
   });
- 
 
   function randomXToY(minVal, maxVal) {
     let randVal = minVal + Math.random() * (maxVal - minVal);
@@ -111,15 +112,22 @@ export const NewSubScriber = ({ id, handleClose }) => {
   useEffect(() => {
     getData(subscriberCollection, SetSubScriber);
     getData(SubCollection, SetUsers);
+
+    (async () => {
+      const datas = await getDoc(ref);
+      const Result = await datas.data();
+      console.log(Result, "result event");
+      setEventData(Result);
+    })();
   }, [dbID]);
 
-  const handleFormSubmit =  (values) => {
+  const handleFormSubmit = (values) => {
     const data = { ...values };
-    console.log('hi')
-    console.log(data,'values')
+    console.log("hi");
+    console.log(data, "values");
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
-    console.log(data)
+    console.log(data);
     if (checkUser) {
       setErrorMsg(true);
     } else {
@@ -150,7 +158,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
       value = value.replace(arabicRegex, "");
     }
     setFormValues({ ...formValues, [name]: value });
-    
+
     let isAutoCompleted = false;
     // is the national id primary one
     if (name === "NationalID" && value.length >= 7) {
@@ -181,40 +189,35 @@ export const NewSubScriber = ({ id, handleClose }) => {
       setFormValues({ ...formValues, [name]: value });
     }
     // Update the form values with the sanitized input
-  
   };
 
   return (
     <Formik
-      initialValues={initialvalues }
+      initialValues={initialvalues}
       validationSchema={validationSchema}
       onSubmit={handleFormSubmit}
     >
       {({ values, setValues }) => (
         <>
-          <Form
-            className="bg-white rounded  NewSubScriberForm "
-          >
+          <Form className="bg-white rounded  NewSubScriberForm ">
             <h3 className="px-lg-3 px-1">
               <BreadCrumbs id={id} sub={"Subscriber"} />
             </h3>
-            <div
-              className="w-100 gap-2 d-flex flex-wrap justify-content-evenly mt-3 pt-2"
-            >
+            <div className="w-100 gap-2 d-flex flex-wrap justify-content-evenly mt-3 pt-2">
               {NewSubScriberInputs.map((item, index) => (
                 <div
                   className="col-12 col-md-5 p-1"
                   key={`${item.label}-${index}`}
                 >
-                
                   <Field
+                    select={item.type == "select"}
                     as={TextField}
                     label={item.label}
                     id={index}
                     focused
                     type={item.type}
                     className={`w-100  ${
-                      item.name === "PhoneNumber" &&
+                      (item.name === "PhoneNumber" || item.name === "City") &&
                       "border border-secondary form-control "
                     }`}
                     name={item.name}
@@ -234,18 +237,24 @@ export const NewSubScriber = ({ id, handleClose }) => {
                         </InputAdornment>
                       ),
                     }}
-                  />
-                    <div className="text-danger  align-self-start  mb-3">
+                  >
+                    {item.type == "select" &&
+                      eventData?.city?.map((option) => (
+                        <MenuItem key={option.types} value={option.types}>
+                          {option.types}
+                        </MenuItem>
+                      ))}
+                  </Field>
+                  <div className="text-danger  align-self-start  mb-3">
                     <ErrorMessage name={item.name} />
                   </div>
                 </div>
               ))}
 
               <div className="col-12 col-md-5 p-1 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
-               
                 <button
                   type="submit"
-                                  className="w-75 p-2 rounded rounded-2 border-0 border text-white"
+                  className="w-75 p-2 rounded rounded-2 border-0 border text-white"
                 >
                   Save
                 </button>

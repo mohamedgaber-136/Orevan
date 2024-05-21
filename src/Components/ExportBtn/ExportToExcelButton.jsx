@@ -2,19 +2,22 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 const ExportToExcelButton = ({ data, filename, sheetname }) => {
   const extractData = data.map((item) => ({
-    'Title/اللقب':'Dr',
-    'FirstName/الاسم الاول': item.FirstName,
-    'LastName/الاسم الاخير': item.LastName,
+    "Title/اللقب": "Dr",
+    "FirstName/الاسم الاول": item.FirstName,
+    "LastName/الاسم الاخير": item.LastName,
     Specialitzation: item.Speciality,
-    'Other Specialitzation (optional)': '',
-    'Professional Classification Number':item.MedicalID,
+    "Other Specialitzation (optional)": "",
+    "Professional Classification Number": item.MedicalID,
     "National/Resident ID": item.NationalID,
+    "Medical License ID": item.MedicalLicense,
     "Mobile Number / رقم الجوال": item.PhoneNumber,
-    'Email/الايميل': item.Email,
-    'Form Of Payment ': 'cash or cash equalivant',
+    "Email/الايميل": item.Email,
+    "Form Of Payment ": "cash or cash equalivant",
     "Total Grant": item.CostPerDelegate,
-    "Grant purpose":item.TransferOfValue.map((item)=>`${item.types} = ${item.value}`).join(','),
-    'Payment Amount':'',
+    "Grant purpose": item.TransferOfValue.map(
+      (item) => `${item.types} = ${item.value}`
+    ).join(","),
+    "Payment Amount": "",
     Signature: item.image,
   }));
 
@@ -22,20 +25,21 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetname);
     const headersList = [
-      'Title/اللقب',
-      'FirstName/الاسم الاول',
-      'LastName/الاسم الاخير',
-      'Specialitzation',
-      'Other Specialitzation (optional)',
-      'Professional Classification Number',
+      "Title/اللقب",
+      "FirstName/الاسم الاول",
+      "LastName/الاسم الاخير",
+      "Specialitzation",
+      "Other Specialitzation (optional)",
+      "Professional Classification Number",
       "National/Resident ID",
+      "Medical License ID",
       "Mobile Number / رقم الجوال",
-      'Email/الايميل',
-      'Form Of Payment ',
+      "Email/الايميل",
+      "Form Of Payment ",
       "Total Grant",
       "Grant purpose",
-      'Payment Amount',
-      'Signature',
+      "Payment Amount",
+      "Signature",
     ];
     worksheet.addRow([...headersList]);
     // Set the background color for the entire row (e.g., row 1)

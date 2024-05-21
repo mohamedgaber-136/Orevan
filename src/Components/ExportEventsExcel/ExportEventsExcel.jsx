@@ -13,11 +13,13 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
     "Start Date": item.eventDate,
     "End Date": item.endDate,
     "Created At": item.CreatedAt,
+    "Created By": item.CreatedByName,
   }));
 
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetname);
+    console.log(data, "extractData");
     const headersList = [
       "Event ID",
       "Event Name",
@@ -30,6 +32,7 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
       "Start Date",
       "End Date",
       "Created At",
+      "Created By",
     ];
     worksheet.addRow([...headersList]);
     // Set the background color for the entire row (e.g., row 1)
