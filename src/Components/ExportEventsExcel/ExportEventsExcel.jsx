@@ -94,7 +94,7 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
 
   return (
     <i className="fa-solid fa-download" onClick={exportToExcel}>
-      <span className="fs-6 fw-light"> excel</span>{" "}
+      <span className="fs-6 fw-light"> Orevan</span>
     </i>
   );
 };
