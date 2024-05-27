@@ -122,30 +122,25 @@ export default function NewEvent() {
         ...newEvent,
       });
       // save transfer of values to collection
-      // newEvent.TransferOfValue.map(async (tov) => {
-      //   const newObject = {
-      //     eventID: eventID,
-      //     value: tov.value,
-      //     eventName: newEvent.eventName,
-      //     eventDate: newEvent.eventDate,
-      //   };
-      //   const documentRef = doc(TransferOfValuesRef, tov.types);
-      //   const docItem = await getDoc(documentRef);
-      //   if (docItem.exists()) {
-      //     const dataList = docItem.data().data ?? [];
-      //     dataList.push(newObject);
-      //     await updateDoc(documentRef, {
-      //       data: [...dataList],
-      //     });
-      //   } else {
-      //     await setDoc(documentRef, { data: [newObject] });
-      //   }
-      // });
-      // get transfer of values depends on spicific key
-      // const targetTov = e.target.TestTOV.value;
-      // const targetDoc = await getDoc(doc(TransferOfValuesRef, targetTov));
-      // const dataList = targetDoc?.data().data ?? [];
-      // console.log(dataList, "list");
+      newEvent.TransferOfValue.map(async (tov) => {
+        const newObject = {
+          eventID: eventID,
+          value: tov.value,
+          eventName: newEvent.eventName,
+          eventDate: newEvent.eventDate,
+        };
+        const documentRef = doc(TransferOfValuesRef, tov.types);
+        const docItem = await getDoc(documentRef);
+        if (docItem.exists()) {
+          const dataList = docItem.data().data ?? [];
+          dataList.push(newObject);
+          await updateDoc(documentRef, {
+            data: [...dataList],
+          });
+        } else {
+          await setDoc(documentRef, { data: [newObject] });
+        }
+      });
     });
     await setDoc(doc(EventRefrence, eventID), {
       ...newEvent,
