@@ -40,7 +40,7 @@ export default function ExportDropDown({ rows }) {
       >
         <MenuItem onClick={handleClose}>
           <ExportEventsExcel
-            filename="exported_data"
+            filename="Orevan Report"
             sheetname="Sheet 1"
             data={rows}
           />

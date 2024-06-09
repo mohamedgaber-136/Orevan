@@ -10,7 +10,14 @@ import { StepTwo } from "../Steps/StepTwo/StepTwo";
 import { StepThree } from "../Steps/StepThree/StepThree";
 import { StepFour } from "../Steps/StepFour/StepFour";
 import { FireBaseContext } from "../../Context/FireBase";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  setDoc,
+  updateDoc,
+  getDoc,
+} from "firebase/firestore";
 import { SearchContext } from "../../Context/SearchContext";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
@@ -25,7 +32,8 @@ export default function NewEvent() {
     setId,
     currentUsr,
     saveNotificationToFirebase,
-    database
+    database,
+    TransferOfValuesRef,
   } = useContext(FireBaseContext);
   const { setAccpetAll, AccpetAllTermss } = useContext(SearchContext);
   const [skipped, setSkipped] = useState(new Set());
@@ -104,27 +112,53 @@ export default function NewEvent() {
   const SendDataToFireBase = async () => {
     const ref = doc(TeamsRefrence, newEvent.Franchise);
     const refCollec = collection(ref, "Events");
-    const eventID = newEvent.Id.toString()
+    const eventID = newEvent.Id.toString();
     swal({
       icon: "success",
       title: `Event ${eventID} added`,
     }).then(async () => {
       await addDoc(refCollec, {
-        CreatedByID:currentUsr,
+        CreatedByID: currentUsr,
         ...newEvent,
       });
+      // save transfer of values to collection
+      // newEvent.TransferOfValue.map(async (tov) => {
+      //   const newObject = {
+      //     eventID: eventID,
+      //     value: tov.value,
+      //     eventName: newEvent.eventName,
+      //     eventDate: newEvent.eventDate,
+      //   };
+      //   const documentRef = doc(TransferOfValuesRef, tov.types);
+      //   const docItem = await getDoc(documentRef);
+      //   if (docItem.exists()) {
+      //     const dataList = docItem.data().data ?? [];
+      //     dataList.push(newObject);
+      //     await updateDoc(documentRef, {
+      //       data: [...dataList],
+      //     });
+      //   } else {
+      //     await setDoc(documentRef, { data: [newObject] });
+      //   }
+      // });
+      // get transfer of values depends on spicific key
+      // const targetTov = e.target.TestTOV.value;
+      // const targetDoc = await getDoc(doc(TransferOfValuesRef, targetTov));
+      // const dataList = targetDoc?.data().data ?? [];
+      // console.log(dataList, "list");
     });
-    await setDoc(doc(EventRefrence,eventID), {...newEvent, CreatedByID: currentUsr }).then(
-      async (snapshot) => {
-        console.log("saveNotificationToFirebase new event");
-        console.log(snapshot,'snap')
-        // saveNotificationToFirebase({
-        //   notifyID: newEvent.ID,
-        //   message: "created a new event",
-        //   eventDataObject: { ...newEvent }
-        // });
-      }
-    );
+    await setDoc(doc(EventRefrence, eventID), {
+      ...newEvent,
+      CreatedByID: currentUsr,
+    }).then(async (snapshot) => {
+      console.log("saveNotificationToFirebase new event");
+      console.log(snapshot, "snap");
+      // saveNotificationToFirebase({
+      //   notifyID: newEvent.ID,
+      //   message: "created a new event",
+      //   eventDataObject: { ...newEvent }
+      // });
+    });
 
     navigation("/app/events");
     setNewEvent({

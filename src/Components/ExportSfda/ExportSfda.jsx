@@ -33,20 +33,27 @@ const ExportSfda = ({ data, filename, sheetname }) => {
               const subItem = ele.data();
               return {
                 "Event ID": item.Id,
-                'Title/اللقب':'Dr',
-                'FirstName/الاسم الاول': subItem.FirstName,
-                'LastName/الاسم الاخير': subItem.LastName,
+                "Title/اللقب": "Dr",
+                "FirstName/الاسم الاول": subItem.FirstName,
+                "LastName/الاسم الاخير": subItem.LastName,
                 Specialitzation: subItem.Speciality,
-                'Other Specialitzation (optional)': '',
-                'Professional Classification Number':subItem.MedicalLicense,
+                "Other Specialitzation (optional)": "",
+                "Professional Classification Number": subItem.MedicalLicense,
                 "National/Resident ID": subItem.NationalID,
                 "Mobile Number / رقم الجوال": subItem.PhoneNumber,
-                'Email/الايميل': subItem.Email,
-                'Form Of Payment ': 'cash or cash equalivant',
-                "Total Grant": subItem.CostPerDelegate,
-                "Grant purpose":subItem.TransferOfValue.map((item)=>`${item.types} = ${item.value}`).join(','),
-                'Payment Amount':'',
-                'Date of Payment':item.StartDate,
+                "Email/الايميل": subItem.Email,
+                "Form Of Payment ": "cash or cash equalivant",
+                "Total Grant": subItem.TransferOfValue.reduce(
+                  (first, second) => {
+                    return Number(first) + Number(second.value);
+                  },
+                  0
+                ),
+                "Grant purpose": subItem.TransferOfValue.map(
+                  (item) => `${item.types} = ${item.value}`
+                ).join(","),
+                "Payment Amount": "",
+                "Date of Payment": item.eventDate,
                 Signature: subItem.image,
                 // "Subscriber City": subItem.City,
                 // "License ID": subItem.LicenseID,
@@ -72,24 +79,22 @@ const ExportSfda = ({ data, filename, sheetname }) => {
       "Created At",
       "Event ID",
 
-
-
       "Event ID",
-      'Title/اللقب',
-      'FirstName/الاسم الاول',
-      'LastName/الاسم الاخير',
-      'Specialitzation',
-      'Other Specialitzation (optional)',
-      'Professional Classification Number',
+      "Title/اللقب",
+      "FirstName/الاسم الاول",
+      "LastName/الاسم الاخير",
+      "Specialitzation",
+      "Other Specialitzation (optional)",
+      "Professional Classification Number",
       "National/Resident ID",
       "Mobile Number / رقم الجوال",
-      'Email/الايميل',
-      'Form Of Payment ',
+      "Email/الايميل",
+      "Form Of Payment ",
       "Total Grant",
       "Grant purpose",
-      'Payment Amount',
-      'Date of Payment',
-      'Signature',
+      "Payment Amount",
+      "Date of Payment",
+      "Signature",
     ];
     worksheet.addRow([...headersList]);
 
@@ -125,7 +130,16 @@ const ExportSfda = ({ data, filename, sheetname }) => {
     });
 
     // Add data rows
+    let eventRow = {};
     finalDataToExport.map((rowItem, index) => {
+      if (rowItem.hasOwnProperty("Event Name")) {
+        eventRow = { ...rowItem };
+      } else {
+        rowItem = {
+          ...eventRow,
+          ...rowItem,
+        };
+      }
       const holder = [
         ...headersList.map((head) => {
           const convertItem = isNaN(Number(rowItem[head]))
@@ -139,11 +153,12 @@ const ExportSfda = ({ data, filename, sheetname }) => {
       const rowIndex = index + 2;
       const row = worksheet.getRow(rowIndex);
       row.eachCell({ includeEmpty: true }, (cell) => {
-        cell.fill = rowItem.hasOwnProperty("Event Name") && {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "FFADD8E6" }, // ARGB format for light blue color
-        };
+        cell.fill = rowItem.hasOwnProperty("Event Name") &&
+          !rowItem.hasOwnProperty("Title/اللقب") && {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "FFADD8E6" }, // ARGB format for light blue color
+          };
         cell.alignment = { horizontal: "center", vertical: "middle" };
         if (typeof cell.value === "number") {
           cell.numFmt = "0"; // Display as integer, you can customize this format
@@ -172,7 +187,6 @@ const ExportSfda = ({ data, filename, sheetname }) => {
       // Set the column width based on the maximum content length
       column.width = maxLength + 5; // Add some extra padding
     });
-    
 
     worksheet.getRow(1).height = 20;
     // worksheet.getRow(1).width = 30;

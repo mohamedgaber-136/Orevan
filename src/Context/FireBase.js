@@ -22,8 +22,8 @@ const FireBaseContextProvider = ({ children }) => {
   const [filterdData, setFilterd] = useState([]);
   const [updateUser, setUpdateUser] = useState(null);
   const [Subscribers, setSubscribers] = useState([]);
-  const [user ,setUser]=useState({})
-  const [FinaleUser ,setFinaleUser]=useState({})
+  const [user, setUser] = useState({});
+  const [FinaleUser, setFinaleUser] = useState({});
   const [roleCondition, setRole] = useState("");
   const [currentUserRole, setCurrentUserRole] = useState("");
   const [newEvent, setNewEvent] = useState({
@@ -47,7 +47,7 @@ const FireBaseContextProvider = ({ children }) => {
     eventTerms:
       ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this ',
   });
-  console.log(newEvent)
+  console.log(newEvent);
   // orevan old config --------------------------------------------------
   // const firebaseConfig = {
   //   apiKey: "AIzaSyBckxAp9_24tLxViaY6yX5BUln07nUk2sM",
@@ -58,7 +58,7 @@ const FireBaseContextProvider = ({ children }) => {
   //   appId: "1:904353795718:web:25f35b4c6c5f25688f8b07",
   //   measurementId: "G-2LMZXPR3L4",
   // };
-// Orevan Config New ----------------------------------------------------------------------------------------------------
+  // Orevan Config New ----------------------------------------------------------------------------------------------------
   const firebaseConfig = {
     apiKey: "AIzaSyCVvf3gBWoTTvErXwWNbeWWW8aLfx9S5Ag",
     authDomain: "orevanreg.firebaseapp.com",
@@ -84,6 +84,7 @@ const FireBaseContextProvider = ({ children }) => {
   const EventsDeletedRef = collection(database, "EventsDeleted");
   const SubscribersDeletedRef = collection(database, "SubscribersDeleted");
   const Cities = collection(database, "Cities");
+  const TransferOfValuesRef = collection(database, "TransferOfValues");
   //  Authentication
   const auth = getAuth(app);
   // GetData from FireBase
@@ -98,7 +99,7 @@ const FireBaseContextProvider = ({ children }) => {
   };
   const [currentUsr, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
-console.log(newEvent,'new')
+  console.log(newEvent, "new");
   const eventsQueryAccordingToUserRole = () => {
     switch (true) {
       case currentUserRole.admin: {
@@ -123,10 +124,11 @@ console.log(newEvent,'new')
       setLoading(false);
       if (user) {
         setCurrentUser(user.uid);
-        setUser(user)
+        setUser(user);
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
-        setFinaleUser(finaleUser.data())
+        console.log(finaleUser.data(), "user");
+        setFinaleUser(finaleUser.data());
         setCurrentUserRole(finaleUser.data().Role);
         localStorage.setItem("User", JSON.stringify(finaleUser.data()));
         eventsQueryAccordingToUserRole(finaleUser.data().Role, user.uid);
@@ -204,7 +206,7 @@ console.log(newEvent,'new')
         saveNotificationToFirebase,
         UserRef,
         eventsQueryAccordingToUserRole,
-        
+        TransferOfValuesRef,
       }}
     >
       {!loading && children}

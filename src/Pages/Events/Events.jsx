@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import DataTable from "../../Components/DataTable/DataTable";
 import "./Event.css";
 import { FireBaseContext } from "../../Context/FireBase";
-import { collection, getDocs, doc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 export const Events = () => {
   const {
     events,
@@ -11,13 +11,14 @@ export const Events = () => {
     EventRefrence,
     currentUserRole,
     eventsQueryAccordingToUserRole,
+    UserRef,
   } = useContext(FireBaseContext);
   const [informations, setInformations] = useState([]);
   useEffect(() => {
     // if (currentUserRole) {
     //   getData(eventsQueryAccordingToUserRole(), setInformations);
     // }
-      getData(eventsQueryAccordingToUserRole(), setInformations);
+    getData(eventsQueryAccordingToUserRole(), setInformations);
   }, []);
 
   useEffect(() => {
@@ -39,6 +40,8 @@ export const Events = () => {
           item.Status = "Completed";
         }
         item.EventCost = NumberOfSubScribers * item.CostperDelegate;
+        const userSnapshot = await getDoc(doc(UserRef, item.CreatedByID))
+        item.CreatedByName = userSnapshot.data().Name;
         return item;
       });
       const results = await Promise.all(promises);
@@ -50,7 +53,7 @@ export const Events = () => {
     };
     fetchDataForItems();
   }, [informations]);
-console.log(events,'events')
+  console.log(events, "events");
   return (
     <div className="d-flex flex-column container-fluid container-md gap-3 EventsPageParent ">
       <h2>Events</h2>
