@@ -126,15 +126,18 @@ export const NewSubScriber = ({ id, handleClose }) => {
     (async () => {
       const datas = await getDoc(ref);
       const Result = await datas.data();
+      console.log(Result, "result event");
       // setEventData(Result);
     })();
   }, [dbID]);
 
   const handleFormSubmit = (values) => {
     const data = { ...values };
-  
+    console.log("hi");
+    console.log(data, "values");
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
+    console.log(data);
     if (checkUser) {
       setErrorMsg(true);
     } else {
@@ -209,10 +212,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   className="col-12 col-md-5 p-1"
                   key={`${item.label}-${index}`}
                 >
-                  {
-                    item.name=='Email'?
-                    <>
-                       <Field
+                  {item.name=='Email'?
+                <>
+                   <Field
                     select={item.type == "select"}
                     as={TextField}
                     label={item.label}
@@ -251,15 +253,14 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   <div className="text-danger  align-self-start  mb-3">
                     <ErrorMessage name={item.name} />
                   </div>
-                  {errorMsg && (
+                {errorMsg && (
                   <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-                    <small>This Email already Registerd</small>
+                    <small>This Email already Registerd</small> 
                   </div>
                 )}
-                    </>
-                    
-                    :<>
-                       <Field
+                </>  :
+                <>
+                   <Field
                     select={item.type == "select"}
                     as={TextField}
                     label={item.label}
@@ -297,10 +298,8 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   </Field>
                   <div className="text-danger  align-self-start  mb-3">
                     <ErrorMessage name={item.name} />
-                  </div>
-                    </>
-                  }
-                  
+                  </div></>
+                }
                
                 </div>
               ))}
@@ -323,7 +322,11 @@ export const NewSubScriber = ({ id, handleClose }) => {
               </div>
             </div>
           </Form>
-            
+                {errorMsg && (
+                  <div className="w-50 text-danger d-flex justify-content-center align-items-center">
+                    <small>This Email already Registerd</small> 
+                  </div>
+                )}
         </>
       )}
     </Formik>

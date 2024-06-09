@@ -215,16 +215,14 @@ export default function SubScribersTable({ row, refCollection }) {
             {selected.length} selected
           </Typography>
         )}
-        {numSelected > 0 && (
           <Tooltip title="AddNew">
-            <IconButton>
+            <IconButton disabled>
               <ChangeEventModal
                 newSelected={selected}
                 setSelected={setSelected}
               />
             </IconButton>
           </Tooltip>
-        )}
         <div
           className="d-flex  gap-2 align-items-center
 "

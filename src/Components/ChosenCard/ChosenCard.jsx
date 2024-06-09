@@ -84,16 +84,16 @@ export const ChosenCard = () => {
                 <p className="m-0">
                   <b>City:</b>
                 </p>
-                {ResultData.city.map((item) => (
-                  <div className="wrappingItems p-1 ">{item.types}</div>
+                {ResultData.city.map((item,ind) => (
+                  <div key={ind} className="wrappingItems p-1 ">{item.types}</div>
                 ))}
               </div>
               <div className={`d-flex align-items-center gap-2 `}>
                 <p className="m-0">
                   <b>Transfer of Value:</b>
                 </p>
-                {ResultData.TransferOfValue.map((item) => (
-                  <div className="wrappingItems p-1 ">
+                {ResultData.TransferOfValue.map((item,ind) => (
+                  <div key={ind} className="wrappingItems p-1 ">
                     <p className="m-0">
                       <span className="text-white">{item.types} :</span>
                       <span className="text-white"> {item.value}</span>

@@ -1,7 +1,7 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 const ExportToExcelButton = ({ data, filename, sheetname }) => {
-  const extractData = data.map((item) => ({
+  const extractData = data?.map((item) => ({
     "Title/اللقب": "Dr",
     "FirstName/الاسم الاول": item.FirstName,
     "LastName/الاسم الاخير": item.LastName,
@@ -13,7 +13,7 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
     "Email/الايميل": item.Email,
     "Form Of Payment ": "cash or cash equalivant",
     "Total Grant": item.CostPerDelegate,
-    "Grant purpose": item.TransferOfValue.map(
+    "Grant purpose": item.TransferOfValue?.map(
       (item) => `${item.types} = ${item.value}`
     ).join(","),
     "Payment Amount": "",
@@ -57,9 +57,9 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
     });
 
     // Add data rows
-    extractData.map((rowItem, index) => {
+    extractData?.map((rowItem, index) => {
       const holder = [
-        ...headersList.map((head) => {
+        ...headersList?.map((head) => {
           const convertItem = isNaN(Number(rowItem[head]))
             ? rowItem[head]
             : Number(rowItem[head]);
@@ -82,7 +82,7 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
         }
       });
     });
-    extractData.map((item, ind) => {
+    extractData?.map((item, ind) => {
       const data = item["Signature"];
       if (data) {
         worksheet.getCell(`N${ind + 2}`).value = {
@@ -117,7 +117,7 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
   return (
     <button onClick={exportToExcel} className="bg-transparent d-flex border-0">
       <i className="fa-solid fa-file-arrow-down fs-4 darkBlue"></i>
-      <span className="fs-6 fw-light"> excel</span>
+      <span className="fs-6"> Report</span>
     </button>
   );
 };
