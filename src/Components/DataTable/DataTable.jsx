@@ -24,7 +24,6 @@ import ExportDropDown from "../ExportDropDown/ExportDropDown";
 import "./DataTable.css";
 import { useNavigate } from "react-router-dom";
 import {
-  
   doc,
   serverTimestamp,
   getDoc,
@@ -36,7 +35,8 @@ import {
   getDocs,
 } from "firebase/firestore";
 import SearchText from "../SearchText/SearchText";
-import  SearchFormik  from "../SearchFormik/SearchFormik";
+import SearchFormik from "../SearchFormik/SearchFormik";
+import TOVsDropDownReport from "../TOVsDropDownReport/TOVsDropDownReport";
 export default function DataTable({ row }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -44,9 +44,8 @@ export default function DataTable({ row }) {
   const [page, setPage] = React.useState(0);
   const [rows, setRows] = React.useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { EventRefrence, EventsDeletedRef, database } = React.useContext(
-    FireBaseContext
-  );
+  const { EventRefrence, EventsDeletedRef, database } =
+    React.useContext(FireBaseContext);
   const navigate = useNavigate();
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -203,18 +202,18 @@ export default function DataTable({ row }) {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const statusCase = (start,end) => {
-     const currentDate = new Date();
-     start = new Date(start);
-     end = new Date(end);
-   
+  const statusCase = (start, end) => {
+    const currentDate = new Date();
+    start = new Date(start);
+    end = new Date(end);
+
     if (start > currentDate) {
-      return {status:'Pending',color:'bg-warning'};
-  } else if (start <= currentDate && end >= currentDate) {
-      return {status:'Started',color:'bg-success'}
-  } else {
-      return {status:'Ended',color:'bg-danger'};
-  }
+      return { status: "Pending", color: "bg-warning" };
+    } else if (start <= currentDate && end >= currentDate) {
+      return { status: "Started", color: "bg-success" };
+    } else {
+      return { status: "Ended", color: "bg-danger" };
+    }
   };
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -266,7 +265,7 @@ export default function DataTable({ row }) {
         page * rowsPerPage + rowsPerPage
       ),
     console.log(""),
-    [order, orderBy, page, rowsPerPage,rows]
+    [order, orderBy, page, rowsPerPage, rows]
   );
   //  Delet ----------------------------
   const batch = writeBatch(database);
@@ -342,7 +341,7 @@ export default function DataTable({ row }) {
       >
         {numSelected > 0 ? (
           <>
-            <Typography
+            <Typography 
               sx={{ flex: "1 1 100%" }}
               color="inherit"
               variant="subtitle1"
@@ -379,6 +378,9 @@ export default function DataTable({ row }) {
         <span className="d-flex gap-2 align-items-center">
           <span className="fs-6 exportExcel">
             <ExportDropDown rows={rows} />
+          </span>
+          <span className="fs-6 exportExcel">
+            <TOVsDropDownReport />
           </span>
         </span>
         <SearchText list={rows} setRows={setRows} row={row} />
@@ -451,7 +453,7 @@ export default function DataTable({ row }) {
                       navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
                     }
                     align="left"
-                    className='p-0'
+                    className="p-0"
                   >
                     <div className=' TovParent'>
 
@@ -504,13 +506,11 @@ export default function DataTable({ row }) {
                     align="left"
                   >
                     <span
-                      className={`${statusCase(
-                        rowItem.eventDate,
-                        rowItem.endDate
-                      ).color} text-white p-2 rounded `}
+                      className={`${
+                        statusCase(rowItem.eventDate, rowItem.endDate).color
+                      } text-white p-2 rounded `}
                     >
-                      {statusCase(   rowItem.eventDate,
-                        rowItem.endDate).status}
+                      {statusCase(rowItem.eventDate, rowItem.endDate).status}
                     </span>
                   </TableCell>
                 </TableRow>
