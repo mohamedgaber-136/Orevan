@@ -16,6 +16,25 @@
   --Pinky:#F1606B;
   --linear-orange:linear-gradient(to right,#E8580F,#EE9D00B2);
 }
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--Deeb-blu);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 h1,h3,h4,h5,h6,label,span{
   color:var(--Deeb-blu) !important; 
 }

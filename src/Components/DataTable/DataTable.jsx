@@ -118,7 +118,7 @@ export default function DataTable({ row }) {
       id: "endDate",
       numeric: true,
       disablePadding: false,
-      label: "end Date ",
+      label: "End Date ",
     },
     {
       id: "CreatedAt",
@@ -454,14 +454,17 @@ export default function DataTable({ row }) {
                     align="left"
                     className='p-0'
                   >
+                    <div className=' TovParent'>
+
                     {rowItem.TransferOfValue?.map((item, index) => (
                       <p
-                        className=" m-1 p-1 text-center"
-                        key={index}
+                      className=" m-1 p-1 text-center "
+                      key={index}
                       >
                         {item.types} : {item.value}
                       </p>
                     ))}
+                  </div>
                   </TableCell>
                   <TableCell
                     onClick={() =>

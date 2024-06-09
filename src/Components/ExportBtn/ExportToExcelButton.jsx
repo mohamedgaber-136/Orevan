@@ -7,9 +7,8 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
     "LastName/الاسم الاخير": item.LastName,
     Specialitzation: item.Speciality,
     "Other Specialitzation (optional)": "",
-    "Professional Classification Number": item.MedicalID,
+    "Professional Classification Number": item.MedicalLicense,
     "National/Resident ID": item.NationalID,
-    "Medical License ID": item.MedicalLicense,
     "Mobile Number / رقم الجوال": item.PhoneNumber,
     "Email/الايميل": item.Email,
     "Form Of Payment ": "cash or cash equalivant",
@@ -20,7 +19,6 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
     "Payment Amount": "",
     Signature: item.image,
   }));
-
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetname);
@@ -32,7 +30,6 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
       "Other Specialitzation (optional)",
       "Professional Classification Number",
       "National/Resident ID",
-      "Medical License ID",
       "Mobile Number / رقم الجوال",
       "Email/الايميل",
       "Form Of Payment ",

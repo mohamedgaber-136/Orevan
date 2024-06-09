@@ -111,7 +111,7 @@ export const PreviewCard = () => {
               </div>
             ))}
           </div>
-          <div className="d-flex align-items-center gap-2">
+          <div className="d-flex align-items-center gap-2  flex-wrap">
             <p className="m-0">
               <b>Transfer of value:</b>
             </p>

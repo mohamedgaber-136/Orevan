@@ -44,9 +44,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
     })}
 
 
-  useEffect(()=>{
-    getDatas(Cities,setItem)
-  },[])
+  // useEffect(()=>{
+  //   getDatas(Cities,setItem)
+  // },[])
   const NewSubScriberInputs = [
     {
       label: "National/iqamaID",
@@ -126,18 +126,15 @@ export const NewSubScriber = ({ id, handleClose }) => {
     (async () => {
       const datas = await getDoc(ref);
       const Result = await datas.data();
-      console.log(Result, "result event");
-      setEventData(Result);
+      // setEventData(Result);
     })();
   }, [dbID]);
 
   const handleFormSubmit = (values) => {
     const data = { ...values };
-    console.log("hi");
-    console.log(data, "values");
+  
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
-    console.log(data);
     if (checkUser) {
       setErrorMsg(true);
     } else {
@@ -212,7 +209,10 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   className="col-12 col-md-5 p-1"
                   key={`${item.label}-${index}`}
                 >
-                  <Field
+                  {
+                    item.name=='Email'?
+                    <>
+                       <Field
                     select={item.type == "select"}
                     as={TextField}
                     label={item.label}
@@ -241,26 +241,77 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       ),
                     }}
                   >
-                    {item.type == "select" &&
+                    {/* {item.type == "select" &&
                       eventData?.city?.map((option) => (
                         <MenuItem key={option.types} value={option.types}>
                           {option.types}
                         </MenuItem>
-                      ))}
+                      ))} */}
                   </Field>
                   <div className="text-danger  align-self-start  mb-3">
                     <ErrorMessage name={item.name} />
                   </div>
+                  {errorMsg && (
+                  <div className="w-50 text-danger d-flex justify-content-center align-items-center">
+                    <small>This Email already Registerd</small>
+                  </div>
+                )}
+                    </>
+                    
+                    :<>
+                       <Field
+                    select={item.type == "select"}
+                    as={TextField}
+                    label={item.label}
+                    id={index}
+                    focused
+                    type={item.type}
+                    className={`w-100  ${
+                      (item.name === "PhoneNumber" || item.name === "City") &&
+                      "border border-secondary form-control "
+                    }`}
+                    name={item.name}
+                    value={values[item.name]}
+                    onChange={(e) =>
+                      handleInputChange(
+                        item.name,
+                        e.target.value,
+                        values,
+                        setValues
+                      )
+                    }
+                    InputProps={{
+                      startAdornment: item.name === "PhoneNumber" && (
+                        <InputAdornment position="start">
+                          {countryCode}
+                        </InputAdornment>
+                      ),
+                    }}
+                  >
+                    {/* {item.type == "select" &&
+                      eventData?.city?.map((option) => (
+                        <MenuItem key={option.types} value={option.types}>
+                          {option.types}
+                        </MenuItem>
+                      ))} */}
+                  </Field>
+                  <div className="text-danger  align-self-start  mb-3">
+                    <ErrorMessage name={item.name} />
+                  </div>
+                    </>
+                  }
+                  
+               
                 </div>
               ))}
               <div className="col-12 col-md-5 p-1">
-
+{/* 
 <MultipleSelection
                 type="city"
                 label="City"
                 list={items}
                 
-                />
+                /> */}
                 </div>
               <div className="col-12 col-md-5 p-1 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
                 <button
@@ -269,31 +320,13 @@ export const NewSubScriber = ({ id, handleClose }) => {
                 >
                   Save
                 </button>
-                {errorMsg && (
-                  <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-                    <small>This Email already Registerd</small>
-                  </div>
-                )}
               </div>
             </div>
           </Form>
+            
         </>
       )}
     </Formik>
   );
 };
-// const validation = Yup.object().shape({
-//   FirstName: Yup.string().min(3, "too short").required("Required"),
-//   LastName: Yup.string().min(3, "too short").required("Required"),
-//   Email: Yup.string().email("Enter Valid Email").required("Required"),
-//   NationalID: Yup.string().min(10,'must be 10 numbers ').max(10,'must be 10 numbers').required("Required"),
-//   PhoneNumber: Yup.string()
-//     .min(9, "too short")
-//     .typeError("enter Valid phone Number")
-//     .required("Required"),
-//   Speciality: Yup.string().required("Required"),
-//   Organization: Yup.string().required("Required"),
-//   LicenseID: Yup.string().required("Required"),
-//   MedicalID: Yup.string().required("Required"),
-//   City: Yup.string().required("Required"),
-// });
+

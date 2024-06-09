@@ -139,9 +139,10 @@ export default function SubScribersTable({ row, refCollection }) {
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={headCell.numeric ? "right" : "left"}
+              align={headCell.numeric ? "center" : "center"}
               padding={headCell.disablePadding ? "normal" : "normal"}
               sortDirection={orderBy === headCell.d ? order : false}
+              className=' p-0'
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
@@ -328,15 +329,15 @@ export default function SubScribersTable({ row, refCollection }) {
                       >
                         {row.id}
                       </TableCell>
-                      <TableCell align="right">{row.FirstName}</TableCell>
-                      <TableCell align="center">{row.Email}</TableCell>
-                      <TableCell align="right">{row.PhoneNumber}</TableCell>
-                      <TableCell align="right">{row.Organization}</TableCell>
-                      <TableCell align="right">{row.Speciality}</TableCell>
-                      <TableCell align="right">{row.NationalID}</TableCell>
-                      <TableCell align="right">{row.City}</TableCell>
+                      <TableCell  align="center">{row.FirstName}</TableCell>
+                      <TableCell  align="center">{row.Email}</TableCell>
+                      <TableCell  align="center">{row.PhoneNumber}</TableCell>
+                      <TableCell  align="center">{row.Organization}</TableCell>
+                      <TableCell  align="center">{row.Speciality}</TableCell>
+                      <TableCell  align="center">{row.NationalID}</TableCell>
+                      <TableCell align="center">{row.City}</TableCell>
                       <TableCell
-                        align="right"
+                        align="center"
                         className="subRowImg d-flex ps-3 pe-0 pb-0 gap-1 align-items-center "
                       >
                         <UploadBtn id={row.ID} info={row.image && "d-none"} />

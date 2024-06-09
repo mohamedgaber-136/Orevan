@@ -5,8 +5,8 @@
     position: absolute;
     content: '';
     width: 100%;
-    height: 5px;
-    background-color: var(--Deeb-blu);
+    height: 2px;
+    background-color: var(--Novartis-Blue);
     bottom: -4px;
     left: 0;
     border-radius: 10px;
