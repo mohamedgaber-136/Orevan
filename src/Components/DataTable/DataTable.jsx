@@ -364,7 +364,6 @@ export default function DataTable({ row }) {
             id="tableTitle"
             component="div"
           >
-            {/* //// */}
             <SearchFormik rows={row} setRows={setRows}  />
           </Typography>
         )}
@@ -374,7 +373,6 @@ export default function DataTable({ row }) {
   EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
   };
-console.log(rows,'rows')
   // body ----------------
   return (
     <Paper sx={{ width: "100%", mb: 0 }} className="BasicTableParent">

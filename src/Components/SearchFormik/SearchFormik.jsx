@@ -56,8 +56,7 @@ const SearchFormik = ({ rows, setRows}) => {
       const StartTimefilterdDate = startDateFilter;
         const EndTimefilterdDate = endDateFilter;
   
-        console.log(StartTimefilterdDate, "filter start");
-        console.log(EndTimefilterdDate, "filter end");
+   
   
         const filtered = rows.filter((item) => {
           const startDate = new Date(item[filterType])
@@ -166,7 +165,7 @@ const SearchFormik = ({ rows, setRows}) => {
               </div>
             </div>
             <span className="d-flex gap-2 align-items-start justify-content-between flex-column h-100 ">
-              <b className="d-flex gap-2 align-items-center"> Tov type</b>
+              <b className="d-flex gap-2 align-items-center"> TOV type</b>
               <span
                 className="fs-6 d-flex align-items-end rounded "
                 style={{ border: "1px solid black" }}
@@ -207,82 +206,4 @@ const SearchFormik = ({ rows, setRows}) => {
   );
 };
 export default SearchFormik;
- // const filtered = rows.filter((item) => {
-      //   const startDate = new Date(item[filterType]).getTime();
-      //   const startTimeFilter = startDateFilter ? new Date(startDateFilter).getTime() : 0;
-      //   const endTimeFilter = endDateFilter ? new Date(endDateFilter).getTime() : Number.MAX_SAFE_INTEGER;
-  
-      //   return startDate >= startTimeFilter && startDate <= endTimeFilter;
-      // });
-  
-      // const finalFiltered = filtered.filter((item) => {
-      //   if (TovType === "All") return true;
-      //   return item.TransferOfValue.some((transfer) => transfer.types === TovType);
-      // });
-  
-      // setRows(finalFiltered);
-    
-      // Filter data based on the selected date range..
-    //   const StartTimefilterdDate = startDateFilter;
-    //   const EndTimefilterdDate = endDateFilter;
-
-    //   console.log(StartTimefilterdDate, "filter start");
-    //   console.log(EndTimefilterdDate, "filter end");
-
-    //   const filtered = rows.filter((item) => {
-    //     const startDate = new Date(item[filterType])
-    //       .toISOString()
-    //       .split("T")[0];
-    //     console.log(startDate, "startDate");
-    //     if (
-    //       (!StartTimefilterdDate || startDate >= StartTimefilterdDate) &&
-    //       (!EndTimefilterdDate || startDate <= EndTimefilterdDate)
-    //     ) {
-    //       // Include the item in the filtered array
-    //       return true;
-    //     } else {
-    //       // Exclude the item from the filtered array
-    //       return false;
-    //     }
-    //   });
-
-    //   let finalFilterd = filtered.filter((item) =>
-    //     Object.values(item).some((value) =>
-    //       String(value).toLowerCase().includes(search.toLowerCase())
-    //     )
-    //   );
-    //   console.log(finalFilterd)
-    //   if(TovType !== "All"){
-    //     let finalFilterdTov = filtered.filter(({ TransferOfValue }) =>
-    //     TransferOfValue.some((item) => item.types.includes(TovType))
-    //   );
-    //   setRows( finalFilterdTov);
-      
-    // }else{
-    //     setRows( finalFilterd);
-
-    //   }
-
-      // Filter data based on selected TOV type
-    
-      // Set the rows based on the selected TOV t
-
-
-
-        // const [startDateFilter, setStartDateFilter] = useState(
-  //   new Date().toISOString().split("T")[0]
-  // );
-  // const [endDateFilter, setEndDateFilter] = useState( new Date().toISOString().split("T")[0]
-  // );
-    {/* <span className="d-flex gap-2 align-items-start flex-column ">
-              <span className="fs-6 d-flex align-items-end">
-                <Field
-                  as={TextField}
-                  onChange={BtnCheck}
-                  name="search"
-                  placeholder="search...."
-                  type="text"
-                  id="outlined-disabled"
-                />
-              </span>
-            </span> */}
+ 
