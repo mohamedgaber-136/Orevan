@@ -50,6 +50,7 @@ const ImportExcel = () => {
       finalres.map(async (item) => {
         await addDoc(SubCollection, item);
         await addDoc(subscriberCollection, item);
+        // Validation not yet  /////////////////////
       })
     );
 
