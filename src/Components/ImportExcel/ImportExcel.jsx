@@ -36,14 +36,16 @@ const ImportExcel = () => {
     };
     reader.readAsBinaryString(file);
   };
-
+  function randomXToY(minVal, maxVal) {
+    let randVal = minVal + Math.random() * (maxVal - minVal);
+    return Math.round(randVal);
+  }
   const SendDataFireBase = async (arrayOfData) => {
     const eventRef = await getDoc(ref);
     const eventData = eventRef.data();
     const finalres = arrayOfData.map((item) => {
-      return { ...item, CostPerDelegate: eventData["CostperDelegate"] };
+      return { ...item, CostPerDelegate: eventData["CostperDelegate"],id: randomXToY(1, 1000)};
     });
-
     await Promise.all(
       finalres.map(async (item) => {
         await addDoc(SubCollection, item);
@@ -51,7 +53,7 @@ const ImportExcel = () => {
       })
     );
 
-    setIsDownloadingTemp(false);
+    setIsDownloadingTemp(true);
   };
 
   useEffect(() => {

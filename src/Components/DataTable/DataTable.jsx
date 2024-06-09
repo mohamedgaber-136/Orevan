@@ -298,7 +298,6 @@ export default function DataTable({ row }) {
             await getDocs(notifyQuery).then(async (snapshot) => {
               snapshot.docs.map(async (item) => {
                 batch.delete(doc(database, "notifications", item.id));
-                // await deleteDoc(doc(database, "notifications", item.id));
               });
             });
           })
