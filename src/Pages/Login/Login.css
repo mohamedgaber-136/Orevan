@@ -1,6 +1,7 @@
 .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
     padding: 0 !important;
 }
+
 .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root{
     border-radius: 5px !important;
 }
@@ -56,14 +57,13 @@ color:black !important;
 }
 .LeftLogo img ,.RighLogo img{
 width: 100%;
-}
-.LeftLogo img {
-    object-fit: cover;
+object-fit: contain !important;
 }
 
-.LoginFooter{
+
+/* .LoginFooter{
 height: 60px ;
-}
-.LeftLogo{
-    width: 250px !important;
+} */
+.LeftLogo,.RighLogo{
+    width: 175px !important;
 }

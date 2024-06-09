@@ -1,6 +1,6 @@
 import "./StepThreeStyle.css";
 import mobileImg from "../../../assets/mobile-frame-without-background-free-png.png";
-import logo from "../../../assets/Novartis Logo RGB 2.png";
+import logo from "../../../assets/Novartis logo.png";
 import TextField from "@mui/material/TextField";
 import { FireBaseContext } from "../../../Context/FireBase";
 import { useContext, useEffect } from "react";
@@ -38,13 +38,16 @@ export const StepThree = () => {
           style={{ backgroundColor: newEvent.bgColor }}
         />
         <div className="StepThreeContent row flex-column align-items-center justify-content-center gap-2 ">
-         <img src={logo} alt="novartisLogo" />
+          <div className="">
+
+         <img src={logo} alt="novartisLogo" style={{objtectFit:'contain'}} />
+          </div>
           <p className="m-0 text-center ">
             <b
               className="text-center"
               style={{ color: newEvent.fontColor }}
             >
-              Welcome To Please Insert The Event ID
+               Please Insert The Event ID
             </b>
           </p>
           <TextField

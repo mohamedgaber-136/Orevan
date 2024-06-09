@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../Context/SearchContext";
 import { FireBaseContext } from "../../Context/FireBase";
 import InputAdornment from "@mui/material/InputAdornment";
-import { addDoc, doc, collection, getDoc } from "firebase/firestore";
+import { addDoc, doc, collection, getDoc, onSnapshot } from "firebase/firestore";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
@@ -14,13 +14,12 @@ import "./NewSubScriberStyle.css";
 import { MenuItem } from "@mui/material";
 export const NewSubScriber = ({ id, handleClose }) => {
   const { setShowAddNeWSub } = useContext(SearchContext);
-  const { EventRefrence, getData, database } = useContext(FireBaseContext);
+  const { EventRefrence, getData, database,Cities } = useContext(FireBaseContext);
   const { dbID } = useParams();
   const countryCode = "+966";
   const [errorMsg, setErrorMsg] = useState(false);
   const [checkSubScriber, SetSubScriber] = useState([]);
   const [user, SetUsers] = useState([]);
-  const [eventData, setEventData] = useState(null);
 
   const initialvalues = {
     id: randomXToY(1, 1000),
@@ -36,7 +35,18 @@ export const NewSubScriber = ({ id, handleClose }) => {
     CostPerDelegate: 0,
     TransferOfValue: [],
   };
+  const getDatas = (CollectionType, SetItem) => {
+    const returnedValue = onSnapshot(CollectionType, (snapshot) => {
+      const newData = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+      }));
+      SetItem(newData[0].data);
+    })}
 
+
+  // useEffect(()=>{
+  //   getDatas(Cities,setItem)
+  // },[])
   const NewSubScriberInputs = [
     {
       label: "National/iqamaID",
@@ -81,7 +91,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
     },
     {
       label: "City",
-      type: "select",
+      type: "text",
       name: "City",
     },
   ];
@@ -117,7 +127,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
       const datas = await getDoc(ref);
       const Result = await datas.data();
       console.log(Result, "result event");
-      setEventData(Result);
+      // setEventData(Result);
     })();
   }, [dbID]);
 
@@ -174,18 +184,11 @@ export const NewSubScriber = ({ id, handleClose }) => {
           PhoneNumber: matchingItem.PhoneNumber.substring(4),
         });
       }
-      // else {
-      //   // setAutoFilledUser({ ...autoFilledUser, NationalID: nationalValue });
-      //   setValues({ ...autoFilledUser, NationalID: nationalValue });
-      // }
-      console.log(matchingItem, "matchingItem");
+    
       // }
     }
     if (!isAutoCompleted) {
-      // setAutoFilledUser({
-      //   ...autoFilledUser,
-      //   [name]: value,
-      // });
+  
       setFormValues({ ...formValues, [name]: value });
     }
     // Update the form values with the sanitized input
@@ -209,7 +212,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   className="col-12 col-md-5 p-1"
                   key={`${item.label}-${index}`}
                 >
-                  <Field
+                  {item.name=='Email'?
+                <>
+                   <Field
                     select={item.type == "select"}
                     as={TextField}
                     label={item.label}
@@ -238,19 +243,75 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       ),
                     }}
                   >
-                    {item.type == "select" &&
+                    {/* {item.type == "select" &&
                       eventData?.city?.map((option) => (
                         <MenuItem key={option.types} value={option.types}>
                           {option.types}
                         </MenuItem>
-                      ))}
+                      ))} */}
                   </Field>
                   <div className="text-danger  align-self-start  mb-3">
                     <ErrorMessage name={item.name} />
                   </div>
+                {errorMsg && (
+                  <div className="w-50 text-danger d-flex justify-content-center align-items-center">
+                    <small>This Email already Registerd</small> 
+                  </div>
+                )}
+                </>  :
+                <>
+                   <Field
+                    select={item.type == "select"}
+                    as={TextField}
+                    label={item.label}
+                    id={index}
+                    focused
+                    type={item.type}
+                    className={`w-100  ${
+                      (item.name === "PhoneNumber" || item.name === "City") &&
+                      "border border-secondary form-control "
+                    }`}
+                    name={item.name}
+                    value={values[item.name]}
+                    onChange={(e) =>
+                      handleInputChange(
+                        item.name,
+                        e.target.value,
+                        values,
+                        setValues
+                      )
+                    }
+                    InputProps={{
+                      startAdornment: item.name === "PhoneNumber" && (
+                        <InputAdornment position="start">
+                          {countryCode}
+                        </InputAdornment>
+                      ),
+                    }}
+                  >
+                    {/* {item.type == "select" &&
+                      eventData?.city?.map((option) => (
+                        <MenuItem key={option.types} value={option.types}>
+                          {option.types}
+                        </MenuItem>
+                      ))} */}
+                  </Field>
+                  <div className="text-danger  align-self-start  mb-3">
+                    <ErrorMessage name={item.name} />
+                  </div></>
+                }
+               
                 </div>
               ))}
-
+              <div className="col-12 col-md-5 p-1">
+{/* 
+<MultipleSelection
+                type="city"
+                label="City"
+                list={items}
+                
+                /> */}
+                </div>
               <div className="col-12 col-md-5 p-1 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
                 <button
                   type="submit"
@@ -258,31 +319,17 @@ export const NewSubScriber = ({ id, handleClose }) => {
                 >
                   Save
                 </button>
-                {errorMsg && (
-                  <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-                    <small>This Email already Registerd</small>
-                  </div>
-                )}
               </div>
             </div>
           </Form>
+                {errorMsg && (
+                  <div className="w-50 text-danger d-flex justify-content-center align-items-center">
+                    <small>This Email already Registerd</small> 
+                  </div>
+                )}
         </>
       )}
     </Formik>
   );
 };
-// const validation = Yup.object().shape({
-//   FirstName: Yup.string().min(3, "too short").required("Required"),
-//   LastName: Yup.string().min(3, "too short").required("Required"),
-//   Email: Yup.string().email("Enter Valid Email").required("Required"),
-//   NationalID: Yup.string().min(10,'must be 10 numbers ').max(10,'must be 10 numbers').required("Required"),
-//   PhoneNumber: Yup.string()
-//     .min(9, "too short")
-//     .typeError("enter Valid phone Number")
-//     .required("Required"),
-//   Speciality: Yup.string().required("Required"),
-//   Organization: Yup.string().required("Required"),
-//   LicenseID: Yup.string().required("Required"),
-//   MedicalID: Yup.string().required("Required"),
-//   City: Yup.string().required("Required"),
-// });
+

@@ -7,66 +7,51 @@ import { FireBaseContext } from "../../Context/FireBase";
 import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
+
 const ImportExcel = () => {
   const { dbID } = useParams();
-  const { EventRefrence, getData, database } = useContext(FireBaseContext);
+  const { EventRefrence, database } = useContext(FireBaseContext);
   const [data, setData] = useState([]);
-  const [filterdData, setFilterd] = useState([]);
   const [isDownloadingTemp, setIsDownloadingTemp] = useState(true);
+
   const ref = doc(EventRefrence, dbID);
   const subscriberCollection = collection(ref, "Subscribers");
   const SubCollection = collection(database, "Subscribers");
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(file, "upload file");
-
     if (file) {
-      // Handle the Excel file here
       handleExcelFile(file);
     }
   };
+
   const handleExcelFile = (file) => {
-    // Use xlsx library to parse the Excel file
-    console.log("read file");
     const reader = new FileReader();
     reader.onload = (e) => {
       const data = e.target.result;
       const workbook = XLSX.read(data, { type: "binary" });
-
-      // Process the workbook data (e.g., extract sheets, data, etc.)
       const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
       const Finaledata = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-      console.log(Finaledata, "data");
       setData(Finaledata);
     };
-
     reader.readAsBinaryString(file);
   };
 
-  function randomXToY(minVal, maxVal) {
-    let randVal = minVal + Math.random() * (maxVal - minVal);
-    return Math.round(randVal);
-  }
   const SendDataFireBase = async (arrayOfData) => {
     const eventRef = await getDoc(ref);
     const eventData = eventRef.data();
     const finalres = arrayOfData.map((item) => {
       return { ...item, CostPerDelegate: eventData["CostperDelegate"] };
     });
-    console.log(finalres, "import excel");
 
-    // await Promise.all(
-    //   finalres.map(async (subObj) => {
-    //     await addDoc(SubCollection, subObj);
-    //   })
-    // );
-    // finalres.map(async (item) => {
-    //   await addDoc(SubCollection, item);
-    //   await addDoc(SubCollection, item);
-    // });
+    await Promise.all(
+      finalres.map(async (item) => {
+        await addDoc(SubCollection, item);
+        await addDoc(subscriberCollection, item);
+      })
+    );
 
-    // show swal that data has been saved successfylly
-    setIsDownloadingTemp(!isDownloadingTemp);
+    setIsDownloadingTemp(false);
   };
 
   useEffect(() => {
@@ -84,18 +69,19 @@ const ImportExcel = () => {
       "License ID": "LicenseID",
       Organization: "Organization",
     };
+
     const arrayOfObjects = data?.slice(1).map((values) => {
       return data[0].reduce((obj, key, index) => {
-        console.log(key, "key");
         if (keysValues.hasOwnProperty(key)) {
           obj[keysValues[key]] = values[index];
         }
         return obj;
       }, {});
     });
-    console.log(arrayOfObjects, "arrayOfObjects");
-    SendDataFireBase(arrayOfObjects);
-    // setFilterd([...arrayOfObjects]);
+
+    if (arrayOfObjects && arrayOfObjects.length > 0) {
+      SendDataFireBase(arrayOfObjects);
+    }
   }, [data]);
 
   const downloadBasicFile = async () => {
@@ -104,7 +90,7 @@ const ImportExcel = () => {
     const worksheet = workbook.addWorksheet(sheetname);
     const initialValues = {
       "Title/اللقب": "Mr",
-      "FirstName/الاسم الاول": "Fisrt Name",
+      "FirstName/الاسم الاول": "First Name",
       "LastName/الاسم الاخير": "Last Name",
       Specialitzation: "Speciality",
       "Other Specialitzation (optional)": "",
@@ -117,74 +103,62 @@ const ImportExcel = () => {
       "Total Grant": "number",
       "Grant purpose": "",
       "Payment Amount": "number",
-      // Signature: "image link",
     };
+
     worksheet.addRow([...Object.entries(initialValues).map((item) => item[0])]);
-    // insert initial dummy data
     worksheet.addRow([...Object.entries(initialValues).map((item) => item[1])]);
-    // Set the background color for the entire row (e.g., row 1)
+
     const rowIndex = 1;
     const row = worksheet.getRow(rowIndex);
 
     [1, 2].map((rowIndex) =>
-      worksheet
-        .getRow(rowIndex)
-        .eachCell({ includeEmpty: true }, (cell, index) => {
-          if (rowIndex == 1) {
-            cell.fill = {
-              type: "pattern",
-              pattern: "solid",
-              fgColor: { argb: "80FFFF00" }, // ARGB format for light red color
-            };
-          }
-          cell.font = { size: 12 };
-          cell.alignment = { horizontal: "center", vertical: "middle" };
+      worksheet.getRow(rowIndex).eachCell({ includeEmpty: true }, (cell, index) => {
+        if (rowIndex === 1) {
+          cell.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: "80FFFF00" },
+          };
+        }
+        cell.font = { size: 12 };
+        cell.alignment = { horizontal: "center", vertical: "middle" };
 
-          if (typeof cell.value === "number") {
-            cell.numFmt = "0"; // Display as integer, you can customize this format
-          }
-        })
+        if (typeof cell.value === "number") {
+          cell.numFmt = "0";
+        }
+      })
     );
 
-    // Set column widths to fit the content
     worksheet.columns.forEach((column, colIndex) => {
       let maxLength = 0;
-
-      // Find the maximum content length in the column
-      worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
+      worksheet.eachRow({ includeEmpty: true }, (row) => {
         const cellValue = row.getCell(colIndex + 1).text;
         maxLength = Math.max(maxLength, cellValue ? cellValue.length : 0);
       });
-
-      // Set the column width based on the maximum content length
-      column.width = maxLength + 5; // Add some extra padding
+      column.width = maxLength + 5;
     });
+
     worksheet.getRow(1).height = 20;
-    //   const largeNumberColumn = worksheet.getColumn('K');
-    // largeNumberColumn.numFmt = '0';
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
     saveAs(blob, sheetname);
-    setIsDownloadingTemp(!isDownloadingTemp);
+    setIsDownloadingTemp(false);
   };
+
   return isDownloadingTemp ? (
-    <Button
-      id="fade-button"
-      className="d-flex flex-column "
-      onClick={downloadBasicFile}
-    >
+    <Button id="fade-button" className="d-flex flex-column " onClick={downloadBasicFile}>
       <div className="d-flex ">
         <i className="fa-solid fa-file-arrow-down fs-4 darkBlue"></i>
-        <span>Download</span>
+        <span>import</span>
       </div>
     </Button>
   ) : (
     <Button id="fade-button" className="d-flex flex-column ">
       <label htmlFor="importFile" className="d-flex ">
         <i className="fa-solid fa-file-arrow-up fs-4 darkBlue"></i>
-        <span>Import</span>
+        <span>insert</span>
       </label>
       <input
         type="file"
@@ -196,4 +170,5 @@ const ImportExcel = () => {
     </Button>
   );
 };
+
 export default ImportExcel;

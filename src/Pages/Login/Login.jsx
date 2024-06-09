@@ -70,16 +70,16 @@ if(!UserId.Condition.Blocked){
   }, [currentUsr]);
 
   return (
-    <div className="d-flex justify-content-around vh-100 flex-column align-items-center flex-column ">
+    <div className="d-flex justify-content-around LoginParent  flex-column  align-items-center flex-column ">
       <div className=" d-flex justify-content-center pt-3 flex-column align-items-center   container">
         <div className="  d-flex justify-content-center align-items-center w-100 h-100 ">
           <div className="  LoginBorder   h-100  d-flex justify-content-center flex-column align-items-center ">
           
-            <div className=" w-50">
+            <div className=" w-50 ">
            
-            <Formik className='w-100'>
+            <Formik className='w-100 '>
               {() => (
-                <Form onSubmit={LoginFunc} className="w-100  ">
+                <Form onSubmit={LoginFunc} className="w-100  my-3 ">
                   <div className=" my-5 d-flex justify-content-center">
                     <div className="w-75">
 
@@ -89,7 +89,7 @@ if(!UserId.Condition.Blocked){
                     <div className="d-flex  flex-column  pt-2 gap-2  w-100">
               <h2 className="LoginTitle fs-1 ">Login</h2>
               <h6 className="text-secondary fs-6">
-                Please Enter your email to Connect.
+                Please Enter your email and password to Connect.
               </h6>
             </div>
                   <FormControl className="w-100    ">
@@ -133,8 +133,7 @@ if(!UserId.Condition.Blocked){
                 </Form>
               )}
             </Formik>
-            <a className="OrangeGradient" href="mailto:orevanevents@orevan.org">Contact us</a>
-
+            <a className="OrangeGradient "  href="mailto:orevanevents@orevan.org">Contact us</a>
             </div>
           </div>
           <div className=" loginImgParent px-2  h-100 d-flex justify-content-center align-items-center ">

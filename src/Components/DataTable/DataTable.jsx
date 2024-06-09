@@ -117,7 +117,7 @@ export default function DataTable({ row }) {
       id: "endDate",
       numeric: true,
       disablePadding: false,
-      label: "end Date ",
+      label: "End Date ",
     },
     {
       id: "CreatedAt",
@@ -363,8 +363,7 @@ export default function DataTable({ row }) {
             id="tableTitle"
             component="div"
           >
-            {/* //// */}
-            <SearchFormik rows={row} setRows={setRows} />
+            <SearchFormik rows={row} setRows={setRows}  />
           </Typography>
         )}
       </Toolbar>
@@ -373,7 +372,6 @@ export default function DataTable({ row }) {
   EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
   };
-  console.log(rows, "rows");
   // body ----------------
   return (
     <Paper sx={{ width: "100%", mb: 0 }} className="BasicTableParent">
@@ -458,11 +456,17 @@ export default function DataTable({ row }) {
                     align="left"
                     className="p-0"
                   >
+                    <div className=' TovParent'>
+
                     {rowItem.TransferOfValue?.map((item, index) => (
-                      <p className=" m-1 p-1 text-center" key={index}>
+                      <p
+                      className=" m-1 p-1 text-center "
+                      key={index}
+                      >
                         {item.types} : {item.value}
                       </p>
                     ))}
+                  </div>
                   </TableCell>
                   <TableCell
                     onClick={() =>

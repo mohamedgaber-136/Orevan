@@ -11,11 +11,11 @@ export const Subscribers = () => {
   const { dbID } = useParams();
   const ref = doc(EventRefrence, dbID);
   const infoCollection = collection(ref, "Subscribers");
-  console.log(infoCollection)
   useEffect(() => {
     getData(infoCollection, setSubscribers);
-  }, [dbID]);
-  return (
+    }, [dbID]);
+    console.log(Subscribers)
+    return (
     <div className="EventsPageParent d-flex flex-column container-fluid container-md gap-3  ">
       <h2>Subscribers</h2>
       <div className="d-flex justify-content-center">
