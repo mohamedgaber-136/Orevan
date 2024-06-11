@@ -16,9 +16,9 @@ const DatePickerInput = ({ condition, SetError, formErrors }) => {
       setNewEvent({ ...newEvent, eventDate: formattedDate.split(",")[0] });
       setValue(formattedDate.split(",")[0]);
       if (date) {
-        SetError({ ...formErrors, CreatedAt: "" });
+        SetError({ ...formErrors, eventDate: "" });
       } else {
-        SetError({ ...formErrors, CreatedAt: "Required" });
+        SetError({ ...formErrors, eventDate: "Required" });
       }
     } else {
       setNewEvent({ ...newEvent, endDate: formattedDate.split(",")[0] });

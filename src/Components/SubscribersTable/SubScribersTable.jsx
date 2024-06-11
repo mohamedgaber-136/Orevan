@@ -215,9 +215,10 @@ export default function SubScribersTable({ row, refCollection }) {
             {selected.length} selected
           </Typography>
         )}
-          <Tooltip title="AddNew">
-            <IconButton disabled>
+          <Tooltip title={numSelected<=0?'select subscriber':'change'}>
+            <IconButton >
               <ChangeEventModal
+              numSelected={numSelected<=0}
                 newSelected={selected}
                 setSelected={setSelected}
               />

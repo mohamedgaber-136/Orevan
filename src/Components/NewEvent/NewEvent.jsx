@@ -32,6 +32,7 @@ export default function NewEvent() {
     setId,
     currentUsr,
     saveNotificationToFirebase,
+    dateError,
     database,
     TransferOfValuesRef,
   } = useContext(FireBaseContext);
@@ -73,6 +74,8 @@ export default function NewEvent() {
         newEvent.DateEndHours === "" ||
         newEvent.endDate === "" ||
         newEvent.eventDate === "" ||
+        newEvent.EventCurrency === "" ||
+        dateError==false||
         newEvent.city.length === 0 ||
         newEvent.TransferOfValue.length === 0
       ) {

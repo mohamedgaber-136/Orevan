@@ -2,13 +2,14 @@ import { initializeApp } from "@firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBckxAp9_24tLxViaY6yX5BUln07nUk2sM",
-  authDomain: "novartis-f3745.firebaseapp.com",
-  projectId: "novartis-f3745",
-  storageBucket: "novartis-f3745.appspot.com",
-  messagingSenderId: "904353795718",
-  appId: "1:904353795718:web:25f35b4c6c5f25688f8b07",
-  measurementId: "G-2LMZXPR3L4",
+  apiKey: "AIzaSyCVvf3gBWoTTvErXwWNbeWWW8aLfx9S5Ag",
+  authDomain: "orevanreg.firebaseapp.com",
+  databaseURL: "https://orevanreg.firebaseio.com",
+  projectId: "orevanreg",
+  storageBucket: "orevanreg.appspot.com",
+  messagingSenderId: "882583903364",
+  appId: "1:882583903364:web:1d5c38ff461bb5f4e0f6d1",
+  measurementId: "G-FRHV1QQFS9"
 };
 const AdminApp = initializeApp(firebaseConfig, "Admin");
 // const AdminDatabase = getFirestore(AdminApp);

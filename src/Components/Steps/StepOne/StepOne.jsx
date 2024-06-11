@@ -10,17 +10,18 @@ import { FranchisedropDown } from "./FranchisedropDown";
 import Tov from "../../Tov/Tov";
 import DatePickerInput from "../../DatePickerInput/DatePickerInput";
 import { onSnapshot } from "firebase/firestore";
+import { EventCurrencyDropDown } from "./EventCurrency";
 export const StepOne = () => {
-  const { newEvent, setNewEvent ,Cities} = useContext(FireBaseContext);
+  const { newEvent, setNewEvent ,setdateError,Cities} = useContext(FireBaseContext);
   const [amexNumber, setAmexNumber] = useState(false);
   const [CPD, SetCPD] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [items, setItem] = useState([]);
   const [formErrors, setFormErrors] = useState({
     EventName: newEvent.EventName ? "" : "",
-    CreatedAt: newEvent.StartDate ? "" : "",
+    eventDate: newEvent.eventDate ? "" : "",
     City: newEvent.city.length !== 0 ? "" : "",
-    EndDate: newEvent.EndDate ? "" : "",
+    EndDate: newEvent.endDate ? "" : "",
     TransferOfValue: newEvent.TransferOfValue.length !== 0 ? "" : "",
     P3: newEvent.BeSure ? "" : "",
     PO: newEvent.PO ? "" : "",
@@ -42,13 +43,12 @@ export const StepOne = () => {
       let sum = data.map((item) => item.value);
       let result = sum.reduce((x, y) => parseFloat(x) + parseFloat(y));
       SetCPD(result);
-      console.log(result)
       return result;
     } else {
       return 0;
     }
   };
-  
+
   useEffect(() => {
     setNewEvent({ ...newEvent, CostperDelegate: CPD });
   }, [CPD]);
@@ -68,6 +68,29 @@ export const StepOne = () => {
   useEffect(()=>{
     getData(Cities,setItem)
   },[])
+
+
+
+  const validateDates = () => {
+    if (newEvent.eventDate && newEvent.endDate) {
+      console.log('done')
+      const startDate = new Date(newEvent.CreatedAt);
+      const endDate = new Date(newEvent.endDate);
+      console.log(startDate,'startDate')
+      console.log(endDate,'endDate')
+      if (endDate < startDate) {
+        setFormErrors({...formErrors,EndDate:'not valid date'})
+        setdateError(false)
+        }   else{
+          setFormErrors({...formErrors,EndDate:''})
+          setdateError(true)
+      } 
+    }
+    }
+    useEffect(()=>{
+      validateDates()
+    },[newEvent.eventDate ,newEvent.endDate])
+    console.log(formErrors,'form')
   return (
     <div>
       <Formik>
@@ -87,12 +110,12 @@ export const StepOne = () => {
                 name={"eventName"}
                 label={<b>Event Name</b>}
                 focused
-                defaultValue={newEvent.EventName}
+                defaultValue={newEvent.eventName}
                 className={`w-100 `}
                 onChange={getDatas}
               />
               <small className="text-danger errorMsg">
-                {formErrors.EventName}
+                {formErrors.eventName}
               </small>
             </div>
             <div className="errorParent col-md-6 col-12">
@@ -128,8 +151,17 @@ export const StepOne = () => {
               />
               <small className="text-danger errorMsg">{formErrors.City}</small>
             </div>
-            <div className="errorParent col-12">
+            <div className="errorParent col-12 col-md-6">
               <FranchisedropDown
+                SetError={setFormErrors}
+                formErrors={formErrors}
+              />
+              <small className="text-danger errorMsg ">
+                {formErrors.Franchise}
+              </small>
+            </div>
+            <div className="errorParent col-12 col-md-6">
+              <EventCurrencyDropDown
                 SetError={setFormErrors}
                 formErrors={formErrors}
               />
@@ -194,13 +226,16 @@ export const StepOne = () => {
                   <h6>
                     <b className="text-secondary">To</b>
                   </h6>
-                  <div className=" col-12 col-md-5 flex-fill  dropDownBorder p-2 greyBgc">
+                  <div className=" col-12 col-md-5 flex-fill position-relative  dropDownBorder p-2 greyBgc">
                     <DatePickerInput
                       condition={false}
                       SetError={setFormErrors}
                       formErrors={formErrors}
                     />
                     <small className="text-danger errorMsg">
+                      {
+                        console.log(formErrors.EndDate,'formErrors.EndDate')
+                      }
                       {formErrors.EndDate}
                     </small>
                   </div>

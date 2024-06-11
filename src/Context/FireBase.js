@@ -26,11 +26,13 @@ const FireBaseContextProvider = ({ children }) => {
   const [FinaleUser, setFinaleUser] = useState({});
   const [roleCondition, setRole] = useState("");
   const [currentUserRole, setCurrentUserRole] = useState("");
+  const [dateError, setdateError] = useState(false);
   const [newEvent, setNewEvent] = useState({
     eventName: "",
     CostperDelegate: "",
     PO: "",
     Franchise: "",
+    EventCurrency:'',
     Id: "",
     city: [],
     BeSure: "",
@@ -199,6 +201,8 @@ const FireBaseContextProvider = ({ children }) => {
         setEvents,
         setSubscribers,
         setTeams,
+        setdateError,
+        dateError,
         TeamsRefrence,
         currentUserRole,
         setCurrentUserRole,

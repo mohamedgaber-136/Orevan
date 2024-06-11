@@ -1,7 +1,7 @@
 @import url('https://unpkg.com/css.gg@2.0.0/icons/css/spinner-two-alt.css');
 *{
   list-style: none;
-  font-family: "Oswald", sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 :root{
@@ -41,6 +41,9 @@ h1,h3,h4,h5,h6,label,span{
 .css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input{
   padding: 10px !important;
 }
+.css-wb57ya-MuiFormControl-root-MuiTextField-root{
+  border: none !important;
+}
 label{
   background-color: white;
 }
@@ -50,6 +53,10 @@ label{
 }
 .btn-DarkBlue{
   background-color: var(--Deeb-blu) !important;
+  color: var(--Deeb-blu)  ;
+}
+.btn-grey{
+  background-color: grey !important;
   color: var(--Deeb-blu)  ;
 }
 .darkBlue{

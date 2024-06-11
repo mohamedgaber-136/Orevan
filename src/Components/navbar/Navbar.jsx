@@ -59,11 +59,6 @@ export const Navbar = ({ navAppear }) => {
       data: "Users",
       nav: "AllUsers",
     },
-    // {
-    //   icon: "fa-solid fa-file-lines",
-    //   data: "Profile",
-    //   nav: "Profile",
-    // },
     isAllowedUser && {
       icon: "fa-solid fa-people-group",
       data: "CreateUser",

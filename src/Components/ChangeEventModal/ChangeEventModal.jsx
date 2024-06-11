@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchEvent from "../SearchEvent/SearchEvent";
-export default function ChangeEventModal({ newSelected, setSelected }) {
+export default function ChangeEventModal({ newSelected, setSelected,numSelected }) {
   const [open, setOpen] = useState(false);
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {
@@ -28,7 +28,7 @@ export default function ChangeEventModal({ newSelected, setSelected }) {
     <>
       <Button
         onClick={handleClickOpen}
-        className="btn-DarkBlue text-white d-flex justify-content-center align-items-center"
+        className={` text-white d-flex justify-content-center align-items-center ${numSelected?'btn-grey':'btn-DarkBlue'} `}
       >
         Change Event
       </Button>
@@ -37,10 +37,7 @@ export default function ChangeEventModal({ newSelected, setSelected }) {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle
-          sx={{ m: 0, p: 2 }}
-          id="customized-dialog-title"
-        ></DialogTitle>
+       
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -53,7 +50,7 @@ export default function ChangeEventModal({ newSelected, setSelected }) {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent>
+        <DialogContent >
           <SearchEvent
             handleClose={handleClose}
             newSelected={newSelected}
