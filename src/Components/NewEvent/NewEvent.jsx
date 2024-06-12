@@ -75,7 +75,7 @@ export default function NewEvent() {
         newEvent.endDate === "" ||
         newEvent.eventDate === "" ||
         newEvent.EventCurrency === "" ||
-        dateError==false||
+        dateError == true ||
         newEvent.city.length === 0 ||
         newEvent.TransferOfValue.length === 0
       ) {
@@ -84,7 +84,7 @@ export default function NewEvent() {
         setOpen(false);
       }
     }
-  }, [newEvent]);
+  }, [newEvent, dateError]);
   useEffect(() => {
     if (activeStep === 2) {
       if (newEvent.Id) {

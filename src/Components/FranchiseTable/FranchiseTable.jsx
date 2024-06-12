@@ -18,7 +18,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
 import { FireBaseContext } from "../../Context/FireBase";
 import { useNavigate } from "react-router-dom";
-import  SearchFormik from "../SearchFormik/SearchFormik";
+import SearchFormik from "../SearchFormik/SearchFormik";
 export default function FranchiseTable({ row, sub }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -28,13 +28,18 @@ export default function FranchiseTable({ row, sub }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const navigate = useNavigate();
   function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
+    if (typeof a[orderBy] == "string" && typeof b[orderBy]) {
+      return b[orderBy]?.toLowerCase() < a[orderBy]?.toLowerCase() ? -1 : 1;
+    } else {
+      return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
+    // if (b[orderBy] < a[orderBy]) {
+    //   return -1;
+    // }
+    // if (b[orderBy] > a[orderBy]) {
+    //   return 1;
+    // }
+    // return 0;
   }
   function getComparator(order, orderBy) {
     return order === "desc"
@@ -169,19 +174,19 @@ export default function FranchiseTable({ row, sub }) {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const statusCase = (start,end) => {
+  const statusCase = (start, end) => {
     const currentDate = new Date();
     start = new Date(start);
     end = new Date(end);
-  
-   if (start > currentDate) {
-     return {status:'Pending',color:'bg-warning'};
- } else if (start <= currentDate && end >= currentDate) {
-     return {status:'Started',color:'bg-success'}
- } else {
-     return {status:'Ended',color:'bg-danger'};
- }
- };
+
+    if (start > currentDate) {
+      return { status: "Pending", color: "bg-warning" };
+    } else if (start <= currentDate && end >= currentDate) {
+      return { status: "Started", color: "bg-success" };
+    } else {
+      return { status: "Ended", color: "bg-danger" };
+    }
+  };
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.ID);
@@ -367,7 +372,6 @@ export default function FranchiseTable({ row, sub }) {
                     scope="row"
                     padding="none"
                     align="center"
-
                     onClick={() =>
                       navigate(`/app/subscribers/${row.Id}/${row.ID}`)
                     }
@@ -421,13 +425,11 @@ export default function FranchiseTable({ row, sub }) {
                     align="left"
                   >
                     <span
-                      className={`${statusCase(
-                        row.eventDate,
-                        row.endDate
-                      ).color} text-white p-2 rounded `}
+                      className={`${
+                        statusCase(row.eventDate, row.endDate).color
+                      } text-white p-2 rounded `}
                     >
-                        {statusCase(   row.eventDate,
-                        row.endDate).status}
+                      {statusCase(row.eventDate, row.endDate).status}
                     </span>
                   </TableCell>
                 </TableRow>

@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore";
 import UpdateSubModel from "../UpdateSubModel/UpdateSubModel";
 export default function SettingsBtn({ refCollection, rowId, row }) {
-  console.log(rowId,'rowId')
+  console.log(rowId, "rowId");
   const { dbID } = useParams();
   const ITEM_HEIGHT = 38;
   const [anchorEl, setAnchorEl] = useState(null);
@@ -30,6 +30,7 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
   const removeSubscriber = async (id) => {
     const ref = doc(refCollection, id);
     const item = await getDoc(ref);
+    console.log(item,'item to be deleted')
     swal({
       title: "Are you sure You want Delete this subscriber?",
       icon: "warning",
@@ -40,8 +41,8 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
         swal({
           icon: "success",
         });
-        console.log(item.data())
-        console.log(id)
+        console.log(item.data(),'item to be deleted');
+        console.log(id);
         await deleteDoc(ref);
 
         await setDoc(doc(SubscribersDeletedRef, id), {

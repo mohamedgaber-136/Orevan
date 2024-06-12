@@ -48,13 +48,18 @@ export default function DataTable({ row }) {
     React.useContext(FireBaseContext);
   const navigate = useNavigate();
   function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
+    if (typeof a[orderBy] == "string" && typeof b[orderBy]) {
+      return b[orderBy]?.toLowerCase() < a[orderBy]?.toLowerCase() ? -1 : 1;
+    } else {
+      return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
+    // if (b[orderBy] < a[orderBy]) {
+    //   return -1;
+    // }
+    // if (b[orderBy] > a[orderBy]) {
+    //   return 1;
+    // }
+    // return 0;
   }
   function getComparator(order, orderBy) {
     return order === "desc"
@@ -341,7 +346,7 @@ export default function DataTable({ row }) {
       >
         {numSelected > 0 ? (
           <>
-            <Typography 
+            <Typography
               sx={{ flex: "1 1 100%" }}
               color="inherit"
               variant="subtitle1"
@@ -362,7 +367,7 @@ export default function DataTable({ row }) {
             id="tableTitle"
             component="div"
           >
-            <SearchFormik rows={row} setRows={setRows}  />
+            <SearchFormik rows={row} setRows={setRows} />
           </Typography>
         )}
       </Toolbar>
@@ -455,17 +460,13 @@ export default function DataTable({ row }) {
                     align="left"
                     className="p-0"
                   >
-                    <div className=' TovParent'>
-
-                    {rowItem.TransferOfValue?.map((item, index) => (
-                      <p
-                      className=" m-1 p-1 text-center "
-                      key={index}
-                      >
-                        {item.types} : {item.value}
-                      </p>
-                    ))}
-                  </div>
+                    <div className=" TovParent">
+                      {rowItem.TransferOfValue?.map((item, index) => (
+                        <p className=" m-1 p-1 text-center " key={index}>
+                          {item.types} : {item.value}
+                        </p>
+                      ))}
+                    </div>
                   </TableCell>
                   <TableCell
                     onClick={() =>

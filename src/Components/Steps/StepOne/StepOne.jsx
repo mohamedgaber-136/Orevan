@@ -12,7 +12,8 @@ import DatePickerInput from "../../DatePickerInput/DatePickerInput";
 import { onSnapshot } from "firebase/firestore";
 import { EventCurrencyDropDown } from "./EventCurrency";
 export const StepOne = () => {
-  const { newEvent, setNewEvent ,setdateError,Cities} = useContext(FireBaseContext);
+  const { newEvent, setNewEvent, setdateError, Cities } =
+    useContext(FireBaseContext);
   const [amexNumber, setAmexNumber] = useState(false);
   const [CPD, SetCPD] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -62,35 +63,36 @@ export const StepOne = () => {
         ...doc.data(),
       }));
       SetItem(newData[0].data);
-    })}
+    });
+  };
 
-
-  useEffect(()=>{
-    getData(Cities,setItem)
-  },[])
-
-
+  useEffect(() => {
+    getData(Cities, setItem);
+  }, []);
 
   const validateDates = () => {
     if (newEvent.eventDate && newEvent.endDate) {
-      console.log('done')
-      const startDate = new Date(newEvent.CreatedAt);
+      console.log("done");
+      const startDate = new Date(newEvent.eventDate);
       const endDate = new Date(newEvent.endDate);
-      console.log(startDate,'startDate')
-      console.log(endDate,'endDate')
+      console.log(startDate, "startDate");
+      console.log(endDate, "endDate");
       if (endDate < startDate) {
-        setFormErrors({...formErrors,EndDate:'not valid date'})
-        setdateError(false)
-        }   else{
-          setFormErrors({...formErrors,EndDate:''})
-          setdateError(true)
-      } 
+        setdateError(true);
+        setFormErrors({ ...formErrors, EndDate: "not valid date" });
+      } else {
+        setdateError(false);
+        setFormErrors({ ...formErrors, EndDate: "" });
+      }
     }
-    }
-    useEffect(()=>{
-      validateDates()
-    },[newEvent.eventDate ,newEvent.endDate])
-    console.log(formErrors,'form')
+  };
+  useEffect(() => {
+    validateDates();
+  }, [
+    newEvent.eventDate,
+    newEvent.endDate,
+  ]);
+  console.log(formErrors, "form");
   return (
     <div>
       <Formik>
@@ -138,10 +140,11 @@ export const StepOne = () => {
                 className="w-100"
                 onChange={getDatas}
               />
-              <small className="text-danger errorMsg">{formErrors.BeSure}</small>
+              <small className="text-danger errorMsg">
+                {formErrors.BeSure}
+              </small>
             </div>
             <div className="errorParent col-md-6 col-12  ">
-              
               <MultipleSelection
                 type="city"
                 label="City"
@@ -181,7 +184,10 @@ export const StepOne = () => {
               </small>
             </div>
             <div className="errorParent col-12  ">
-              <small className="SingleDelegate text-primary" style={{zIndex:'1'}}>
+              <small
+                className="SingleDelegate text-primary"
+                style={{ zIndex: "1" }}
+              >
                 Not Total Cost
               </small>
 
@@ -223,33 +229,31 @@ export const StepOne = () => {
                 </small>
               </div>
               <div className=" col-12   gap-1 col-md-6 row align-items-center">
-                  <h6>
-                    <b className="text-secondary">To</b>
-                  </h6>
-                  <div className=" col-12 col-md-5 flex-fill position-relative  dropDownBorder p-2 greyBgc">
-                    <DatePickerInput
-                      condition={false}
-                      SetError={setFormErrors}
-                      formErrors={formErrors}
-                    />
-                    <small className="text-danger errorMsg">
-                      {
-                        console.log(formErrors.EndDate,'formErrors.EndDate')
-                      }
-                      {formErrors.EndDate}
-                    </small>
-                  </div>
-                  <div className=" col-12 flex-fill p-0 col-md-5">
-                    <TimePicker
-                      condition={false}
-                      SetError={setFormErrors}
-                      formErrors={formErrors}
-                    />
-                    <small className="text-danger errorMsg">
-                      {formErrors.DateEndHours}
-                    </small>
-                  </div>
+                <h6>
+                  <b className="text-secondary">To</b>
+                </h6>
+                <div className=" col-12 col-md-5 flex-fill position-relative  dropDownBorder p-2 greyBgc">
+                  <DatePickerInput
+                    condition={false}
+                    SetError={setFormErrors}
+                    formErrors={formErrors}
+                  />
+                  <small className="text-danger errorMsg">
+                    {console.log(formErrors.EndDate, "formErrors.EndDate")}
+                    {formErrors.EndDate}
+                  </small>
                 </div>
+                <div className=" col-12 flex-fill p-0 col-md-5">
+                  <TimePicker
+                    condition={false}
+                    SetError={setFormErrors}
+                    formErrors={formErrors}
+                  />
+                  <small className="text-danger errorMsg">
+                    {formErrors.DateEndHours}
+                  </small>
+                </div>
+              </div>
             </div>
           </Form>
         )}

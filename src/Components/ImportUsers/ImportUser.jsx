@@ -60,7 +60,7 @@ const ImportUser = () => {
     "Name": "michael",
       "Email": "michael@email.com",
       "Password": "123abc456",
-      "Franchise Type": "Franchise",
+      "franchiseType": "Franchise",
       "Role":"(Admin - Associate - Franchise Manager)",
     };
 
@@ -83,7 +83,7 @@ const ImportUser = () => {
       "Name": "michael",
       "Email": "michael@email.com",
       "Password": "123abc456",
-      "Franchise Type": "Franchise",
+      "franchiseType": "Franchise",
       "Role":"(Admin - Associate - Franchise Manager)",
     };
 

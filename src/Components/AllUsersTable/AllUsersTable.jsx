@@ -24,15 +24,22 @@ export default function AllUsersTable({ row }) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  React.useEffect(()=>{setrows(row)},[row])
+  React.useEffect(() => {
+    setrows(row);
+  }, [row]);
   function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
+    if (typeof a[orderBy] == "string" && typeof b[orderBy]) {
+      return b[orderBy]?.toLowerCase() < a[orderBy]?.toLowerCase() ? -1 : 1;
+    } else {
+      return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
+     // if (b[orderBy] < a[orderBy]) {
+    //   return -1;
+    // }
+    // if (b[orderBy] > a[orderBy]) {
+    //   return 1;
+    // }
+    // return 0;
   }
   function getComparator(order, orderBy) {
     return order === "desc"
@@ -52,7 +59,6 @@ export default function AllUsersTable({ row }) {
   }
   // HeadTitles
   const headCells = [
- 
     {
       id: "Name",
       numeric: true,
@@ -82,8 +88,7 @@ export default function AllUsersTable({ row }) {
       numeric: true,
       disablePadding: false,
       label: "",
-    }
-   
+    },
   ];
 
   function EnhancedTableHead(props) {
@@ -255,28 +260,21 @@ export default function AllUsersTable({ row }) {
                       key={row.ID}
                       selected={isItemSelected}
                       sx={{ cursor: "pointer" }}
-                      className='align-items-center'
+                      className="align-items-center"
                     >
-                   
-                      <TableCell      align="center">
-                       
-                        {row.Name}
-                          </TableCell>
-                      <TableCell      align="center">
-                 
-                        {row.Email}
-                        </TableCell>
-                      <TableCell     align="center">
-                        
-                       
-                    
-                        {row.PhoneNumber}
-                        </TableCell>
+                      <TableCell align="center">{row.Name}</TableCell>
+                      <TableCell align="center">{row.Email}</TableCell>
+                      <TableCell align="center">{row.PhoneNumber}</TableCell>
                       <TableCell align="center">
-                      {row.Condition.Blocked?<b className='text-danger'>Blocked</b>:<b className='text-success'>Active</b>}
+                        {row?.Condition?.Blocked ? (
+                          <b className="text-danger">Blocked</b>
+                        ) : (
+                          <b className="text-success">Active</b>
+                        )}
                       </TableCell>
-                      <TableCell align="center"><UsersSettings row={row} /></TableCell>
-                     
+                      <TableCell align="center">
+                        <UsersSettings row={row} />
+                      </TableCell>
                     </TableRow>
                   );
                 })}

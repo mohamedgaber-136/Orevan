@@ -4,75 +4,81 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FireBaseContext } from "../../Context/FireBase";
-import { updateDoc, doc, getDoc, collection } from "firebase/firestore";
+import {
+  updateDoc,
+  doc,
+  getDoc,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 import swal from "sweetalert";
 export const UpdateSubscriberForm = ({ user, handleClose }) => {
   const { dbID } = useParams();
-  const { EventRefrence } = useContext(FireBaseContext);
+  const { EventRefrence, SubscribersRefrence } = useContext(FireBaseContext);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [updatedData, setUpdated] = useState(null);
   const [downloadURL, setDownloadUrl] = useState(null);
   const [valus, setValues] = useState(null);
-  const [NewSubScriberInputs, setNewSubScriberInputs] = useState([
+  const NewSubScriberInputs = [
     {
       label: "First Name",
       type: "text",
-      default: "",
+      name: "FirstName",
     },
     {
       label: "Last Name",
       type: "text",
-      default: "",
+      name: "LastName",
     },
     {
       label: "Email",
       type: "text",
-      default: "",
+      name: "Email",
     },
     {
       label: "National/iqamaID",
       type: "number",
-      default: "",
+      name: "NationalID",
     },
     {
       label: "Phone Number",
-      type: "number",
-      default: "",
+      type: "text",
+      name: "PhoneNumber",
     },
     {
-      label: "specialty",
+      label: "Speciality",
       type: "text",
-      default: "",
+      name: "Speciality",
     },
     {
       label: "Organization",
       type: "text",
-      default: "",
+      name: "Organization",
     },
     {
       label: "License ID",
       type: "number",
-      default: "",
+      name: "MedicalLicense",
     },
     {
       label: "City",
       type: "text",
-      default: "",
+      name: "City",
     },
     {
       label: "Cost Per Delegate",
       type: "text",
-      default: "",
+      name: "CostPerDelegate",
     },
-    {
-      label: "Transfer of Value",
-      type: "text",
-      default: "",
-    },
-  ]);
+    // {
+    //   label: "Transfer of Value",
+    //   type: "text",
+    //   name: "TransferOfValue",
+    // },
+  ];
   const ref = doc(EventRefrence, dbID);
-  const subCollection = collection(ref, "Subscribers");
-  const userData = doc(subCollection, user.ID);
+  // const subCollection = collection(ref, "Subscribers");
+  const userData = doc(SubscribersRefrence, user.ID);
   async function getdata() {
     const item = await getDoc(userData);
     setUpdated(item.data());
@@ -94,18 +100,25 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
     }).then(async (willDelete) => {
       if (willDelete) {
         handleClose();
+
         const updateSub = {
           id: user.id,
-          Name: e.target[0].value,
-          Email: e.target[2].value,
-          NationalID: e.target[4].value,
-          PhoneNumber: e.target[6].value,
-          Speciality: e.target[8].value,
-          Organization: e.target[10].value,
-          LicenseID: e.target[12].value,
-          City: e.target[14].value,
-          CostPerDelegate: e.target[16].value,
+          // FirstName: e.target["FirstName"].value,
+          // LastName: e.target["LastName"].value,
+          // Email: e.target["Email"].value,
+          // NationalID: e.target["NationalID"].value,
+          // PhoneNumber: e.target["PhoneNumber"].value,
+          // Speciality: e.target["Speciality"].value,
+          // Organization: e.target["Organization"].value,
+          // LicenseID: e.target["LicenseID"].value,
+          // City: e.target["City"].value,
+          // CostPerDelegate: e.target["CostPerDelegate"].value,
         };
+        NewSubScriberInputs.map(
+          (input) => (updateSub[input.name] = e.target[input.name].value)
+        );
+        console.log(updateSub, "updateSub");
+
         await updateDoc(userData, updateSub);
 
         swal({
@@ -140,8 +153,21 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
               onSubmit={addNewSubScriber}
               className="d-flex p-3 bg-white rounded  flex-column  gap-2 justify-content-between align-item-center NewSubScriberForm"
             >
-              <div className="w-100   d-flex flex-wrap ">
-                <div className="w-50 d-flex justify-content-center">
+              <div className="w-100   d-flex flex-wrap">
+                {NewSubScriberInputs.map((input, index) => (
+                  <div className="w-50 d-flex justify-content-center">
+                    <TextField
+                      label={input.label}
+                      id={input.name}
+                      sx={{ m: 1, width: "25ch" }}
+                      focused
+                      className="w-75 "
+                      defaultValue={updatedData[input.name]}
+                      type={input.type}
+                    />
+                  </div>
+                ))}
+                {/* <div className="w-50 d-flex justify-content-center">
                   <TextField
                     label={`${NewSubScriberInputs[0].label}`}
                     id={``}
@@ -240,7 +266,8 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                     className="w-75 "
                     defaultValue={updatedData?.CostPerDelegate}
                   />
-                </div>
+                </div> */}
+
                 <div className="w-50  mt-2 d-flex justify-content-center align-items-center flex-column">
                   <div
                     style={{ borderBottom: "1px solid black" }}

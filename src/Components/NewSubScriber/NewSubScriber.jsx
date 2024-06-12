@@ -6,7 +6,13 @@ import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../Context/SearchContext";
 import { FireBaseContext } from "../../Context/FireBase";
 import InputAdornment from "@mui/material/InputAdornment";
-import { addDoc, doc, collection, getDoc, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  doc,
+  collection,
+  getDoc,
+  onSnapshot,
+} from "firebase/firestore";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
@@ -14,7 +20,8 @@ import "./NewSubScriberStyle.css";
 import { MenuItem } from "@mui/material";
 export const NewSubScriber = ({ id, handleClose }) => {
   const { setShowAddNeWSub } = useContext(SearchContext);
-  const { EventRefrence, getData, database,Cities } = useContext(FireBaseContext);
+  const { EventRefrence, SubscribersRefrence, getData, database, Cities } =
+    useContext(FireBaseContext);
   const { dbID } = useParams();
   const countryCode = "+966";
   const [errorMsg, setErrorMsg] = useState(false);
@@ -41,8 +48,8 @@ export const NewSubScriber = ({ id, handleClose }) => {
         ...doc.data(),
       }));
       SetItem(newData[0].data);
-    })}
-
+    });
+  };
 
   // useEffect(()=>{
   //   getDatas(Cities,setItem)
@@ -118,10 +125,10 @@ export const NewSubScriber = ({ id, handleClose }) => {
 
   const ref = doc(EventRefrence, dbID);
   const subscriberCollection = collection(ref, "Subscribers");
-  const SubCollection = collection(database, "Subscribers");
+  // const SubCollection = collection(database, "Subscribers");
   useEffect(() => {
     getData(subscriberCollection, SetSubScriber);
-    getData(SubCollection, SetUsers);
+    getData(SubscribersRefrence, SetUsers);
 
     (async () => {
       const datas = await getDoc(ref);
@@ -150,8 +157,11 @@ export const NewSubScriber = ({ id, handleClose }) => {
         data["CostPerDelegate"] = eventData.CostperDelegate;
         data["TransferOfValue"] = eventData.TransferOfValue;
         setErrorMsg(false);
-        await addDoc(subscriberCollection, data);
-        await addDoc(SubCollection, data);
+        const x1 = await addDoc(subscriberCollection, data);
+        const x2 = await addDoc(SubscribersRefrence, data);
+
+        console.log(x1, "x1");
+        console.log(x2, "x2");
         setShowAddNeWSub(false);
         handleClose();
       });
@@ -184,11 +194,10 @@ export const NewSubScriber = ({ id, handleClose }) => {
           PhoneNumber: matchingItem.PhoneNumber.substring(4),
         });
       }
-    
+
       // }
     }
     if (!isAutoCompleted) {
-  
       setFormValues({ ...formValues, [name]: value });
     }
     // Update the form values with the sanitized input
@@ -212,106 +221,109 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   className="col-12 col-md-5 p-1"
                   key={`${item.label}-${index}`}
                 >
-                  {item.name=='Email'?
-                <>
-                   <Field
-                    select={item.type == "select"}
-                    as={TextField}
-                    label={item.label}
-                    id={index}
-                    focused
-                    type={item.type}
-                    className={`w-100  ${
-                      (item.name === "PhoneNumber" || item.name === "City") &&
-                      "border border-secondary form-control "
-                    }`}
-                    name={item.name}
-                    value={values[item.name]}
-                    onChange={(e) =>
-                      handleInputChange(
-                        item.name,
-                        e.target.value,
-                        values,
-                        setValues
-                      )
-                    }
-                    InputProps={{
-                      startAdornment: item.name === "PhoneNumber" && (
-                        <InputAdornment position="start">
-                          {countryCode}
-                        </InputAdornment>
-                      ),
-                    }}
-                  >
-                    {/* {item.type == "select" &&
+                  {item.name == "Email" ? (
+                    <>
+                      <Field
+                        select={item.type == "select"}
+                        as={TextField}
+                        label={item.label}
+                        id={index}
+                        focused
+                        type={item.type}
+                        className={`w-100  ${
+                          (item.name === "PhoneNumber" ||
+                            item.name === "City") &&
+                          "border border-secondary form-control "
+                        }`}
+                        name={item.name}
+                        value={values[item.name]}
+                        onChange={(e) =>
+                          handleInputChange(
+                            item.name,
+                            e.target.value,
+                            values,
+                            setValues
+                          )
+                        }
+                        InputProps={{
+                          startAdornment: item.name === "PhoneNumber" && (
+                            <InputAdornment position="start">
+                              {countryCode}
+                            </InputAdornment>
+                          ),
+                        }}
+                      >
+                        {/* {item.type == "select" &&
                       eventData?.city?.map((option) => (
                         <MenuItem key={option.types} value={option.types}>
                           {option.types}
                         </MenuItem>
                       ))} */}
-                  </Field>
-                  <div className="text-danger  align-self-start  mb-3">
-                    <ErrorMessage name={item.name} />
-                  </div>
-                {errorMsg && (
-                  <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-                    <small>This Email already Registerd</small> 
-                  </div>
-                )}
-                </>  :
-                <>
-                   <Field
-                    select={item.type == "select"}
-                    as={TextField}
-                    label={item.label}
-                    id={index}
-                    focused
-                    type={item.type}
-                    className={`w-100  ${
-                      (item.name === "PhoneNumber" || item.name === "City") &&
-                      "border border-secondary form-control "
-                    }`}
-                    name={item.name}
-                    value={values[item.name]}
-                    onChange={(e) =>
-                      handleInputChange(
-                        item.name,
-                        e.target.value,
-                        values,
-                        setValues
-                      )
-                    }
-                    InputProps={{
-                      startAdornment: item.name === "PhoneNumber" && (
-                        <InputAdornment position="start">
-                          {countryCode}
-                        </InputAdornment>
-                      ),
-                    }}
-                  >
-                    {/* {item.type == "select" &&
+                      </Field>
+                      <div className="text-danger  align-self-start  mb-3">
+                        <ErrorMessage name={item.name} />
+                      </div>
+                      {errorMsg && (
+                        <div className="w-50 text-danger d-flex justify-content-center align-items-center">
+                          <small>This Email already Registerd</small>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <Field
+                        select={item.type == "select"}
+                        as={TextField}
+                        label={item.label}
+                        id={index}
+                        focused
+                        type={item.type}
+                        className={`w-100  ${
+                          (item.name === "PhoneNumber" ||
+                            item.name === "City") &&
+                          "border border-secondary form-control "
+                        }`}
+                        name={item.name}
+                        value={values[item.name]}
+                        onChange={(e) =>
+                          handleInputChange(
+                            item.name,
+                            e.target.value,
+                            values,
+                            setValues
+                          )
+                        }
+                        InputProps={{
+                          startAdornment: item.name === "PhoneNumber" && (
+                            <InputAdornment position="start">
+                              {countryCode}
+                            </InputAdornment>
+                          ),
+                        }}
+                      >
+                        {/* {item.type == "select" &&
                       eventData?.city?.map((option) => (
                         <MenuItem key={option.types} value={option.types}>
                           {option.types}
                         </MenuItem>
                       ))} */}
-                  </Field>
-                  <div className="text-danger  align-self-start  mb-3">
-                    <ErrorMessage name={item.name} />
-                  </div></>
-                }
-               
+                      </Field>
+                      <div className="text-danger  align-self-start  mb-3">
+                        <ErrorMessage name={item.name} />
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
               <div className="col-12 col-md-5 p-1">
-{/* 
+                {/* 
 <MultipleSelection
                 type="city"
                 label="City"
                 list={items}
                 
                 /> */}
-                </div>
+              </div>
               <div className="col-12 col-md-5 p-1 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
                 <button
                   type="submit"
@@ -322,14 +334,13 @@ export const NewSubScriber = ({ id, handleClose }) => {
               </div>
             </div>
           </Form>
-                {errorMsg && (
-                  <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-                    <small>This Email already Registerd</small> 
-                  </div>
-                )}
+          {errorMsg && (
+            <div className="w-50 text-danger d-flex justify-content-center align-items-center">
+              <small>This Email already Registerd</small>
+            </div>
+          )}
         </>
       )}
     </Formik>
   );
 };
-

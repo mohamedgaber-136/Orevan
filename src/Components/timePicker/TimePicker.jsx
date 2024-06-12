@@ -35,7 +35,7 @@ const TimePicker = ({ condition, SetError, formErrors }) => {
           dateFormat="h:mm aa"
           timeCaption="Time"
           value={condition ? newEvent.DateFromHours : newEvent.DateEndHours}
-          className=" border-0 bg-transparent"
+          className=" border-0 bg-transparent "
           placeholderText="3:00 PM"
         />
       </div>
