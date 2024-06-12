@@ -14,7 +14,7 @@ import emailjs from '@emailjs/browser';
 
 export const CreateUser = () => {
   const navigation = useNavigate();
-  const { database } = useContext(FireBaseContext);
+  const { database ,UsersData} = useContext(FireBaseContext);
   const [error, setError] = useState(false);
   const [roleType, setRoleType] = useState('Admin');
   const [user, SetUser] = useState("");
@@ -60,9 +60,7 @@ export const CreateUser = () => {
       console.error('Failed to send email.', error);
     });
   };
-
   const onsubmit = async (values, props) => {
-    console.log('hi')
     await createUserWithEmailAndPassword(AdminAuth, values.Email, values.Password)
       .then((res) => {
         SetUser(res.user);
@@ -73,7 +71,7 @@ export const CreateUser = () => {
           Role: {
             admin: values.Role.includes("Admin"),
             manager: values.Role.includes("Franchise Manager"),
-            user: values.Role.includes("User"),
+            user: values.Role.includes("Associate"),
             franchiseType: values.franchiseType,
           },
           Condition: {
@@ -105,7 +103,14 @@ export const CreateUser = () => {
       );
     }
   };
+useEffect(()=>{
+  if(UsersData.length){
+    UsersData.map((item)=>{
 
+      onsubmit(item)
+    })
+    }
+},[UsersData])
   return (
     <div className="border d-flex justify-content-center bg-white p-3">
       <Formik

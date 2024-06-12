@@ -20,6 +20,7 @@ const FireBaseContextProvider = ({ children }) => {
   const [events, setEvents] = useState([]);
   const [teams, setTeams] = useState([]);
   const [filterdData, setFilterd] = useState([]);
+  const [UsersData, setUsersData] = useState([]);
   const [updateUser, setUpdateUser] = useState(null);
   const [Subscribers, setSubscribers] = useState([]);
   const [user, setUser] = useState({});
@@ -100,8 +101,8 @@ const FireBaseContextProvider = ({ children }) => {
   };
   const [currentUsr, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
-  console.log(newEvent, "new");
   const eventsQueryAccordingToUserRole = () => {
+    console.log(currentUserRole, "currentUserRole");
     switch (true) {
       case currentUserRole.admin: {
         return query(EventRefrence);
@@ -128,7 +129,6 @@ const FireBaseContextProvider = ({ children }) => {
         setUser(user);
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
-        console.log(finaleUser.data(), "user");
         setFinaleUser(finaleUser.data());
         setCurrentUserRole(finaleUser.data().Role);
         localStorage.setItem("User", JSON.stringify(finaleUser.data()));
@@ -203,6 +203,8 @@ const FireBaseContextProvider = ({ children }) => {
         setTeams,
         setdateError,
         dateError,
+        setUsersData,
+        UsersData,
         TeamsRefrence,
         currentUserRole,
         setCurrentUserRole,

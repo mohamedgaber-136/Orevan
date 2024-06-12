@@ -62,7 +62,7 @@ export const Events = () => {
           className="w-100 d-flex justify-content-center align-items-center   "
           style={{ height: "calc(100vh - 150px) " }}
         >
-          <div className="dot-spinner ">
+          {/* <div className="dot-spinner ">
             <div className="dot-spinner__dot"></div>
             <div className="dot-spinner__dot"></div>
             <div className="dot-spinner__dot"></div>
@@ -71,7 +71,8 @@ export const Events = () => {
             <div className="dot-spinner__dot"></div>
             <div className="dot-spinner__dot"></div>
             <div className="dot-spinner__dot"></div>
-          </div>
+          </div> */}
+          <p>Create Your First Event </p>
         </div>
       ) : (
         <DataTable row={events} />
