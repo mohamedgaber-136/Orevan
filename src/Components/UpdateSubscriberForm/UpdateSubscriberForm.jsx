@@ -13,12 +13,15 @@ import {
 } from "firebase/firestore";
 import swal from "sweetalert";
 export const UpdateSubscriberForm = ({ user, handleClose }) => {
-  const { dbID } = useParams();
-  const { EventRefrence, SubscribersRefrence } = useContext(FireBaseContext);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [updatedData, setUpdated] = useState(null);
-  const [downloadURL, setDownloadUrl] = useState(null);
-  const [valus, setValues] = useState(null);
+  const tovOptions = [
+    { types: " Registration Fees", value: 0 },
+    { types: "Meals ", value: 0 },
+    { types: "Accommodation", value: 0 },
+    { types: "Medical Utlitities", value: 0 },
+    { types: "CME Hours", value: 0 },
+    { types: "Transportation", value: 0 },
+  ];
+
   const NewSubScriberInputs = [
     {
       label: "First Name",
@@ -76,13 +79,34 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
     //   name: "TransferOfValue",
     // },
   ];
-  const ref = doc(EventRefrence, dbID);
-  // const subCollection = collection(ref, "Subscribers");
-  const userData = doc(SubscribersRefrence, user.ID);
-  async function getdata() {
-    const item = await getDoc(userData);
-    setUpdated(item.data());
-  }
+
+  const { dbID } = useParams();
+  const { EventRefrence } = useContext(FireBaseContext);
+  const [selectedTovOptions, setSelectedTovOptions] = useState([]);
+  const [updatedData, setUpdatedData] = useState(null);
+  const [downloadURL, setDownloadUrl] = useState(null);
+
+  const EventRef = doc(EventRefrence, dbID);
+  const SubscribersCollection = collection(EventRef, "Subscribers");
+  const userData = doc(SubscribersCollection, user.ID);
+  // async function getdata() {
+  //   const item = await getDoc(userData);
+  //   console.log(user, "user");
+  //   console.log(item.data(), "data");
+  //   setUpdatedData(item.data());
+  // }
+
+  const setInitialData = () => {
+    const data = { ...user };
+    delete data.ID;
+    setUpdatedData({ ...data });
+    setSelectedTovOptions([...data.TransferOfValue]);
+  };
+
+  useEffect(() => {
+    setInitialData();
+  }, []);
+
   const ImageData = () => {
     if (!downloadURL) {
       return updatedData.image;
@@ -101,25 +125,31 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
       if (willDelete) {
         handleClose();
 
-        const updateSub = {
-          id: user.id,
-          // FirstName: e.target["FirstName"].value,
-          // LastName: e.target["LastName"].value,
-          // Email: e.target["Email"].value,
-          // NationalID: e.target["NationalID"].value,
-          // PhoneNumber: e.target["PhoneNumber"].value,
-          // Speciality: e.target["Speciality"].value,
-          // Organization: e.target["Organization"].value,
-          // LicenseID: e.target["LicenseID"].value,
-          // City: e.target["City"].value,
-          // CostPerDelegate: e.target["CostPerDelegate"].value,
-        };
-        NewSubScriberInputs.map(
-          (input) => (updateSub[input.name] = e.target[input.name].value)
-        );
-        console.log(updateSub, "updateSub");
+        updatedData.TransferOfValue = selectedTovOptions;
+        console.log(updatedData, "updatedData");
 
-        await updateDoc(userData, updateSub);
+        await updateDoc(userData, updatedData);
+
+        // const updateSub = {
+        //   id: user.id,
+        //   TransferOfValue: selectedTovOptions.length
+        //     ? selectedTovOptions
+        //     : updatedData.TransferOfValue,
+        //   // FirstName: e.target["FirstName"].value,
+        //   // LastName: e.target["LastName"].value,
+        //   // Email: e.target["Email"].value,
+        //   // NationalID: e.target["NationalID"].value,
+        //   // PhoneNumber: e.target["PhoneNumber"].value,
+        //   // Speciality: e.target["Speciality"].value,
+        //   // Organization: e.target["Organization"].value,
+        //   // LicenseID: e.target["LicenseID"].value,
+        //   // City: e.target["City"].value,
+        //   // CostPerDelegate: e.target["CostPerDelegate"].value,
+        // };
+        // NewSubScriberInputs.map(
+        //   (input) => (updateSub[input.name] = e.target[input.name]?.value)
+        // );
+        // console.log(updateSub, "updateSub");
 
         swal({
           icon: "success",
@@ -127,21 +157,16 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
       }
     });
   };
-  const checkTxtValue = (e, item, i) => {
-    selectedOptions[i].value = e.target.value;
+  const checkTxtValue = (value, item) => {
+    // selectedOptions[i].value = e.target.value;
+    const found = selectedTovOptions.find(({ types }) => types == item);
+    found.value = value;
   };
-  const options = [
-    { types: " Registration Fees", value: 0 },
-    { types: "Meals ", value: 0 },
-    { types: "Accommodation", value: 0 },
-    { types: "Medical Utlitities", value: 0 },
-    { types: "CME Hours", value: 0 },
-    { types: "Transportation", value: 0 },
-  ];
-  useEffect(() => {
-    getdata();
-    setUpdated();
-  }, []);
+
+  // useEffect(() => {
+  //   getdata();
+  //   setUpdated();
+  // }, []);
 
   if (updatedData) {
     return (
@@ -268,27 +293,32 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                   />
                 </div> */}
 
-                <div className="w-50  mt-2 d-flex justify-content-center align-items-center flex-column">
+                <div className="w-50 mt-2 d-flex justify-content-center align-items-center flex-column">
                   <div
                     style={{ borderBottom: "1px solid black" }}
                     className="mb-1 w-75"
                   >
                     <Autocomplete
+                      name={"TransferOfValue"}
                       multiple
                       id="tags-outlined"
-                      options={options}
+                      options={tovOptions}
                       getOptionLabel={(option) => option.types}
                       filterSelectedOptions
+                      defaultValue={updatedData.TransferOfValue}
                       onChange={(e, value) => {
-                        setValues(value);
-                        setUpdated({
-                          ...updatedData,
-                          ["TransferOfValue"]: value,
-                        });
-                        setSelectedOptions([
-                          ...updatedData?.TransferOfValue,
+                        console.log("changing..");
+                        // setUpdatedData({
+                        //   ...updatedData,
+                        //   ["TransferOfValue"]: value,
+                        // });
+                        setSelectedTovOptions([
+                          // ...updatedData?.TransferOfValue,
                           ...value,
                         ]);
+                        console.log(value, "value");
+                        console.log(updatedData, "updatedData");
+                        console.log(selectedTovOptions, "selectedTovOptions");
                       }}
                       isOptionEqualToValue={(option, value) =>
                         option.types === value.types
@@ -298,29 +328,28 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                           {...params}
                           label={<b>Transfer Of Values</b>}
                           className="dropDownBorder "
+                          name={"TransferOfValue"}
                         />
                       )}
                     />
                   </div>
                   <div className="w-75 d-flex justify-content-center">
                     <ul className="p-0 d-flex flex-wrap  gap-1 w-100 ">
-                      {updatedData?.TransferOfValue.map(
-                        (savedObject, index) => (
-                          <li
-                            key={index}
-                            className="border d-flex flex-column p-2 rounded wrappingItems "
-                            style={{ width: "40%" }}
-                          >
-                            <p className="m-0">Tov : {savedObject.types} </p>
-                            <TextField
-                              onChange={(e) =>
-                                checkTxtValue(e, savedObject.option, index)
-                              }
-                              defaultValue={savedObject.value}
-                            />
-                          </li>
-                        )
-                      )}
+                      {selectedTovOptions?.map((savedObject, index) => (
+                        <li
+                          key={index}
+                          className="border d-flex flex-column p-2 rounded wrappingItems"
+                          style={{ width: "40%" }}
+                        >
+                          <p className="m-0">Tov : {savedObject.types} </p>
+                          <TextField
+                            onChange={(e) =>
+                              checkTxtValue(e.target.value, savedObject.types)
+                            }
+                            defaultValue={savedObject.value}
+                          />
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>

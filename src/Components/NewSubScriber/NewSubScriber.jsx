@@ -157,11 +157,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
         data["CostPerDelegate"] = eventData.CostperDelegate;
         data["TransferOfValue"] = eventData.TransferOfValue;
         setErrorMsg(false);
-        const x1 = await addDoc(subscriberCollection, data);
-        const x2 = await addDoc(SubscribersRefrence, data);
+        await addDoc(subscriberCollection, data);
+        await addDoc(SubscribersRefrence, data);
 
-        console.log(x1, "x1");
-        console.log(x2, "x2");
         setShowAddNeWSub(false);
         handleClose();
       });
