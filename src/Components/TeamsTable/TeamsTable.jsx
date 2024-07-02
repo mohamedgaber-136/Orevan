@@ -27,13 +27,18 @@ export default function TeamsTable({ row }) {
     setRows(row);
   }, [row]);
   function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
+    if (typeof a[orderBy] == "string" && typeof b[orderBy]) {
+      return b[orderBy]?.toLowerCase() < a[orderBy]?.toLowerCase() ? -1 : 1;
+    } else {
+      return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
+    // if (b[orderBy] < a[orderBy]) {
+    //   return -1;
+    // }
+    // if (b[orderBy] > a[orderBy]) {
+    //   return 1;
+    // }
+    // return 0;
   }
   function getComparator(order, orderBy) {
     return order === "desc"

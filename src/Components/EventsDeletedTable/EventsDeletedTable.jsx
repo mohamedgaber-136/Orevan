@@ -23,24 +23,29 @@ export default function EventsDeletedTable() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const {    EventsDeletedRef,
+  const {
+    EventsDeletedRef,
     getData,
     EventRefrence,
-    saveNotificationToFirebase, } = React.useContext(
-    FireBaseContext
-  );
+    saveNotificationToFirebase,
+  } = React.useContext(FireBaseContext);
   const [rows, seteventData] = React.useState([]);
   React.useEffect(() => {
     getData(EventsDeletedRef, seteventData);
   }, []);
   function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
+    if (typeof a[orderBy] == "string" && typeof b[orderBy]) {
+      return b[orderBy]?.toLowerCase() < a[orderBy]?.toLowerCase() ? -1 : 1;
+    } else {
+      return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
+    // if (b[orderBy] < a[orderBy]) {
+    //   return -1;
+    // }
+    // if (b[orderBy] > a[orderBy]) {
+    //   return 1;
+    // }
+    // return 0;
   }
   function getComparator(order, orderBy) {
     return order === "desc"
@@ -58,7 +63,7 @@ export default function EventsDeletedTable() {
     });
     return stabilizedThis.map((el) => el[0]);
   }
-//  
+  //
   // HeadTitles ----------------------------------------------
   const headCells = [
     {
@@ -123,7 +128,6 @@ export default function EventsDeletedTable() {
     return (
       <TableHead>
         <TableRow>
-          
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -223,7 +227,7 @@ export default function EventsDeletedTable() {
         page * rowsPerPage + rowsPerPage
       ),
     console.log(""),
-    [order, orderBy, page, rowsPerPage,rows]
+    [order, orderBy, page, rowsPerPage, rows]
   );
 
   //  /-----------ToolBar
@@ -253,7 +257,6 @@ export default function EventsDeletedTable() {
             >
               {numSelected} selected
             </Typography>
-           
           </>
         ) : (
           <Typography
@@ -261,8 +264,7 @@ export default function EventsDeletedTable() {
             variant="h2"
             id="tableTitle"
             component="div"
-          >
-          </Typography>
+          ></Typography>
         )}
       </Toolbar>
     );
@@ -275,7 +277,6 @@ export default function EventsDeletedTable() {
   return (
     <Paper sx={{ width: "100%", mb: 0 }} className="BasicTableParent">
       <div className=" d-flex align-items-center gap-2 p-3 d-flex justify-content-end ">
-  
         <SearchText list={rows} setRows={seteventData} row={rows} />
       </div>
       <EnhancedTableToolbar numSelected={selected.length} />
@@ -312,7 +313,9 @@ export default function EventsDeletedTable() {
                   <TableCell align="center">
                     {rowItem.timing.toDate().toLocaleString()}
                   </TableCell>
-                  <TableCell align="center"><SettingsDeleted rowId={rowItem.ID}/></TableCell>
+                  <TableCell align="center">
+                    <SettingsDeleted rowId={rowItem.ID} />
+                  </TableCell>
                 </TableRow>
               );
             })}

@@ -16,15 +16,14 @@ export const FranchisedropDown = ({ SetError, formErrors }) => {
   };
 
   const data = [
-    { types: "Immunology Franchise",label:'Immunology' },
-    { types: "NeuroscienceFranchise ", label: "Neuroscience  " },
-    { types: "GTxFranchise ", label: "GTx  " },
-    { types: "In Market BrandsFranchise", label: "In Market Brands " },
-    { types: "OncologyFranchise", label: " Oncology" },
-    { types: "CardiovascularFranchise", label: "Cardiovascular " },
-    { types: "MedicalFranchise", label: "Medical " },
-    { types: "Value&Access", label: "Value & Access " },
-  
+    { types: "Immunology", label: "Immunology" },
+    { types: "Neuroscience", label: "Neuroscience" },
+    { types: "GTx", label: "GTx " },
+    { types: "In Market Brands", label: "In Market Brands" },
+    { types: "Oncology", label: "Oncology" },
+    { types: "Cardiovascular", label: "Cardiovascular" },
+    { types: "Medical", label: "Medical" },
+    { types: "Value&Access", label: "Value & Access" },
   ];
   return (
     <>

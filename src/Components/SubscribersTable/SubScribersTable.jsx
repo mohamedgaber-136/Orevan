@@ -33,13 +33,18 @@ export default function SubScribersTable({ row, refCollection }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
+    if (typeof a[orderBy] == "string" && typeof b[orderBy]) {
+      return b[orderBy]?.toLowerCase() < a[orderBy]?.toLowerCase() ? -1 : 1;
+    } else {
+      return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
+    // if ((b[orderBy]).toLowerCase() < (a[orderBy]).toLowerCase()) {
+    //   return -1;
+    // }
+    // if ((b[orderBy]).toLowerCase() > (a[orderBy]).toLowerCase()) {
+    //   return 1;
+    // }
+    // return 0;
   }
   function getComparator(order, orderBy) {
     return order === "desc"
@@ -142,7 +147,7 @@ export default function SubScribersTable({ row, refCollection }) {
               align={headCell.numeric ? "center" : "center"}
               padding={headCell.disablePadding ? "normal" : "normal"}
               sortDirection={orderBy === headCell.d ? order : false}
-              className=' p-0'
+              className=" p-0"
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
@@ -215,15 +220,15 @@ export default function SubScribersTable({ row, refCollection }) {
             {selected.length} selected
           </Typography>
         )}
-          <Tooltip title={numSelected<=0?'select subscriber':'change'}>
-            <IconButton >
-              <ChangeEventModal
-              numSelected={numSelected<=0}
-                newSelected={selected}
-                setSelected={setSelected}
-              />
-            </IconButton>
-          </Tooltip>
+        <Tooltip title={numSelected <= 0 ? "select subscriber" : "change"}>
+          <IconButton>
+            <ChangeEventModal
+              numSelected={numSelected <= 0}
+              newSelected={selected}
+              setSelected={setSelected}
+            />
+          </IconButton>
+        </Tooltip>
         <div
           className="d-flex  gap-2 align-items-center
 "
@@ -276,11 +281,11 @@ export default function SubScribersTable({ row, refCollection }) {
     setSelected(newSelected);
   };
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%" }} >
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
-          <Table
+          <Table 
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? "small" : "medium"}
@@ -328,12 +333,12 @@ export default function SubScribersTable({ row, refCollection }) {
                       >
                         {row.id}
                       </TableCell>
-                      <TableCell  align="center">{row.FirstName}</TableCell>
-                      <TableCell  align="center">{row.Email}</TableCell>
-                      <TableCell  align="center">{row.PhoneNumber}</TableCell>
-                      <TableCell  align="center">{row.Organization}</TableCell>
-                      <TableCell  align="center">{row.Speciality}</TableCell>
-                      <TableCell  align="center">{row.NationalID}</TableCell>
+                      <TableCell align="center">{row.FirstName}</TableCell>
+                      <TableCell align="center">{row.Email}</TableCell>
+                      <TableCell align="center">{row.PhoneNumber}</TableCell>
+                      <TableCell align="center">{row.Organization}</TableCell>
+                      <TableCell align="center">{row.Speciality}</TableCell>
+                      <TableCell align="center">{row.NationalID}</TableCell>
                       <TableCell align="center">{row.City}</TableCell>
                       <TableCell
                         align="center"

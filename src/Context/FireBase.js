@@ -33,7 +33,7 @@ const FireBaseContextProvider = ({ children }) => {
     CostperDelegate: "",
     PO: "",
     Franchise: "",
-    EventCurrency:'',
+    EventCurrency: "",
     Id: "",
     city: [],
     BeSure: "",
@@ -69,7 +69,7 @@ const FireBaseContextProvider = ({ children }) => {
     storageBucket: "orevanreg.appspot.com",
     messagingSenderId: "882583903364",
     appId: "1:882583903364:web:1d5c38ff461bb5f4e0f6d1",
-    measurementId: "G-FRHV1QQFS9"
+    measurementId: "G-FRHV1QQFS9",
   };
   const app = initializeApp(firebaseConfig);
   const database = getFirestore(app);
