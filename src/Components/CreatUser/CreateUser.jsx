@@ -45,7 +45,7 @@ export const CreateUser = () => {
 
   const sendEmail = (values) => {
     emailjs.send(
-      'service_zsp243h',
+      'service_mzn99q7',
       'template_4owcf7m',
       {
         to_email: values.Email,
