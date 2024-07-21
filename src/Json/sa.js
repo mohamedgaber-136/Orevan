@@ -1,3 +1,4 @@
+
  const Cities =  [
   {
     "types": "Riyadh", 
@@ -661,5 +662,5 @@
   }
 ]
 export const City = Cities.map((item)=>{
-  return {types: item.types}
+  return  item.types
 })

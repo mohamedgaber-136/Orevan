@@ -62,21 +62,18 @@ export const StepOne = () => {
       const newData = snapshot.docs.map((doc) => ({
         ...doc.data(),
       }));
-      SetItem(newData[0].data);
+      SetItem(newData[0].City);
     });
   };
 
   useEffect(() => {
     getData(Cities, setItem);
   }, []);
-
   const validateDates = () => {
     if (newEvent.eventDate && newEvent.endDate) {
-      console.log("done");
       const startDate = new Date(newEvent.eventDate);
       const endDate = new Date(newEvent.endDate);
-      console.log(startDate, "startDate");
-      console.log(endDate, "endDate");
+  
       if (endDate < startDate) {
         setdateError(true);
         setFormErrors({ ...formErrors, EndDate: "not valid date" });
@@ -92,7 +89,6 @@ export const StepOne = () => {
     newEvent.eventDate,
     newEvent.endDate,
   ]);
-  console.log(formErrors, "form");
   return (
     <div>
       <Formik>

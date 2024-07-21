@@ -41,7 +41,7 @@ export const Events = () => {
         }
         item.EventCost = NumberOfSubScribers * item.CostperDelegate;
         const userSnapshot = await getDoc(doc(UserRef, item.CreatedByID))
-        item.CreatedByName = userSnapshot.data().Name;
+        item.CreatedByName = userSnapshot.data()?.Name;
         return item;
       });
       const results = await Promise.all(promises);

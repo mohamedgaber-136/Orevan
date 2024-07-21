@@ -30,7 +30,7 @@ export default function ModalProfileData() {
       <Button onClick={handleClickOpen}>
         <Avatar />
         {localStorage.getItem("User")
-          ? JSON.parse(localStorage.getItem("User")).Name
+          ? JSON.parse(localStorage.getItem("User"))?.Name
           : ""}
       </Button>
       <BootstrapDialog

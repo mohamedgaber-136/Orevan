@@ -10,7 +10,6 @@ import Toolbar from "@mui/material/Toolbar";
 import "./Table.css";
 import { SelectComponent } from "../SelectComponent/SelectComponent";
 export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
-  console.log(row,'rw')
   const [rows, setRows] = useState([]);
   const [date, setdate] = useState("This Day");
   const areDatesInSameWeek = (date1, date2) => {
@@ -23,8 +22,10 @@ export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
     const date1 = new Date(dates.toLocaleString());
     const days = row.filter(
       ({ CreatedAt }) =>
+        
         new Date(new Date(CreatedAt).toLocaleDateString()).getTime() ===
         new Date(dates.toLocaleDateString()).getTime()
+        
     );
     const Months = row.filter(
       ({ CreatedAt }) => new Date(CreatedAt).getMonth() === dates.getMonth()
@@ -42,6 +43,8 @@ export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
     WeeksInfo[2].times = Months.length;
     setWeeksInfo([...WeeksInfo]);
   }, [row]);
+  console.log(WeeksInfo,'rw')
+
   useEffect(() => {
     const dates = new Date();
     switch (date) {

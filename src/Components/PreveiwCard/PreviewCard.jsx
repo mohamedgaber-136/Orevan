@@ -107,7 +107,7 @@ export const PreviewCard = () => {
             </p>
             {newEvent.city.map((item, index) => (
               <div className="wrappingItems p-1 " key={index}>
-                {item.types}
+                {item}
               </div>
             ))}
           </div>

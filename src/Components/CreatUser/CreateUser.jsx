@@ -45,48 +45,66 @@ export const CreateUser = () => {
 
   const UsersRef = collection(database, "Users");
 
+  // const sendEmail = (values) => {
+  //   emailjs.send(
+  //     'service_mzn99q7',
+  //     'template_4owcf7m',
+  //     {
+        
+  //       to_email: values.Email,
+  //       to_name: values.Name,
+  //       message: `\nEmail: ${values.Email}\nPassword: ${values.Password}`
+  //     },
+  //     '6z5D34K7serfxYLXR'
+  //   )
+  //   .then((response) => {
+  //     console.log('Email sent successfully!', response.status, response.text);
+  //   }, (error) => {
+  //     console.error('Failed to send email.', error);
+  //   });
+  //   emailjs
+  //     .send(
+  //       "service_zsp243h",
+  //       "template_4owcf7m",
+  //       {
+  //         to_email: values.Email,
+  //         to_name: values.Name,
+  //         message: `\nEmail: ${values.Email}\nPassword: ${values.Password}`,
+  //       },
+  //       "6z5D34K7serfxYLXR"
+  //     )
+  //     .then(
+  //       (response) => {
+  //         console.log(
+  //           "Email sent successfully!",
+  //           response.status,
+  //           response.text
+  //         );
+  //       },
+  //       (error) => {
+  //         console.error("Failed to send email.", error);
+  //       }
+  //     );
+  // };
   const sendEmail = (values) => {
-    emailjs.send(
-      'service_mzn99q7',
-      'template_4owcf7m',
-      {
-        to_email: values.Email,
-        to_name: values.Name,
-        message: `\nEmail: ${values.Email}\nPassword: ${values.Password}`
-      },
-      '6z5D34K7serfxYLXR'
-    )
-    .then((response) => {
-      console.log('Email sent successfully!', response.status, response.text);
-    }, (error) => {
-      console.error('Failed to send email.', error);
-    });
-    emailjs
-      .send(
-        "service_zsp243h",
-        "template_4owcf7m",
-        {
+    const emailParams = {
+      from_name: 'Orevan Group', // Display name you want to show
+      from_email: 'Events@orevan-prox.com',   
           to_email: values.Email,
-          to_name: values.Name,
-          message: `\nEmail: ${values.Email}\nPassword: ${values.Password}`,
-        },
-        "6z5D34K7serfxYLXR"
-      )
-      .then(
-        (response) => {
-          console.log(
-            "Email sent successfully!",
-            response.status,
-            response.text
-          );
-        },
-        (error) => {
-          console.error("Failed to send email.", error);
-        }
-      );
->>>>>>> b9280361aad7b9426146c89d15b3fee45e5ec005
+      to_name: values.Name,
+      message: `\nEmail: ${values.Email}\nPassword: ${values.Password}`,
+    };
+  
+    emailjs.send('service_mzn99q7', 'template_4owcf7m', emailParams, '6z5D34K7serfxYLXR')
+      .then((response) => {
+        console.log('Email sent successfully!', response.status, response.text);
+      }, (error) => {
+        console.error('Failed to send email.', error);
+      });
+  
+   
   };
-
+  
   const onsubmit = async (values, props) => {
     console.log(values, "values");
     try {

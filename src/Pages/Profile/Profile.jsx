@@ -14,10 +14,7 @@ export const Profile = () => {
       label: "Name",
       type: "text",
     },
-    {
-      label: "Telephone",
-      type: "text",
-    },
+   
   ];
   const InputsDataColTwo = [
     {

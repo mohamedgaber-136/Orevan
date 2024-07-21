@@ -33,13 +33,7 @@ export default function AllUsersTable({ row }) {
     } else {
       return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-     // if (b[orderBy] < a[orderBy]) {
-    //   return -1;
-    // }
-    // if (b[orderBy] > a[orderBy]) {
-    //   return 1;
-    // }
-    // return 0;
+   
   }
   function getComparator(order, orderBy) {
     return order === "desc"
@@ -71,12 +65,7 @@ export default function AllUsersTable({ row }) {
       disablePadding: false,
       label: "Email",
     },
-    {
-      id: "PhoneNumber",
-      numeric: true,
-      disablePadding: false,
-      label: "Phone Number",
-    },
+  
     {
       id: "Status",
       numeric: true,
@@ -264,7 +253,6 @@ export default function AllUsersTable({ row }) {
                     >
                       <TableCell align="center">{row.Name}</TableCell>
                       <TableCell align="center">{row.Email}</TableCell>
-                      <TableCell align="center">{row.PhoneNumber}</TableCell>
                       <TableCell align="center">
                         {row?.Condition?.Blocked ? (
                           <b className="text-danger">Blocked</b>
