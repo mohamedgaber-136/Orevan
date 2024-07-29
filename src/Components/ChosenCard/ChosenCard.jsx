@@ -85,7 +85,7 @@ export const ChosenCard = () => {
                   <b>City:</b>
                 </p>
                 {ResultData.city.map((item,ind) => (
-                  <div key={ind} className="wrappingItems p-1 ">{item.types}</div>
+                  <div key={ind} className="wrappingItems p-1 ">{item}</div>
                 ))}
               </div>
               <div className={`d-flex align-items-center gap-2 `}>

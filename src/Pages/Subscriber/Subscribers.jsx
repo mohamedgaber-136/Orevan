@@ -14,7 +14,6 @@ export const Subscribers = () => {
   useEffect(() => {
     getData(infoCollection, setSubscribers);
     }, [dbID]);
-    console.log(Subscribers)
     return (
     <div className="EventsPageParent d-flex flex-column container-fluid container-md gap-3  ">
       <h2>Subscribers</h2>

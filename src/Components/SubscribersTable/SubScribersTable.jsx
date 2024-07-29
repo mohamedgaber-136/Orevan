@@ -38,13 +38,7 @@ export default function SubScribersTable({ row, refCollection }) {
     } else {
       return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    // if ((b[orderBy]).toLowerCase() < (a[orderBy]).toLowerCase()) {
-    //   return -1;
-    // }
-    // if ((b[orderBy]).toLowerCase() > (a[orderBy]).toLowerCase()) {
-    //   return 1;
-    // }
-    // return 0;
+  
   }
   function getComparator(order, orderBy) {
     return order === "desc"

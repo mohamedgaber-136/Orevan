@@ -51,9 +51,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
     });
   };
 
-  // useEffect(()=>{
-  //   getDatas(Cities,setItem)
-  // },[])
+ 
   const NewSubScriberInputs = [
     {
       label: "National/iqamaID",
@@ -133,18 +131,14 @@ export const NewSubScriber = ({ id, handleClose }) => {
     (async () => {
       const datas = await getDoc(ref);
       const Result = await datas.data();
-      console.log(Result, "result event");
       // setEventData(Result);
     })();
   }, [dbID]);
 
   const handleFormSubmit = (values) => {
     const data = { ...values };
-    console.log("hi");
-    console.log(data, "values");
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
-    console.log(data);
     if (checkUser) {
       setErrorMsg(true);
     } else {
@@ -156,10 +150,10 @@ export const NewSubScriber = ({ id, handleClose }) => {
         const eventData = eventRef.data();
         data["CostPerDelegate"] = eventData.CostperDelegate;
         data["TransferOfValue"] = eventData.TransferOfValue;
+        data["eventID"]=dbID
         setErrorMsg(false);
         await addDoc(subscriberCollection, data);
         await addDoc(SubscribersRefrence, data);
-
         setShowAddNeWSub(false);
         handleClose();
       });
@@ -169,7 +163,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
   const handleInputChange = (name, value, formValues, setFormValues) => {
     // Regular expression to match Arabic characters
     const arabicRegex = /[\u0600-\u06FF\u0750-\u077F]/;
-
     // Check if the input value contains Arabic characters
     if (arabicRegex.test(value)) {
       // If Arabic characters are detected, remove them
@@ -186,7 +179,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
       if (matchingItem) {
         isAutoCompleted = true;
         // setAutoFilledUser({ ...matchingItem });
-
         setFormValues({
           ...matchingItem,
           PhoneNumber: matchingItem.PhoneNumber.substring(4),
