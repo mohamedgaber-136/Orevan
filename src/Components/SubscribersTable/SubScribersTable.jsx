@@ -309,7 +309,7 @@ export default function SubScribersTable({ row, refCollection }) {
                     >
                       <TableCell
                         padding="checkbox"
-                        onClick={(event) => handleClick(event, row.ID)}
+                        onClick={(event) => handleClick(event, row.Id)}
                       >
                         <Checkbox
                           color="primary"
@@ -338,9 +338,9 @@ export default function SubScribersTable({ row, refCollection }) {
                         align="center"
                         className="subRowImg d-flex ps-3 pe-0 pb-0 gap-1 align-items-center "
                       >
-                        <UploadBtn id={row.ID} info={row.image && "d-none"} />
-                        {row.image && (
-                          <img src={row.image} alt="signature" width={"100%"} />
+                        <UploadBtn id={row.ID} info={row.sign64data && "d-none"} />
+                        {row.sign64data && (
+                          <img src={row.sign64data} alt="signature" width={"100%"} />
                         )}
                       </TableCell>
                       <TableCell align="right">

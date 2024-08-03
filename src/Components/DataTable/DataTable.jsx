@@ -53,13 +53,7 @@ export default function DataTable({ row }) {
     } else {
       return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    // if (b[orderBy] < a[orderBy]) {
-    //   return -1;
-    // }
-    // if (b[orderBy] > a[orderBy]) {
-    //   return 1;
-    // }
-    // return 0;
+   
   }
   function getComparator(order, orderBy) {
     return order === "desc"

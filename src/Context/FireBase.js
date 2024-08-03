@@ -103,7 +103,6 @@ const FireBaseContextProvider = ({ children }) => {
   const [currentUsr, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const eventsQueryAccordingToUserRole = () => {
-    console.log(currentUserRole, "currentUserRole");
     switch (true) {
       case currentUserRole.admin: {
         return query(EventRefrence);
@@ -128,6 +127,7 @@ const FireBaseContextProvider = ({ children }) => {
       if (user) {
         setCurrentUser(user.uid);
         setUser(user);
+   
         const users = doc(UserRef, user.uid);
         const finaleUser = await getDoc(users);
         setFinaleUser(finaleUser.data());

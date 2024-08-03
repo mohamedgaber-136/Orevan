@@ -8,7 +8,7 @@ import { FireBaseContext } from "../../Context/FireBase";
 import { useParams } from "react-router-dom";
 export default function UploadBtn({ id, info }) {
   const [selectedFile, setSelectedFile] = useState(null);
-  const { EventRefrence } = useContext(FireBaseContext);
+  const { EventRefrence ,SubscribersRefrence} = useContext(FireBaseContext);
   const { dbID } = useParams();
   const eventRef = doc(EventRefrence, dbID);
   const subCollection = collection(eventRef, "Subscribers");
@@ -16,6 +16,7 @@ export default function UploadBtn({ id, info }) {
     setSelectedFile(e.target.files[0], "file");
   };
   const userRef = doc(subCollection, id);
+  console.log(id,'id')
   // HandleUBLoadp img  in firebase
   useEffect(() => {
     const handleUpload = async () => {
@@ -28,7 +29,7 @@ export default function UploadBtn({ id, info }) {
         const downloadURL = await getDownloadURL(storageRef);
         console.log("File uploaded successfully. Download URL:", downloadURL);
         await updateDoc(userRef, {
-          image: downloadURL,
+          sign64data: downloadURL,
         });
 
         // Now, you can save the download URL to Firestore or perform other actions

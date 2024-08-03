@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import swal from "sweetalert";
 import "./NewSubScriberStyle.css";
 import { MenuItem } from "@mui/material";
+
 export const NewSubScriber = ({ id, handleClose }) => {
   const { setShowAddNeWSub } = useContext(SearchContext);
   const { EventRefrence, SubscribersRefrence, getData, database, Cities } =
@@ -29,7 +30,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
   const [user, SetUsers] = useState([]);
 
   const initialvalues = {
-    id: randomXToY(1, 1000),
     FirstName: "",
     LastName: "",
     Email: "",
@@ -42,16 +42,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
     CostPerDelegate: 0,
     TransferOfValue: [],
   };
-  const getDatas = (CollectionType, SetItem) => {
-    const returnedValue = onSnapshot(CollectionType, (snapshot) => {
-      const newData = snapshot.docs.map((doc) => ({
-        ...doc.data(),
-      }));
-      SetItem(newData[0].data);
-    });
-  };
 
- 
   const NewSubScriberInputs = [
     {
       label: "National/iqamaID",
@@ -88,7 +79,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
       type: "text",
       name: "Organization",
     },
-
     {
       label: "Medical License",
       type: "text",
@@ -100,6 +90,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
       name: "City",
     },
   ];
+
   const validationSchema = Yup.object().shape({
     FirstName: Yup.string().min(3, "Too short").required("Required"),
     LastName: Yup.string().min(3, "Too short").required("Required"),
@@ -116,14 +107,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
     City: Yup.string().required("Required"),
   });
 
-  function randomXToY(minVal, maxVal) {
-    let randVal = minVal + Math.random() * (maxVal - minVal);
-    return Math.round(randVal);
-  }
-
   const ref = doc(EventRefrence, dbID);
   const subscriberCollection = collection(ref, "Subscribers");
-  // const SubCollection = collection(database, "Subscribers");
+
   useEffect(() => {
     getData(subscriberCollection, SetSubScriber);
     getData(SubscribersRefrence, SetUsers);
@@ -134,8 +120,12 @@ export const NewSubScriber = ({ id, handleClose }) => {
       // setEventData(Result);
     })();
   }, [dbID]);
+  function randomXToY(minVal, maxVal) {
+    let randVal = minVal + Math.random() * (maxVal - minVal);
+    return Math.round(randVal);
+  }
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = async (values) => {
     const data = { ...values };
     data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
     const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
@@ -150,7 +140,8 @@ export const NewSubScriber = ({ id, handleClose }) => {
         const eventData = eventRef.data();
         data["CostPerDelegate"] = eventData.CostperDelegate;
         data["TransferOfValue"] = eventData.TransferOfValue;
-        data["eventID"]=dbID
+        data["eventID"] = dbID;
+        data['id']=randomXToY(1, 1000)
         setErrorMsg(false);
         await addDoc(subscriberCollection, data);
         await addDoc(SubscribersRefrence, data);
@@ -201,7 +192,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
     >
       {({ values, setValues }) => (
         <>
-          <Form className="bg-white rounded  NewSubScriberForm ">
+          <Form className="bg-white rounded NewSubScriberForm ">
             <h3 className="px-lg-3 px-1">
               <BreadCrumbs id={id} sub={"Subscriber"} />
             </h3>
@@ -211,113 +202,53 @@ export const NewSubScriber = ({ id, handleClose }) => {
                   className="col-12 col-md-5 p-1"
                   key={`${item.label}-${index}`}
                 >
-                  {item.name == "Email" ? (
-                    <>
-                      <Field
-                        select={item.type == "select"}
-                        as={TextField}
-                        label={item.label}
-                        id={index}
-                        focused
-                        type={item.type}
-                        className={`w-100  ${
-                          (item.name === "PhoneNumber" ||
-                            item.name === "City") &&
-                          "border border-secondary form-control "
-                        }`}
-                        name={item.name}
-                        value={values[item.name]}
-                        onChange={(e) =>
-                          handleInputChange(
-                            item.name,
-                            e.target.value,
-                            values,
-                            setValues
-                          )
-                        }
-                        InputProps={{
-                          startAdornment: item.name === "PhoneNumber" && (
-                            <InputAdornment position="start">
-                              {countryCode}
-                            </InputAdornment>
-                          ),
-                        }}
-                      >
-                        {/* {item.type == "select" &&
-                      eventData?.city?.map((option) => (
-                        <MenuItem key={option.types} value={option.types}>
-                          {option.types}
-                        </MenuItem>
-                      ))} */}
-                      </Field>
-                      <div className="text-danger  align-self-start  mb-3">
-                        <ErrorMessage name={item.name} />
-                      </div>
-                      {errorMsg && (
-                        <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-                          <small>This Email already Registerd</small>
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <Field
-                        select={item.type == "select"}
-                        as={TextField}
-                        label={item.label}
-                        id={index}
-                        focused
-                        type={item.type}
-                        className={`w-100  ${
-                          (item.name === "PhoneNumber" ||
-                            item.name === "City") &&
-                          "border border-secondary form-control "
-                        }`}
-                        name={item.name}
-                        value={values[item.name]}
-                        onChange={(e) =>
-                          handleInputChange(
-                            item.name,
-                            e.target.value,
-                            values,
-                            setValues
-                          )
-                        }
-                        InputProps={{
-                          startAdornment: item.name === "PhoneNumber" && (
-                            <InputAdornment position="start">
-                              {countryCode}
-                            </InputAdornment>
-                          ),
-                        }}
-                      >
-                        {/* {item.type == "select" &&
-                      eventData?.city?.map((option) => (
-                        <MenuItem key={option.types} value={option.types}>
-                          {option.types}
-                        </MenuItem>
-                      ))} */}
-                      </Field>
-                      <div className="text-danger  align-self-start  mb-3">
-                        <ErrorMessage name={item.name} />
-                      </div>
-                    </>
+                  <Field
+                    select={item.type == "select"}
+                    as={TextField}
+                    label={item.label}
+                    id={index}
+                    focused
+                    type={item.type}
+                    className={`w-100 ${
+                      (item.name === "PhoneNumber" ||
+                        item.name === "City") &&
+                      "border border-secondary form-control"
+                    }`}
+                    name={item.name}
+                    value={values[item.name]}
+                    onChange={(e) =>
+                      handleInputChange(
+                        item.name,
+                        e.target.value,
+                        values,
+                        setValues
+                      )
+                    }
+                    InputProps={{
+                      startAdornment: item.name === "PhoneNumber" && (
+                        <InputAdornment position="start">
+                          {countryCode}
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <div className="text-danger align-self-start mb-3">
+                    <ErrorMessage name={item.name} />
+                  </div>
+                  {errorMsg && (
+                    <div className="w-50 text-danger d-flex justify-content-center align-items-center">
+                      <small>This Email already Registered</small>
+                    </div>
                   )}
                 </div>
               ))}
               <div className="col-12 col-md-5 p-1">
-                {/* 
-<MultipleSelection
-                type="city"
-                label="City"
-                list={items}
-                
-                /> */}
+    
               </div>
               <div className="col-12 col-md-5 p-1 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
                 <button
                   type="submit"
-                  className="w-75 p-2 rounded rounded-2 border-0 border text-white"
+                  className="w-75 p-2 rounded rounded-2 border-0 text-white"
                 >
                   Save
                 </button>
@@ -326,7 +257,7 @@ export const NewSubScriber = ({ id, handleClose }) => {
           </Form>
           {errorMsg && (
             <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-              <small>This Email already Registerd</small>
+              <small>This Email already Registered</small>
             </div>
           )}
         </>

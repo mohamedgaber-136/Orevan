@@ -23,7 +23,6 @@ const ColorPickerInput = ({ type }) => {
       setShowPicker(false);
     }
   };
-console.log(selectedColor)
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
     return () => {

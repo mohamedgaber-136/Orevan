@@ -235,7 +235,6 @@ export const StepOne = () => {
                     formErrors={formErrors}
                   />
                   <small className="text-danger errorMsg">
-                    {console.log(formErrors.EndDate, "formErrors.EndDate")}
                     {formErrors.EndDate}
                   </small>
                 </div>

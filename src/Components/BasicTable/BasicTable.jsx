@@ -43,7 +43,6 @@ export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
     WeeksInfo[2].times = Months.length;
     setWeeksInfo([...WeeksInfo]);
   }, [row]);
-  console.log(WeeksInfo,'rw')
 
   useEffect(() => {
     const dates = new Date();

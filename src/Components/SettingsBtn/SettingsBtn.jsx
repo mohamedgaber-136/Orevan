@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore";
 import UpdateSubModel from "../UpdateSubModel/UpdateSubModel";
 export default function SettingsBtn({ refCollection, rowId, row }) {
-  console.log(rowId, "rowId");
+  console.log(row, "rowId");
   const { dbID } = useParams();
   const ITEM_HEIGHT = 38;
   const [anchorEl, setAnchorEl] = useState(null);

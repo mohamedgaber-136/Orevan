@@ -15,9 +15,6 @@ export const Events = () => {
   } = useContext(FireBaseContext);
   const [informations, setInformations] = useState([]);
   useEffect(() => {
-    // if (currentUserRole) {
-    //   getData(eventsQueryAccordingToUserRole(), setInformations);
-    // }
     getData(eventsQueryAccordingToUserRole(), setInformations);
   }, []);
 
@@ -45,15 +42,10 @@ export const Events = () => {
         return item;
       });
       const results = await Promise.all(promises);
-      // const compareDate = new Date("2024-04-29")
-      // const finaleResult = results.filter((item)=>compareDate<= new Date(item.CreatedAt))
-      // console.log(finaleResult)
       setEvents(results.reverse());
-      // setEvents(finaleResult);
     };
     fetchDataForItems();
   }, [informations]);
-  console.log(events, "events");
   return (
     <div className="d-flex flex-column container-fluid container-md gap-3 EventsPageParent ">
       <h2>Events</h2>
