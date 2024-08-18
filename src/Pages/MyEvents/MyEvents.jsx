@@ -76,16 +76,7 @@ export const MyEvents = () => {
           className="w-100 d-flex justify-content-center align-items-center   "
           style={{ height: "calc(100vh - 150px) " }}
         >
-          <div className="dot-spinner ">
-            <div className="dot-spinner__dot"></div>
-            <div className="dot-spinner__dot"></div>
-            <div className="dot-spinner__dot"></div>
-            <div className="dot-spinner__dot"></div>
-            <div className="dot-spinner__dot"></div>
-            <div className="dot-spinner__dot"></div>
-            <div className="dot-spinner__dot"></div>
-            <div className="dot-spinner__dot"></div>
-          </div>
+      there is no events yet
         </div>
       ) : (
         <FranchiseTable row={data} sub={sub} />

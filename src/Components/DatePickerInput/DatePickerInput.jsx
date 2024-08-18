@@ -43,9 +43,9 @@ const DatePickerInput = ({ condition, SetError, formErrors }) => {
       <DatePicker
         selected={selectedDate}
         onChange={handleDateChange}
-        dateFormat="dd/MM/yyyy"
+        dateFormat="mm/dd/yyyy"
         value={condition ? newEvent.eventDate : newEvent.endDate}
-        placeholderText={"dd/MM/yyyy"}
+        placeholderText={"mm/dd/yyyy"}
         name={condition ? "eventDate" : "endDate"}
       />
     </div>

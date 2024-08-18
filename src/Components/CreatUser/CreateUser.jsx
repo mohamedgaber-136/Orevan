@@ -27,11 +27,11 @@ export const CreateUser = () => {
   ];
 
   const initialvalues = {
-    Name: "",
-    Email: "",
+    Name:"",
+    Email:"",
     Password: "",
     Role: "Admin",
-    franchiseType: "",
+    franchiseType: "Retina",
   };
 
   const validation = Yup.object().shape({
@@ -45,47 +45,6 @@ export const CreateUser = () => {
 
   const UsersRef = collection(database, "Users");
 
-  // const sendEmail = (values) => {
-  //   emailjs.send(
-  //     'service_mzn99q7',
-  //     'template_4owcf7m',
-  //     {
-        
-  //       to_email: values.Email,
-  //       to_name: values.Name,
-  //       message: `\nEmail: ${values.Email}\nPassword: ${values.Password}`
-  //     },
-  //     '6z5D34K7serfxYLXR'
-  //   )
-  //   .then((response) => {
-  //     console.log('Email sent successfully!', response.status, response.text);
-  //   }, (error) => {
-  //     console.error('Failed to send email.', error);
-  //   });
-  //   emailjs
-  //     .send(
-  //       "service_zsp243h",
-  //       "template_4owcf7m",
-  //       {
-  //         to_email: values.Email,
-  //         to_name: values.Name,
-  //         message: `\nEmail: ${values.Email}\nPassword: ${values.Password}`,
-  //       },
-  //       "6z5D34K7serfxYLXR"
-  //     )
-  //     .then(
-  //       (response) => {
-  //         console.log(
-  //           "Email sent successfully!",
-  //           response.status,
-  //           response.text
-  //         );
-  //       },
-  //       (error) => {
-  //         console.error("Failed to send email.", error);
-  //       }
-  //     );
-  // };
   const sendEmail = (values) => {
     const emailParams = {
       from_name: 'Orevan Group', // Display name you want to show
@@ -106,27 +65,18 @@ export const CreateUser = () => {
   };
   
   const onsubmit = async (values, props) => {
-    console.log(values, "values");
     try {
       const res = await createUserWithEmailAndPassword(
         AdminAuth,
         values.Email,
         values.Password
       );
+
       setUser(res.user);
       const passwordDATA = res.user.reloadUserInfo.passwordHash;
       setData({
         ...values,
         Password: passwordDATA,
-        Role: {
-          admin: values.Role.includes("Admin"),
-          manager: values.Role.includes("Franchise Manager"),
-          user: values.Role.includes("Associate"),
-          franchiseType: values.franchiseType,
-        },
-        Condition: {
-          Blocked: false,
-        },
       });
       sendEmail(values);
       setError(false);
@@ -175,45 +125,44 @@ export const CreateUser = () => {
   }
 
   const addUsersDataToFirebase = async () => {
+    const options = [
+      "Retina",
+      "Medical",
+      "Immunology ",
+      "Neuroscience",
+      "GTx",
+      "In Market Brands",
+      "Cardiovascular",
+      "Value & Access ",
+    ];
+    const Roles = ['admin', 'user', 'manager'];
+  
     if (UsersData.length) {
-      try {
-        const result = await getFranchiseIds();
-        console.log(result, "teams");
-        for (const userItem of UsersData) {
-          console.log(userItem, "item");
-          const rolesList = ["Admin", "Franchise Manager", "Associate"];
-          let isValidUser = false;
-
-          console.log(
-            "check if any value not exist:",
-            Object.values(userItem).some((val) => !val)
-          );
-          if (userItem.Role == "Admin") {
-            delete user.franchiseType;
-          } else if (userItem.Role == "Franchise Manager") {
-            isValidUser = result.includes(userItem.franchiseType);
-          }
-          if (
-            Object.values(userItem).some((val) => !val) ||
-            !rolesList.includes(userItem.Role)
-          ) {
-            isValidUser = false;
-          } else {
-            isValidUser = true;
-            console.log("Success in data validation for item:", userItem);
-            await onsubmit(userItem);
-          }
-          console.log(isValidUser, "check");
-
-          if (!isValidUser) {
-            console.log("Error in data validation for item:", userItem);
-          }
+      for (const userItem of UsersData) {
+        // Extract the role key from the Role object
+        const userRole = Object.keys(userItem.Role || {})[0];
+        // Check if the extracted role is valid
+        const isValidRole = Roles.includes(userRole);
+        // Check if the franchiseType is valid
+        const isValidFranchiseType = options.includes(userItem.franchiseType);
+  
+        console.log("User Item:", userItem);
+        console.log("Role Key:", userRole);
+        console.log("Is Valid Role:", isValidRole);
+        console.log("Is Valid Franchise Type:", isValidFranchiseType);
+  
+        // Validation logic
+        if (isValidRole && isValidFranchiseType) {
+          console.log("Success in data validation for item:", userItem);
+          await onsubmit(userItem); // Uncomment this when ready to submit
+        } else {
+          console.log("Error in data validation for item:", userItem);
         }
-      } catch (error) {
-        console.error("Error adding user data to Firebase:", error);
       }
     }
   };
+  
+  
 
   useEffect(() => {
     if (UsersData.length) {
@@ -227,6 +176,7 @@ export const CreateUser = () => {
         initialValues={initialvalues}
         validationSchema={validation}
         onSubmit={onsubmit}
+    
       >
         {(props) => (
           <Form className="d-flex py-3 px-2 bg-white w-75 rounded flex-column gap-2 justify-content-between align-item-center NewSubScriberForm">
@@ -259,7 +209,7 @@ export const CreateUser = () => {
               </div>
               <div
                 className={`${
-                  roleType === "Admin" ? "d-none" : "d-flex"
+                  roleType == "Admin" ? "d-none" : "d-flex"
                 } col-12 col-md-5 flex-fill flex-column justify-content-center align-items-center`}
               >
                 <div className="d-flex align-items-center gap-2 w-100 justify-content-between">
@@ -276,6 +226,7 @@ export const CreateUser = () => {
                   className="w-75 p-1 rounded rounded-2 border-0 text-white"
                 >
                   Save
+                  
                 </button>
               </div>
             </div>

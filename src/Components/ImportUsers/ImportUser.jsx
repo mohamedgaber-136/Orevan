@@ -1,10 +1,7 @@
-import React, { useContext, useEffect } from "react";
-import { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
 import { FireBaseContext } from "../../Context/FireBase";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 
@@ -12,8 +9,6 @@ const ImportUser = () => {
   const { setUsersData } = useContext(FireBaseContext);
   const [data, setData] = useState([]);
   const [isDownloadingTemp, setIsDownloadingTemp] = useState(true);
-
-
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -28,51 +23,46 @@ const ImportUser = () => {
       const data = e.target.result;
       const workbook = XLSX.read(data, { type: "binary" });
       const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-      const Finaledata = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+      let Finaledata = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+  
+      // Filter out empty rows
+      Finaledata = Finaledata.filter(row => row.some(cell => cell !== null && cell !== undefined && cell !== ''));
+  
       setData(Finaledata);
-      console.log(Finaledata,'finale')
+      console.log(Finaledata, 'finale');
     };
     reader.readAsBinaryString(file);
-
   };
-  function randomXToY(minVal, maxVal) {
-    let randVal = minVal + Math.random() * (maxVal - minVal);
-    return Math.round(randVal);
-  }
-//   const SendDataFireBase = async (arrayOfData) => {
-//     const eventRef = await getDoc(ref);
-//     const eventData = eventRef.data();
-//     const finalres = arrayOfData.map((item) => {
-//       return { ...item, CostPerDelegate: eventData["CostperDelegate"],id: randomXToY(1, 1000)};
-//     });
-//     await Promise.all(
-//       finalres.map(async (item) => {
-//         await addDoc(SubCollection, item);
-//         await addDoc(subscriberCollection, item);
-//       })
-//     );
-
-//     setIsDownloadingTemp(true);
-//   };
 
   useEffect(() => {
     const keysValues = {
-    "Name": "michael",
+      "Name": "michael",
       "Email": "michael@email.com",
       "Password": "123abc456",
       "franchiseType": "Franchise",
-      "Role":"(Admin - Associate - Franchise Manager)",
+      "Condition": "Blocked - Active",
+      "Role": "(admin - user - manager)",
     };
-
+  
     const arrayOfObjects = data?.slice(1).map((values) => {
       return data[0].reduce((obj, key, index) => {
-        if (keysValues.hasOwnProperty(key)) {
-          obj[key] = values[index];
+        let value = values[index];
+        if (key === "Role") {
+          // Convert Role to an object with the value as the key and true
+          obj[key] = { [value]: true };
+        } else if (key === "Condition") {
+          // Convert Condition to an object with Blocked or Active as the key
+          obj[key] = {
+            Blocked: value === "Blocked",
+          };
+        } else if (keysValues.hasOwnProperty(key)) {
+          obj[key] = value;
         }
         return obj;
       }, {});
     });
-    setUsersData([...arrayOfObjects])
+  
+    setUsersData([...arrayOfObjects]);
   }, [data]);
 
   const downloadBasicFile = async () => {
@@ -84,7 +74,9 @@ const ImportUser = () => {
       "Email": "michael@email.com",
       "Password": "123abc456",
       "franchiseType": "Franchise",
-      "Role":"(Admin - Associate - Franchise Manager)",
+      "Role": "(admin - user - manager)",
+      "Condition": "Blocked - Active",
+
     };
 
     worksheet.addRow([...Object.entries(initialValues).map((item) => item[0])]);
@@ -130,15 +122,15 @@ const ImportUser = () => {
   };
 
   return isDownloadingTemp ? (
-    <Button id="fade-button" className="d-flex flex-column " onClick={downloadBasicFile}>
-      <div className="d-flex ">
+    <Button id="fade-button-download" className="d-flex flex-column" onClick={downloadBasicFile}>
+      <div className="d-flex">
         <i className="fa-solid fa-file-arrow-down fs-4 darkBlue"></i>
         <span>import</span>
       </div>
     </Button>
   ) : (
-    <Button id="fade-button" className="d-flex flex-column ">
-      <label htmlFor="importFile" className="d-flex ">
+    <Button id="fade-button-upload" className="d-flex flex-column">
+      <label htmlFor="importFile" className="d-flex">
         <i className="fa-solid fa-file-arrow-up fs-4 darkBlue"></i>
         <span>insert</span>
       </label>

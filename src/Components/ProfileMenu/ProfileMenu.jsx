@@ -25,7 +25,6 @@ export default function ProfileMenu() {
   const signOut = () => {
     handleClose();
     auth.signOut();
-    // navigate("/");
     localStorage.removeItem("User");
   };
 
@@ -83,9 +82,7 @@ export default function ProfileMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
-          <ModalProfileData />
-        </MenuItem>
+      
         <MenuItem>
         <PasswordModal/>
         </MenuItem>

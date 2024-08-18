@@ -13,94 +13,92 @@ const PasswordForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const { user } = useContext(FireBaseContext);
-  const credentials = user.providerData;
-  const checkpassword = ()=>{
-    if(newPassword==''||CurrentPassword==''||confirmPassword==''){
-      return true
-    }else{
-      return false
-    }
-  }
+
+  const checkpassword = () => {
+    return newPassword === '' || CurrentPassword === '' || confirmPassword === '';
+  };
+
   const handleChangePassword = async () => {
     if (confirmPassword !== newPassword) {
-      setError("Password Not Matcing");
+      setError("Passwords do not match");
       return;
     }
+
     const cred = EmailAuthProvider.credential(user.email, CurrentPassword);
-    console.log(cred);
-    await reauthenticateWithCredential(user, cred);
-    //   // Update the password
+
     try {
+      // Reauthenticate the user
+      await reauthenticateWithCredential(user, cred);
+
+      // Update the password
       await updatePassword(user, newPassword);
+
       swal({
         icon: "success",
-        title: `Password Changed`,
+        title: "Password Changed Successfully",
       }).then(() => {
         setConfirmPassword("");
         setCurrentPassword("");
         setNewPassword("");
+        setError(""); // Clear error on success
       });
     } catch (error) {
-      console.error("Error updating password:", error.message);
+      if (error.code === 'auth/wrong-password') {
+        setError("Current password is incorrect");
+      } else {
+        console.error("Error updating password:", error.message);
+        setError("Error updating password. Please try again.");
+      }
     }
   };
 
   return (
-    <div >
-      <h5 className=" text-center m-0 mb-4 ">Change Password</h5>
+    <div>
+      <h5 className="text-center m-0 mb-4">Change Password</h5>
       <div className="row flex-column gap-2 align-items-center justify-content-center flex-wrap">
-        <div className=" row justify-content-between flex-wrap ">
-          <div className="col-5 " >
-
-          <label >Current Password:</label>
+        <div className="row justify-content-between flex-wrap">
+          <div className="col-5">
+            <label>Current Password:</label>
           </div>
           <div className="col-5 flex-fill">
-
-          <input
-            type="password"
-            value={CurrentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
+            <input
+              type="password"
+              value={CurrentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
             />
-            </div>
-        </div>
-        <div
-          className=" row justify-content-between   flex-wrap"
-          
-        >
-          <div className="col-5 ">
-
-          <label>New Password:</label>
           </div>
-<div className="col-5 flex-fill ">
-
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            />
-            </div>
         </div>
-        <div className=" row justify-content-between  flex-wrap">
-          <div className="col-5 ">
-
-          <label>Confirm Password:</label>
+        <div className="row justify-content-between flex-wrap">
+          <div className="col-5">
+            <label>New Password:</label>
           </div>
           <div className="col-5 flex-fill">
-
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
-            </div>
+          </div>
+        </div>
+        <div className="row justify-content-between flex-wrap">
+          <div className="col-5">
+            <label>Confirm Password:</label>
+          </div>
+          <div className="col-5 flex-fill">
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
         </div>
       </div>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <div className="w-100 d-flex justify-content-center align-items-center my-2 gap-2">
-      <span className={`text-danger ${checkpassword()?'d-block':'d-none'}`}>insert all data</span>
+        <span className={`text-danger ${checkpassword() ? 'd-block' : 'd-none'}`}>Please fill in all fields</span>
 
         <button
-          className="border-0 bg-primary text-white rounded align-self-end "
+          className="border-0 bg-primary text-white rounded align-self-end"
           disabled={checkpassword()}
           onClick={handleChangePassword}
         >

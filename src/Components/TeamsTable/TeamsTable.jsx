@@ -11,40 +11,40 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
+import TextField from "@mui/material/TextField";
 import { FireBaseContext } from "../../Context/FireBase";
 import { useNavigate } from "react-router-dom";
 import { deleteDoc, doc } from "firebase/firestore";
+
 export default function TeamsTable({ row }) {
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("Name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [searchQuery, setSearchQuery] = React.useState(""); // Search query state
   const { EventRefrence } = React.useContext(FireBaseContext);
   const [rows, setRows] = React.useState([]);
   const navigate = useNavigate();
+
   React.useEffect(() => {
     setRows(row);
   }, [row]);
+
   function descendingComparator(a, b, orderBy) {
-    if (typeof a[orderBy] == "string" && typeof b[orderBy]) {
+    if (typeof a[orderBy] === "string" && typeof b[orderBy] === "string") {
       return b[orderBy]?.toLowerCase() < a[orderBy]?.toLowerCase() ? -1 : 1;
     } else {
       return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    // if (b[orderBy] < a[orderBy]) {
-    //   return -1;
-    // }
-    // if (b[orderBy] > a[orderBy]) {
-    //   return 1;
-    // }
-    // return 0;
   }
+
   function getComparator(order, orderBy) {
     return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
+
   function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
@@ -57,7 +57,6 @@ export default function TeamsTable({ row }) {
     return stabilizedThis.map((el) => el[0]);
   }
 
-  // HeadTitles ----------------------------------------------
   const headCells = [
     {
       id: "Name",
@@ -78,16 +77,9 @@ export default function TeamsTable({ row }) {
       label: "Go To Events",
     },
   ];
-  // Sorting---Head /--------------------------------
+
   function EnhancedTableHead(props) {
-    const {
-      onSelectAllClick,
-      order,
-      orderBy,
-      numSelected,
-      rowCount,
-      onRequestSort,
-    } = props;
+    const { order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -122,14 +114,15 @@ export default function TeamsTable({ row }) {
       </TableHead>
     );
   }
+
   EnhancedTableHead.propTypes = {
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(["asc", "desc"]).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
   };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -161,7 +154,6 @@ export default function TeamsTable({ row }) {
       );
     }
     setSelected(newSelected);
-    // In ChecKbOX /--------------------------------------------------------------------
   };
 
   const handleChangePage = (event, newPage) => {
@@ -175,19 +167,19 @@ export default function TeamsTable({ row }) {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const filteredRows = rows.filter((row) =>
+    row.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(filteredRows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    console.log(""),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, filteredRows]
   );
-  //  Delet ----------------------------
+
   const DeleteField = (arr) => {
     arr.map(async (item) => {
       const ref = doc(EventRefrence, item);
@@ -197,23 +189,31 @@ export default function TeamsTable({ row }) {
 
   return (
     <Paper sx={{ width: "100%", mb: 0 }} className="BasicTableParent">
-      <div className=" p-3 d-flex justify-content-end"></div>
+      <div className="p-3 d-flex justify-content-between">
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          fullWidth
+        />
+      </div>
 
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-labelledby="tableTitle">
           <EnhancedTableHead
-            numSelected={selected?.length}
+            numSelected={selected.length}
             order={order}
             orderBy={orderBy}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={rows?.length}
+            rowCount={rows.length}
           />
           <TableBody>
-            {visibleRows?.map((row, index) => {
-              console.log(row,'data')
+            {visibleRows.map((row, index) => {
               const isItemSelected = isSelected(row.ID);
               const labelId = `enhanced-table-checkbox-${index}`;
+
               if (row.data) {
                 return (
                   <TableRow
@@ -227,10 +227,7 @@ export default function TeamsTable({ row }) {
                     sx={{ cursor: "pointer" }}
                   >
                     <TableCell align="left" className="TabelCoulmTeams">
-                   <b>
-                       {row.name}
-
-                    </b>
+                      <b>{row.name}</b>
                     </TableCell>
                     <TableCell align="left" className="TabelCoulmTeams">
                       {row.data.length}
@@ -250,18 +247,14 @@ export default function TeamsTable({ row }) {
               }
             })}
 
-            {emptyRows > 0 && (
-              <TableRow>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
+           
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}
         component="div"
-        count={rows.length}
+        count={filteredRows.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

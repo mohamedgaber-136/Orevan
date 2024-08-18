@@ -3,21 +3,23 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, updateDoc, collection } from "firebase/firestore";
+import { collection, doc, updateDoc } from "firebase/firestore";
 import { FireBaseContext } from "../../Context/FireBase";
-import { useParams } from "react-router-dom";
-export default function UploadBtn({ id, info }) {
+
+export default function UploadBtn({ id, info,element }) {
   const [selectedFile, setSelectedFile] = useState(null);
-  const { EventRefrence ,SubscribersRefrence} = useContext(FireBaseContext);
-  const { dbID } = useParams();
-  const eventRef = doc(EventRefrence, dbID);
-  const subCollection = collection(eventRef, "Subscribers");
+  const { SubscribersRefrence ,EventRefrence } = useContext(FireBaseContext);
+
   const handleSelect = (e) => {
-    setSelectedFile(e.target.files[0], "file");
+    setSelectedFile(e.target.files[0]);
   };
-  const userRef = doc(subCollection, id);
-  console.log(id,'id')
-  // HandleUBLoadp img  in firebase
+
+  // Ensure id.id is a string
+  // Reference to the specific subscriber document in SubscribersRefrence
+  const subscriberDocRef = doc(SubscribersRefrence, id);
+  const eventDocRef = doc(EventRefrence, element.eventID);
+  const eventSubScriber = doc(collection(eventDocRef, "Subscribers"), id);
+
   useEffect(() => {
     const handleUpload = async () => {
       const storage = getStorage();
@@ -28,7 +30,12 @@ export default function UploadBtn({ id, info }) {
         // Get the download URL
         const downloadURL = await getDownloadURL(storageRef);
         console.log("File uploaded successfully. Download URL:", downloadURL);
-        await updateDoc(userRef, {
+
+        // Update the document in SubscribersRefrence
+        await updateDoc(subscriberDocRef, {
+          sign64data: downloadURL,
+        });
+        await updateDoc(eventSubScriber, {
           sign64data: downloadURL,
         });
 
@@ -37,6 +44,7 @@ export default function UploadBtn({ id, info }) {
         console.log("Error uploading file:", error);
       }
     };
+
     if (selectedFile) {
       handleUpload();
     }
@@ -50,6 +58,7 @@ export default function UploadBtn({ id, info }) {
     whiteSpace: "nowrap",
     width: 1,
   });
+
   return (
     <Button
       component="label"

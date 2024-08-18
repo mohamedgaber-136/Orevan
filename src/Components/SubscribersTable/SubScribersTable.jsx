@@ -62,55 +62,49 @@ export default function SubScribersTable({ row, refCollection }) {
   // HeadTitles
   const headCells = [
     {
-      id: "id",
-      numeric: false,
-      disablePadding: true,
-      label: "ID",
-    },
-    {
-      id: "FirstName",
+      id: "name",
       numeric: true,
       disablePadding: false,
       label: "FirstName",
     },
     {
-      id: "Email",
+      id: "email",
       numeric: true,
       disablePadding: false,
       label: "Email",
     },
     {
-      id: "PhoneNumber",
+      id: "tel",
       numeric: true,
       disablePadding: false,
       label: "Phone Number",
     },
     {
-      id: "Organization",
+      id: "organization",
       numeric: true,
       disablePadding: false,
       label: "Organization",
     },
     {
-      id: "Speciality",
+      id: "speciality",
       numeric: true,
       disablePadding: false,
       label: "Speciality",
     },
     {
-      id: "NationalID",
+      id: "nationalId",
       numeric: true,
       disablePadding: false,
       label: "National ID",
     },
     {
-      id: "City",
+      id: "city",
       numeric: true,
       disablePadding: false,
       label: "City",
     },
     {
-      id: "Signature",
+      id: "sign64data",
       numeric: true,
       disablePadding: false,
       label: "Signature",
@@ -302,51 +296,44 @@ export default function SubScribersTable({ row, refCollection }) {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.ID}
+                      key={row.email}
                       selected={isItemSelected}
                       sx={{ cursor: "pointer" }}
                       className="align-items-center"
                     >
                       <TableCell
                         padding="checkbox"
-                        onClick={(event) => handleClick(event, row.Id)}
+                        onClick={(event) => handleClick(event, row.id)}
                       >
-                        <Checkbox
+                        {/* <Checkbox
                           color="primary"
                           checked={isItemSelected}
                           inputProps={{
                             "aria-labelledby": labelId,
                           }}
-                        />
+                        /> */}
                       </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="normal"
-                      >
-                        {row.id}
-                      </TableCell>
-                      <TableCell align="center">{row.FirstName}</TableCell>
-                      <TableCell align="center">{row.Email}</TableCell>
-                      <TableCell align="center">{row.PhoneNumber}</TableCell>
-                      <TableCell align="center">{row.Organization}</TableCell>
-                      <TableCell align="center">{row.Speciality}</TableCell>
-                      <TableCell align="center">{row.NationalID}</TableCell>
-                      <TableCell align="center">{row.City}</TableCell>
+                    
+                      <TableCell align="center">{row.name}</TableCell>
+                      <TableCell align="center">{row.email}</TableCell>
+                      <TableCell align="center">{row.tel}</TableCell>
+                      <TableCell align="center">{row.organization}</TableCell>
+                      <TableCell align="center">{row.specialty}</TableCell>
+                      <TableCell align="center">{row.nationalId}</TableCell>
+                      <TableCell align="center">{row.city}</TableCell>
                       <TableCell
                         align="center"
-                        className="subRowImg d-flex ps-3 pe-0 pb-0 gap-1 align-items-center "
+                        className="subRowImg  d-flex justify-content-center gap-1 align-items-center "
                       >
-                        <UploadBtn id={row.ID} info={row.sign64data && "d-none"} />
+                        <UploadBtn id={row.id} info={row.sign64data && "d-none"} element={row}/>  
                         {row.sign64data && (
-                          <img src={row.sign64data} alt="signature" width={"100%"} />
+                          <img src={row.sign64data} alt="signature" width={"75px"} style={{objectFit:'contain'}}  />
                         )}
                       </TableCell>
                       <TableCell align="right">
                         <SettingsBtn
                           row={row}
-                          rowId={row.ID}
+                          rowId={row.id}
                           refCollection={refCollection}
                         />
                       </TableCell>

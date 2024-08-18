@@ -2,27 +2,33 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { FireBaseContext } from "../../Context/FireBase";
 import { useContext, useEffect } from "react";
+
 const Tov = ({ setSelectedOptions, selectedOptions }) => {
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
 
-  const checkTxtValue = (e, item, i) => {
-    selectedOptions[i].value = e.target.value;
+  const checkTxtValue = (e, index) => {
+    const value = e.target.value.replace(/\D/g, ''); // Removes non-numeric characters
+    const updatedOptions = [...selectedOptions];
+    updatedOptions[index].value = value;
+    setSelectedOptions(updatedOptions); // Update the state with the new value
   };
+
   const sendData = () => {
     setNewEvent({
       ...newEvent,
       ["TransferOfValue"]: selectedOptions,
     });
   };
+
   const options = [
-    { types: " Registration Fees", value: 0 },
-    { types: "Meals ", value: 0 },
-    { types: "Accommodation", value: 0 },
-    { types: "Medical Utlitities", value: 0 },
-    { types: "CME Hours", value: 0 },
-    { types: "Transportation", value: 0 },
-    { types: "Visa ", value: 0 },
-    { types: "Flights", value: 0 },
+    { types: "Registration Fees", value: 100 },
+    { types: "Meals", value: 100 },
+    { types: "Accommodation", value: 100 },
+    { types: "Medical Utilities", value: 100 },
+    { types: "CME Hours", value: 100 },
+    { types: "Transportation", value: 100 },
+    { types: "Visa", value: 100 },
+    { types: "Flights", value: 100 },
   ];
 
   return (
@@ -33,7 +39,6 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
           id="tags-outlined"
           options={options}
           getOptionLabel={(option) => option.types}
-       
           filterSelectedOptions
           onChange={(e, value) => {
             setNewEvent({
@@ -47,16 +52,15 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
             <TextField
               {...params}
               label={<b>Transfer Of Values</b>}
-              className="dropDownBorder "
+              className="dropDownBorder"
             />
           )}
           renderTags={(value, getTagProps) =>
-            newEvent.TransferOfValue.map((option, index) => (
-              <div  key={index} {...getTagProps({ index })} >
-              <div className="p-2">
-              {`${option.types} - ${option.value}`}
-              </div>
-                
+            value.map((option, index) => (
+              <div key={index} {...getTagProps({ index })}>
+                <div className="p-2">
+                  {`${option.types} - ${option.value}`}
+                </div>
               </div>
             ))
           }
@@ -65,30 +69,29 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
       <div>
         <ul className="p-0 row flex-wrap gap-1 mt-2">
           {selectedOptions.map((savedObject, index) => (
-            <li
-              key={index}
-              className=" p-1 col-5 col-md-3"
-          
-            >
-                  <TextField
-                label={<b>Tov : {savedObject.types}</b>}
+            <li key={index} className="p-1 col-5 col-md-3">
+              <TextField
+                label={<b>Tov: {savedObject.types}</b>}
                 focused
                 className="w-100"
-                onChange={(e) => checkTxtValue(e, savedObject.option, index)}
+                onChange={(e) => checkTxtValue(e, index)}
+                value={savedObject.value} // Set the value to the state's value
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} // Restrict to numeric input
               />
             </li>
           ))}
         </ul>
         {selectedOptions.length ? (
-          <div className="w-100  d-flex justify-content-end ">
-
-          <button type="button" className="wrappingItems border-0 p-2" onClick={sendData}>
-            save +
-          </button>
+          <div className="w-100 d-flex justify-content-end">
+            <button
+              type="button"
+              className="wrappingItems border-0 p-2"
+              onClick={sendData}
+            >
+              Save +
+            </button>
           </div>
-        ) : (
-          ""
-        )}
+        ) : null}
       </div>
     </>
   );

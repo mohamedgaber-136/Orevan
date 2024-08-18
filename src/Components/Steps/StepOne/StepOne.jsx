@@ -62,12 +62,12 @@ export const StepOne = () => {
       const newData = snapshot.docs.map((doc) => ({
         ...doc.data(),
       }));
-      SetItem(newData[0].City);
+      SetItem(newData[0].data);
     });
   };
 
   useEffect(() => {
-    getData(Cities, setItem);
+    getData(Cities,setItem)
   }, []);
   const validateDates = () => {
     if (newEvent.eventDate && newEvent.endDate) {

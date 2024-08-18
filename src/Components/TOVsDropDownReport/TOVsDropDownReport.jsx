@@ -22,6 +22,7 @@ const TOVsDropDownReport = ({ data, filename, sheetname }) => {
     { types: "Transportation" },
     { types: "Visa " },
     { types: "Flights" },
+    { types: "Immunology" },
   ];
   const [selectedTov, setSelectedTov] = useState("");
   const { TransferOfValuesRef } = useContext(FireBaseContext);

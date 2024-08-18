@@ -26,7 +26,7 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
     {
       label: "First Name",
       type: "text",
-      name: "FirstName",
+      name: "name",
     },
     {
       label: "Last Name",
@@ -36,48 +36,44 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
     {
       label: "Email",
       type: "text",
-      name: "Email",
+      name: "email",
     },
     {
       label: "National/iqamaID",
       type: "number",
-      name: "NationalID",
+      name: "nationalId",
     },
     {
       label: "Phone Number",
       type: "text",
-      name: "PhoneNumber",
+      name: "tel",
     },
     {
       label: "Speciality",
       type: "text",
-      name: "Speciality",
+      name: "specialty",
     },
     {
       label: "Organization",
       type: "text",
-      name: "Organization",
+      name: "organization",
     },
     {
       label: "License ID",
       type: "number",
-      name: "MedicalLicense",
+      name: "licenceId",
     },
     {
       label: "City",
       type: "text",
-      name: "City",
+      name: "city",
     },
     {
       label: "Cost Per Delegate",
       type: "text",
       name: "CostPerDelegate",
     },
-    // {
-    //   label: "Transfer of Value",
-    //   type: "text",
-    //   name: "TransferOfValue",
-    // },
+   
   ];
 
   const { dbID } = useParams();
@@ -85,24 +81,17 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
   const [selectedTovOptions, setSelectedTovOptions] = useState([]);
   const [updatedData, setUpdatedData] = useState(null);
   const [downloadURL, setDownloadUrl] = useState(null);
-
+  const {SubscribersRefrence} = useContext(FireBaseContext)
   const EventRef = doc(EventRefrence, dbID);
   const SubscribersCollection = collection(EventRef, "Subscribers");
   const userData = doc(SubscribersCollection, user.ID);
-  // async function getdata() {
-  //   const item = await getDoc(userData);
-  //   console.log(user, "user");
-  //   console.log(item.data(), "data");
-  //   setUpdatedData(item.data());
-  // }
-
+  const changeedUser = doc(SubscribersRefrence, user.ID);
   const setInitialData = () => {
     const data = { ...user };
     delete data.ID;
     setUpdatedData({ ...data });
     setSelectedTovOptions([...data.TransferOfValue]);
   };
-
   useEffect(() => {
     setInitialData();
   }, []);
@@ -124,33 +113,9 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
     }).then(async (willDelete) => {
       if (willDelete) {
         handleClose();
-
         updatedData.TransferOfValue = selectedTovOptions;
-        console.log(updatedData, "updatedData");
-
-        await updateDoc(userData, updatedData);
-
-        // const updateSub = {
-        //   id: user.id,
-        //   TransferOfValue: selectedTovOptions.length
-        //     ? selectedTovOptions
-        //     : updatedData.TransferOfValue,
-        //   // FirstName: e.target["FirstName"].value,
-        //   // LastName: e.target["LastName"].value,
-        //   // Email: e.target["Email"].value,
-        //   // NationalID: e.target["NationalID"].value,
-        //   // PhoneNumber: e.target["PhoneNumber"].value,
-        //   // Speciality: e.target["Speciality"].value,
-        //   // Organization: e.target["Organization"].value,
-        //   // LicenseID: e.target["LicenseID"].value,
-        //   // City: e.target["City"].value,
-        //   // CostPerDelegate: e.target["CostPerDelegate"].value,
-        // };
-        // NewSubScriberInputs.map(
-        //   (input) => (updateSub[input.name] = e.target[input.name]?.value)
-        // );
-        // console.log(updateSub, "updateSub");
-
+        await updateDoc(userData, updatedData);    
+        await updateDoc(changeedUser, updatedData);    
         swal({
           icon: "success",
         });
@@ -158,15 +123,11 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
     });
   };
   const checkTxtValue = (value, item) => {
-    // selectedOptions[i].value = e.target.value;
     const found = selectedTovOptions.find(({ types }) => types == item);
     found.value = value;
   };
 
-  // useEffect(() => {
-  //   getdata();
-  //   setUpdated();
-  // }, []);
+  
 
   if (updatedData) {
     return (
@@ -192,106 +153,7 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                     />
                   </div>
                 ))}
-                {/* <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[0].label}`}
-                    id={``}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.FirstName}
-                  />
-                </div>
-                <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[0].label}`}
-                    id={``}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.LastName}
-                  />
-                </div>
-                <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[1].label}`}
-                    id={""}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.Email}
-                  />
-                </div>
-                <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[2].label}`}
-                    id={``}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.NationalID}
-                  />
-                </div>
-                <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[3].label}`}
-                    id={``}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.PhoneNumber}
-                  />
-                </div>
-                <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[4].label}`}
-                    id={``}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.Speciality}
-                  />
-                </div>
-                <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[5].label}`}
-                    id={``}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.Organization}
-                  />
-                </div>
-                <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[6].label}`}
-                    id={``}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.LicenseID}
-                  />
-                </div>
-                <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[7].label}`}
-                    id={``}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.City}
-                  />
-                </div>
-                <div className="w-50 d-flex justify-content-center">
-                  <TextField
-                    label={`${NewSubScriberInputs[8].label}`}
-                    id={``}
-                    sx={{ m: 1, width: "25ch" }}
-                    focused
-                    className="w-75 "
-                    defaultValue={updatedData?.CostPerDelegate}
-                  />
-                </div> */}
+               
 
                 <div className="w-50 mt-2 d-flex justify-content-center align-items-center flex-column">
                   <div
@@ -307,7 +169,6 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                       filterSelectedOptions
                       defaultValue={updatedData.TransferOfValue}
                       onChange={(e, value) => {
-                        console.log("changing..");
                         // setUpdatedData({
                         //   ...updatedData,
                         //   ["TransferOfValue"]: value,
@@ -316,9 +177,7 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                           // ...updatedData?.TransferOfValue,
                           ...value,
                         ]);
-                        console.log(value, "value");
-                        console.log(updatedData, "updatedData");
-                        console.log(selectedTovOptions, "selectedTovOptions");
+                  
                       }}
                       isOptionEqualToValue={(option, value) =>
                         option.types === value.types

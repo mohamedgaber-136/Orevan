@@ -3,21 +3,22 @@ import { saveAs } from "file-saver";
 const ExportToExcelButton = ({ data, filename, sheetname }) => {
   const extractData = data?.map((item) => ({
     "Title/اللقب": "Dr",
-    "FirstName/الاسم الاول": item.FirstName,
+    "FirstName/الاسم الاول": item.name,
     "LastName/الاسم الاخير": item.LastName,
-    Specialitzation: item.Speciality,
+    Specialitzation: item.specialty,
     "Other Specialitzation (optional)": "",
-    "Professional Classification Number": item.MedicalLicense,
-    "National/Resident ID": item.NationalID,
-    "Mobile Number / رقم الجوال": item.PhoneNumber,
-    "Email/الايميل": item.Email,
+    "Professional Classification Number": item.licenceId,
+    "National/Resident ID": item.nationalId,
+    "Mobile Number / رقم الجوال": item.tel,
+    "Email/الايميل": item.email,
     "Form Of Payment ": "cash or cash equalivant",
     "Total Grant": item.CostPerDelegate,
     "Grant purpose": item.TransferOfValue?.map(
       (item) => `${item.types} = ${item.value}`
     ).join(","),
     "Payment Amount": "",
-    Signature: item.image,
+    city:item.city,
+    Signature: item.sign64data,
   }));
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
@@ -37,6 +38,7 @@ const ExportToExcelButton = ({ data, filename, sheetname }) => {
       "Grant purpose",
       "Payment Amount",
       "Signature",
+      "city",
     ];
     worksheet.addRow([...headersList]);
     // Set the background color for the entire row (e.g., row 1)

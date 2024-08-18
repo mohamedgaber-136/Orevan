@@ -5,7 +5,7 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
     "Event Name": item.eventName,
     Franchise: item.Franchise.toString(),
     "Event ID": item.Id,
-    City: item.city.map((city) => city.types).join(","),
+    City: item.city.map((city) => city).join(","),
     "Cost per Delegate": item.CostperDelegate,
     "Event Cost": item.EventCost.toString(),
     PO: item.PO,
@@ -19,7 +19,6 @@ const ExportEventsExcel = ({ data, filename, sheetname }) => {
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetname);
-    console.log(data, "extractData");
     const headersList = [
       "Event ID",
       "Event Name",

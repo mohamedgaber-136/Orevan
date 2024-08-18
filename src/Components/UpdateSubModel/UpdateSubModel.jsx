@@ -24,7 +24,6 @@ export default function UpdateSubModel({ user }) {
     setOpen(false);
   };
 
-  console.log(user,'user in dialog')
 
   return (
     <>

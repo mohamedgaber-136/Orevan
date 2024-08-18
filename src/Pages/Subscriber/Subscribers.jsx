@@ -20,14 +20,13 @@ export const Subscribers = () => {
     // Clean up the subscription when the component unmounts or dbID changes
     return () => unsubscribe();
   }, [dbID ]);
-
   return (
     <div className="EventsPageParent d-flex flex-column container-fluid container-md gap-3">
       <h2>Subscribers</h2>
       <div className="d-flex justify-content-center">
         <ChosenCard />
       </div>
-      <SubScribersTable row={Subscribers} />
+      <SubScribersTable row={Subscribers} refCollection={SubscribersRefrence} />
     </div>
   );
 };

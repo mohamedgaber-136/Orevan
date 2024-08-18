@@ -1,110 +1,73 @@
+import React, { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import "./NewSubScriberStyle.css";
 import { BreadCrumbs } from "../BreadCrum/BreadCrumbs";
-import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../../Context/SearchContext";
 import { FireBaseContext } from "../../Context/FireBase";
 import InputAdornment from "@mui/material/InputAdornment";
-import {
-  addDoc,
-  doc,
-  collection,
-  getDoc,
-  onSnapshot,
-} from "firebase/firestore";
+import { doc, collection, getDoc, setDoc } from "firebase/firestore";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import swal from "sweetalert";
-import "./NewSubScriberStyle.css";
-import { MenuItem } from "@mui/material";
+import { MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 
 export const NewSubScriber = ({ id, handleClose }) => {
   const { setShowAddNeWSub } = useContext(SearchContext);
-  const { EventRefrence, SubscribersRefrence, getData, database, Cities } =
+  const { EventRefrence, SubscribersRefrence, getData } =
     useContext(FireBaseContext);
   const { dbID } = useParams();
   const countryCode = "+966";
   const [errorMsg, setErrorMsg] = useState(false);
   const [checkSubScriber, SetSubScriber] = useState([]);
   const [user, SetUsers] = useState([]);
-
-  const initialvalues = {
-    FirstName: "",
+  const [cities, setCity] = useState([]);
+  const [initialValues, setInitialValues] = useState({
+    nationalId: "",
+    name: "",
     LastName: "",
-    Email: "",
-    NationalID: "",
-    PhoneNumber: "",
-    Speciality: "",
-    Organization: "",
-    MedicalLicense: "",
-    City: "",
+    email: "",
+    tel: "",
+    specialty: "",
+    organization: "",
+    licenceId: "",
+    city: "",
     CostPerDelegate: 0,
     TransferOfValue: [],
-  };
+  });
 
   const NewSubScriberInputs = [
-    {
-      label: "National/iqamaID",
-      type: "number",
-      name: "NationalID",
-    },
-    {
-      label: "First Name",
-      type: "text",
-      name: "FirstName",
-    },
-    {
-      label: "Last Name",
-      type: "text",
-      name: "LastName",
-    },
-    {
-      label: "Email",
-      type: "text",
-      name: "Email",
-    },
-    {
-      label: "Phone Number",
-      type: "text",
-      name: "PhoneNumber",
-    },
-    {
-      label: "specialty",
-      type: "text",
-      name: "Speciality",
-    },
-    {
-      label: "Organization",
-      type: "text",
-      name: "Organization",
-    },
-    {
-      label: "Medical License",
-      type: "text",
-      name: "MedicalLicense",
-    },
-    {
-      label: "City",
-      type: "text",
-      name: "City",
-    },
+    { label: "National/iqamaID", type: "text", name: "nationalId" },
+    { label: "First Name", type: "text", name: "name" },
+    { label: "Last Name", type: "text", name: "LastName" },
+    { label: "email", type: "text", name: "email" },
+    { label: "Phone Number", type: "text", name: "tel" },
+    { label: "specialty", type: "text", name: "specialty" },
+    { label: "Organization", type: "text", name: "organization" },
+    { label: "Medical License", type: "text", name: "licenceId" },
+    { label: "City", type: "select", name: "city" },
   ];
 
   const validationSchema = Yup.object().shape({
-    FirstName: Yup.string().min(3, "Too short").required("Required"),
-    LastName: Yup.string().min(3, "Too short").required("Required"),
-    Email: Yup.string().email("Enter valid email").required("Required"),
-    NationalID: Yup.string()
+    nationalId: Yup.string()
       .matches(/^\d{10}$/, "National ID must be 10 digits")
       .required("Required"),
-    PhoneNumber: Yup.string()
+    name: Yup.string()
+      .matches(/^[A-Za-z\s]+$/, "First Name must contain only letters")
+      .min(3, "Too short")
+      .required("Required"),
+    LastName: Yup.string()
+      .matches(/^[A-Za-z\s]+$/, "Last Name must contain only letters")
+      .min(3, "Too short")
+      .required("Required"),
+    email: Yup.string().email("Enter valid email").required("Required"),
+    tel: Yup.string()
       .matches(/^\d{9}$/, "Phone number must be 9 digits")
       .required("Required"),
-    Speciality: Yup.string().required("Required"),
-    Organization: Yup.string().required("Required"),
-    MedicalLicense: Yup.string().required("Required"),
-    City: Yup.string().required("Required"),
+    specialty: Yup.string().required("Required"),
+    organization: Yup.string().required("Required"),
+    licenceId: Yup.string().required("Required"),
+    city: Yup.string().required("Required"),
   });
 
   const ref = doc(EventRefrence, dbID);
@@ -113,13 +76,22 @@ export const NewSubScriber = ({ id, handleClose }) => {
   useEffect(() => {
     getData(subscriberCollection, SetSubScriber);
     getData(SubscribersRefrence, SetUsers);
-
+  
     (async () => {
       const datas = await getDoc(ref);
-      const Result = await datas.data();
-      // setEventData(Result);
+      const Result = datas.data();
+      setCity(Result.city);
+  
+      if (Result.city.length === 1) {
+        console.log(Result.city[0],'result')
+        setInitialValues((prevValues) => ({
+          ...prevValues,
+          city: Result.city[0], // Set the only city as the default value
+        }));
+      }
     })();
   }, [dbID]);
+
   function randomXToY(minVal, maxVal) {
     let randVal = minVal + Math.random() * (maxVal - minVal);
     return Math.round(randVal);
@@ -127,24 +99,46 @@ export const NewSubScriber = ({ id, handleClose }) => {
 
   const handleFormSubmit = async (values) => {
     const data = { ...values };
-    data.PhoneNumber = `${countryCode}${data.PhoneNumber}`;
-    const checkUser = checkSubScriber.find(({ Email }) => Email === data.Email);
-    if (checkUser) {
-      setErrorMsg(true);
+    data.tel = `${countryCode}${data.tel}`;
+
+    const existingSubscriber = checkSubScriber.find(
+      (subscriber) =>
+        subscriber.email === data.email ||
+        subscriber.nationalId === data.nationalId ||
+        subscriber.tel === data.tel
+    );
+
+    if (existingSubscriber) {
+      let errorMessages = {};
+      if (existingSubscriber.email === data.email) {
+        errorMessages.email = "This email is already registered.";
+      }
+      if (existingSubscriber.nationalId === data.nationalId) {
+        errorMessages.nationalId = "This National/iqama ID is already registered.";
+      }
+      if (existingSubscriber.tel === data.tel) {
+        errorMessages.tel = "This phone number is already registered.";
+      }
+
+      setErrorMsg(errorMessages);
     } else {
       swal({
-        text: `Subscriber ${data.Email} added successfully `,
+        text: `Subscriber ${data.email} added successfully`,
         icon: "success",
       }).then(async () => {
         const eventRef = await getDoc(ref);
         const eventData = eventRef.data();
         data["CostPerDelegate"] = eventData.CostperDelegate;
         data["TransferOfValue"] = eventData.TransferOfValue;
+        data["sign64data"] = "";
         data["eventID"] = dbID;
-        data['id']=randomXToY(1, 1000)
+        const generatedId = randomXToY(1, 1000).toString();
+        data["id"] = generatedId;
         setErrorMsg(false);
-        await addDoc(subscriberCollection, data);
-        await addDoc(SubscribersRefrence, data);
+
+        await setDoc(doc(subscriberCollection, generatedId), data);
+        await setDoc(doc(SubscribersRefrence, generatedId), data);
+
         setShowAddNeWSub(false);
         handleClose();
       });
@@ -152,66 +146,95 @@ export const NewSubScriber = ({ id, handleClose }) => {
   };
 
   const handleInputChange = (name, value, formValues, setFormValues) => {
-    // Regular expression to match Arabic characters
     const arabicRegex = /[\u0600-\u06FF\u0750-\u077F]/;
-    // Check if the input value contains Arabic characters
     if (arabicRegex.test(value)) {
-      // If Arabic characters are detected, remove them
       value = value.replace(arabicRegex, "");
     }
+
+    if (name === "nationalId" && value.length > 10) {
+      value = value.slice(0, 10);
+    }
+
+    if (["name", "LastName"].includes(name)) {
+      const letterOnlyRegex = /^[A-Za-z\s]*$/;
+      if (!letterOnlyRegex.test(value)) {
+        return;
+      }
+    }
+
     setFormValues({ ...formValues, [name]: value });
 
     let isAutoCompleted = false;
-    // is the national id primary one
-    if (name === "NationalID" && value.length >= 7) {
+    if (name === "nationalId" && value.length >= 7) {
       const matchingItem = user.find(
-        (item) => String(item.NationalID).toLowerCase() === value.toLowerCase()
+        (item) => String(item.nationalId).toLowerCase() === value.toLowerCase()
       );
       if (matchingItem) {
         isAutoCompleted = true;
-        // setAutoFilledUser({ ...matchingItem });
         setFormValues({
           ...matchingItem,
-          PhoneNumber: matchingItem.PhoneNumber.substring(4),
+          tel: matchingItem.tel.substring(4),
         });
       }
-
-      // }
     }
     if (!isAutoCompleted) {
       setFormValues({ ...formValues, [name]: value });
     }
-    // Update the form values with the sanitized input
   };
-
   return (
     <Formik
-      initialValues={initialvalues}
+      initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleFormSubmit}
+      enableReinitialize={true}  // Add this prop
+
     >
       {({ values, setValues }) => (
-        <>
-          <Form className="bg-white rounded NewSubScriberForm ">
-            <h3 className="px-lg-3 px-1">
-              <BreadCrumbs id={id} sub={"Subscriber"} />
-            </h3>
-            <div className="w-100 gap-2 d-flex flex-wrap justify-content-evenly mt-3 pt-2">
-              {NewSubScriberInputs.map((item, index) => (
-                <div
-                  className="col-12 col-md-5 p-1"
-                  key={`${item.label}-${index}`}
-                >
+        <Form className="bg-white rounded NewSubScriberForm">
+          <h3 className="px-lg-3 px-1">
+            <BreadCrumbs id={id} sub={"Subscriber"} />
+          </h3>
+          <div className="w-100 gap-2 d-flex flex-wrap justify-content-evenly mt-3 pt-2">
+            {NewSubScriberInputs.map((item, index) => (
+              <div
+                className="col-12 col-md-5 p-1"
+                key={`${item.label}-${index}`}
+              >
+                {item.type === "select" ? (
+                  <FormControl fullWidth>
+                    <InputLabel>{item.label}</InputLabel>
+                    <Field
+                      as={Select}
+                      label={item.label}
+                      id={index}
+                      name={item.name}
+                      className="border border-secondary"
+                      value={values[item.name]}
+                      onChange={(e) =>
+                        handleInputChange(
+                          item.name,
+                          e.target.value,
+                          values,
+                          setValues
+                        )
+                      }
+                    >
+                      {cities.map((city, cityIndex) => (
+                        <MenuItem key={cityIndex} value={city}>
+                          {city}
+                        </MenuItem>
+                      ))}
+                    </Field>
+                  </FormControl>
+                ) : (
                   <Field
-                    select={item.type == "select"}
                     as={TextField}
                     label={item.label}
                     id={index}
                     focused
                     type={item.type}
                     className={`w-100 ${
-                      (item.name === "PhoneNumber" ||
-                        item.name === "City") &&
+                      (item.name === "tel" || item.name === "city") &&
                       "border border-secondary form-control"
                     }`}
                     name={item.name}
@@ -225,42 +248,41 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       )
                     }
                     InputProps={{
-                      startAdornment: item.name === "PhoneNumber" && (
+                      startAdornment: item.name === "tel" && (
                         <InputAdornment position="start">
                           {countryCode}
                         </InputAdornment>
                       ),
                     }}
                   />
-                  <div className="text-danger align-self-start mb-3">
-                    <ErrorMessage name={item.name} />
-                  </div>
-                  {errorMsg && (
-                    <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-                      <small>This Email already Registered</small>
-                    </div>
-                  )}
-                </div>
-              ))}
-              <div className="col-12 col-md-5 p-1">
-    
+                )}
+                <ErrorMessage
+                  name={item.name}
+                  component="div"
+                  className="text-danger"
+                />
+                {errorMsg && errorMsg[item.name] && (
+                  <div className="text-danger">{errorMsg[item.name]}</div>
+                )}
               </div>
-              <div className="col-12 col-md-5 p-1 d-flex flex-column align-items-center justify-content-center gap-2 p-2">
-                <button
-                  type="submit"
-                  className="w-75 p-2 rounded rounded-2 border-0 text-white"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </Form>
-          {errorMsg && (
-            <div className="w-50 text-danger d-flex justify-content-center align-items-center">
-              <small>This Email already Registered</small>
-            </div>
-          )}
-        </>
+            ))}
+          </div>
+          <div className="d-flex flex-wrap gap-2 justify-content-end p-3">
+            <button
+              className="btn btn-danger px-5"
+              onClick={() => {
+                setShowAddNeWSub(false);
+                handleClose();
+              }}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button className="btn btn-primary px-5" type="submit">
+              Save
+            </button>
+          </div>
+        </Form>
       )}
     </Formik>
   );

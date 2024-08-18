@@ -20,7 +20,7 @@ const ExportSfda = ({ data, filename, sheetname }) => {
               "Event ID": item.Id,
               "Event Name": item.eventName,
               "Franchise Name": item.Franchise?.toString(),
-              "Event City": item.city.map((city) => city.types).join(","),
+              "Event City": item.city.map((city) => city).join(","),
               "Cost per Delegate": item.CostperDelegate,
               "Event Cost": item.EventCost?.toString(),
               PO: item.PO,
@@ -34,14 +34,14 @@ const ExportSfda = ({ data, filename, sheetname }) => {
               return {
                 "Event ID": item.Id,
                 "Title/اللقب": "Dr",
-                "FirstName/الاسم الاول": subItem.FirstName,
+                "FirstName/الاسم الاول": subItem.name,
                 "LastName/الاسم الاخير": subItem.LastName,
-                Specialitzation: subItem.Speciality,
+                Specialitzation: subItem.specialty,
                 "Other Specialitzation (optional)": "",
-                "Professional Classification Number": subItem.MedicalLicense,
-                "National/Resident ID": subItem.NationalID,
-                "Mobile Number / رقم الجوال": subItem.PhoneNumber,
-                "Email/الايميل": subItem.Email,
+                "Professional Classification Number": subItem.licenceId,
+                "National/Resident ID": subItem.nationalId,
+                "Mobile Number / رقم الجوال": subItem.tel,
+                "Email/الايميل": subItem.email,
                 "Form Of Payment ": "cash or cash equalivant",
                 "Total Grant": subItem.TransferOfValue.reduce(
                   (first, second) => {
@@ -54,10 +54,9 @@ const ExportSfda = ({ data, filename, sheetname }) => {
                 ).join(","),
                 "Payment Amount": "",
                 "Date of Payment": item.eventDate,
-                Signature: subItem.image,
-                // "Subscriber City": subItem.City,
-                // "License ID": subItem.LicenseID,
-                // Organization: subItem.Organization,
+                "Signature": subItem.sign64data,
+                "City": subItem.city,
+              
               };
             })
           );
@@ -165,8 +164,10 @@ const ExportSfda = ({ data, filename, sheetname }) => {
         }
       });
     });
+    
     finalDataToExport.map((item, ind) => {
       const data = item["Signature"];
+   
       if (data) {
         worksheet.getCell(`AA${ind + 2}`).value = {
           text: "Signature",

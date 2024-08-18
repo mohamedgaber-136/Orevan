@@ -30,15 +30,14 @@ export default function AddCityModal() {
 
   const handleAddCity = async () => {
     const docSnap = await getDoc(docRef);
-    const info = {
-      types: cityName,
-    };
+    console.log(docSnap,'doc')
+   
     // console.log(docSnap.data().data,'data')
-    const x = docSnap.data().data.find((y)=>y.types==info.types)
+    const x = docSnap.data().data.find((y)=>y==cityName)
     if(!x){
   if (docSnap.exists()) {
       const newData = docSnap.data().data || []; // Get existing array or initialize empty array
-      newData.push(info); // Push new item into the array
+      newData.push(cityName); // Push new item into the array
       await updateDoc(docRef, { data: newData });
 
       swal({

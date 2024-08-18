@@ -201,14 +201,23 @@ export default function DataTable({ row }) {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
+  const parseDate = (dateString) => {
+    const [month, day, year] = dateString.split('/');
+    return new Date(`${year}-${month}-${day}`);
+  };
+  
   const statusCase = (start, end) => {
     const currentDate = new Date();
-    start = new Date(start);
-    end = new Date(end);
-
-    if (start > currentDate) {
+  
+    // Parse the start and end dates
+    start = parseDate(start);
+    end = parseDate(end);
+  
+ 
+    // Compare dates and return status accordingly
+    if (currentDate < start) {
       return { status: "Pending", color: "bg-warning" };
-    } else if (start <= currentDate && end >= currentDate) {
+    } else if (currentDate >= start && currentDate <= end) {
       return { status: "Started", color: "bg-success" };
     } else {
       return { status: "Ended", color: "bg-danger" };

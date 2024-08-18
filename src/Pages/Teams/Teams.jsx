@@ -34,7 +34,6 @@ export const Teams = () => {
   }, []);
 
 
-  console.log(collectionKeys,'collectionKeyss')
 
   if (collectionKeys.length) {
     return (
