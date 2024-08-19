@@ -1,5 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import * as Yup from "yup";
@@ -27,8 +27,8 @@ export const CreateUser = () => {
   ];
 
   const initialvalues = {
-    Name:"",
-    Email:"",
+    Name: "",
+    Email: "",
     Password: "",
     Role: "Admin",
     franchiseType: "Retina",
@@ -48,22 +48,22 @@ export const CreateUser = () => {
   const sendEmail = (values) => {
     const emailParams = {
       from_name: 'Orevan Group', // Display name you want to show
-      from_email: 'Events@orevan-prox.com',   
-          to_email: values.Email,
+      from_email: 'Events@orevan-prox.com',
+      to_email: values.Email,
       to_name: values.Name,
       message: `\nEmail: ${values.Email}\nPassword: ${values.Password}`,
     };
-  
+
     emailjs.send('service_mzn99q7', 'template_4owcf7m', emailParams, '6z5D34K7serfxYLXR')
       .then((response) => {
         console.log('Email sent successfully!', response.status, response.text);
       }, (error) => {
         console.error('Failed to send email.', error);
       });
-  
-   
   };
-  
+
+  const validEmails = [];
+  const invalidEmails = [];
   const onsubmit = async (values, props) => {
     try {
       const res = await createUserWithEmailAndPassword(
@@ -77,98 +77,75 @@ export const CreateUser = () => {
       setData({
         ...values,
         Password: passwordDATA,
+        Role: {
+          admin: values.Role === 'admin',
+          franchiseType: values.franchiseType,
+          manager: values.Role === 'manager',
+          user: values.Role === 'user'
+        },
+        Condition: {
+          Blocked: false || values.Blocked !== 'Blocked'
+        }
       });
       sendEmail(values);
       setError(false);
+      validEmails.push(values.Email);
+
       swal({
         icon: "success",
         text: `${values.Email} Has been added successfully`,
-      }).then(() => navigation("/app/AllUsers"));
+      })
     } catch (error) {
       setError(true);
       console.error("Error creating user:", error);
-      swal({
-        icon: "error",
-        text: `Error creating user: ${error.message}`,
-      });
+      invalidEmails.push(values.Email);
     }
+
+    const message = `
+      Valid Emails: ${validEmails.length?validEmails.join(", "):'empty'}
+      Invalid Emails: ${invalidEmails.length?invalidEmails.join(", "):'empty'}
+    `;
+
+    swal({
+      icon: "info",
+      title: "Processing Results",
+      text: message,
+      button: "OK",
+    }).then(() => {
+      navigation("/app/AllUsers")
+    });
   };
-
-  useEffect(() => {
-    if (user) {
-      (async () => {
-        try {
-          await setDoc(doc(UsersRef, user.uid), { ...data, ID: user.uid });
-        } catch (error) {
-          console.error("Error saving user data to Firestore:", error);
-        }
-      })();
-    }
-  }, [user]);
-
-  const showErrors = () => {
-    if (error) {
-      return (
-        <small className="text-danger">This Email is already registered</small>
-      );
-    }
-  };
-
-  async function getFranchiseIds() {
-    try {
-      const data = await getDocs(TeamsRefrence);
-      return data.docs.map(({ id }) => id);
-    } catch (error) {
-      console.error("Error fetching franchise IDs:", error);
-      return [];
-    }
-  }
 
   const addUsersDataToFirebase = async () => {
     const options = [
       "Retina",
       "Medical",
-      "Immunology ",
+      "Immunology",
       "Neuroscience",
       "GTx",
       "In Market Brands",
       "Cardiovascular",
-      "Value & Access ",
+      "Value & Access",
     ];
     const Roles = ['admin', 'user', 'manager'];
-  
+
     if (UsersData.length) {
       for (const userItem of UsersData) {
-        // Extract the role key from the Role object
         const userRole = Object.keys(userItem.Role || {})[0];
-        // Check if the extracted role is valid
         const isValidRole = Roles.includes(userRole);
-        // Check if the franchiseType is valid
         const isValidFranchiseType = options.includes(userItem.franchiseType);
-  
-        console.log("User Item:", userItem);
-        console.log("Role Key:", userRole);
-        console.log("Is Valid Role:", isValidRole);
-        console.log("Is Valid Franchise Type:", isValidFranchiseType);
-  
+
         // Validation logic
         if (isValidRole && isValidFranchiseType) {
-          console.log("Success in data validation for item:", userItem);
           await onsubmit(userItem); // Uncomment this when ready to submit
         } else {
           console.log("Error in data validation for item:", userItem);
+          invalidEmails.push(userItem.Email);
+
         }
       }
     }
   };
-  
-  
-
-  useEffect(() => {
-    if (UsersData.length) {
-      addUsersDataToFirebase();
-    }
-  }, [UsersData]);
 
   return (
     <div className="border d-flex justify-content-center bg-white p-3">
@@ -176,7 +153,6 @@ export const CreateUser = () => {
         initialValues={initialvalues}
         validationSchema={validation}
         onSubmit={onsubmit}
-    
       >
         {(props) => (
           <Form className="d-flex py-3 px-2 bg-white w-75 rounded flex-column gap-2 justify-content-between align-item-center NewSubScriberForm">
@@ -197,7 +173,7 @@ export const CreateUser = () => {
                   />
                   <div className="text-danger ps-5 align-self-start Error">
                     <ErrorMessage name={item.name} />
-                    {item.name === "Email" && showErrors()}
+                    {/* {item.name === "Email" && showErrors()} */}
                   </div>
                 </div>
               ))}
@@ -226,13 +202,28 @@ export const CreateUser = () => {
                   className="w-75 p-1 rounded rounded-2 border-0 text-white"
                 >
                   Save
-                  
                 </button>
               </div>
             </div>
+{
+  UsersData.length?  <div className="d-flex justify-content-center">
+
+  <button
+onClick={addUsersDataToFirebase}
+className="btn btn-primary"
+type="button"
+>
+Add Users 
+</button>
+</div>:null
+}          
+
           </Form>
         )}
       </Formik>
+
+      {/* Button to manually trigger adding users to Firebase */}
+ 
     </div>
   );
 };

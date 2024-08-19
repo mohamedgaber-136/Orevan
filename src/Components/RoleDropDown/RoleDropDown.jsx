@@ -2,7 +2,7 @@ import { Field, useFormikContext } from "formik";
 import { useState, useEffect } from "react";
 
 export const RoleDropDown = ({setRoleType}) => {
-  const options = ["Admin ", "Franchise Manager", "Associate"];
+  const options = ["admin","manager", "user"];
   
   const { values, setFieldValue } = useFormikContext();
   
