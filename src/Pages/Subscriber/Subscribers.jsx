@@ -20,6 +20,7 @@ export const Subscribers = () => {
     // Clean up the subscription when the component unmounts or dbID changes
     return () => unsubscribe();
   }, [dbID ]);
+  console.log(Subscribers,'sub')
   return (
     <div className="EventsPageParent d-flex flex-column container-fluid container-md gap-3">
       <h2>Subscribers</h2>

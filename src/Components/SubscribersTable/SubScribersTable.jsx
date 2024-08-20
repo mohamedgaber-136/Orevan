@@ -128,7 +128,6 @@ export default function SubScribersTable({ row, refCollection }) {
     return (
       <TableHead>
         <TableRow>
-          <TableCell align="right"></TableCell>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -301,18 +300,7 @@ export default function SubScribersTable({ row, refCollection }) {
                       sx={{ cursor: "pointer" }}
                       className="align-items-center"
                     >
-                      <TableCell
-                        padding="checkbox"
-                        onClick={(event) => handleClick(event, row.id)}
-                      >
-                        {/* <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        /> */}
-                      </TableCell>
+               
                     
                       <TableCell align="center">{row.name}</TableCell>
                       <TableCell align="center">{row.email}</TableCell>
