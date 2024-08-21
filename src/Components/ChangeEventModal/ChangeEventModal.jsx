@@ -29,6 +29,7 @@ export default function ChangeEventModal({ newSelected, setSelected,numSelected 
       <Button
         onClick={handleClickOpen}
         className={` text-white d-flex justify-content-center align-items-center ${numSelected?'btn-grey':'btn-DarkBlue'} `}
+        disabled={numSelected}
       >
         Change Event
       </Button>
@@ -50,7 +51,7 @@ export default function ChangeEventModal({ newSelected, setSelected,numSelected 
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent >
+        <DialogContent className="p-5">
           <SearchEvent
             handleClose={handleClose}
             newSelected={newSelected}

@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import BasicTable from "../../Components/BasicTable/BasicTable";
 import { WeekEeventsCard } from "../../Components/WeekEventsCard/WeekEeventsCard";
-import "./Dashboard.css";
 import { FireBaseContext } from "../../Context/FireBase";
 export const Dashboard = () => {
   const [WeeksInfo, setWeeksInfo] = useState([

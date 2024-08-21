@@ -1,7 +1,7 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { FireBaseContext } from "../../Context/FireBase";
-import { useContext, useEffect } from "react";
+import { useContext, useState } from "react";
 
 const Tov = ({ setSelectedOptions, selectedOptions }) => {
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
@@ -21,19 +21,19 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
   };
 
   const options = [
-    { types: "Registration Fees", value: 100 },
-    { types: "Meals", value: 100 },
-    { types: "Accommodation", value: 100 },
-    { types: "Medical Utilities", value: 100 },
-    { types: "CME Hours", value: 100 },
-    { types: "Transportation", value: 100 },
-    { types: "Visa", value: 100 },
-    { types: "Flights", value: 100 },
+    { types: "Registration Fees", value: 0 },
+    { types: "Meals", value: 0 },
+    { types: "Accommodation", value: 0 },
+    { types: "Medical Utilities", value: 0 },
+    { types: "CME Hours", value: 0 },
+    { types: "Transportation", value: 0 },
+    { types: "Visa", value: 0 },
+    { types: "Flights", value: 0 },
   ];
 
   return (
     <>
-      <div style={{ borderBottom: "1px solid black" }} className="">
+      <div style={{ borderBottom: "1px solid black" }}>
         <Autocomplete
           multiple
           id="tags-outlined"
@@ -52,7 +52,7 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
             <TextField
               {...params}
               label={<b>Transfer Of Values</b>}
-              className="dropDownBorder"
+              sx={{ border: 0, '& .MuiOutlinedInput-root': { border: 0 } }} // Apply border styling
             />
           )}
           renderTags={(value, getTagProps) =>
@@ -73,7 +73,7 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
               <TextField
                 label={<b>Tov: {savedObject.types}</b>}
                 focused
-                className="w-100"
+                sx={{ border: 0 }} // Apply border styling
                 onChange={(e) => checkTxtValue(e, index)}
                 value={savedObject.value} // Set the value to the state's value
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} // Restrict to numeric input

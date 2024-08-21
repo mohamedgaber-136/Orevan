@@ -26,8 +26,7 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log(refCollection,'refCollection')
-  console.log(rowId,'rowId')
+ 
   const removeSubscriber = async (id) => {
     const ref = doc(refCollection, id);
     const item = await getDoc(ref);
