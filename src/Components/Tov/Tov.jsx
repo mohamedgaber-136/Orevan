@@ -53,15 +53,25 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
             <TextField
               {...params}
               label={<b>Transfer Of Values</b>}
-           // Apply border styling
+              sx={{ border: 0 }} // Apply border styling
             />
           )}
           renderTags={(value, getTagProps) =>
             value.map((option, index) => (
-              <div key={index} {...getTagProps({ index })}>
-                <div className="p-2">
-                  {`${option.types} - ${option.value}`}
-                </div>
+              <div
+                key={index}
+                {...getTagProps({ index })}
+                style={{
+                  backgroundColor: 'blue',
+                  color: 'white',
+                  borderRadius: '16px',
+                  padding: '4px 8px',
+                  margin: '2px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                }}
+              >
+                {`${option.types} - ${option.value}`}
               </div>
             ))
           }
