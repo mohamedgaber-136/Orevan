@@ -40,6 +40,7 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
           options={options}
           getOptionLabel={(option) => option.types}
           filterSelectedOptions
+          sx={{ border: 0, '& .MuiOutlinedInput-root': { border: 0 } }}
           onChange={(e, value) => {
             setNewEvent({
               ...newEvent,
@@ -52,7 +53,7 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
             <TextField
               {...params}
               label={<b>Transfer Of Values</b>}
-              sx={{ border: 0, '& .MuiOutlinedInput-root': { border: 0 } }} // Apply border styling
+           // Apply border styling
             />
           )}
           renderTags={(value, getTagProps) =>

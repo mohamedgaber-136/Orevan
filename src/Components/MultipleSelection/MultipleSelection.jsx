@@ -2,9 +2,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import { FireBaseContext } from "../../Context/FireBase";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddCityModal from "../NewCity/AddCityModal";
-
 export default function MultipleSelection({
   type,
   list,
@@ -13,11 +12,12 @@ export default function MultipleSelection({
   label,
 }) {
   const { newEvent, setNewEvent } = useContext(FireBaseContext);
-  const [values, setValues] = useState(null);
+  const [valus, setValues] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
+  
   return (
-    <Stack spacing={3} sx={{ width: 500 }} className="errorParent OthersParent">
+    <Stack spacing={3} sx={{ width: 500 }} className="errorParent OthersParent  ">
       <Autocomplete
         multiple
         id="tags-outlined"
@@ -36,17 +36,20 @@ export default function MultipleSelection({
             ...newEvent,
             [type]: value,
           });
-        }}
+      
+        }
+      }
         isOptionEqualToValue={(option, value) => option === value}
         renderInput={(params) => (
           <TextField
             {...params}
-            label={<b>{label}</b>}
-            sx={{ border: 0, '& .MuiOutlinedInput-root': { border: 0 } }}
+            label={<b >{`${label}`}</b>}
+            className="dropDownBorder "
           />
         )}
       />
-      <AddCityModal />
+   <AddCityModal/>
+
     </Stack>
   );
 }
