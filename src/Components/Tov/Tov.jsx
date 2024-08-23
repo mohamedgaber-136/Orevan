@@ -53,7 +53,9 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
             <TextField
               {...params}
               label={<b>Transfer Of Values</b>}
-              sx={{ border: 0 }} // Apply border styling
+              sx={{ border: 0 }}
+              className='border-0'
+               // Apply border styling
             />
           )}
           renderTags={(value, getTagProps) =>

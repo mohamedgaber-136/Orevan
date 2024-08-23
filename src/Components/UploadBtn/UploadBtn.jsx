@@ -6,9 +6,20 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, doc, updateDoc } from "firebase/firestore";
 import { FireBaseContext } from "../../Context/FireBase";
 
-export default function UploadBtn({ id, info,element }) {
+// Styled component for hidden file input
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+// Apply larger size directly to the Button component and its icon
+export default function UploadBtn({ id, info, element }) {
   const [selectedFile, setSelectedFile] = useState(null);
-  const { SubscribersRefrence ,EventRefrence } = useContext(FireBaseContext);
+  const { SubscribersRefrence, EventRefrence } = useContext(FireBaseContext);
 
   const handleSelect = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -50,20 +61,19 @@ export default function UploadBtn({ id, info,element }) {
     }
   }, [selectedFile]);
 
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    width: 1,
-  });
-
   return (
     <Button
       component="label"
       variant="contained"
       className={info}
+      sx={{
+        backgroundColor: "white",
+        padding: "10px", // Adjust padding to control the background size
+        "& .MuiSvgIcon-root": {
+          fontSize: "1rem", // Adjust font size to control the icon size
+          color: "blue", // Optional: change icon color
+        },
+      }}
       startIcon={<CloudUploadIcon />}
     >
       <VisuallyHiddenInput type="file" onChange={handleSelect} />
