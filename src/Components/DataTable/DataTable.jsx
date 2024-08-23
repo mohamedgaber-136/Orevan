@@ -315,18 +315,15 @@ export default function DataTable({ row }) {
             });
           })
         ).then(() => {
-          console.log("hello after all");
 
           // Commit the batch
           batch
             .commit()
             .then(() => {
-              console.log("Batch deletion successful");
 
               setSelected([]);
             })
             .catch((error) => {
-              console.log("Error deleting documents in batch:", error);
               swal({
                 title: "somthing wrong happend while deleting",
                 icon: "warning",

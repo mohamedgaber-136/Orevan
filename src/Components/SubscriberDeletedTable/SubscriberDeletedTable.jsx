@@ -64,7 +64,6 @@ export default function SubscriberDeletedTable() {
     return stabilizedThis.map((el) => el[0]);
   }
 //  
-console.log(rows)
   // HeadTitles ----------------------------------------------
   const headCells = [
     {

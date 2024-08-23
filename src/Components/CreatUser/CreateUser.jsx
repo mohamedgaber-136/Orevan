@@ -59,9 +59,7 @@ export const CreateUser = () => {
 
     emailjs.send('service_mzn99q7', 'template_4owcf7m', emailParams, '6z5D34K7serfxYLXR')
       .then((response) => {
-        console.log('Email sent successfully!', response.status, response.text);
       }, (error) => {
-        console.error('Failed to send email.', error);
       });
   };
 
@@ -78,8 +76,7 @@ export const CreateUser = () => {
 
       setUser(res.user);
       const passwordDATA = res.user.reloadUserInfo.passwordHash;
-      console.log(values,'values')
-      console.log(values.Blocked,'Blocked')
+   
       setData({
         ...values,
         Password: passwordDATA,
@@ -163,7 +160,6 @@ export const CreateUser = () => {
         if (isValidRole && isValidFranchiseType) {
           await onsubmit(userItem); // Uncomment this when ready to submit
         } else {
-          console.log("Error in data validation for item:", userItem);
           invalidEmails.push(userItem.Email);
 
         }

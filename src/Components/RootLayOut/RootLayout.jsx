@@ -6,10 +6,7 @@ import "./RootParent.css";
 import AnimatedBarsButton from "../AnimatedBtn/AnimatedBarsButton";
 export const RootLayout = () => {
   const [navAppear, setNavAppear] = useState(false);
-  const handleButtonClick = () => {
-    // Your function logic here
-    console.log('data')
-  };
+
   return (
     <div className="RootParent">
       <img

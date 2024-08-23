@@ -96,7 +96,6 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
   const ref = doc(EventRefrence, dbID);
   function extractPhoneNumber(number) {
     const countryCode = '+966';
-    console.log(number,'nu,ner')
     if (number.startsWith(countryCode)) {
       return number.slice(countryCode.length);
     }
@@ -191,7 +190,6 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
       setFormValues({ ...formValues, [name]: value });
     }
   };
-  console.log(updatedData,'updated')
   if (updatedData) {
     return (
       <>

@@ -21,10 +21,8 @@ export default function UploadBtnSub({ setImg, info }) {
         // Get the download URL
         const downloadURL = await getDownloadURL(storageRef);
         setImg(downloadURL);
-        console.log(downloadURL);
         // Now, you can save the download URL to Firestore or perform other actions
       } catch (error) {
-        console.log("Error uploading file:", error);
       }
     };
     if (selectedFile) {

@@ -32,23 +32,19 @@ const SearchFormik = ({ rows, setRows}) => {
   };
   const handleChangeTov = (event) => {
     setTov(event.target.value);
-    console.log(event.target.value);
   };
 
   const onSubmit = () => {
     if (startDateFilter === "" || endDateFilter === "") {
       if (TovType !== "All") {
-        console.log('hi')
         const filteredEvents = rows.filter(item => {
           // Check if the 'TransferOfValue' array contains an object with 'types' equal to 'visa'
           const TovFilterd = item.TransferOfValue.some(transfer => transfer.types === TovType)
         return TovFilterd;
         }
         )
-          console.log(filteredEvents)
           setRows(filteredEvents);
         }else{
-          console.log(rows)
           setRows(rows);
 
       }
@@ -62,9 +58,7 @@ const SearchFormik = ({ rows, setRows}) => {
           const startDate = new Date(item[filterType])
             .toISOString()
             .split("T")[0];
-          console.log(startDate, "startDate");
-          console.log(StartTimefilterdDate, "StartTimefilterdDate");
-          console.log(EndTimefilterdDate, "EndTimefilterdDate");
+   
           if (
             (!StartTimefilterdDate || startDate >= StartTimefilterdDate) &&
             (!EndTimefilterdDate || startDate <= EndTimefilterdDate)
@@ -76,7 +70,6 @@ const SearchFormik = ({ rows, setRows}) => {
             return false;
           }
         });
-        console.log(filtered)
   
         let finalFilterd = filtered.filter((item) =>
           Object.values(item).some((value) =>
@@ -84,7 +77,6 @@ const SearchFormik = ({ rows, setRows}) => {
           )
         );
         setRows(finalFilterd)
-        console.log(finalFilterd)
     }
   };
   const BtnCheck = (e) => {

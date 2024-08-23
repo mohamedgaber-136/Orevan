@@ -48,7 +48,6 @@ const TOVsDropDownReport = ({ data, filename, sheetname }) => {
     // get transfer of values depends on spicific key
     const targetDoc = await getDoc(doc(TransferOfValuesRef, selectedTov));
     const dataList = targetDoc.exists() ? targetDoc.data().data : [];
-    console.log(dataList, "list");
     let totalCost = 0;
     const extractData = dataList.map((item) => {
       totalCost += Number(item.value);
@@ -67,7 +66,6 @@ const TOVsDropDownReport = ({ data, filename, sheetname }) => {
     const filename = `${selectedTov} Report`;
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("tov sheet");
-    console.log(extractData, "extract");
     const headersList = ["Event Name", "Event Date", "Value"];
     worksheet.addRow([...headersList]);
     // Set the background color for the entire row (e.g., row 1)
@@ -95,7 +93,6 @@ const TOVsDropDownReport = ({ data, filename, sheetname }) => {
       ];
       worksheet.addRow([...holder]);
       if (index + 1 == extractData.length) {
-        console.log("hello");
         worksheet.addRow([...Array(2).fill(""), totalCost]);
         const row = worksheet.getRow(extractData.length + 2);
         row.eachCell({ includeEmpty: true }, (cell) => {

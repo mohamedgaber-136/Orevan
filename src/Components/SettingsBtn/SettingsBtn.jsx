@@ -40,8 +40,6 @@ export default function SettingsBtn({ refCollection, rowId, row }) {
         swal({
           icon: "success",
         });
-        console.log(item.data(),'item to be deleted');
-        console.log(id);
         await deleteDoc(ref);
 
         await setDoc(doc(SubscribersDeletedRef, id), {

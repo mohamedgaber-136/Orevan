@@ -31,7 +31,6 @@ export default function SettingsDeleted({  rowId }) {
       delete data[keyToDelete];
       delete data[keyToDeleteTwo];
       await setDoc(doc(EventRefrence, id), data);
-      console.log("saveNotificationToFirebase delete event");
 
       saveNotificationToFirebase({
         notifyID: id,
@@ -40,7 +39,6 @@ export default function SettingsDeleted({  rowId }) {
       });
       await deleteDoc(ref);
     } else {
-      console.log(`Key '${keyToDelete}' does not exist in the document.`);
     }
   };
 

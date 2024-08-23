@@ -40,7 +40,6 @@ export default function UploadBtn({ id, info, element }) {
         await uploadBytes(storageRef, selectedFile);
         // Get the download URL
         const downloadURL = await getDownloadURL(storageRef);
-        console.log("File uploaded successfully. Download URL:", downloadURL);
 
         // Update the document in SubscribersRefrence
         await updateDoc(subscriberDocRef, {
@@ -52,7 +51,6 @@ export default function UploadBtn({ id, info, element }) {
 
         // Now, you can save the download URL to Firestore or perform other actions
       } catch (error) {
-        console.log("Error uploading file:", error);
       }
     };
 

@@ -37,7 +37,6 @@ const Login = () => {
   const LoginFunc = async (e) => {
     e.preventDefault();
   const acc =  query(UsersRef, where("Email", "==", e.target[0].value));
-  console.log(e.target[0].value)
   const Res = await getDocs(acc)
   if(Res.docs[0]){
   const UserId = Res.docs[0].data()

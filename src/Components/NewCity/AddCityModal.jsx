@@ -30,9 +30,7 @@ export default function AddCityModal() {
 
   const handleAddCity = async () => {
     const docSnap = await getDoc(docRef);
-    console.log(docSnap,'doc')
    
-    // console.log(docSnap.data().data,'data')
     const x = docSnap.data().data.find((y)=>y==cityName)
     if(!x){
   if (docSnap.exists()) {
@@ -45,9 +43,7 @@ export default function AddCityModal() {
         title: `${cityName} Added`,
       }); // Update document with the new array
       handleClose();
-      console.log("Document successfully updated!");
     } else {
-      console.log("No such document!");
     }
     setCheckCity(true)
     }else{
