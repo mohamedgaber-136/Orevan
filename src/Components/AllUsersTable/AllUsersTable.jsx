@@ -75,7 +75,10 @@ export default function AllUsersTable({ row }) {
 
     return (
       <TableHead>
-        <TableRow>
+        <TableRow  style={{
+                backgroundColor:'lightGray',
+
+              }}>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -194,14 +197,14 @@ export default function AllUsersTable({ row }) {
     }
     setSelected(newSelected);
   };
-console.log(row,'row')
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
       <div className="p-3  d-flex justify-content-between">
           <TextField
             label="Search"
-            variant="outlined"
+            variant="outlined"                   className='border-2 border  rounded-3'
+
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}            fullWidth
           />

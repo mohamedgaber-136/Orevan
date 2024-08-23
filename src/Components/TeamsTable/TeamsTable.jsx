@@ -86,7 +86,10 @@ export default function TeamsTable({ row }) {
 
     return (
       <TableHead>
-        <TableRow>
+        <TableRow  style={{
+                backgroundColor:'lightGray',
+
+              }}>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -194,6 +197,8 @@ export default function TeamsTable({ row }) {
           label="Search"
           variant="outlined"
           value={searchQuery}
+          className='border-2 border  rounded-3'
+
           onChange={(e) => setSearchQuery(e.target.value)}
           fullWidth
         />

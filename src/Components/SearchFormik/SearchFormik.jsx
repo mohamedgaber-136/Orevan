@@ -116,6 +116,7 @@ const SearchFormik = ({ rows, setRows}) => {
                   name="StartDate"
                   type="date"
                   id="outlined-disabled"
+                  className='border-2 border  rounded-3'
                 />
               </span>
             </span>
@@ -136,6 +137,8 @@ const SearchFormik = ({ rows, setRows}) => {
                   value={endDateFilter}
                   name="EndDate"
                   id="outlined-disabled"
+                  className='border-2 border  rounded-3'
+
                 />
               </span>
             </span>
@@ -145,7 +148,6 @@ const SearchFormik = ({ rows, setRows}) => {
               </span>
               <div
                 className="fs-6 d-flex align-items-end rounded  "
-                style={{ border: "1px solid black" }}
               >
                 <FormControl fullWidth>
                   <Field
@@ -155,7 +157,10 @@ const SearchFormik = ({ rows, setRows}) => {
                     value={filterType}
                     label="Filter Type"
                     name="FilterType"
+                    
                     onChange={handleChange}
+                    className='border-2 border  rounded-3'
+
                   >
                     <MenuItem value={"CreatedAt"}>Created at</MenuItem>
                     <MenuItem value={"eventDate"}>Started at</MenuItem>
@@ -168,7 +173,6 @@ const SearchFormik = ({ rows, setRows}) => {
               <b className="d-flex gap-2 align-items-center"> TOV type</b>
               <span
                 className="fs-6 d-flex align-items-end rounded "
-                style={{ border: "1px solid black" }}
               >
                 <FormControl fullWidth>
                   <Field
@@ -178,6 +182,8 @@ const SearchFormik = ({ rows, setRows}) => {
                     value={TovType}
                     label="Filter Type"
                     name="FilterType"
+                    className='border-2 border  rounded-3'
+
                     onChange={handleChangeTov}
                   >
                     {options.map((item, ind) => (

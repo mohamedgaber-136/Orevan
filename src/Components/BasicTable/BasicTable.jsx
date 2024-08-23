@@ -88,12 +88,15 @@ export default function BasicTable({ row, setWeeksInfo, WeeksInfo }) {
       <Table aria-label="simple table">
    
         <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Event Name</TableCell>
-            <TableCell>Franchise</TableCell>
-            <TableCell>Created At</TableCell>
-            <TableCell>End Date</TableCell>
+          <TableRow  style={{
+                backgroundColor:'lightGray',
+
+              }}>
+            <TableCell >ID</TableCell>
+            <TableCell >Event Name</TableCell>
+            <TableCell >Franchise</TableCell>
+            <TableCell >Created At</TableCell>
+            <TableCell >End Date</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

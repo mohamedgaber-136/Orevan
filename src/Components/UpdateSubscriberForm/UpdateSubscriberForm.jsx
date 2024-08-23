@@ -8,8 +8,6 @@ import {
   updateDoc,
   doc,
   getDoc,
-  collection,
-  getDocs,
 } from "firebase/firestore";
 import swal from "sweetalert";
 
@@ -31,12 +29,11 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
     { label: "Phone Number", type: "text", name: "tel" },
     { label: "Speciality", type: "text", name: "specialty" },
     { label: "Organization", type: "text", name: "organization" },
-    { label: "License ID", type: "number", name: "licenceId" },
+    { label: "License ID", type: "text", name: "licenceId" },
     { label: "City", type: "text", name: "city" },
     { label: "Cost Per Delegate", type: "text", name: "CostPerDelegate" },
   ];
 
-  const { dbID } = useParams();
   const { SubscribersRefrence } = useContext(FireBaseContext);
   const [selectedTovOptions, setSelectedTovOptions] = useState([]);
   const [updatedData, setUpdatedData] = useState(null);
@@ -99,7 +96,7 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
       found.value = value;
     }
   };
-
+console.log(updatedData,'updatedData')
   if (updatedData) {
     return (
       <>
@@ -120,12 +117,12 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                       type={input.type}
                       sx={{ m: 1, width: "25ch" }}
                       focused
-                      className="w-75"
-                    />
+                      className='border-2 border  rounded-3 w-100'
+                      />
                   </div>
                 ))}
 
-                <div className="w-50 mt-2 d-flex justify-content-center align-items-center flex-column">
+                <div className="w-100 mt-2 d-flex justify-content-center align-items-center flex-column">
                   <div style={{ borderBottom: "1px solid black" }} className="mb-1 w-75">
                     <Autocomplete
                       multiple
@@ -143,12 +140,12 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                       )}
                     />
                   </div>
-                  <div className="w-75 d-flex justify-content-center">
-                    <ul className="p-0 d-flex flex-wrap gap-1 w-100">
+                  <div className="w-50 d-flex justify-content-center">
+                    <ul className="p-0 d-flex  flex-wrap gap-1 w-100">
                       {selectedTovOptions.map((savedObject, index) => (
                         <li
                           key={index}
-                          className="border d-flex flex-column p-2 rounded wrappingItems"
+                          className="border d-flex flex-column p-2  justify-content-between rounded wrappingItems"
                           style={{ width: "40%" }}
                         >
                           <p className="m-0">Tov: {savedObject.types}</p>
@@ -163,12 +160,13 @@ export const UpdateSubscriberForm = ({ user, handleClose }) => {
                     </ul>
                   </div>
                 </div>
-                <div className="w-50 d-flex justify-content-center align-items-center">
+             
+              </div>
+              <div className=" d-flex justify-content-center align-items-center">
                   <button type="submit" className="w-75 p-1 m-2 rounded rounded-2 border-0 border text-white">
                     Save
                   </button>
                 </div>
-              </div>
             </Form>
           )}
         </Formik>

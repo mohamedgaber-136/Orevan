@@ -109,7 +109,7 @@ export const StepOne = () => {
                 label={<b>Event Name</b>}
                 focused
                 defaultValue={newEvent.eventName}
-                className={`w-100 `}
+                className='border-2 border  rounded-3 w-100'
                 onChange={getDatas}
               />
               <small className="text-danger errorMsg">
@@ -121,7 +121,7 @@ export const StepOne = () => {
                 name={"PO"}
                 label={amexNumber ? <b>Amex Num </b> : <b>PO</b>}
                 focused
-                className="w-100"
+                className='border-2 border  rounded-3 w-100'
                 defaultValue={newEvent.PO}
                 onChange={getDatas}
               />
@@ -133,7 +133,7 @@ export const StepOne = () => {
                 label={<b>BeSure</b>}
                 focused
                 defaultValue={newEvent.BeSure}
-                className="w-100"
+                className='border-2 border  rounded-3 w-100'
                 onChange={getDatas}
               />
               <small className="text-danger errorMsg">
@@ -191,7 +191,8 @@ export const StepOne = () => {
                 name={"CostperDelegate"}
                 label={<b>Cost Per Delegate</b>}
                 focused
-                className="w-100 CostPerDelegate"
+                className='border-2 border CostPerDelegate rounded-3 w-100'
+
                 type="number"
                 readOnly
                 value={TovSum()}

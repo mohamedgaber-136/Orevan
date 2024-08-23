@@ -28,6 +28,8 @@ const SearchText = ({ list, setRows, row }) => {
         placeholder="search...."
         variant="outlined"
         value={filter}
+        className='border-2 border  rounded-3'
+
         onChange={handleFilterChange}
       />
     </div>

@@ -6,20 +6,19 @@ import leftLogo from "../../assets/LoadingLogo.png";
 import rightlogo from "../../assets/Orevan.png";
 import center from "../../assets/Asset 1@4x.png";
 import "./Login.css";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Formik, Form } from "formik";
 import { useContext, useEffect, useState } from "react";
 import { FireBaseContext } from "../../Context/FireBase";
-import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection,  getDocs, query, where } from "firebase/firestore";
 const Login = () => {
   const navigation = useNavigate();
   const [error, setError] = useState(false);
   const [errorRegist, seterrorRegist] = useState(false);
   const [BlockedErrorMsg, setBlockedErrorMsg] = useState(false);
-  const { auth, database, currentUsr, FinaleUser } = useContext(
+  const { auth, database, currentUsr } = useContext(
     FireBaseContext
   );
   const [ShowSpinning, setShowSpinning] = useState(false);
@@ -75,13 +74,13 @@ if(!UserId.Condition.Blocked){
         <div className="  d-flex justify-content-center align-items-center w-100 h-100 ">
           <div className="  LoginBorder   h-100  d-flex justify-content-center flex-column align-items-center ">
           
-            <div className=" w-50 ">
+            <div className=" FormParent">
            
             <Formik className='w-100 '>
               {() => (
                 <Form onSubmit={LoginFunc} className="w-100  my-3 ">
                   <div className=" my-5 d-flex justify-content-center">
-                    <div className="w-75">
+                    <div className="FormImage">
 
                     <img src={center} alt="" width={'100%'} style={{objectFit:'contain'}}/>
                     </div>
@@ -98,15 +97,36 @@ if(!UserId.Condition.Blocked){
                       {errorRegist && "This Email Not Registerd"}
                     </span>
                     {formData.map((item, indx) => (
-                      <div className="d-flex flex-column gap-2 mb-4" key={indx}>
+                      <div className="d-flex flex-column gap-2 " key={indx}>
                         <FormLabel className="LoginTitle fw-bold">
                           {item.label}
                         </FormLabel>
                         <TextField
-                          className=" py-0 rounded rounded-1 w-100"
-                          type={`${item.type}`}
-                          placeholder={`Enter Your ${item.label}`}
-                        />
+                            className="py-0 rounded rounded-1 w-100"
+                            type={`${item.type}`}
+                            placeholder={`Enter Your ${item.label}`}
+                            InputProps={{
+                              style: {
+                                borderRadius: "8px",
+                                fontFamily: "Arial, sans-serif",
+                                fontSize: "14px",
+                                padding: "10px 12px",
+                              },
+                            }}
+                            sx={{
+                              "& .MuiOutlinedInput-root": {
+                                "& fieldset": {
+                                  borderColor: "#ccc",
+                                },
+                                "&:hover fieldset": {
+                                  borderColor: "#aaa",
+                                },
+                                "&.Mui-focused fieldset": {
+                                  borderColor: "#007bff",
+                                },
+                              },
+                            }}
+                          />
                       </div>
                     ))}
                     <div className="text-danger p-2">
@@ -147,8 +167,8 @@ if(!UserId.Condition.Blocked){
         <div className="LeftLogo">
           <img src={leftLogo} alt="" />
         </div>
-        <div className="RighLogo  ">
-          <img src={rightlogo} alt=""   style={{objectFit:'contain'}}/>
+        <div className="RighLogo   ">
+          <img src={rightlogo} alt="" />
         </div>
       </div>
     </div>

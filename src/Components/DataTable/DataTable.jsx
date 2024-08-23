@@ -84,7 +84,7 @@ export default function DataTable({ row }) {
     },
     {
       id: "eventName",
-      numeric: true,
+      numeric: false,
       disablePadding: false,
       label: "Name",
     },
@@ -148,9 +148,12 @@ export default function DataTable({ row }) {
     };
 
     return (
-      <TableHead>
-        <TableRow>
-          <TableCell padding="checkbox">
+      <TableHead >
+        <TableRow >
+          <TableCell padding="checkbox" style={{
+                backgroundColor:'lightGray',
+
+              }}>
             <Checkbox
               color="primary"
               indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -161,12 +164,15 @@ export default function DataTable({ row }) {
               }}
             />
           </TableCell>
-          {headCells.map((headCell) => (
+          {headCells.map((headCell,index) => (
             <TableCell
               key={headCell.id}
-              align={headCell.numeric ? "left" : "left"}
-              padding={headCell.disablePadding ? "none" : "normal"}
+              align={headCell.numeric ? "center" : "left"}
+              padding={headCell.disablePadding ? "none" : "none"}
               sortDirection={orderBy === headCell.id ? order : false}
+               style={{
+              backgroundColor: 'lightGray',
+            }}
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
@@ -336,6 +342,7 @@ export default function DataTable({ row }) {
     return (
       <Toolbar
         sx={{
+          marginBottom:'25px !important',
           pl: { sm: 2 },
           pr: { xs: 1, sm: 1 },
           ...(numSelected > 0 && {

@@ -6,7 +6,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 const Notification = () => {
-    const {database} = useContext(FireBaseContext)
+    const {database,saveNotificationToFirebase} = useContext(FireBaseContext)
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
@@ -35,6 +35,7 @@ const Notification = () => {
     };
 
   return (
+    <>
     <div>
     <Button onClick={handleClick} variant="contained">
       Open Menu
@@ -49,15 +50,15 @@ const Notification = () => {
       <MenuItem onClick={handleClose}>Option 3</MenuItem>
     </Menu>
   </div>
-    // <UseMenu notifyList ={notifications} />
-    // <div>
-    //   <h2>Notifications</h2>
-    //   <ul>
-    //     {notifications.map((notification) => (
-    //       <li key={notification.id}>{notification.EventName}</li>
-    //     ))}
-    //   </ul>
-    // </div>
+     <div>
+       <h2>Notifications</h2>
+       <ul>
+         {notifications.map((notification) => (
+           <li key={notification.id}>{notification.EventName}</li>
+         ))}
+       </ul>
+     </div>
+    </>
   );
 };
 

@@ -75,6 +75,8 @@ export default function AddCityModal() {
                 <input
                   type="text"
                   onChange={(e) => setCityName(e.target.value)}
+                  className='border-2 border  rounded-3 w-100 mx-2'
+
                 />
                 <button
                   className="border-0 px-2 rounded btn-DarkBlue  text-white"

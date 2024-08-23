@@ -86,6 +86,8 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
               <TextField
                 label={<b>Tov: {savedObject.types}</b>}
                 focused
+
+                className='border-2 border  rounded-3 w-100'
                 sx={{ border: 0 }} // Apply border styling
                 onChange={(e) => checkTxtValue(e, index)}
                 value={savedObject.value} // Set the value to the state's value

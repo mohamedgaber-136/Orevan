@@ -149,13 +149,12 @@ export default function NewEvent() {
       ...newEvent,
       CreatedByID: currentUsr,
     }).then(async (snapshot) => {
-      console.log("saveNotificationToFirebase new event");
-      console.log(snapshot, "snap");
-      // saveNotificationToFirebase({
-      //   notifyID: newEvent.ID,
-      //   message: "created a new event",
-      //   eventDataObject: { ...newEvent }
-      // });
+   
+      saveNotificationToFirebase({
+        notifyID: newEvent.Id,
+        message: "created a new event",
+        eventDataObject: { ...newEvent }
+      });
     });
 
     navigation("/app/events");

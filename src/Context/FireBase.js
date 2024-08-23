@@ -51,16 +51,7 @@ const FireBaseContextProvider = ({ children }) => {
     eventTerms:
       ' I explicitly declare that I have been informed of the obligation to disclose to the SFDA any financial support received from Novartis Saudi Ltd. I also consent the processing, saving and publication of my personal data including (Full name, National or Iqama ID, Medical License number, phone number and email address) in relation to any Transfer of Value as defined in the financial Transparency and Disclosure guideline of SFDA." I also, hereby declare that I have read and understood Novartis Privacy Notice and acknowledge my consent to the collection and processing of my data in accordance with the terms of this ',
   });
-  // orevan old config --------------------------------------------------
-  // const firebaseConfig = {
-  //   apiKey: "AIzaSyBckxAp9_24tLxViaY6yX5BUln07nUk2sM",
-  //   authDomain: "novartis-f3745.firebaseapp.com",
-  //   projectId: "novartis-f3745",
-  //   storageBucket: "novartis-f3745.appspot.com",
-  //   messagingSenderId: "904353795718",
-  //   appId: "1:904353795718:web:25f35b4c6c5f25688f8b07",
-  //   measurementId: "G-2LMZXPR3L4",
-  // };
+ 
   // Orevan Config New ----------------------------------------------------------------------------------------------------
   const firebaseConfig = {
     apiKey: "AIzaSyCVvf3gBWoTTvErXwWNbeWWW8aLfx9S5Ag",
@@ -74,12 +65,8 @@ const FireBaseContextProvider = ({ children }) => {
   };
   const app = initializeApp(firebaseConfig);
   const database = getFirestore(app);
-  // oldRef ---------------------------
-  // const EventRefrence = collection(database, "Event");
   // newref  -------------------------------------
   const EventRefrence = collection(database, "eventsTemp");
-  // old ref ----------------------------
-  // const SubscribersRefrence = collection(database, "Subscribers");
   // newref  -------------------------------------
   const SubscribersRefrence = collection(database, "registeredUsersTemp");
   const TeamsRefrence = collection(database, "Teams");

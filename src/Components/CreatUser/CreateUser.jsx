@@ -11,12 +11,16 @@ import { AdminAuth } from "../../Config/FirebaseAdminApp";
 import { useNavigate } from "react-router-dom";
 import { FranchiseType } from "../FranchiseType/FranchiseType";
 import emailjs from "@emailjs/browser";
+import { ConditionDropDown } from "../ConditionDropDown/ConditionDropDown";
 
 export const CreateUser = () => {
   const navigation = useNavigate();
-  const { database, UsersData, TeamsRefrence } = useContext(FireBaseContext);
+  const { database, UsersData, UserRef } = useContext(FireBaseContext);
   const [error, setError] = useState(false);
   const [roleType, setRoleType] = useState("Admin");
+  // const [Condition, SetCondition] = useState({
+  //   Blocked:false
+  // });
   const [user, setUser] = useState("");
   const [data, setData] = useState(null);
 
@@ -30,8 +34,8 @@ export const CreateUser = () => {
     Name: "",
     Email: "",
     Password: "",
-    Role: "Admin",
-    franchiseType: "Retina",
+    Role: "admin",
+    franchiseType: "",
   };
 
   const validation = Yup.object().shape({
@@ -65,6 +69,7 @@ export const CreateUser = () => {
   const validEmails = [];
   const invalidEmails = [];
   const onsubmit = async (values, props) => {
+
     try {
       const res = await createUserWithEmailAndPassword(
         AdminAuth,
@@ -74,6 +79,8 @@ export const CreateUser = () => {
 
       setUser(res.user);
       const passwordDATA = res.user.reloadUserInfo.passwordHash;
+      console.log(values,'values')
+      console.log(values.Blocked,'Blocked')
       setData({
         ...values,
         Password: passwordDATA,
@@ -84,12 +91,27 @@ export const CreateUser = () => {
           user: values.Role === 'user'
         },
         Condition: {
-          Blocked: false || values.Blocked !== 'Blocked'
+          Blocked: values.Blocked?values.Blocked !== 'Blocked': false
         }
       });
       sendEmail(values);
       setError(false);
       validEmails.push(values.Email);
+        const userData = {
+      ...values,
+      Password: passwordDATA,
+      Role: {
+        admin: values.Role === 'admin',
+        franchiseType: values.franchiseType,
+        manager: values.Role === 'manager',
+        user: values.Role === 'user'
+      },
+      Condition: {
+        Blocked: values.Blocked?values.Blocked !== 'Blocked': false      }
+    };
+
+    // Update the Firestore collection
+    await setDoc(doc(UserRef, res.user.uid), userData);
 
       swal({
         icon: "success",
@@ -168,7 +190,8 @@ export const CreateUser = () => {
                     id={index}
                     focused
                     type={item.type}
-                    className="w-100"
+                    className='border-2 border  rounded-3 w-100'
+
                     name={item.name}
                   />
                   <div className="text-danger ps-5 align-self-start Error">
@@ -183,9 +206,10 @@ export const CreateUser = () => {
                 </div>
                 <RoleDropDown setRoleType={setRoleType} />
               </div>
+        
               <div
                 className={`${
-                  roleType == "Admin" ? "d-none" : "d-flex"
+                  roleType == "admin" ? "d-none" : "d-flex"
                 } col-12 col-md-5 flex-fill flex-column justify-content-center align-items-center`}
               >
                 <div className="d-flex align-items-center gap-2 w-100 justify-content-between">

@@ -23,6 +23,7 @@ import ChangeEventModal from "../ChangeEventModal/ChangeEventModal";
 import ExportToExcelButton from "../ExportBtn/ExportToExcelButton";
 import SettingsBtn from "../SettingsBtn/SettingsBtn";
 import SearchText from "../SearchText/SearchText";
+import { TextField } from "@mui/material";
 export default function SubScribersTable({ row, refCollection }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -31,6 +32,7 @@ export default function SubScribersTable({ row, refCollection }) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   function descendingComparator(a, b, orderBy) {
     if (typeof a[orderBy] == "string" && typeof b[orderBy]) {
@@ -133,7 +135,10 @@ export default function SubScribersTable({ row, refCollection }) {
     };
     return (
       <TableHead>
-        <TableRow>
+        <TableRow  style={{
+                backgroundColor:'lightGray',
+
+              }}>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -203,9 +208,10 @@ export default function SubScribersTable({ row, refCollection }) {
           pr: { xs: 1, sm: 1 },
         }}
       >
+    
         {numSelected > 0 && (
           <Typography
-            sx={{ flex: "1 1 100%" }}
+            sx={{ width:'auto !important' }}
             color="blue"
             variant="subtitle1"
             component="div"
@@ -232,8 +238,17 @@ export default function SubScribersTable({ row, refCollection }) {
             data={rows}
           />
           <ImportExcel />
-          {/* <SearchText list={rows} setRows={setrows} row={row} /> */}
-        </div>
+          <div className="p-3 d-flex justify-content-between">
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchQuery}
+          className='border-2 border  rounded-3'
+
+          onChange={(e) => setSearchQuery(e.target.value)}
+          fullWidth
+        />
+      </div>        </div>
         <Tooltip title="AddNew">
           <IconButton>
             <Modal />
@@ -243,18 +258,22 @@ export default function SubScribersTable({ row, refCollection }) {
     );
   }
   const isSelected = (id) => selected.indexOf(id) !== -1;
+  const filteredRows = rows.filter((row) =>
+    Object.values(row).some(value =>
+      value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    console.log(""),
-    [order, orderBy, page, rowsPerPage]
-  );
+    const visibleRows = React.useMemo(
+      () =>
+        stableSort(filteredRows, getComparator(order, orderBy)).slice(
+          page * rowsPerPage,
+          page * rowsPerPage + rowsPerPage
+        ),
+      [order, orderBy, page, rowsPerPage, filteredRows]
+    );
 
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
@@ -277,6 +296,7 @@ export default function SubScribersTable({ row, refCollection }) {
     <Box sx={{ width: "100%" }} >
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
+   
         <TableContainer>
           <Table 
             sx={{ minWidth: 750 }}
@@ -293,13 +313,13 @@ export default function SubScribersTable({ row, refCollection }) {
             {rows.length !== 0 && (
               <TableBody>
                 {visibleRows.map((row, index) => {
-                  const isItemSelected = isSelected(row.ID);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <TableRow
                       hover
                       role="checkbox"
-                      onClick={(event) => handleClick(event, row.ID)}
+                      onClick={(event) => handleClick(event, row.id)}
 
                       aria-checked={isItemSelected}
                       tabIndex={-1}

@@ -3,9 +3,13 @@ import { Navbar } from "../navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import arrowright from "../../assets/menu-grid-svgrepo-com.svg";
 import "./RootParent.css";
+import AnimatedBarsButton from "../AnimatedBtn/AnimatedBarsButton";
 export const RootLayout = () => {
   const [navAppear, setNavAppear] = useState(false);
-
+  const handleButtonClick = () => {
+    // Your function logic here
+    console.log('data')
+  };
   return (
     <div className="RootParent">
       <img
@@ -15,7 +19,8 @@ export const RootLayout = () => {
         onBlur={() => setNavAppear(false)}
         tabIndex={0}
       />
-      <Navbar navAppear={navAppear} />
+    
+<Navbar navAppear={navAppear} />
       <Outlet />
     </div>
   );

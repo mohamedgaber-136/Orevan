@@ -208,7 +208,8 @@ export const NewSubScriber = ({ id, handleClose }) => {
                       label={item.label}
                       id={index}
                       name={item.name}
-                      className="border border-secondary"
+                      className='border-2 border  rounded-3 w-100'
+
                       value={values[item.name]}
                       onChange={(e) =>
                         handleInputChange(
@@ -233,10 +234,9 @@ export const NewSubScriber = ({ id, handleClose }) => {
                     id={index}
                     focused
                     type={item.type}
-                    className={`w-100 ${
-                      (item.name === "tel" || item.name === "city") &&
-                      "border border-secondary form-control"
-                    }`}
+                   
+                    className='border-2 border  rounded-3 w-100'
+
                     name={item.name}
                     value={values[item.name]}
                     onChange={(e) =>
