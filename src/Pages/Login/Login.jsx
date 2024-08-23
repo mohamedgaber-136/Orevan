@@ -110,6 +110,7 @@ if(!UserId.Condition.Blocked){
                                 fontFamily: "Arial, sans-serif",
                                 fontSize: "14px",
                                 padding: "10px 12px",
+                                border:'1px solid grey'
                               },
                             }}
                             sx={{
