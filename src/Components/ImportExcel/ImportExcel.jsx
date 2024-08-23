@@ -1,22 +1,21 @@
-import React, { useContext, useEffect } from "react";
-import { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import Button from "@mui/material/Button";
 import { useParams } from "react-router-dom";
 import { FireBaseContext } from "../../Context/FireBase";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
+import swal from "sweetalert";
 
 const ImportExcel = () => {
   const { dbID } = useParams();
-  const { EventRefrence, database } = useContext(FireBaseContext);
+  const { EventRefrence, SubscribersRefrence } = useContext(FireBaseContext);
   const [data, setData] = useState([]);
   const [isDownloadingTemp, setIsDownloadingTemp] = useState(true);
 
   const ref = doc(EventRefrence, dbID);
   const subscriberCollection = collection(ref, "Subscribers");
-  const SubCollection = collection(database, "Subscribers");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -36,24 +35,116 @@ const ImportExcel = () => {
     };
     reader.readAsBinaryString(file);
   };
+
   function randomXToY(minVal, maxVal) {
     let randVal = minVal + Math.random() * (maxVal - minVal);
     return Math.round(randVal);
   }
+
+  const validateData = async (data) => {
+    const errors = [];
+  
+    // 1. Check for required fields, excluding 'sign64data'
+    const requiredFields = ['FirstName', 'LastName', 'email', 'nationalId', 'tel']; // Add fields that are required
+    for (const field of requiredFields) {
+      if (!data[field]) {
+        errors.push(`${field} is required`);
+      }
+    }
+  
+    // 2. Validate FirstName and LastName
+    const nameRegex = /^[^\d]+$/; // No digits allowed
+    if (data.FirstName && !nameRegex.test(data.FirstName)) {
+      errors.push("FirstName should not contain numbers");
+    }
+    if (data.LastName && !nameRegex.test(data.LastName)) {
+      errors.push("LastName should not contain numbers");
+    }
+  
+    // 3. Validate Email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (data.email && !emailRegex.test(data.email)) {
+      errors.push("Invalid email format");
+    }
+  
+    // 4. Validate National ID length (max length 14)
+    if (data.nationalId && data.nationalId.length > 14) {
+      errors.push("National ID should not exceed 14 characters");
+    }
+  
+    // 5. Validate Tel (max length 11)
+    if (data.tel && data.tel.length > 11) {
+      errors.push("Phone number should not exceed 11 characters");
+    }
+  
+    // 6. Check if email or national ID already exists in SubscribersRefrence
+    const emailQuery = query(SubscribersRefrence, where("eventID", "==", dbID), where("email", "==", data.email));
+    const nationalIdQuery = query(SubscribersRefrence, where("eventID", "==", dbID), where("nationalId", "==", data.nationalId));
+  
+    const [emailDocs, nationalIdDocs] = await Promise.all([
+      getDocs(emailQuery),
+      getDocs(nationalIdQuery)
+    ]);
+  
+    if (!emailDocs.empty) {
+      errors.push(`Email ${data.email} is already taken`);
+    }
+    if (!nationalIdDocs.empty) {
+      errors.push(`National ID ${data.nationalId} is already taken`);
+    }
+  
+    return errors;
+  };
+  
+
   const SendDataFireBase = async (arrayOfData) => {
     const eventRef = await getDoc(ref);
     const eventData = eventRef.data();
+    const validEmails = [];
+    const invalidEmails = [];
     const finalres = arrayOfData.map((item) => {
-      return { ...item, CostPerDelegate: eventData["CostperDelegate"],id: randomXToY(1, 1000)};
+      return {
+        ...item,
+        CostPerDelegate: eventData["CostperDelegate"],
+        eventID: eventData["Id"],
+        ["TransferOfValue"]: eventData["TransferOfValue"],
+        id: randomXToY(1, 1000),
+      };
     });
+
     await Promise.all(
       finalres.map(async (item) => {
-        await addDoc(SubCollection, item);
+        const errors = await validateData(item);
+        if (errors.length > 0) {
+          console.error(`Validation failed for row: ${JSON.stringify(item)}`);
+          console.error(`Errors: ${errors.join(", ")}`);
+          if (item.email) {
+            invalidEmails.push(item.email);
+          }
+          return null;  // Skip invalid row
+        }
+
+        // If valid, add to Firebase
+        await addDoc(SubscribersRefrence, item);
         await addDoc(subscriberCollection, item);
-        // Validation not yet  /////////////////////
+        if (item.email) {
+          validEmails.push(item.email);
+        }
       })
     );
-
+    const successMessage = validEmails.length > 0 
+    ? `Successfully added emails: ${validEmails.join(', ')}`
+    : 'No valid emails were added.';
+    
+  const errorMessage = invalidEmails.length > 0 
+    ? `Failed to add emails: ${invalidEmails.join(', ')}`
+    : '';
+    swal({
+      title: 'Import Results',
+      text: `${successMessage}\n${errorMessage}`,
+      icon: 'info',
+      confirmButtonText: 'OK'
+    });
     setIsDownloadingTemp(true);
   };
 
@@ -61,26 +152,34 @@ const ImportExcel = () => {
     const keysValues = {
       "FirstName/الاسم الاول": "FirstName",
       "LastName/الاسم الاخير": "LastName",
-      Specialitzation: "Speciality",
-      "Professional Classification Number": "MedicalLicense",
-      "National/Resident ID": "NationalID",
-      "Mobile Number / رقم الجوال": "PhoneNumber",
-      "Email/الايميل": "Email",
-      "Date of Payment": "eventDate",
-      Signature: "image",
-      "Subscriber City": "City",
+      Specialitzation: "specialty",
+      "Professional Classification Number": "licenceId",
+      "National/Resident ID": "nationalId",
+      "Mobile Number / رقم الجوال": "tel",
+      "Email/الايميل": "email",
+      Signature: "sign64data",
+      "Subscriber City": "city",
       "License ID": "LicenseID",
-      Organization: "Organization",
+      Organization: "organization",
     };
 
-    const arrayOfObjects = data?.slice(1).map((values) => {
-      return data[0].reduce((obj, key, index) => {
-        if (keysValues.hasOwnProperty(key)) {
-          obj[keysValues[key]] = values[index];
-        }
-        return obj;
-      }, {});
-    });
+    const arrayOfObjects = data
+      ?.slice(1)
+      .map((values) => {
+        const obj = data[0].reduce((acc, key, index) => {
+          if (keysValues.hasOwnProperty(key)) {
+            acc[keysValues[key]] = values[index];
+          }
+          return acc;
+        }, {});
+
+        // Check if at least one value in the object is not empty
+        const isFilled = Object.values(obj).some(
+          (value) => value !== undefined && value !== null && value !== ""
+        );
+        return isFilled ? obj : null;
+      })
+      .filter(Boolean); // Remove null entries
 
     if (arrayOfObjects && arrayOfObjects.length > 0) {
       SendDataFireBase(arrayOfObjects);
@@ -95,7 +194,7 @@ const ImportExcel = () => {
       "Title/اللقب": "Mr",
       "FirstName/الاسم الاول": "First Name",
       "LastName/الاسم الاخير": "Last Name",
-      Specialitzation: "Speciality",
+      Specialitzation: "specialty",
       "Other Specialitzation (optional)": "",
       "Professional Classification Number": "number (max length 15)",
       "National/Resident ID": "number (max length 14)",
@@ -111,11 +210,8 @@ const ImportExcel = () => {
     worksheet.addRow([...Object.entries(initialValues).map((item) => item[0])]);
     worksheet.addRow([...Object.entries(initialValues).map((item) => item[1])]);
 
-    const rowIndex = 1;
-    const row = worksheet.getRow(rowIndex);
-
-    [1, 2].map((rowIndex) =>
-      worksheet.getRow(rowIndex).eachCell({ includeEmpty: true }, (cell, index) => {
+    worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
+      row.eachCell({ includeEmpty: true }, (cell) => {
         if (rowIndex === 1) {
           cell.fill = {
             type: "pattern",
@@ -129,13 +225,13 @@ const ImportExcel = () => {
         if (typeof cell.value === "number") {
           cell.numFmt = "0";
         }
-      })
-    );
+      });
+    });
 
-    worksheet.columns.forEach((column, colIndex) => {
+    worksheet.columns.forEach((column) => {
       let maxLength = 0;
       worksheet.eachRow({ includeEmpty: true }, (row) => {
-        const cellValue = row.getCell(colIndex + 1).text;
+        const cellValue = row.getCell(column.number).text;
         maxLength = Math.max(maxLength, cellValue ? cellValue.length : 0);
       });
       column.width = maxLength + 5;
@@ -151,25 +247,19 @@ const ImportExcel = () => {
   };
 
   return isDownloadingTemp ? (
-    <Button id="fade-button" className="d-flex flex-column " onClick={downloadBasicFile}>
-      <div className="d-flex ">
+    <Button id="fade-button" className="d-flex flex-column" onClick={downloadBasicFile}>
+      <div className="d-flex">
         <i className="fa-solid fa-file-arrow-down fs-4 darkBlue"></i>
         <span>import</span>
       </div>
     </Button>
   ) : (
-    <Button id="fade-button" className="d-flex flex-column ">
-      <label htmlFor="importFile" className="d-flex ">
-        <i className="fa-solid fa-file-arrow-up fs-4 darkBlue"></i>
-        <span>insert</span>
+    <Button id="fade-button" className="d-flex flex-column">
+      <label htmlFor="importFile" className="d-flex">
+        <i className="fa-solid fa-file-import fs-4 darkBlue"></i>
+        <span className="d-inline-block">import</span>
       </label>
-      <input
-        type="file"
-        id="importFile"
-        className="d-none"
-        accept=".xlsx"
-        onChange={handleFileChange}
-      />
+      <input type="file" id="importFile" className="d-none" onChange={handleFileChange} />
     </Button>
   );
 };

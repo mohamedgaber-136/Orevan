@@ -127,13 +127,14 @@ export default function EventsDeletedTable() {
 
     return (
       <TableHead>
-        <TableRow>
+         <TableRow>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
               align={headCell.numeric ? "center" : "center"}
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
+            
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
@@ -249,22 +250,10 @@ export default function EventsDeletedTable() {
       >
         {numSelected > 0 ? (
           <>
-            <Typography
-              sx={{ flex: "1 1 100%" }}
-              color="inherit"
-              variant="subtitle1"
-              component="div"
-            >
-              {numSelected} selected
-            </Typography>
+           
           </>
         ) : (
-          <Typography
-            sx={{ flex: "0 1 100%" }}
-            variant="h2"
-            id="tableTitle"
-            component="div"
-          ></Typography>
+         <></>
         )}
       </Toolbar>
     );

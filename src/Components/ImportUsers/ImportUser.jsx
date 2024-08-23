@@ -29,7 +29,6 @@ const ImportUser = () => {
       Finaledata = Finaledata.filter(row => row.some(cell => cell !== null && cell !== undefined && cell !== ''));
   
       setData(Finaledata);
-      console.log(Finaledata, 'finale');
     };
     reader.readAsBinaryString(file);
   };

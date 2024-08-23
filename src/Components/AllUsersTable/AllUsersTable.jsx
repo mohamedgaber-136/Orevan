@@ -27,7 +27,12 @@ export default function AllUsersTable({ row }) {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [selectedRole, setSelectedRole] = React.useState('');
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value);
+  };
 
+  
   React.useEffect(() => {
     setRows(row);
   }, [row]);
@@ -167,9 +172,36 @@ export default function AllUsersTable({ row }) {
   };
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  const filteredRows = rows.filter((row) =>
-    row.Name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredRows = rows.filter((row) => {
+    // Convert the search query to lowercase for case-insensitive comparison
+    const query = searchQuery.toLowerCase();
+  
+    // Function to recursively search through all values in the object
+    const searchObject = (obj) => {
+      for (let key in obj) {
+        if (obj[key] !== null && obj[key] !== undefined) {
+          if (typeof obj[key] === 'string' || typeof obj[key] === 'number') {
+            if (obj[key].toString().toLowerCase().includes(query)) {
+              return true;
+            }
+          } else if (typeof obj[key] === 'object') {
+            if (searchObject(obj[key])) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    };
+  
+    // Perform the search on the entire row object
+    const matchesQuery = searchObject(row);
+  
+    // Handle filtering by role if selectedRole is set
+    const role = findTrueKey(row.Role)?.toLowerCase() || '';
+    return matchesQuery && (selectedRole === '' || role === selectedRole);
+  });
+  
 
   const visibleRows = React.useMemo(
     () =>
@@ -200,15 +232,48 @@ export default function AllUsersTable({ row }) {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-      <div className="p-3  d-flex justify-content-between">
+      <div className="p-3 align-items-center  d-flex justify-content-between">
           <TextField
             label="Search"
-            variant="outlined"                   className='border-2 border  rounded-3'
+            variant="outlined"                   className='border-2 border w-50 rounded-3'
 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}            fullWidth
           />
-        </div>
+            <TextField
+  select
+  label="Filter Role"
+  value={selectedRole}
+  onChange={handleRoleChange}
+  SelectProps={{
+    native: true,
+  }}
+  variant="outlined"
+  className="border-bottom"
+  sx={{
+    width: '25%',
+    borderRadius: 2, // Adjusts the rounded corners
+    '.MuiOutlinedInput-root': {
+      borderWidth: 2, // Adds a thicker border
+    },
+    '.MuiInputLabel-root': {
+      fontSize: '1rem', // Adjusts the label font size
+    },
+    '.MuiOutlinedInput-input': {
+      padding: '10px 14px', // Adjusts input padding for better alignment
+    },
+    '.MuiOutlinedInput-notchedOutline': {
+      borderColor: '#ccc', // Changes the border color to a light grey
+    },
+  }}
+>
+  <option value="">All</option>
+  <option value="admin">Admin</option>
+  <option value="user">User</option>
+  <option value="manager">Manager</option>
+</TextField>
+
+</div>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

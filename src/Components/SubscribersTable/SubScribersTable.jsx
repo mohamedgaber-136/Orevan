@@ -22,7 +22,6 @@ import ImportExcel from "../ImportExcel/ImportExcel";
 import ChangeEventModal from "../ChangeEventModal/ChangeEventModal";
 import ExportToExcelButton from "../ExportBtn/ExportToExcelButton";
 import SettingsBtn from "../SettingsBtn/SettingsBtn";
-import SearchText from "../SearchText/SearchText";
 import { TextField } from "@mui/material";
 export default function SubScribersTable({ row, refCollection }) {
   const [order, setOrder] = React.useState("asc");

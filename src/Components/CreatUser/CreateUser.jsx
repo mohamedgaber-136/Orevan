@@ -11,7 +11,6 @@ import { AdminAuth } from "../../Config/FirebaseAdminApp";
 import { useNavigate } from "react-router-dom";
 import { FranchiseType } from "../FranchiseType/FranchiseType";
 import emailjs from "@emailjs/browser";
-import { ConditionDropDown } from "../ConditionDropDown/ConditionDropDown";
 
 export const CreateUser = () => {
   const navigation = useNavigate();
@@ -126,6 +125,9 @@ export const CreateUser = () => {
     const message = `
       Valid Emails: ${validEmails.length?validEmails.join(", "):'empty'}
       Invalid Emails: ${invalidEmails.length?invalidEmails.join(", "):'empty'}
+      Total Emails: ${validEmails.length+invalidEmails.length}
+      Valid(No):${validEmails.length} 
+      Invalid(No):${validEmails.length} 
     `;
 
     swal({

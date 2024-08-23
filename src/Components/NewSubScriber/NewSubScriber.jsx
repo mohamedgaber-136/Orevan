@@ -83,7 +83,6 @@ export const NewSubScriber = ({ id, handleClose }) => {
       setCity(Result.city);
   
       if (Result.city.length === 1) {
-        console.log(Result.city[0],'result')
         setInitialValues((prevValues) => ({
           ...prevValues,
           city: Result.city[0], // Set the only city as the default value

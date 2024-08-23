@@ -412,121 +412,129 @@ export default function DataTable({ row }) {
             rowCount={rows.length}
           />
           <TableBody>
-            {visibleRows.map((rowItem, indexItem) => {
-              const isItemSelected = isSelected(rowItem.ID);
-              const labelId = `enhanced-table-checkbox-${indexItem}`;
-              return (
-                <TableRow
-                  hover
-                  onClick={(event) => handleClick(event, rowItem.ID)}
-                  role="checkbox"
-                  aria-checked={isItemSelected}
-                  tabIndex={-1}
-                  key={`${rowItem.ID}-${indexItem}`}
-                  selected={isItemSelected}
-                  sx={{ cursor: "pointer" }}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isItemSelected}
-                      inputProps={{
-                        "aria-labelledby": labelId,
-                      }}
-                    />
-                  </TableCell>
-
-                  <TableCell
-                    component="th"
-                    id={labelId}
-                    scope="row"
-                    padding="none"
-                    onClick={() =>
-                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
-                    }
+            {
+              visibleRows.length? visibleRows.map((rowItem, indexItem) => {
+                const isItemSelected = isSelected(rowItem.ID);
+                const labelId = `enhanced-table-checkbox-${indexItem}`;
+                return (
+                  <TableRow
+                    hover
+                    onClick={(event) => handleClick(event, rowItem.ID)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={`${rowItem.ID}-${indexItem}`}
+                    selected={isItemSelected}
+                    sx={{ cursor: "pointer" }}
                   >
-                    {rowItem.Id}
-                  </TableCell>
-                  <TableCell
-                    onClick={() =>
-                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
-                    }
-                    align="left"
-                  >
-                    {rowItem.eventName}
-                  </TableCell>
-                  <TableCell
-                    onClick={() =>
-                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
-                    }
-                    align="left"
-                  >
-                    {rowItem.CostperDelegate}
-                  </TableCell>
-                  <TableCell
-                    onClick={() =>
-                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
-                    }
-                    align="left"
-                    className="p-0"
-                  >
-                    <div className=" TovParent">
-                      {rowItem.TransferOfValue?.map((item, index) => (
-                        <p className=" m-1 p-1 text-center " key={index}>
-                          {item.types} : {item.value}
-                        </p>
-                      ))}
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    onClick={() =>
-                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
-                    }
-                    align="left"
-                  >
-                    {rowItem.EventCost}
-                  </TableCell>
-                  <TableCell
-                    onClick={() =>
-                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
-                    }
-                    align="left"
-                  >
-                    {rowItem.eventDate}
-                  </TableCell>
-                  <TableCell
-                    onClick={() =>
-                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
-                    }
-                    align="left"
-                  >
-                    {rowItem.endDate}
-                  </TableCell>
-                  <TableCell
-                    onClick={() =>
-                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
-                    }
-                    align="left"
-                  >
-                    {rowItem.CreatedAt}
-                  </TableCell>
-                  <TableCell
-                    onClick={() =>
-                      navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
-                    }
-                    align="left"
-                  >
-                    <span
-                      className={`${
-                        statusCase(rowItem.eventDate, rowItem.endDate).color
-                      } text-white p-2 rounded `}
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          "aria-labelledby": labelId,
+                        }}
+                      />
+                    </TableCell>
+  
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                      onClick={() =>
+                        navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                      }
                     >
-                      {statusCase(rowItem.eventDate, rowItem.endDate).status}
-                    </span>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                      {rowItem.Id}
+                    </TableCell>
+                    <TableCell
+                      onClick={() =>
+                        navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                      }
+                      align="left"
+                    >
+                      {rowItem.eventName}
+                    </TableCell>
+                    <TableCell
+                      onClick={() =>
+                        navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                      }
+                      align="left"
+                    >
+                      {rowItem.CostperDelegate}
+                    </TableCell>
+                    <TableCell
+                      onClick={() =>
+                        navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                      }
+                      align="left"
+                      className="p-0"
+                    >
+                      <div className=" TovParent">
+                        {rowItem.TransferOfValue?.map((item, index) => (
+                          <p className=" m-1 p-1 text-center " key={index}>
+                            {item.types} : {item.value}
+                          </p>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell
+                      onClick={() =>
+                        navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                      }
+                      align="left"
+                    >
+                      {rowItem.EventCost}
+                    </TableCell>
+                    <TableCell
+                      onClick={() =>
+                        navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                      }
+                      align="left"
+                    >
+                      {rowItem.eventDate}
+                    </TableCell>
+                    <TableCell
+                      onClick={() =>
+                        navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                      }
+                      align="left"
+                    >
+                      {rowItem.endDate}
+                    </TableCell>
+                    <TableCell
+                      onClick={() =>
+                        navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                      }
+                      align="left"
+                    >
+                      {rowItem.CreatedAt}
+                    </TableCell>
+                    <TableCell
+                      onClick={() =>
+                        navigate(`/app/subscribers/${rowItem.Id}/${rowItem.ID}`)
+                      }
+                      align="left"
+                    >
+                      <span
+                        className={`${
+                          statusCase(rowItem.eventDate, rowItem.endDate).color
+                        } text-white p-2 rounded `}
+                      >
+                        {statusCase(rowItem.eventDate, rowItem.endDate).status}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                );
+              }):
+              <TableRow>
+              <TableCell colSpan={9} align="center">
+               empty
+              </TableCell>
+            </TableRow>
+            }
+           
             {emptyRows > 0 && (
               <TableRow>
                 <TableCell colSpan={6} />

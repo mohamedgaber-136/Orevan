@@ -44,7 +44,9 @@ if(rows.length==0){
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
-          <TableRow>
+          <TableRow style={{
+            backgroundColor:'lightgray !important'
+          }}>
             <TableCell align="left">ID</TableCell>
             <TableCell align="center">Name</TableCell>
             <TableCell align="right">NationalID</TableCell>
