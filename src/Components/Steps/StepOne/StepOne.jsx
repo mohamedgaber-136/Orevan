@@ -193,7 +193,7 @@ export const StepOne = () => {
                 focused
                 className='border-2 border CostPerDelegate rounded-3 w-100'
 
-                type="number"
+                type="text"
                 readOnly
                 value={TovSum()}
               />

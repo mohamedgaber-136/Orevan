@@ -10,6 +10,7 @@ export const FranchiseType = () => {
     "In Market Brands",
     "Cardiovascular",
     "Value & Access",
+    "Oncology",
   ];
 
   return (

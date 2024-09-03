@@ -237,17 +237,8 @@ export default function SubScribersTable({ row, refCollection }) {
             data={rows}
           />
           <ImportExcel />
-          <div className="p-3 d-flex justify-content-between">
-        <TextField
-          label="Search"
-          variant="outlined"
-          value={searchQuery}
-          className='border-2 border  rounded-3'
-
-          onChange={(e) => setSearchQuery(e.target.value)}
-          fullWidth
-        />
-      </div>        </div>
+        
+            </div>
         <Tooltip title="AddNew">
           <IconButton>
             <Modal />
@@ -295,7 +286,17 @@ export default function SubScribersTable({ row, refCollection }) {
     <Box sx={{ width: "100%" }} >
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
-   
+        <div className="p-3 d-flex justify-content-between">
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchQuery}
+          className='border-2 border  rounded-3'
+
+          onChange={(e) => setSearchQuery(e.target.value)}
+          fullWidth
+        />
+      </div>  
         <TableContainer>
           <Table 
             sx={{ minWidth: 750 }}

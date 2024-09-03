@@ -70,7 +70,6 @@ export const CreateUser = () => {
         values.Email,
         values.Password
       );
-console.log(values,'ssssssssss')
       const passwordDATA = res.user.reloadUserInfo.passwordHash;
       const userData = {
         ...values,
