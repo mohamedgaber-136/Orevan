@@ -23,6 +23,7 @@ const SearchFormik = memo(({ rows, setRows }) => {
     { types: "Transportation", value: 0 },
     { types: "Visa", value: 0 },
     { types: "Flights", value: 0 },
+    { types: "Immunology", value: 0 },
   ];
 
   const isValidDate = (dateStr) => !isNaN(new Date(dateStr).getTime());
