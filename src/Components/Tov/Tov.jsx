@@ -22,13 +22,14 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
 
   const options = [
     { types: "Registration Fees", value: 0 },
-    { types: "Meals", value: 0 },
     { types: "Accommodation", value: 0 },
-    { types: "Medical Utilities", value: 0 },
     { types: "CME Hours", value: 0 },
+    { types: "Flights", value: 0 },
+    { types: "Immunology", value: 0 },
+    { types: "Meals", value: 0 },
+    { types: "Medical Utilities", value: 0 },
     { types: "Transportation", value: 0 },
     { types: "Visa", value: 0 },
-    { types: "Flights", value: 0 },
   ];
 
   return (
@@ -96,17 +97,7 @@ const Tov = ({ setSelectedOptions, selectedOptions }) => {
             </li>
           ))}
         </ul>
-        {selectedOptions.length ? (
-          <div className="w-100 d-flex justify-content-end">
-            <button
-              type="button"
-              className="wrappingItems border-0 p-2"
-              onClick={sendData}
-            >
-              Save +
-            </button>
-          </div>
-        ) : null}
+ 
       </div>
     </>
   );

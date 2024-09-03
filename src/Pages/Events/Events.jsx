@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import DataTable from "../../Components/DataTable/DataTable";
-import "./Event.css";
 import { FireBaseContext } from "../../Context/FireBase";
+import SearchFormik from "../../Components/SearchFormik/SearchFormik";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+
 export const Events = () => {
   const {
     events,
@@ -13,15 +14,23 @@ export const Events = () => {
     eventsQueryAccordingToUserRole,
     UserRef,
   } = useContext(FireBaseContext);
+  
   const [informations, setInformations] = useState([]);
-  useEffect(() => {
-    getData(eventsQueryAccordingToUserRole(), setInformations);
-  }, []);
+  const [rows, setRows] = useState([]);
 
+  const prevEventsRef = useRef(events);
+
+  // Fetching event information based on user role
   useEffect(() => {
-    // هنا عملنا تغيير من غير ReRender
-    const date = new Date().getTime();
+    if (currentUserRole) {
+      getData(eventsQueryAccordingToUserRole(), setInformations);
+    }
+  }, [currentUserRole, getData, eventsQueryAccordingToUserRole]);
+
+  // Process fetched event information
+  useEffect(() => {
     const fetchDataForItems = async () => {
+      const date = new Date().getTime();
       const promises = informations.map(async (item) => {
         const data = doc(EventRefrence, item.Id.toString());
         const eventSubscribersCollec = collection(data, "Subscribers");
@@ -29,36 +38,50 @@ export const Events = () => {
         const NumberOfSubScribers = subNm.docs.length;
         const EndTime = new Date(item.EndDate).getTime();
         const StartTime = new Date(item.StartDate).getTime();
+        let status = item.Status;
         if (StartTime > date) {
-          item.Status = "Pending";
+          status = "Pending";
         } else if (date > StartTime && EndTime > date) {
-          item.Status = "Started";
+          status = "Started";
         } else if (date > EndTime) {
-          item.Status = "Completed";
+          status = "Completed";
         }
+        item.Status = status;
         item.EventCost = NumberOfSubScribers * item.CostperDelegate;
-        const userSnapshot = await getDoc(doc(UserRef, item.CreatedByID))
+        const userSnapshot = await getDoc(doc(UserRef, item.CreatedByID));
         item.CreatedByName = userSnapshot.data()?.Name;
         return item;
       });
+
       const results = await Promise.all(promises);
-      setEvents(results.reverse());
+
+      // Only update context if the new data is different
+      if (prevEventsRef.current.length !== results.length || 
+          !prevEventsRef.current.every((event, idx) => event.Id === results[idx].Id && event.Status === results[idx].Status)) {
+        setEvents(results.reverse());
+        prevEventsRef.current = results.reverse();
+      }
     };
-    fetchDataForItems();
-  }, [informations]);
+
+    if (informations.length > 0) {
+      fetchDataForItems();
+    }
+  }, [informations, EventRefrence, UserRef, setEvents]);
   return (
-    <div className="d-flex flex-column container-fluid container-md gap-3 EventsPageParent ">
+    <div className="d-flex flex-column container-fluid container-md gap-3 EventsPageParent">
       <h2>Events</h2>
       {!informations.length ? (
         <div
-          className="w-100 d-flex justify-content-center align-items-center   "
-          style={{ height: "calc(100vh - 150px) " }}
+          className="w-100 d-flex justify-content-center align-items-center"
+          style={{ height: "calc(100vh - 150px)" }}
         >
-       
-          <p>Create Your First Event </p>
+          <p>Create Your First Event</p>
         </div>
       ) : (
-        <DataTable row={events} />
+        <>
+          <SearchFormik rows={events} setRows={setRows} />
+          <DataTable row={rows} />
+        </>
       )}
     </div>
   );

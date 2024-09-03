@@ -1,8 +1,7 @@
 import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import { useContext } from "react";
+
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useNavigate } from "react-router-dom";
 export const BinBadge = () => {

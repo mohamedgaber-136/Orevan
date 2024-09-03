@@ -15,12 +15,14 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
 import { FireBaseContext } from "../../Context/FireBase";
-import SearchText from "../SearchText/SearchText";
+import TextField from "@mui/material/TextField";
 import SettingsDeleted from "../SettingDeleted/SettingDeleted";
 export default function EventsDeletedTable() {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
+  const [searchQuery, setSearchQuery] = React.useState(""); // Search query state
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const {
@@ -28,24 +30,25 @@ export default function EventsDeletedTable() {
     getData,
     EventRefrence,
     saveNotificationToFirebase,
+    currentUserRole,
   } = React.useContext(FireBaseContext);
   const [rows, seteventData] = React.useState([]);
   React.useEffect(() => {
     getData(EventsDeletedRef, seteventData);
   }, []);
+  React.useEffect(()=>{
+ if(currentUserRole.manager){
+      const newRows = rows.filter((item)=>item.Franchise==currentUserRole.franchiseType)
+      seteventData([...newRows])
+    }
+  },[rows])
   function descendingComparator(a, b, orderBy) {
     if (typeof a[orderBy] == "string" && typeof b[orderBy]) {
       return b[orderBy]?.toLowerCase() < a[orderBy]?.toLowerCase() ? -1 : 1;
     } else {
       return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    // if (b[orderBy] < a[orderBy]) {
-    //   return -1;
-    // }
-    // if (b[orderBy] > a[orderBy]) {
-    //   return 1;
-    // }
-    // return 0;
+  
   }
   function getComparator(order, orderBy) {
     return order === "desc"
@@ -219,17 +222,19 @@ export default function EventsDeletedTable() {
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const filteredRows = rows.filter((row) => {
+    return Object.values(row).some((value) =>
+      value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(filteredRows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    console.log(""),
-    [order, orderBy, page, rowsPerPage, rows]
-  );
+    [order, orderBy, page, rowsPerPage, filteredRows]);
 
   //  /-----------ToolBar
   function EnhancedTableToolbar(props) {
@@ -265,8 +270,16 @@ export default function EventsDeletedTable() {
   // body ----------------
   return (
     <Paper sx={{ width: "100%", mb: 0 }} className="BasicTableParent">
-      <div className=" d-flex align-items-center gap-2 p-3 d-flex justify-content-end ">
-        <SearchText list={rows} setRows={seteventData} row={rows} />
+      <div className="p-3 d-flex justify-content-between">
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchQuery}
+          className='border-2 border  rounded-3'
+
+          onChange={(e) => setSearchQuery(e.target.value)}
+          fullWidth
+        />
       </div>
       <EnhancedTableToolbar numSelected={selected.length} />
       <TableContainer>
@@ -308,11 +321,7 @@ export default function EventsDeletedTable() {
                 </TableRow>
               );
             })}
-            {emptyRows > 0 && (
-              <TableRow>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
+           
           </TableBody>
         </Table>
       </TableContainer>

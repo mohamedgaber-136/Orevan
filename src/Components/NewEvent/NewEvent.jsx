@@ -132,7 +132,7 @@ export default function NewEvent() {
           eventName: newEvent.eventName,
           eventDate: newEvent.eventDate,
         };
-        const documentRef = doc(TransferOfValuesRef, tov.types);
+        const documentRef = doc(TransferOfValuesRef,tov.types);
         const docItem = await getDoc(documentRef);
         if (docItem.exists()) {
           const dataList = docItem.data().data ?? [];

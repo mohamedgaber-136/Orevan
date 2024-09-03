@@ -6,9 +6,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 const Notification = () => {
-    const {database,saveNotificationToFirebase} = useContext(FireBaseContext)
+    const {database,saveNotificationToFirebase,currentUserRole} = useContext(FireBaseContext)
   const [notifications, setNotifications] = useState([]);
-
   useEffect(() => {
     // Set up real-time listener for changes in the 'notifications' collection
     const unsubscribe = onSnapshot(collection(database,'notifications'),(snapshot) => {
@@ -18,7 +17,7 @@ const Notification = () => {
       }));
       setNotifications(newNotifications);
     });
-
+    
     // Clean up the listener when the component unmounts
     return () => unsubscribe();
   }, []); // Empty dependency array means this effect runs once when the component mounts

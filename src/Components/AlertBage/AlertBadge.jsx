@@ -127,8 +127,9 @@ export default function AlertBadge() {
     currentNotification.isRead = true;
   };
   return (
-    <>
-      <IconButton
+    <>{
+      !currentUserRole.user?<>
+ <IconButton
         onClick={(e) => {
           handleClick(e);
         }}
@@ -158,12 +159,12 @@ export default function AlertBadge() {
           onClose={() => setAnchorEl(null)}
         >
           {notifications.slice(0, 5).map((notify, notifyIndex) => (
-            <div>
+            <div  key={`${notifyIndex}-${notify.EventID}`}>
               <MenuItem
                 onClick={() =>
                   handleClose(notify.EventID, notify.NewEventID, notify.id)
                 }
-                key={`${notifyIndex}-${notify}`}
+               
                 className={`mx-2 rounded text-dark ${
                   !notify.isRead && "bg-light"
                 }`}
@@ -189,6 +190,9 @@ export default function AlertBadge() {
           ))}
         </Menu>
       )}
+</>:''
+    }
+     
     </>
   );
 }

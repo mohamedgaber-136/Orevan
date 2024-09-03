@@ -6,7 +6,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { FireBaseContext } from "../../Context/FireBase";
 import { collection, deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 export default function DeletedSubSetting({  rowId }) {
-    const {SubscribersDeletedRef,EventRefrence} = useContext(FireBaseContext)
+    const {SubscribersDeletedRef,EventRefrence,SubscribersRefrence} = useContext(FireBaseContext)
 
   const ITEM_HEIGHT = 38;
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,14 +17,30 @@ export default function DeletedSubSetting({  rowId }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const returnData = async (id,event)=>{
-    const ref = doc(SubscribersDeletedRef,id)
-    const item = await getDoc(ref)
-    const eventRef =doc(EventRefrence,event)
-    const subCollection = collection(eventRef,'Subscribers')
-    await setDoc(doc(subCollection,id),{ID:id,...item.data()}) 
-    await deleteDoc(ref)    
-    } 
+  const returnData = async (id, event) => {
+    try {
+      const ref = doc(SubscribersDeletedRef, id);
+      const item = await getDoc(ref);
+  
+      if (item.exists()) {
+        const itemData = item.data();
+        const docId = itemData.id; // Use the id from item.data() as the document ID
+        
+        // Add the item to the SubscribersRefrence collection using the id from item.data()
+        const subscribersRef = doc(SubscribersRefrence, docId);
+        await setDoc(subscribersRef, { ...itemData });
+  
+        // Delete the original document from SubscribersDeletedRef
+        await deleteDoc(ref);
+  
+        console.log(`Document with ID ${docId} added to SubscribersRefrence and deleted from SubscribersDeletedRef.`);
+      } else {
+        console.log(`Document with ID ${id} does not exist in SubscribersDeletedRef.`);
+      }
+    } catch (error) {
+      console.error("Error adding document to SubscribersRefrence:", error);
+    }
+  };
   const DeleteForever = async (id)=>{
     const ref = doc(SubscribersDeletedRef,id)
     await deleteDoc(ref)

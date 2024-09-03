@@ -34,9 +34,8 @@ import {
   collection,
   getDocs,
 } from "firebase/firestore";
-import SearchText from "../SearchText/SearchText";
-import SearchFormik from "../SearchFormik/SearchFormik";
 import TOVsDropDownReport from "../TOVsDropDownReport/TOVsDropDownReport";
+import { TextField } from "@mui/material";
 export default function DataTable({ row }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -44,6 +43,8 @@ export default function DataTable({ row }) {
   const [page, setPage] = React.useState(0);
   const [rows, setRows] = React.useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [searchQuery, setSearchQuery] = React.useState(""); // Search query state
+
   const { EventRefrence, EventsDeletedRef, database } =
     React.useContext(FireBaseContext);
   const navigate = useNavigate();
@@ -272,15 +273,36 @@ export default function DataTable({ row }) {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    console.log(""),
-    [order, orderBy, page, rowsPerPage, rows]
-  );
+
+
+
+
+    const filteredRows = React.useMemo(() => {
+      return rows.filter((row) => {
+        const checkValue = (value) => {
+          if (value === undefined || value === null) {
+            return false; // Skip undefined or null values
+          }
+          if (typeof value === "object") {
+            return Object.values(value).some(checkValue);
+          }
+          return value.toString().toLowerCase().includes(searchQuery.toLowerCase());
+        };
+        return Object.values(row).some(checkValue);
+      });
+    }, [rows, searchQuery]);
+
+
+
+    const visibleRows = React.useMemo(
+      () =>
+        stableSort(filteredRows, getComparator(order, orderBy)).slice(
+          page * rowsPerPage,
+          page * rowsPerPage + rowsPerPage
+        ),
+      [order, orderBy, page, rowsPerPage, filteredRows]
+    );
+  
   //  Delet ----------------------------
   const batch = writeBatch(database);
   const DeleteField = (arr) => {
@@ -374,7 +396,6 @@ export default function DataTable({ row }) {
             id="tableTitle"
             component="div"
           >
-            <SearchFormik rows={row} setRows={setRows} />
           </Typography>
         )}
       </Toolbar>
@@ -395,9 +416,21 @@ export default function DataTable({ row }) {
             <TOVsDropDownReport />
           </span>
         </span>
-        <SearchText list={rows} setRows={setRows} row={row} />
-      </div>
-      <EnhancedTableToolbar numSelected={selected.length} />
+        <div className="p-3 d-flex justify-content-between">
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchQuery}
+          className='border-2 border  rounded-3'
+
+          onChange={(e) => setSearchQuery(e.target.value)}
+          
+        />
+      </div>      </div>
+      {
+        selected.length?<EnhancedTableToolbar numSelected={selected.length} />:''
+      }
+      
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-labelledby="tableTitle">
           <EnhancedTableHead
@@ -527,7 +560,7 @@ export default function DataTable({ row }) {
               }):
               <TableRow>
               <TableCell colSpan={9} align="center">
-               empty
+               ......
               </TableCell>
             </TableRow>
             }

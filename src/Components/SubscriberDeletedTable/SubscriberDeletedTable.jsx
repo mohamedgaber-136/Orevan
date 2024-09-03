@@ -15,14 +15,16 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
 import { FireBaseContext } from "../../Context/FireBase";
-import SearchText from "../SearchText/SearchText";
-import SettingsDeleted from "../SettingDeleted/SettingDeleted";
+import TextField from "@mui/material/TextField";
+
 import DeletedSubSetting from "../DeletedSubSetting/DeletedSubSetting";
 export default function SubscriberDeletedTable() {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
+  const [searchQuery, setSearchQuery] = React.useState(""); // Search query state
+
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const {    SubscribersDeletedRef,
     getData,
@@ -39,13 +41,7 @@ export default function SubscriberDeletedTable() {
     } else {
       return b[orderBy] < a[orderBy] ? -1 : 1;
     }
-    // if (b[orderBy] < a[orderBy]) {
-    //   return -1;
-    // }
-    // if (b[orderBy] > a[orderBy]) {
-    //   return 1;
-    // }
-    // return 0;
+  
   }
   function getComparator(order, orderBy) {
     return order === "desc"
@@ -67,52 +63,58 @@ export default function SubscriberDeletedTable() {
   // HeadTitles ----------------------------------------------
   const headCells = [
     {
-      id: "Id",
-      numeric: false,
-      disablePadding: true,
-      label: "ID",
-    },
-    {
-      id: "Name",
+      id: "id",
       numeric: true,
       disablePadding: false,
-      label: "Name",
+      label: "",
     },
     {
-      id: "NationalID",
+      id: "name",
       numeric: true,
       disablePadding: false,
-      label: "National ID",
+      label: "FirstName",
     },
     {
-      id: "Organization",
+      id: "email",
+      numeric: true,
+      disablePadding: false,
+      label: "Email",
+    },
+    {
+      id: "tel",
+      numeric: true,
+      disablePadding: false,
+      label: "Phone Number",
+    },
+    {
+      id: "organization",
       numeric: true,
       disablePadding: false,
       label: "Organization",
     },
     {
-      id: "PhoneNumber",
+      id: "speciality",
       numeric: true,
       disablePadding: false,
-      label: "Phone Number ",
+      label: "Speciality",
     },
     {
-      id: "Speciality",
+      id: "nationalId",
       numeric: true,
       disablePadding: false,
-      label: "Speciality ",
+      label: "National ID",
     },
     {
-      id: "City",
+      id: "city",
       numeric: true,
       disablePadding: false,
-      label: "City ",
+      label: "City",
     },
     {
-      id: "Signature",
+      id: "sign64data",
       numeric: true,
       disablePadding: false,
-      label: "Signature ",
+      label: "Signature",
     },
     {
       id: "DeletedTiming",
@@ -240,14 +242,18 @@ export default function SubscriberDeletedTable() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    console.log(""),
-    [order, orderBy, page, rowsPerPage,rows]
+    const filteredRows = rows.filter((row) => {
+      return Object.values(row).some((value) =>
+        value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
+    const visibleRows = React.useMemo(
+      () =>
+        stableSort(filteredRows, getComparator(order, orderBy)).slice(
+          page * rowsPerPage,
+          page * rowsPerPage + rowsPerPage
+        ),
+      [order, orderBy, page, rowsPerPage, filteredRows]
   );
 
   //  /-----------ToolBar
@@ -298,10 +304,18 @@ export default function SubscriberDeletedTable() {
   // body ----------------
   return (
     <Paper sx={{ width: "100%", mb: 0 }} className="BasicTableParent">
-      <div className=" d-flex align-items-center gap-2 p-3 d-flex justify-content-end ">
+
   
-        <SearchText list={rows} setRows={seteventData} row={rows} />
-      </div>
+      <div className="p-3 d-flex justify-content-between">
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchQuery}
+          className='border-2 border  rounded-3'
+          onChange={(e) => setSearchQuery(e.target.value)}
+          fullWidth
+        />
+      </div>      
       <EnhancedTableToolbar numSelected={selected.length} />
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-labelledby="tableTitle">
@@ -332,15 +346,16 @@ export default function SubscriberDeletedTable() {
                <TableCell align='center'>
                 {rowItem.id}
               </TableCell>
-              <TableCell align="center">{rowItem.FirstName}</TableCell>
-              <TableCell align="center">{rowItem.NationalID}</TableCell>
-              <TableCell align="center">{rowItem.Organization}</TableCell>
-              <TableCell align="center">{rowItem.PhoneNumber}</TableCell>
-              <TableCell align="center">{rowItem.Speciality}</TableCell>
-              <TableCell align="center">{rowItem.City}</TableCell>
-              <TableCell align="center subRowImg">{rowItem.image?<img src={rowItem.image} width='100%' />:'No Signature'}</TableCell>
+              <TableCell align="center">{rowItem.name}</TableCell>
+                      <TableCell align="center">{rowItem.email}</TableCell>
+                      <TableCell align="center">{rowItem.tel}</TableCell>
+                      <TableCell align="center">{rowItem.organization}</TableCell>
+                      <TableCell align="center">{rowItem.specialty}</TableCell>
+                      <TableCell align="center">{rowItem.nationalId}</TableCell>
+                      <TableCell align="center">{rowItem.city}</TableCell>
+              <TableCell align="center subRowImg">{rowItem.sign64data?<img src={rowItem.sign64data} width='100%' />:'No Signature'}</TableCell>
               <TableCell align="center">{rowItem.timing.toDate().toLocaleString()}</TableCell>
-              <TableCell align="center"><DeletedSubSetting rowId={rowItem.ID}/></TableCell>
+              <TableCell align="center"><DeletedSubSetting rowId={rowItem.id}/></TableCell>
                 </TableRow>
               );
             })}

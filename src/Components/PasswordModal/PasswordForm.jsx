@@ -65,6 +65,7 @@ const PasswordForm = () => {
               type="password"
               value={CurrentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
+              className="border border-2 rounded"
             />
           </div>
         </div>
@@ -75,7 +76,8 @@ const PasswordForm = () => {
           <div className="col-5 flex-fill">
             <input
               type="password"
-              value={newPassword}
+              value={newPassword}              className="border border-2 rounded"
+
               onChange={(e) => setNewPassword(e.target.value)}
             />
           </div>
@@ -86,6 +88,8 @@ const PasswordForm = () => {
           </div>
           <div className="col-5 flex-fill">
             <input
+                          className="border border-2 rounded"
+
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}

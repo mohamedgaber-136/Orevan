@@ -16,7 +16,6 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-// Apply larger size directly to the Button component and its icon
 export default function UploadBtn({ id, info, element }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const { SubscribersRefrence, EventRefrence } = useContext(FireBaseContext);
@@ -25,39 +24,45 @@ export default function UploadBtn({ id, info, element }) {
     setSelectedFile(e.target.files[0]);
   };
 
-  // Ensure id.id is a string
-  // Reference to the specific subscriber document in SubscribersRefrence
-  const subscriberDocRef = doc(SubscribersRefrence, id);
-  const eventDocRef = doc(EventRefrence, element.eventID);
-  const eventSubScriber = doc(collection(eventDocRef, "Subscribers"), id);
+  const subscriberDocRef = id && typeof id === "string" ? doc(SubscribersRefrence, id) : null;
+  const eventDocRef = element?.eventID ? doc(EventRefrence, element.eventID) : null;
+  const eventSubScriber = eventDocRef ? doc(collection(eventDocRef, "Subscribers"), id) : null;
 
   useEffect(() => {
+    if (!id || typeof id !== "string" || !selectedFile || !subscriberDocRef || !eventSubScriber) {
+      return;
+    }
+
+    let isMounted = true; // Track if the component is mounted
+
     const handleUpload = async () => {
       const storage = getStorage();
       const storageRef = ref(storage, "images/" + selectedFile.name);
+
       try {
-        // Upload the file to Firebase Storage
         await uploadBytes(storageRef, selectedFile);
-        // Get the download URL
         const downloadURL = await getDownloadURL(storageRef);
 
-        // Update the document in SubscribersRefrence
-        await updateDoc(subscriberDocRef, {
-          sign64data: downloadURL,
-        });
-        await updateDoc(eventSubScriber, {
-          sign64data: downloadURL,
-        });
-
-        // Now, you can save the download URL to Firestore or perform other actions
+        if (isMounted) {
+          // Update the document in SubscribersRefrence
+          await updateDoc(subscriberDocRef, { sign64data: downloadURL });
+          await updateDoc(eventSubScriber, { sign64data: downloadURL });
+        }
       } catch (error) {
       }
     };
 
-    if (selectedFile) {
-      handleUpload();
-    }
-  }, [selectedFile]);
+    handleUpload();
+
+    return () => {
+      isMounted = false; // Clean up on component unmount
+    };
+  }, [selectedFile, subscriberDocRef, eventSubScriber, id]);
+
+  // Optionally, you can display an error message or disabled button if `id` is invalid
+  if (!id || typeof id !== "string") {
+    return <p>Error: Invalid ID</p>;
+  }
 
   return (
     <Button

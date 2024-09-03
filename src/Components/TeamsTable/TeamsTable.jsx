@@ -170,9 +170,11 @@ export default function TeamsTable({ row }) {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  const filteredRows = rows.filter((row) =>
-    row.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredRows = rows.filter((row) => {
+    return Object.values(row).some((value) =>
+      value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const visibleRows = React.useMemo(
     () =>
